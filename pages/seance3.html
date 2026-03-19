@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 3 — Formulaires HTML5 · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    :root { --s3: #F59E0B; --s3-dim: rgba(245,158,11,.08); }
+    .section-num       { color:var(--s3); background:var(--s3-dim); border-color:rgba(245,158,11,.25); }
+    .section-header    { border-bottom-color:rgba(245,158,11,.15); }
+    h3                 { color:var(--teal); }
+    .session-badge.s3  { color:var(--s3); background:var(--s3-dim); border-color:rgba(245,158,11,.3); }
+    .sidebar-item.active { color:var(--s3); border-left-color:var(--s3); background:var(--s3-dim); }
+    .sidebar-session-label.s3 { color:var(--s3); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html" class="active">Séance 3</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s3">Séance 3</div>
+      <a href="#s3-intro"    class="sidebar-item"><span class="sidebar-num">01</span>Intro aux formulaires</a>
+      <a href="#s3-form"     class="sidebar-item"><span class="sidebar-num">02</span>&lt;form&gt; — action &amp; method</a>
+      <a href="#s3-input"    class="sidebar-item"><span class="sidebar-num">03</span>input — tous les types</a>
+      <a href="#s3-label"    class="sidebar-item"><span class="sidebar-num">04</span>label, id, for</a>
+      <a href="#s3-textarea" class="sidebar-item"><span class="sidebar-num">05</span>textarea &amp; select</a>
+      <a href="#s3-fieldset" class="sidebar-item"><span class="sidebar-num">06</span>fieldset &amp; legend</a>
+      <a href="#s3-valid"    class="sidebar-item"><span class="sidebar-num">07</span>Validation native</a>
+      <a href="#s3-attrs"    class="sidebar-item"><span class="sidebar-num">08</span>Attributs avancés</a>
+      <a href="#s3-exo"      class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s3-bilan"    class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">← Séance 2</a>
+    </div>
+  </aside>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero" style="--s-glow:rgba(245,158,11,.12);">
+      <style>.session-hero { } .session-hero::before { background:radial-gradient(ellipse at top left,rgba(245,158,11,.12),transparent 60%) !important; }</style>
+      <div class="session-badge s3">Séance 03 / 06</div>
+      <h1>Formulaires HTML5</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">form • input • label • select • textarea • validation native • accessibilité</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">4 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 INTRO ══ -->
+    <div id="s3-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Les formulaires — à quoi ça sert ?</h2></div>
+      <p>Les formulaires sont le principal mécanisme d'<strong>interaction utilisateur → serveur</strong> sur le web. Connexion, inscription, recherche, commande, prise de contact — tout passe par un formulaire HTML. C'est là que le web devient vraiment bidirectionnel.</p>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Rappel séances 1 &amp; 2</div>
+          <p>Structure HTML5 complète · Balises sémantiques header/main/footer · Tableaux avec scope · Listes de définitions · Chemins relatifs et absolus · Formats d'images — <strong>tout ceci est utilisé dans cette séance</strong>.</p>
+        </div>
+      </div>
+
+      <div class="trio">
+        <div class="trio-card">
+          <span class="trio-emoji">📝</span>
+          <div class="trio-name">Collecter</div>
+          <div class="trio-desc">Recueillir des données de l'utilisateur (nom, email, mot de passe…)</div>
+        </div>
+        <div class="trio-card">
+          <span class="trio-emoji">✅</span>
+          <div class="trio-name">Valider</div>
+          <div class="trio-desc">Vérifier que les données sont correctes avant envoi (HTML5 natif)</div>
+        </div>
+        <div class="trio-card active" style="border-color:var(--amber);">
+          <span class="trio-emoji">📨</span>
+          <div class="trio-name">Envoyer</div>
+          <div class="trio-desc">Transmettre les données au serveur via GET ou POST</div>
+        </div>
+      </div>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📋</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — Le formulaire papier numérisé</div>
+          <p>Un formulaire HTML est exactement comme un formulaire papier : des <strong>champs à remplir</strong> (<code>&lt;input&gt;</code>), des <strong>cases à cocher</strong> (<code>type="checkbox"</code>), des <strong>listes déroulantes</strong> (<code>&lt;select&gt;</code>), des <strong>libellés</strong> qui indiquent quoi mettre où (<code>&lt;label&gt;</code>), et un <strong>bouton d'envoi</strong> (<code>type="submit"</code>). La différence : le navigateur peut vérifier les réponses avant l'envoi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 FORM ══ -->
+    <div id="s3-form">
+      <div class="section-header"><span class="section-num">02</span><h2>&lt;form&gt; — action, method et structure</h2></div>
+      <p>La balise <code>&lt;form&gt;</code> est le conteneur de tous les champs. Ses deux attributs fondamentaux définissent <em>où</em> envoyer les données (<code>action</code>) et <em>comment</em> les envoyer (<code>method</code>).</p>
+
+      <!-- METHOD GET vs POST -->
+      <h3>GET vs POST — quelle différence ?</h3>
+      <div class="method-compare">
+        <div class="method-card">
+          <div class="method-badge get">method="GET"</div>
+          <p>Les données sont <strong>ajoutées dans l'URL</strong> : <code>?nom=Alice&amp;age=30</code></p>
+          <p>✓ URL partageable et mémorisable<br>✓ Résultats indexables par Google<br>✗ Données visibles dans l'URL<br>✗ Limité en taille (~2000 caractères)<br>✗ Jamais pour des données sensibles</p>
+          <p style="margin-top:.5rem;"><strong>Utiliser pour :</strong> formulaires de recherche, filtres, navigation</p>
+        </div>
+        <div class="method-card">
+          <div class="method-badge post">method="POST"</div>
+          <p>Les données sont envoyées dans le <strong>corps de la requête HTTP</strong> (invisibles dans l'URL)</p>
+          <p>✓ Données non visibles dans l'URL<br>✓ Pas de limite de taille<br>✓ Adapté aux données sensibles<br>✗ URL non partageable<br>✗ Non indexé par Google</p>
+          <p style="margin-top:.5rem;"><strong>Utiliser pour :</strong> connexion, inscription, commande, contact</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Structure complète d'un formulaire</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;form action="/traitement.php" method="post" novalidate&gt;
+  &lt;!--
+    action : URL de traitement (page serveur qui reçoit les données)
+    method : "get" ou "post"
+    novalidate : désactive la validation native (pour tester)
+    autocomplete : "on" (défaut) ou "off"
+    enctype : "multipart/form-data" obligatoire si le form contient des fichiers
+  --&gt;
+
+  &lt;!-- Champs ici --&gt;
+  &lt;label for="nom"&gt;Votre nom&lt;/label&gt;
+  &lt;input type="text" id="nom" name="nom" required&gt;
+
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;!-- Formulaire de recherche (GET : l'URL devient /recherche?q=html) --&gt;
+&lt;form action="/recherche" method="get"&gt;
+  &lt;label for="q"&gt;Rechercher&lt;/label&gt;
+  &lt;input type="search" id="q" name="q" placeholder="HTML, CSS, JavaScript..."&gt;
+  &lt;button type="submit"&gt;Rechercher&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;!-- Formulaire d'envoi de fichier (enctype obligatoire) --&gt;
+&lt;form action="/upload" method="post" enctype="multipart/form-data"&gt;
+  &lt;label for="fichier"&gt;Choisir un fichier&lt;/label&gt;
+  &lt;input type="file" id="fichier" name="fichier" accept=".pdf,.jpg,.png"&gt;
+  &lt;button type="submit"&gt;Envoyer le fichier&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+      </div>
+
+      <!-- ANATOMY VISUAL -->
+      <h3>Anatomie visuelle d'un formulaire</h3>
+      <div class="form-anatomy">
+        <div class="fa-form">
+          <span class="fa-form-label">&lt;form action="/login" method="post"&gt;</span>
+          <div class="fa-fieldset">
+            <span class="fa-legend">&lt;fieldset&gt; + &lt;legend&gt;Connexion&lt;/legend&gt;</span>
+            <div class="fa-field">
+              <span class="fa-label-box">&lt;label for="email"&gt;Email&lt;/label&gt;</span>
+              <div class="fa-input-box"><span style="color:var(--text3);font-size:.65rem;">id="email" name="email"</span> <span class="fa-input-arrow">→</span> <span>type="email" required</span></div>
+            </div>
+            <div class="fa-field">
+              <span class="fa-label-box">&lt;label for="mdp"&gt;Mot de passe&lt;/label&gt;</span>
+              <div class="fa-input-box"><span style="color:var(--text3);font-size:.65rem;">id="mdp" name="password"</span> <span class="fa-input-arrow">→</span> <span>type="password" required</span></div>
+            </div>
+            <div class="fa-field">
+              <span class="fa-label-box">&lt;label&gt;&lt;input type="checkbox"&gt; Se souvenir&lt;/label&gt;</span>
+            </div>
+          </div>
+          <div><span class="fa-submit">&lt;button type="submit"&gt;Se connecter&lt;/button&gt;</span></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut de &lt;form&gt;</th><th>Valeurs</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>action</code></td><td>URL relative ou absolue</td><td>Page qui reçoit et traite les données. Si absent, le formulaire s'envoie à la page courante.</td></tr>
+            <tr><td><code>method</code></td><td><code>get</code> / <code>post</code></td><td>Comment les données sont transmises. <code>get</code> = URL, <code>post</code> = corps requête.</td></tr>
+            <tr><td><code>enctype</code></td><td><code>multipart/form-data</code></td><td>Obligatoire si le formulaire contient un champ <code>type="file"</code>.</td></tr>
+            <tr><td><code>autocomplete</code></td><td><code>on</code> / <code>off</code></td><td>Autorise ou non la complétion automatique du navigateur.</td></tr>
+            <tr><td><code>novalidate</code></td><td>(booléen)</td><td>Désactive la validation native HTML5 (utile pendant le développement).</td></tr>
+            <tr><td><code>target</code></td><td><code>_blank</code> <code>_self</code>…</td><td>Où afficher la réponse. Même valeurs que pour <code>&lt;a&gt;</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 03 INPUT TYPES ══ -->
+    <div id="s3-input">
+      <div class="section-header"><span class="section-num">03</span><h2>&lt;input&gt; — la balise la plus polyvalente du web</h2></div>
+      <p>La balise <code>&lt;input&gt;</code> est une <strong>balise orpheline</strong> dont le comportement change entièrement selon la valeur de son attribut <code>type</code>. HTML5 a ajouté de nombreux types spécialisés qui améliorent l'expérience mobile et la validation.</p>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">L'attribut name est indispensable</div>
+          <p>Sans <code>name</code>, les données du champ ne sont <strong>pas envoyées</strong> au serveur. C'est le nom de la variable côté serveur. Exemple : <code>name="email"</code> → le serveur reçoit <code>$_POST["email"]</code> en PHP.</p>
+        </div>
+      </div>
+
+      <!-- INPUT TYPES GALLERY -->
+      <h3>Galerie des types d'input</h3>
+      <div class="input-gallery">
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="text"</span></div>
+          <div class="input-card-preview"><input type="text" placeholder="Prénom Nom" value="Alice Dupont"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="email"</span></div>
+          <div class="input-card-preview"><input type="email" placeholder="vous@exemple.com"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="password"</span></div>
+          <div class="input-card-preview"><input type="password" value="monmotdepasse"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="number"</span></div>
+          <div class="input-card-preview"><input type="number" value="42" min="0" max="100"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="tel"</span></div>
+          <div class="input-card-preview"><input type="tel" placeholder="+33 6 00 00 00 00"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="url"</span></div>
+          <div class="input-card-preview"><input type="url" placeholder="https://exemple.com"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="search"</span></div>
+          <div class="input-card-preview"><input type="search" placeholder="Rechercher..."></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="date"</span></div>
+          <div class="input-card-preview"><input type="date" value="2024-03-15"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="time"</span></div>
+          <div class="input-card-preview"><input type="time" value="14:30"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="datetime-local"</span></div>
+          <div class="input-card-preview"><input type="datetime-local" value="2024-03-15T14:30"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="range"</span></div>
+          <div class="input-card-preview"><input type="range" min="0" max="100" value="60"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="color"</span></div>
+          <div class="input-card-preview"><input type="color" value="#3B82F6"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="checkbox"</span></div>
+          <div class="input-card-preview"><label><input type="checkbox" checked> J'accepte les CGU</label></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="radio"</span></div>
+          <div class="input-card-preview">
+            <label><input type="radio" name="demo" checked> Option A</label><br>
+            <label><input type="radio" name="demo"> Option B</label>
+          </div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="file"</span></div>
+          <div class="input-card-preview"><input type="file" accept=".pdf,.jpg"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="submit"</span></div>
+          <div class="input-card-preview"><input type="submit" value="Envoyer le formulaire"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="reset"</span></div>
+          <div class="input-card-preview"><input type="reset" value="Réinitialiser"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">type="hidden"</span></div>
+          <div class="input-card-preview" style="background:#f5f5f5;color:#666;font-size:.75rem;font-family:monospace;">Invisible à l'écran. Envoie une valeur fixe au serveur.</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Types d'input en situation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Texte libre --&gt;
+&lt;input type="text" name="prenom" id="prenom" placeholder="Votre prénom"&gt;
+
+&lt;!-- Email — valide le format automatiquement --&gt;
+&lt;input type="email" name="email" id="email" placeholder="vous@exemple.com" required&gt;
+
+&lt;!-- Mot de passe — masque la saisie --&gt;
+&lt;input type="password" name="password" id="password" minlength="8"&gt;
+
+&lt;!-- Nombre avec limites --&gt;
+&lt;input type="number" name="age" id="age" min="0" max="120" step="1" value="25"&gt;
+
+&lt;!-- Téléphone — affiche clavier téléphone sur mobile --&gt;
+&lt;input type="tel" name="telephone" id="telephone" pattern="[0-9]{10}"
+       placeholder="0600000000"&gt;
+
+&lt;!-- URL — valide le format https://... --&gt;
+&lt;input type="url" name="site" id="site" placeholder="https://exemple.com"&gt;
+
+&lt;!-- Date — sélecteur de calendrier natif --&gt;
+&lt;input type="date" name="naissance" id="naissance"
+       min="1900-01-01" max="2024-12-31"&gt;
+
+&lt;!-- Heure --&gt;
+&lt;input type="time" name="rdv" id="rdv" min="09:00" max="18:00" step="900"&gt;
+&lt;!-- step="900" = paliers de 15 minutes (900 secondes) --&gt;
+
+&lt;!-- Curseur glissant --&gt;
+&lt;input type="range" name="satisfaction" id="satisfaction"
+       min="1" max="10" value="5" step="1"&gt;
+
+&lt;!-- Couleur --&gt;
+&lt;input type="color" name="couleur" id="couleur" value="#3B82F6"&gt;
+
+&lt;!-- Case à cocher --&gt;
+&lt;input type="checkbox" name="newsletter" id="newsletter" value="oui" checked&gt;
+
+&lt;!-- Boutons radio (même name = groupe exclusif) --&gt;
+&lt;input type="radio" name="genre" id="h" value="homme"&gt;
+&lt;input type="radio" name="genre" id="f" value="femme"&gt;
+&lt;input type="radio" name="genre" id="autre" value="autre"&gt;
+
+&lt;!-- Fichier avec types acceptés --&gt;
+&lt;input type="file" name="cv" id="cv" accept=".pdf,.doc,.docx" multiple&gt;
+
+&lt;!-- Champ caché (invisible, envoie une valeur fixe) --&gt;
+&lt;input type="hidden" name="source" value="page-accueil"&gt;
+
+&lt;!-- Boutons de formulaire --&gt;
+&lt;input type="submit" value="Envoyer"&gt;
+&lt;input type="reset" value="Tout effacer"&gt;
+&lt;button type="submit"&gt;Envoyer (préféré à input submit)&lt;/button&gt;</pre></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>type</th><th>Validation automatique</th><th>Clavier mobile</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>text</code></td><td>Aucune</td><td>Normal</td><td>Nom, prénom, titre — champ par défaut</td></tr>
+            <tr><td><code>email</code></td><td>Format xxx@xxx.xx</td><td>@, .com, arobase</td><td>Adresse email</td></tr>
+            <tr><td><code>password</code></td><td>Longueur min/max</td><td>Normal</td><td>Mots de passe (masqué à l'écran)</td></tr>
+            <tr><td><code>number</code></td><td>min, max, step</td><td>Numérique</td><td>Âge, quantité, score</td></tr>
+            <tr><td><code>tel</code></td><td>pattern personnalisé</td><td>Téléphonique</td><td>Numéro de téléphone</td></tr>
+            <tr><td><code>url</code></td><td>Format https://...</td><td>Normal + / .</td><td>Site web, lien</td></tr>
+            <tr><td><code>search</code></td><td>Aucune</td><td>Normal + 🔍</td><td>Champ de recherche (bouton ✕)</td></tr>
+            <tr><td><code>date</code></td><td>Format date valide</td><td>Calendrier</td><td>Date de naissance, rendez-vous</td></tr>
+            <tr><td><code>time</code></td><td>Format HH:MM</td><td>Horloge</td><td>Heure de rendez-vous, ouverture</td></tr>
+            <tr><td><code>range</code></td><td>min, max</td><td>—</td><td>Satisfaction, volume, priorité</td></tr>
+            <tr><td><code>color</code></td><td>Format #RRGGBB</td><td>—</td><td>Sélection de couleur</td></tr>
+            <tr><td><code>checkbox</code></td><td>required (au moins un)</td><td>—</td><td>Acceptation CGU, préférences multiples</td></tr>
+            <tr><td><code>radio</code></td><td>required (un par groupe)</td><td>—</td><td>Choix exclusif (genre, taille, option)</td></tr>
+            <tr><td><code>file</code></td><td>accept (type de fichier)</td><td>—</td><td>Upload de documents, images</td></tr>
+            <tr><td><code>hidden</code></td><td>Aucune</td><td>—</td><td>Token CSRF, id session, source page</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 04 LABEL ══ -->
+    <div id="s3-label">
+      <div class="section-header"><span class="section-num">04</span><h2>&lt;label&gt; — lier le texte au champ</h2></div>
+      <p>La balise <code>&lt;label&gt;</code> est <strong>obligatoire pour l'accessibilité</strong>. Elle lie textuellement un libellé à son champ. Sans label, un lecteur d'écran ne peut pas annoncer à l'utilisateur ce qu'il doit saisir dans le champ.</p>
+
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">✅ Label explicite (recommandé)</h3>
+          <p style="font-size:.875rem;">L'attribut <code>for</code> du label correspond au <code>id</code> du champ. Le clic sur le label active le champ.</p>
+          <div class="code-block" style="margin:.5rem 0 0">
+            <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+            <div class="code-body"><pre data-lang="html">&lt;label for="email"&gt;
+  Adresse email
+&lt;/label&gt;
+&lt;input type="email"
+       id="email"
+       name="email"&gt;</pre></div>
+          </div>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">✅ Label enveloppant</h3>
+          <p style="font-size:.875rem;">L'input est <em>à l'intérieur</em> du label. Pas besoin de <code>for</code>/<code>id</code>. Pratique pour checkbox et radio.</p>
+          <div class="code-block" style="margin:.5rem 0 0">
+            <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+            <div class="code-body"><pre data-lang="html">&lt;label&gt;
+  &lt;input type="checkbox"
+         name="cgv"
+         value="oui"&gt;
+  J'accepte les CGU
+&lt;/label&gt;</pre></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Formulaire complet avec labels corrects</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;form action="/inscription" method="post"&gt;
+
+  &lt;!-- label explicite : for="id" --&gt;
+  &lt;label for="prenom"&gt;Prénom *&lt;/label&gt;
+  &lt;input type="text" id="prenom" name="prenom" required autocomplete="given-name"&gt;
+
+  &lt;label for="email"&gt;Adresse email *&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required autocomplete="email"&gt;
+
+  &lt;label for="mdp"&gt;Mot de passe * (8 caractères minimum)&lt;/label&gt;
+  &lt;input type="password" id="mdp" name="password" required minlength="8"
+         autocomplete="new-password"&gt;
+
+  &lt;label for="naissance"&gt;Date de naissance&lt;/label&gt;
+  &lt;input type="date" id="naissance" name="naissance"
+         min="1900-01-01" max="2010-01-01"&gt;
+
+  &lt;!-- Radio avec label enveloppant --&gt;
+  &lt;p&gt;Genre :&lt;/p&gt;
+  &lt;label&gt;&lt;input type="radio" name="genre" value="h"&gt; Homme&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="genre" value="f"&gt; Femme&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="genre" value="a"&gt; Autre / Non précisé&lt;/label&gt;
+
+  &lt;!-- Checkbox avec label enveloppant --&gt;
+  &lt;label&gt;
+    &lt;input type="checkbox" name="newsletter" value="oui"&gt;
+    Je souhaite recevoir la newsletter (optionnel)
+  &lt;/label&gt;
+
+  &lt;label&gt;
+    &lt;input type="checkbox" name="cgv" value="accepte" required&gt;
+    J'accepte les &lt;a href="/cgu"&gt;conditions générales d'utilisation&lt;/a&gt; *
+  &lt;/label&gt;
+
+  &lt;button type="submit"&gt;Créer mon compte&lt;/button&gt;
+  &lt;p&gt;&lt;small&gt;* Champs obligatoires&lt;/small&gt;&lt;/p&gt;
+&lt;/form&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu navigateur — Formulaire d'inscription</div>
+        <div class="preview-body" style="max-width:420px;">
+          <form onsubmit="return false;" style="display:flex;flex-direction:column;gap:.6rem;">
+            <label for="pr" style="font-weight:bold;font-size:.9em;">Prénom *</label>
+            <input type="text" id="pr" placeholder="Votre prénom" style="padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:4px;font-size:.9em;">
+            <label for="em" style="font-weight:bold;font-size:.9em;">Adresse email *</label>
+            <input type="email" id="em" placeholder="vous@exemple.com" style="padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:4px;font-size:.9em;">
+            <label for="pw" style="font-weight:bold;font-size:.9em;">Mot de passe * (8 caractères min.)</label>
+            <input type="password" id="pw" placeholder="••••••••" style="padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:4px;font-size:.9em;">
+            <div style="font-size:.9em;"><strong>Genre :</strong><br>
+              <label><input type="radio" name="g"> Homme</label> &nbsp;
+              <label><input type="radio" name="g"> Femme</label> &nbsp;
+              <label><input type="radio" name="g"> Autre</label>
+            </div>
+            <label style="font-size:.9em;"><input type="checkbox"> Recevoir la newsletter</label>
+            <label style="font-size:.9em;"><input type="checkbox" required> J'accepte les <a href="#">CGU</a> *</label>
+            <button type="submit" style="background:#3b82f6;color:#fff;border:none;padding:.5rem 1rem;border-radius:4px;cursor:pointer;font-size:.9em;">Créer mon compte</button>
+            <p style="font-size:.8em;color:#666;margin:0;">* Champs obligatoires</p>
+          </form>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Jamais de champ sans label</div>
+          <p>Un input sans label associé est <strong>inaccessible</strong> pour les utilisateurs de lecteurs d'écran. Le navigateur annonce juste "champ de saisie" sans préciser à quoi il sert. C'est aussi illégal dans certains pays (WCAG 2.1 niveau AA). N'utilisez pas l'attribut <code>placeholder</code> comme substitut au label — le placeholder disparaît dès que l'utilisateur commence à saisir.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 TEXTAREA & SELECT ══ -->
+    <div id="s3-textarea">
+      <div class="section-header"><span class="section-num">05</span><h2>&lt;textarea&gt; et &lt;select&gt; — zones de texte et listes déroulantes</h2></div>
+
+      <h3>&lt;textarea&gt; — zone de texte multilignes</h3>
+      <p>Contrairement à <code>&lt;input type="text"&gt;</code>, <code>&lt;textarea&gt;</code> est une <strong>balise à fermeture</strong> (pas orpheline). Le contenu entre les balises = valeur par défaut. L'utilisateur peut redimensionner le champ en tirant le coin.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — textarea avec tous ses attributs</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;label for="message"&gt;Votre message&lt;/label&gt;
+&lt;textarea
+  id="message"
+  name="message"
+  rows="6"
+  cols="50"
+  placeholder="Décrivez votre demande en détail..."
+  minlength="20"
+  maxlength="1000"
+  required
+  spellcheck="true"
+&gt;&lt;/textarea&gt;
+
+&lt;!--
+  rows : nombre de lignes visibles
+  cols : largeur approximative en caractères (souvent ignoré, CSS préféré)
+  resize via CSS : textarea { resize: vertical; } ou none / horizontal / both
+--&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — textarea</div>
+        <div class="preview-body">
+          <label for="msg-demo" style="display:block;font-weight:bold;margin-bottom:.3rem;">Votre message</label>
+          <textarea id="msg-demo" rows="4" placeholder="Décrivez votre demande..." style="width:100%;padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:4px;font-size:.9em;font-family:inherit;resize:vertical;"></textarea>
+          <div style="font-size:.75em;color:#666;text-align:right;margin-top:.2rem;">0 / 1000 caractères</div>
+        </div>
+      </div>
+
+      <h3>&lt;select&gt; — liste déroulante</h3>
+      <p>Permet à l'utilisateur de choisir parmi une liste d'options prédéfinies. Plus pratique qu'une série de boutons radio quand il y a plus de 4-5 choix.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — select, option et optgroup</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Select simple --&gt;
+&lt;label for="pays"&gt;Pays&lt;/label&gt;
+&lt;select id="pays" name="pays" required&gt;
+  &lt;option value=""&gt;-- Choisir un pays --&lt;/option&gt; &lt;!-- valeur vide = placeholder --&gt;
+  &lt;option value="fr" selected&gt;France&lt;/option&gt;       &lt;!-- selected = sélectionné par défaut --&gt;
+  &lt;option value="be"&gt;Belgique&lt;/option&gt;
+  &lt;option value="ch"&gt;Suisse&lt;/option&gt;
+  &lt;option value="ca"&gt;Canada&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Select avec groupes d'options (optgroup) --&gt;
+&lt;label for="langage"&gt;Langage préféré&lt;/label&gt;
+&lt;select id="langage" name="langage"&gt;
+  &lt;optgroup label="Langages web"&gt;
+    &lt;option value="html"&gt;HTML&lt;/option&gt;
+    &lt;option value="css"&gt;CSS&lt;/option&gt;
+    &lt;option value="js"&gt;JavaScript&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Langages back-end"&gt;
+    &lt;option value="php"&gt;PHP&lt;/option&gt;
+    &lt;option value="python"&gt;Python&lt;/option&gt;
+    &lt;option value="java"&gt;Java&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;!-- Sélection multiple (Ctrl+clic ou Cmd+clic) --&gt;
+&lt;label for="competences"&gt;Compétences (plusieurs sélections possibles)&lt;/label&gt;
+&lt;select id="competences" name="competences[]" multiple size="5"&gt;
+  &lt;option value="html"&gt;HTML&lt;/option&gt;
+  &lt;option value="css"&gt;CSS&lt;/option&gt;
+  &lt;option value="js"&gt;JavaScript&lt;/option&gt;
+  &lt;option value="react"&gt;React&lt;/option&gt;
+  &lt;option value="sql"&gt;SQL&lt;/option&gt;
+&lt;/select&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — select simple et avec optgroup</div>
+        <div class="preview-body" style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+          <div>
+            <label for="pays-d" style="display:block;font-weight:bold;margin-bottom:.3rem;">Pays</label>
+            <select id="pays-d" style="padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:4px;font-size:.9em;">
+              <option value="">-- Choisir --</option>
+              <option selected>France</option>
+              <option>Belgique</option><option>Suisse</option><option>Canada</option>
+            </select>
+          </div>
+          <div>
+            <label for="lang-d" style="display:block;font-weight:bold;margin-bottom:.3rem;">Langage préféré</label>
+            <select id="lang-d" style="padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:4px;font-size:.9em;">
+              <optgroup label="Langages web"><option>HTML</option><option>CSS</option><option>JavaScript</option></optgroup>
+              <optgroup label="Back-end"><option>PHP</option><option>Python</option></optgroup>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATALIST -->
+      <h3>&lt;datalist&gt; — autocomplétion avec suggestions</h3>
+      <p>Combine la liberté d'un champ texte avec des suggestions prédéfinies. L'utilisateur peut choisir dans la liste <em>ou</em> saisir sa propre valeur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — datalist pour autocomplétion</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;label for="ville"&gt;Ville&lt;/label&gt;
+&lt;input type="text" id="ville" name="ville"
+       list="villes-suggestions"
+       placeholder="Commencez à taper..."&gt;
+
+&lt;datalist id="villes-suggestions"&gt;
+  &lt;option value="Paris"&gt;
+  &lt;option value="Lyon"&gt;
+  &lt;option value="Marseille"&gt;
+  &lt;option value="Bordeaux"&gt;
+  &lt;option value="Toulouse"&gt;
+  &lt;option value="Nantes"&gt;
+&lt;/datalist&gt;
+&lt;!-- L'input et le datalist sont liés par list="id-du-datalist" --&gt;</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 06 FIELDSET ══ -->
+    <div id="s3-fieldset">
+      <div class="section-header"><span class="section-num">06</span><h2>&lt;fieldset&gt; et &lt;legend&gt; — grouper les champs</h2></div>
+      <p>Ces deux balises permettent de <strong>regrouper sémantiquement</strong> des champs connexes. Les lecteurs d'écran annoncent le nom du groupe avant chaque champ — essentiel pour les formulaires longs.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Formulaire structuré avec fieldset et legend</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;form action="/commande" method="post"&gt;
+
+  &lt;!-- Groupe 1 : Informations personnelles --&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;👤 Informations personnelles&lt;/legend&gt;
+
+    &lt;label for="nom"&gt;Nom *&lt;/label&gt;
+    &lt;input type="text" id="nom" name="nom" required autocomplete="family-name"&gt;
+
+    &lt;label for="prenom"&gt;Prénom *&lt;/label&gt;
+    &lt;input type="text" id="prenom" name="prenom" required autocomplete="given-name"&gt;
+
+    &lt;label for="email"&gt;Email *&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" required autocomplete="email"&gt;
+
+    &lt;label for="tel"&gt;Téléphone&lt;/label&gt;
+    &lt;input type="tel" id="tel" name="telephone" autocomplete="tel"&gt;
+  &lt;/fieldset&gt;
+
+  &lt;!-- Groupe 2 : Adresse de livraison --&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;📦 Adresse de livraison&lt;/legend&gt;
+
+    &lt;label for="adresse"&gt;Adresse *&lt;/label&gt;
+    &lt;input type="text" id="adresse" name="adresse" required autocomplete="street-address"&gt;
+
+    &lt;label for="cp"&gt;Code postal *&lt;/label&gt;
+    &lt;input type="text" id="cp" name="code_postal" pattern="[0-9]{5}"
+           required autocomplete="postal-code" placeholder="75001"&gt;
+
+    &lt;label for="ville"&gt;Ville *&lt;/label&gt;
+    &lt;input type="text" id="ville" name="ville" required autocomplete="address-level2"&gt;
+  &lt;/fieldset&gt;
+
+  &lt;!-- Groupe 3 : Choix de livraison (radio buttons) --&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;🚚 Mode de livraison&lt;/legend&gt;
+
+    &lt;label&gt;
+      &lt;input type="radio" name="livraison" value="standard" checked&gt;
+      Standard (3–5 jours) — Gratuit
+    &lt;/label&gt;
+    &lt;label&gt;
+      &lt;input type="radio" name="livraison" value="express"&gt;
+      Express (24h) — 5,90 €
+    &lt;/label&gt;
+    &lt;label&gt;
+      &lt;input type="radio" name="livraison" value="relais"&gt;
+      Point relais (2–3 jours) — 2,90 €
+    &lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;!-- Groupe 4 : Paiement (fieldset désactivé) --&gt;
+  &lt;fieldset disabled&gt;
+    &lt;legend&gt;💳 Paiement (bientôt disponible)&lt;/legend&gt;
+    &lt;label for="carte"&gt;Numéro de carte&lt;/label&gt;
+    &lt;input type="text" id="carte" name="carte" placeholder="1234 5678 9012 3456"&gt;
+  &lt;/fieldset&gt;
+  &lt;!-- disabled sur fieldset = tous les champs du groupe sont désactivés --&gt;
+
+  &lt;button type="submit"&gt;Valider la commande&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — fieldset et legend</div>
+        <div class="preview-body">
+          <form onsubmit="return false;">
+            <fieldset style="margin-bottom:.75rem;border:1px solid #d1d5db;border-radius:4px;padding:.75rem;">
+              <legend style="font-weight:bold;padding:0 .4rem;">👤 Informations personnelles</legend>
+              <label style="display:block;font-size:.85em;margin-bottom:.2rem;">Nom * <input type="text" placeholder="Dupont" style="margin-left:.3rem;padding:.3rem;border:1px solid #d1d5db;border-radius:3px;font-size:.85em;"></label>
+              <label style="display:block;font-size:.85em;margin-bottom:.2rem;">Email * <input type="email" placeholder="vous@exemple.com" style="margin-left:.3rem;padding:.3rem;border:1px solid #d1d5db;border-radius:3px;font-size:.85em;"></label>
+            </fieldset>
+            <fieldset style="margin-bottom:.75rem;border:1px solid #d1d5db;border-radius:4px;padding:.75rem;">
+              <legend style="font-weight:bold;padding:0 .4rem;">🚚 Mode de livraison</legend>
+              <label style="display:block;font-size:.85em;"><input type="radio" name="lv" checked> Standard (gratuit)</label>
+              <label style="display:block;font-size:.85em;"><input type="radio" name="lv"> Express — 5,90 €</label>
+            </fieldset>
+            <button style="background:#3b82f6;color:#fff;border:none;padding:.4rem .9rem;border-radius:4px;cursor:pointer;font-size:.9em;">Valider la commande</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">disabled sur fieldset — désactiver tout un groupe</div>
+          <p>Ajouter <code>disabled</code> sur un <code>&lt;fieldset&gt;</code> désactive <strong>tous les champs à l'intérieur</strong> en une seule ligne — sans modifier chaque input. Pratique pour les étapes suivantes d'un formulaire multi-étapes, ou une fonctionnalité temporairement indisponible.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 VALIDATION ══ -->
+    <div id="s3-valid">
+      <div class="section-header"><span class="section-num">07</span><h2>Validation native HTML5 — sans JavaScript</h2></div>
+      <p>HTML5 offre une <strong>validation intégrée</strong> déclenchée à la soumission du formulaire. Le navigateur vérifie les champs et affiche des messages d'erreur natifs, traduits dans la langue de l'utilisateur — sans une seule ligne de JavaScript.</p>
+
+      <!-- VALIDATION DEMO -->
+      <h3>Démonstration visuelle — champ valide vs invalide</h3>
+      <div class="validation-demo">
+        <div class="vd-card">
+          <div class="vd-label valid">✅ Champ valide</div>
+          <div class="vd-preview">
+            <input class="vd-input-valid" type="email" value="alice@exemple.com" style="padding:.4rem .6rem;border-radius:4px;width:100%;font-size:.9em;font-family:Arial;">
+            <div class="vd-msg-valid">✓ Format email correct</div>
+          </div>
+        </div>
+        <div class="vd-card">
+          <div class="vd-label invalid">❌ Champ invalide</div>
+          <div class="vd-preview">
+            <input class="vd-input-invalid" type="email" value="alice-sans-arobase" style="padding:.4rem .6rem;border-radius:4px;width:100%;font-size:.9em;font-family:Arial;">
+            <div class="vd-msg-invalid">✗ Veuillez inclure un "@" dans l'adresse email.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Attributs de validation HTML5</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- required : champ obligatoire --&gt;
+&lt;input type="text" name="nom" required&gt;
+
+&lt;!-- minlength / maxlength : longueur du texte --&gt;
+&lt;input type="text" name="pseudo" minlength="3" maxlength="20"
+       placeholder="3 à 20 caractères"&gt;
+
+&lt;!-- min / max : valeur numérique ou date --&gt;
+&lt;input type="number" name="age" min="18" max="99"&gt;
+&lt;input type="date" name="rdv" min="2024-01-01" max="2024-12-31"&gt;
+
+&lt;!-- step : incrément autorisé --&gt;
+&lt;input type="number" name="prix" min="0" max="1000" step="0.01"&gt;
+&lt;input type="time" name="heure" min="09:00" max="17:00" step="900"&gt;
+&lt;!-- step="900" = paliers de 15 minutes (900 secondes) --&gt;
+
+&lt;!-- pattern : expression régulière personnalisée --&gt;
+&lt;input type="text" name="code_postal"
+       pattern="[0-9]{5}"
+       title="5 chiffres exactement (ex: 75001)"
+       placeholder="75001"&gt;
+
+&lt;input type="tel" name="telephone"
+       pattern="0[0-9]{9}"
+       title="10 chiffres commençant par 0 (ex: 0600000000)"&gt;
+
+&lt;input type="text" name="identifiant"
+       pattern="[a-zA-Z0-9_]{4,16}"
+       title="4 à 16 caractères : lettres, chiffres ou underscore"&gt;
+
+&lt;!-- Mot de passe fort : min 8 chars, lettre ET chiffre --&gt;
+&lt;input type="password" name="password"
+       pattern="(?=.*[A-Za-z])(?=.*\d).{8,}"
+       title="Minimum 8 caractères avec au moins une lettre et un chiffre"&gt;</pre></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>S'applique à</th><th>Comportement</th></tr></thead>
+          <tbody>
+            <tr><td><code>required</code></td><td>Tous les champs</td><td>Bloque la soumission si le champ est vide. Affiche "Ce champ est obligatoire."</td></tr>
+            <tr><td><code>minlength</code></td><td>text, email, password, textarea</td><td>Longueur minimale en caractères. Le champ doit avoir au moins N caractères.</td></tr>
+            <tr><td><code>maxlength</code></td><td>text, email, password, textarea</td><td>Longueur maximale. Bloque la saisie au-delà de N caractères (pas de message d'erreur).</td></tr>
+            <tr><td><code>min</code></td><td>number, date, time, range</td><td>Valeur minimale. Pour une date : format AAAA-MM-JJ.</td></tr>
+            <tr><td><code>max</code></td><td>number, date, time, range</td><td>Valeur maximale.</td></tr>
+            <tr><td><code>step</code></td><td>number, time, range</td><td>Incrément accepté. <code>step="0.01"</code> autorise les décimales. <code>step="any"</code> = toute valeur.</td></tr>
+            <tr><td><code>pattern</code></td><td>text, tel, email, url</td><td>Expression régulière que la valeur doit respecter. Toujours accompagner d'un <code>title</code> explicatif.</td></tr>
+            <tr><td><code>title</code></td><td>Tout</td><td>Message affiché dans l'infobulle de validation (explique le format attendu).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Validation HTML5 ≠ validation serveur</div>
+          <p>La validation HTML5 est faite côté <em>client</em> (navigateur) : rapide et agréable pour l'utilisateur, mais <strong>contournable</strong>. Un utilisateur malveillant peut désactiver la validation via DevTools ou envoyer des requêtes directes au serveur. <strong>Toujours valider aussi côté serveur</strong> (PHP, Python, Node.js…) — la validation HTML5 est un confort UX, pas une sécurité.</p>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">novalidate — pendant le développement</div>
+          <p>Ajoutez <code>novalidate</code> sur la balise <code>&lt;form&gt;</code> pour désactiver temporairement toute validation native. Utile quand vous testez l'envoi du formulaire sans vouloir remplir tous les champs. À retirer avant la mise en production.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ATTRIBUTS AVANCÉS ══ -->
+    <div id="s3-attrs">
+      <div class="section-header"><span class="section-num">08</span><h2>Attributs avancés — UX et accessibilité</h2></div>
+      <p>Ces attributs améliorent l'expérience utilisateur (autocomplétion, focus automatique, aide à la saisie) et l'accessibilité (ARIA).</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Valeurs</th><th>Rôle détaillé</th></tr></thead>
+          <tbody>
+            <tr><td><code>placeholder</code></td><td>texte</td><td>Texte indicatif grisé qui disparaît à la saisie. <strong>Ne remplace pas le label.</strong> Utile pour les exemples de format.</td></tr>
+            <tr><td><code>autocomplete</code></td><td>valeur sémantique</td><td>Aide le navigateur à proposer les bonnes valeurs mémorisées. Utiliser les valeurs standardisées : <code>name</code>, <code>email</code>, <code>tel</code>, <code>street-address</code>, <code>postal-code</code>, <code>current-password</code>…</td></tr>
+            <tr><td><code>autofocus</code></td><td>(booléen)</td><td>Donne automatiquement le focus à ce champ au chargement de la page. Un seul par page. Pratique sur les pages de connexion.</td></tr>
+            <tr><td><code>readonly</code></td><td>(booléen)</td><td>L'utilisateur voit la valeur mais ne peut pas la modifier. La valeur est quand même envoyée au serveur (différent de <code>disabled</code>).</td></tr>
+            <tr><td><code>disabled</code></td><td>(booléen)</td><td>Champ grisé, non interactif. La valeur n'est <strong>pas</strong> envoyée au serveur.</td></tr>
+            <tr><td><code>value</code></td><td>texte</td><td>Valeur par défaut pré-remplie. L'utilisateur peut la modifier (différent de <code>readonly</code>).</td></tr>
+            <tr><td><code>name</code></td><td>identifiant</td><td><strong>Indispensable</strong> — clé utilisée côté serveur. Sans <code>name</code>, le champ n'est pas envoyé.</td></tr>
+            <tr><td><code>multiple</code></td><td>(booléen)</td><td>Sur <code>type="file"</code> : sélection de plusieurs fichiers. Sur <code>&lt;select&gt;</code> : sélection multiple (Ctrl+clic).</td></tr>
+            <tr><td><code>accept</code></td><td>types MIME ou extensions</td><td>Sur <code>type="file"</code> : filtre les fichiers dans le sélecteur. Ex : <code>accept=".pdf,.jpg,image/*"</code>.</td></tr>
+            <tr><td><code>inputmode</code></td><td><code>numeric</code> <code>decimal</code> <code>tel</code>…</td><td>Contrôle le type de clavier affiché sur mobile, indépendamment du <code>type</code>. Plus flexible que le type seul.</td></tr>
+            <tr><td><code>aria-describedby</code></td><td>id d'un élément</td><td>Pointe vers un élément qui décrit le champ (aide contextuelle, contraintes). Lu par les lecteurs d'écran.</td></tr>
+            <tr><td><code>aria-invalid</code></td><td><code>true</code> / <code>false</code></td><td>Indique explicitement aux lecteurs d'écran si le champ est en erreur (utile avec validation JavaScript).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Attributs avancés en situation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- autofocus : focus immédiat au chargement --&gt;
+&lt;input type="text" name="recherche" id="recherche"
+       placeholder="Rechercher..."
+       autofocus
+       autocomplete="off"&gt;
+
+&lt;!-- readonly : visible mais non modifiable (envoyé au serveur) --&gt;
+&lt;label for="ref"&gt;Référence commande&lt;/label&gt;
+&lt;input type="text" id="ref" name="reference"
+       value="CMD-2024-00842"
+       readonly&gt;
+
+&lt;!-- disabled : champ inactif (NON envoyé au serveur) --&gt;
+&lt;label for="promo"&gt;Code promo&lt;/label&gt;
+&lt;input type="text" id="promo" name="code_promo"
+       placeholder="PROMO2024"
+       disabled&gt;
+
+&lt;!-- autocomplete sémantique --&gt;
+&lt;input type="text" name="prenom" autocomplete="given-name"&gt;
+&lt;input type="text" name="nom" autocomplete="family-name"&gt;
+&lt;input type="email" name="email" autocomplete="email"&gt;
+&lt;input type="tel" name="tel" autocomplete="tel"&gt;
+&lt;input type="text" name="rue" autocomplete="street-address"&gt;
+&lt;input type="text" name="cp" autocomplete="postal-code"&gt;
+&lt;input type="password" name="mdp" autocomplete="current-password"&gt;
+&lt;input type="password" name="new_mdp" autocomplete="new-password"&gt;
+
+&lt;!-- inputmode : clavier mobile personnalisé --&gt;
+&lt;input type="text" name="code_pin" inputmode="numeric"
+       pattern="[0-9]{4}" placeholder="Code PIN (4 chiffres)"&gt;
+
+&lt;!-- Champ avec aide contextuelle accessible --&gt;
+&lt;label for="mdp2"&gt;Mot de passe&lt;/label&gt;
+&lt;input type="password" id="mdp2" name="mdp2"
+       required minlength="8"
+       aria-describedby="aide-mdp"&gt;
+&lt;p id="aide-mdp"&gt;
+  &lt;small&gt;Minimum 8 caractères. Au moins une majuscule et un chiffre.&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;!-- Champ avec multiple fichiers --&gt;
+&lt;label for="photos"&gt;Téléverser des photos (plusieurs possibles)&lt;/label&gt;
+&lt;input type="file" id="photos" name="photos[]"
+       accept="image/*"
+       multiple&gt;</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">autocomplete sémantique — les vraies valeurs</div>
+          <p>Les valeurs de <code>autocomplete</code> suivent un standard HTML : <code>given-name</code> (prénom), <code>family-name</code> (nom), <code>email</code>, <code>tel</code>, <code>street-address</code>, <code>postal-code</code>, <code>country</code>, <code>current-password</code>, <code>new-password</code>, <code>one-time-code</code> (OTP/SMS)… Le navigateur peut ainsi pré-remplir correctement le bon champ au bon endroit, même si vos attributs <code>name</code> sont différents.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s3-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 01</span><span class="exercise-title">📝 Formulaire de contact</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page <code>contact.html</code> avec la structure HTML5 complète et les balises sémantiques header/main/footer.</li>
+            <li>Dans <code>&lt;main&gt;</code> : un formulaire <code>method="post" action="/contact"</code> avec un seul <code>&lt;fieldset&gt;</code>.</li>
+            <li>Champs requis : Nom (text, required), Email (email, required), Sujet (select avec 5 options groupées en 2 optgroup), Message (textarea, 6 lignes, minlength=20, maxlength=2000).</li>
+            <li>Champs optionnels : Téléphone (tel, pattern), Fichier joint (file, accept=".pdf,.jpg,.png").</li>
+            <li>Tous les champs doivent avoir un <code>&lt;label&gt;</code> correctement associé via <code>for</code>/<code>id</code>.</li>
+            <li>Un bouton submit et un bouton reset.</li>
+            <li>En dessous du formulaire : une liste <code>&lt;dl&gt;</code> avec les coordonnées de contact (adresse, téléphone, email, horaires).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 02</span><span class="exercise-title">🔐 Formulaire d'inscription complet</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>inscription.html</code>. Formulaire <code>method="post" action="/inscription"</code> en 3 <code>&lt;fieldset&gt;</code> : "Identité", "Compte", "Préférences".</li>
+            <li><strong>Identité :</strong> Nom, Prénom, Date de naissance (date, max = aujourd'hui - 18 ans), Genre (3 radio buttons).</li>
+            <li><strong>Compte :</strong> Email (email, required), Pseudo (text, minlength=3, maxlength=20, pattern=^[a-zA-Z0-9_]+$), Mot de passe (password, minlength=8), Confirmation MDP (password).</li>
+            <li><strong>Préférences :</strong> Centres d'intérêt (select multiple), Newsletter (checkbox), CGU (checkbox required).</li>
+            <li>Ajoutez des <code>autocomplete</code> sémantiques sur tous les champs appropriés.</li>
+            <li>Ajoutez <code>aria-describedby</code> sur le champ mot de passe pointant vers un paragraphe d'aide.</li>
+            <li>Testez la validation en cliquant Soumettre avec des champs vides ou mal remplis.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 03</span><span class="exercise-title">🛒 Formulaire de commande avec tableau</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>commande.html</code>. En haut : un tableau récapitulatif de commande (thead/tbody/tfoot, colspan, scope).</li>
+            <li>En dessous : un formulaire en 2 fieldsets — "Livraison" et "Mode de paiement".</li>
+            <li>Livraison : adresse, code postal (pattern 5 chiffres), ville, pays (select).</li>
+            <li>Mode de paiement : 3 radio buttons (Carte bancaire, PayPal, Virement). Le troisième désactivé (<code>disabled</code>).</li>
+            <li>Un champ <code>type="hidden"</code> contenant l'identifiant de commande fictif.</li>
+            <li>Ajoutez tous les <code>autocomplete</code> appropriés pour l'adresse.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 04</span><span class="exercise-title">🔍 Formulaire de recherche avancée</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>recherche.html</code>. Formulaire <code>method="get" action="/resultats"</code> (pas de fieldset nécessaire).</li>
+            <li>Champs : Mot-clé (search, autofocus), Catégorie (select), Prix min/max (number, min=0, step=5), Date de parution (date, min="2000-01-01"), Langue (datalist avec 6 suggestions).</li>
+            <li>Bouton submit "Rechercher" ET un lien "Réinitialiser les filtres" pointant vers la même page.</li>
+            <li>Observez dans DevTools : après la soumission, l'URL contient les paramètres (comportement GET).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">🧪</div>
+        <div class="callout-body">
+          <div class="callout-title">Astuce — Tester vos formulaires sans serveur</div>
+          <p>Pour voir les données envoyées sans avoir de serveur, changez temporairement l'<code>action</code> vers <code>https://httpbin.org/post</code> (pour POST) ou <code>https://httpbin.org/get</code> (pour GET). Ce service gratuit renvoie les données reçues au format JSON — parfait pour déboguer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s3-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Balise &lt;form&gt; : action (destination), method (GET vs POST), enctype (fichiers), novalidate</li>
+        <li>Différence GET (URL, recherche) vs POST (corps, données sensibles)</li>
+        <li>Tous les types d'input : text, email, password, number, tel, url, date, time, range, color, checkbox, radio, file, hidden, submit, reset</li>
+        <li>Association label/input : for/id (label explicite) et label enveloppant</li>
+        <li>textarea : zone de texte multilignes avec rows, minlength, maxlength</li>
+        <li>select / option / optgroup : liste déroulante et groupes d'options</li>
+        <li>datalist : suggestions d'autocomplétion sur un champ texte</li>
+        <li>fieldset / legend : grouper sémantiquement les champs</li>
+        <li>Validation native : required, minlength, maxlength, min, max, step, pattern, title</li>
+        <li>Attributs avancés : placeholder, autocomplete, autofocus, readonly, disabled, multiple, accept, inputmode</li>
+        <li>Accessibilité : aria-describedby, aria-invalid, jamais de champ sans label</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>&lt;form&gt;</dt><dd>Conteneur du formulaire. action = URL de traitement, method = GET ou POST.</dd>
+          <dt>&lt;input&gt;</dt><dd>Balise orpheline dont le comportement dépend du type. La plus polyvalente du HTML.</dd>
+          <dt>&lt;label&gt;</dt><dd>Libellé d'un champ. Lié via for="id-du-champ" ou en enveloppant l'input. Obligatoire pour l'accessibilité.</dd>
+          <dt>&lt;textarea&gt;</dt><dd>Zone de texte multilignes. Balise à fermeture. Contenu entre les balises = valeur par défaut.</dd>
+          <dt>&lt;select&gt;</dt><dd>Liste déroulante. Les choix sont des &lt;option&gt;, regroupables en &lt;optgroup&gt;.</dd>
+          <dt>&lt;datalist&gt;</dt><dd>Liste de suggestions pour un &lt;input&gt; via l'attribut list="id-datalist". L'utilisateur peut aussi saisir sa propre valeur.</dd>
+          <dt>&lt;fieldset&gt;</dt><dd>Groupe visuel et sémantique de champs. disabled sur fieldset désactive tous ses champs.</dd>
+          <dt>&lt;legend&gt;</dt><dd>Titre du fieldset, toujours premier enfant du fieldset.</dd>
+          <dt>required</dt><dd>Attribut booléen — bloque la soumission si le champ est vide.</dd>
+          <dt>pattern</dt><dd>Expression régulière que la valeur doit respecter. Toujours accompagner d'un title explicatif.</dd>
+          <dt>autocomplete</dt><dd>Valeur sémantique indiquant au navigateur quelles données mémorisées proposer. Ex : given-name, email, postal-code.</dd>
+          <dt>GET vs POST</dt><dd>GET : données dans l'URL (recherche, filtres). POST : données dans le corps HTTP (connexion, inscription, commande).</dd>
+        </dl>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 4 — Multimédia &amp; HTML5 Avancé</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">audio, video, canvas, web storage, APIs HTML5 modernes</div>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:.5rem;background:var(--bg3);color:var(--text3);font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);border:1px solid var(--border);">Bientôt disponible</div>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

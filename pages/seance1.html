@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 1 — Les Fondations · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html" class="active">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s1">Séance 1</div>
+      <a href="#s1-web"    class="sidebar-item"><span class="sidebar-num">01</span>Le web</a>
+      <a href="#s1-syntax" class="sidebar-item"><span class="sidebar-num">02</span>Syntaxe HTML</a>
+      <a href="#s1-struct" class="sidebar-item"><span class="sidebar-num">03</span>Structure HTML5</a>
+      <a href="#s1-texte"  class="sidebar-item"><span class="sidebar-num">04</span>Texte &amp; mise en valeur</a>
+      <a href="#s1-listes" class="sidebar-item"><span class="sidebar-num">05</span>Les listes</a>
+      <a href="#s1-liens"  class="sidebar-item"><span class="sidebar-num">06</span>Les liens</a>
+      <a href="#s1-images" class="sidebar-item"><span class="sidebar-num">07</span>Les images</a>
+      <a href="#s1-div"    class="sidebar-item"><span class="sidebar-num">08</span>div, span &amp; entités</a>
+      <a href="#s1-exo"    class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s1-bilan"  class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 2 →</a>
+    </div>
+  </aside>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 01 / 06</div>
+      <h1>Les Fondations</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Structure • Texte • Listes • Liens • Images • Conteneurs</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Débutant+</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 LE WEB ══ -->
+    <div id="s1-web">
+      <div class="section-header"><span class="section-num">01</span><h2>Le web : comment ça marche ?</h2></div>
+      <p>Avant d'écrire une seule ligne de HTML, il faut comprendre ce qui se passe <em>sous le capot</em> quand vous tapez une adresse dans votre navigateur. Ce mécanisme s'appelle le modèle <strong>client / serveur</strong>.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🍕</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la pizzeria</div>
+          <p>Votre <strong>navigateur</strong> (Chrome, Firefox) est le <em>client</em> qui passe commande. Le <strong>serveur</strong> est la pizzeria qui prépare et envoie. Le fichier <strong>HTML</strong> est la pizza livrée que le navigateur assemble et affiche. Sans commande, pas de livraison : le serveur ne vous envoie rien spontanément.</p>
+        </div>
+      </div>
+
+      <!-- HTTP FLOW DIAGRAM -->
+      <h3>Le voyage d'une requête HTTP — étape par étape</h3>
+      <div class="http-diagram">
+        <div class="http-node">
+          <div class="http-icon browser">🌐</div>
+          <div class="http-node-name">Navigateur</div>
+          <div class="http-node-sub">Chrome / Firefox<br>Safari / Edge</div>
+        </div>
+        <div class="http-arrow">
+          <div class="http-arrow-label">① DNS — exemple.com → ?</div>
+          <div class="http-arrow-line"></div>
+          <div class="http-arrow-label">② Requête HTTP GET</div>
+        </div>
+        <div class="http-node">
+          <div class="http-icon dns">🗂️</div>
+          <div class="http-node-name">DNS</div>
+          <div class="http-node-sub">Annuaire mondial<br>Nom → Adresse IP</div>
+        </div>
+        <div class="http-arrow">
+          <div class="http-arrow-label">③ IP : 93.184.216.34</div>
+          <div class="http-arrow-line back"></div>
+          <div class="http-arrow-label">④ Fichier HTML + CSS + JS</div>
+        </div>
+        <div class="http-node">
+          <div class="http-icon server">🖥️</div>
+          <div class="http-node-name">Serveur</div>
+          <div class="http-node-sub">Ordinateur distant<br>toujours allumé</div>
+        </div>
+        <div class="http-status">
+          <span class="status-pill ok">200 OK</span>
+          <span class="status-pill redirect">301 Redirection</span>
+          <span class="status-pill notfound">404 Introuvable</span>
+          <span class="status-pill error">500 Erreur serveur</span>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">HTTP vs HTTPS — quelle différence ?</div>
+          <p><strong>HTTP</strong> = données échangées en clair sur le réseau (n'importe qui peut intercepter et lire). <strong>HTTPS</strong> = les données sont chiffrées (cadenas dans la barre d'adresse). Aujourd'hui, tous les sites sérieux utilisent HTTPS. Chrome affiche "Non sécurisé" pour les sites HTTP. Pour votre apprentissage en local (<code>fichier.html</code>), vous utiliserez HTTP — c'est normal.</p>
+        </div>
+      </div>
+
+      <!-- TRIO VISUEL -->
+      <h3>Le trio fondamental du web</h3>
+      <p>Trois technologies distinctes collaborent sur chaque page web. Elles ont chacune un rôle précis et ne se remplacent pas :</p>
+      <div class="trio">
+        <div class="trio-card active">
+          <span class="trio-emoji">🦴</span>
+          <div class="trio-name">HTML</div>
+          <div class="trio-desc">Le <em>squelette</em> — structure, contenu, sens sémantique</div>
+          <div class="trio-badge" style="color:var(--blue);font-weight:700;">→ Ce cours (Séances 1–6)</div>
+        </div>
+        <div class="trio-card">
+          <span class="trio-emoji">🎨</span>
+          <div class="trio-name">CSS</div>
+          <div class="trio-desc">Les <em>vêtements</em> — couleurs, polices, mise en page, animations</div>
+          <div class="trio-badge">→ Séances 7–12</div>
+        </div>
+        <div class="trio-card">
+          <span class="trio-emoji">⚡</span>
+          <div class="trio-name">JavaScript</div>
+          <div class="trio-desc">Les <em>muscles</em> — interactions, logique, données dynamiques</div>
+          <div class="trio-badge">→ Séances 13+</div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Un fichier HTML seul = une page web valide</div>
+          <p>CSS et JavaScript enrichissent l'expérience, mais ils sont <strong>facultatifs</strong>. Un fichier <code>.html</code> ouvert dans un navigateur, sans CSS ni JS, est déjà une page web fonctionnelle. C'est pour ça que HTML est <em>la</em> fondation à maîtriser en premier.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 SYNTAXE ══ -->
+    <div id="s1-syntax">
+      <div class="section-header"><span class="section-num">02</span><h2>Syntaxe HTML : balises, éléments, attributs</h2></div>
+      <p>Le HTML se compose d'<strong>instructions entre chevrons</strong> <code>&lt; &gt;</code> appelées <em>balises</em>. La syntaxe est stricte mais simple une fois les trois concepts clés assimilés.</p>
+
+      <!-- TAG ANATOMY VISUAL -->
+      <h3>Anatomie complète d'un élément HTML</h3>
+      <div class="tag-anatomy">
+        <div class="tag-anatomy-code">
+          <span class="tac-open">&lt;</span><span class="tac-tag">a</span>
+          <span class="tac-attr">&nbsp;href</span><span class="tac-eq">=</span><span class="tac-val">"https://exemple.com"</span>
+          <span class="tac-attr">&nbsp;target</span><span class="tac-eq">=</span><span class="tac-val">"_blank"</span>
+          <span class="tac-open">&gt;</span>
+          <span class="tac-text">&nbsp;Visitez ce site&nbsp;</span>
+          <span class="tac-close">&lt;/</span><span class="tac-tag">a</span><span class="tac-close">&gt;</span>
+        </div>
+        <div class="tag-labels">
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#61AFEF;"></div>
+            <div class="tag-label-name" style="color:#61AFEF;">Balise ouvrante</div>
+            <div class="tag-label-desc">Débute l'élément. Contient le nom et les attributs.</div>
+          </div>
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#E5C07B;"></div>
+            <div class="tag-label-name" style="color:#E5C07B;">Attribut + Valeur</div>
+            <div class="tag-label-desc">Info supplémentaire. Toujours dans la balise ouvrante.</div>
+          </div>
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#ABB2BF;"></div>
+            <div class="tag-label-name" style="color:#ABB2BF;">Contenu</div>
+            <div class="tag-label-desc">Texte, images, ou d'autres éléments HTML imbriqués.</div>
+          </div>
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#9CDCFE;"></div>
+            <div class="tag-label-name" style="color:#9CDCFE;">Balise fermante</div>
+            <div class="tag-label-desc">Le slash / est obligatoire. Même nom que l'ouvrante.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">🏷️ Balise</h3>
+          <p style="font-size:.9rem;">Instruction entre <code>&lt;</code> et <code>&gt;</code>. Elle définit le <em>rôle sémantique</em> du contenu. Le navigateur les reconnaît et sait comment les afficher.</p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--teal);">&lt;p&gt; &nbsp;&lt;h1&gt; &nbsp;&lt;a&gt; &nbsp;&lt;ul&gt; &nbsp;&lt;img&gt;</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">📦 Élément</h3>
+          <p style="font-size:.9rem;">Balise ouvrante + contenu + balise fermante. L'ensemble forme un <em>élément</em>. Les éléments peuvent être imbriqués les uns dans les autres.</p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--teal);">&lt;p&gt;Mon texte&lt;/p&gt;</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">⚙️ Attribut</h3>
+          <p style="font-size:.9rem;">Information placée dans la balise ouvrante. Format strict : <code>nom="valeur"</code>. Toujours des guillemets droits, pas de guillemets typographiques.</p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--teal);">href="url" &nbsp;alt="texte" &nbsp;id="nom"</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🔴 Balises orphelines</h3>
+          <p style="font-size:.9rem;">Pas de contenu = pas de balise fermante. Aussi appelées <em>void elements</em> en anglais. Elles s'arrêtent dès la fermeture du chevron.</p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--teal);">&lt;br&gt; &nbsp;&lt;hr&gt; &nbsp;&lt;img&gt; &nbsp;&lt;meta&gt; &nbsp;&lt;input&gt;</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Balises orphelines en situation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Saut de ligne forcé — &lt;br&gt; n'a pas de contenu --&gt;
+&lt;p&gt;Adresse : 12 rue des Fleurs&lt;br&gt;75001 Paris&lt;/p&gt;
+
+&lt;!-- Séparateur horizontal thématique --&gt;
+&lt;hr&gt;
+
+&lt;!-- Image : src et alt sont des attributs, pas du contenu --&gt;
+&lt;img src="photo.jpg" alt="Un paysage de montagne enneigé"&gt;
+
+&lt;!-- Métadonnée dans &lt;head&gt; : aucun contenu à fermer --&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="description" content="Mon site personnel"&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreur fréquente — Oublier la balise fermante</div>
+          <p>Si vous oubliez <code>&lt;/p&gt;</code> après un paragraphe, le navigateur essaie de "réparer" seul — avec des résultats imprévisibles selon les navigateurs. Fermez <strong>toujours</strong> vos balises. VS Code surligne en rouge les balises non fermées.</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreur fréquente — Entrée ≠ retour à la ligne</div>
+          <p>Le navigateur <strong>ignore</strong> les espaces multiples et les sauts de ligne dans votre éditeur. Pour forcer un saut : <code>&lt;br&gt;</code>. Pour un nouveau paragraphe : nouvelle balise <code>&lt;p&gt;</code>. Testez-le : appuyez 10 fois sur Entrée dans votre éditeur — le navigateur n'affichera aucun espace supplémentaire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 STRUCTURE ══ -->
+    <div id="s1-struct">
+      <div class="section-header"><span class="section-num">03</span><h2>Structure obligatoire d'un document HTML5</h2></div>
+      <p>Chaque fichier HTML valide respecte une structure fixe. Ces éléments ne sont pas optionnels — leur absence provoque des comportements incohérents selon les navigateurs et nuit au référencement.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Modèle à copier-coller pour tout nouveau fichier</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta name="description" content="Description courte de votre page pour Google"&gt;
+    &lt;title&gt;Titre de la page — Mon Site&lt;/title&gt;
+    &lt;!-- Lien vers feuille de style CSS (séance 7+) --&gt;
+    &lt;!-- &lt;link rel="stylesheet" href="style.css"&gt; --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Tout le contenu visible commence ici --&gt;
+    &lt;h1&gt;Bonjour le monde !&lt;/h1&gt;
+    &lt;p&gt;Ma première page web.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+      </div>
+
+      <!-- DOC TREE VISUAL -->
+      <h3>Hiérarchie du document — vue arborescente</h3>
+      <div class="doc-tree">
+        <div class="doc-tree-row"><span class="dt-tag root">&lt;!DOCTYPE html&gt;</span><span class="dt-desc">Déclaration de version — toujours en premier, avant tout</span></div>
+        <div class="doc-tree-row"><span class="dt-tag root">&lt;html lang="fr"&gt;</span><span class="dt-desc">Racine — contient tout le document</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:1.5rem"></span><span class="dt-tag head">&lt;head&gt;</span><span class="dt-desc">En-tête invisible — instructions pour le navigateur et Google</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag meta">&lt;meta charset="UTF-8"&gt;</span><span class="dt-desc">Encodage universel — accents, emojis, arabes, chinois…</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag meta">&lt;meta name="viewport"&gt;</span><span class="dt-desc">Responsivité mobile — indispensable pour smartphones</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag meta">&lt;meta name="description"&gt;</span><span class="dt-desc">Description affichée sous le titre dans les résultats Google</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag title">&lt;title&gt;</span><span class="dt-desc">Texte de l'onglet + titre cliquable sur Google (50–60 car.)</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:1.5rem"></span><span class="dt-tag body">&lt;body&gt;</span><span class="dt-desc">Tout ce qui est VISIBLE par l'utilisateur est ici</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag vis">&lt;h1&gt;</span><span class="dt-desc">Titre principal (un seul par page)</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag vis">&lt;p&gt;</span><span class="dt-desc">Paragraphes de texte</span></div>
+        <div class="doc-tree-row"><span class="dt-indent" style="width:3rem"></span><span class="dt-tag vis">&lt;img&gt; &lt;a&gt; &lt;ul&gt; …</span><span class="dt-desc">Images, liens, listes, formulaires, etc.</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Élément</th><th>Rôle détaillé</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Indique au navigateur que ce fichier est en HTML5. Sans cette ligne, le navigateur peut passer en "quirks mode" et interpréter le HTML différemment selon les versions — source de bugs visuels inexpliqués. À mettre <strong>avant tout</strong>, même avant &lt;html&gt;.</td></tr>
+            <tr><td><code>&lt;html lang="fr"&gt;</code></td><td>Balise racine qui contient l'intégralité du document. L'attribut <code>lang</code> est crucial : les lecteurs d'écran s'en servent pour prononcer correctement le texte dans la bonne langue, et Google l'utilise pour le référencement géographique.</td></tr>
+            <tr><td><code>&lt;head&gt;</code></td><td>En-tête invisible — rien de ce qu'il contient n'est affiché directement. C'est la "coulisse" : métadonnées, CSS, scripts, informations pour les moteurs de recherche et les réseaux sociaux.</td></tr>
+            <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>UTF-8 est l'encodage universel : il supporte les accents français (é à ü ï), les emojis 🎉, le cyrillique, l'arabe, le chinois… Sans cette ligne, vos accents s'affichent en caractères corrompus (é → Ã©).</td></tr>
+            <tr><td><code>&lt;meta name="viewport"&gt;</code></td><td>Rend la page responsive sur mobile. Sans elle, le navigateur mobile zoom très en arrière pour tenter de faire rentrer une mise en page "desktop" sur un petit écran — résultat : texte invisible à l'œil nu.</td></tr>
+            <tr><td><code>&lt;title&gt;</code></td><td>Le texte de l'onglet du navigateur. Aussi le titre cliquable affiché dans les résultats Google. Pour le SEO : 50–60 caractères max, mot-clé principal en premier, sous la forme "Sujet principal — Nom du site".</td></tr>
+            <tr><td><code>&lt;body&gt;</code></td><td><strong>Tout le contenu visible par l'utilisateur se trouve ici.</strong> Titres, textes, images, liens, vidéos, formulaires — 99% de votre travail HTML se passe dans &lt;body&gt;.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreur classique — Contenu visible dans &lt;head&gt;</div>
+          <p>Mettre des textes ou images dans <code>&lt;head&gt;</code> au lieu de <code>&lt;body&gt;</code>. Le navigateur ne les affichera pas du tout. Règle simple : <strong>si ça doit être vu → &lt;body&gt;</strong>. Si c'est une instruction pour le navigateur → &lt;head&gt;.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 TEXTE ══ -->
+    <div id="s1-texte">
+      <div class="section-header"><span class="section-num">04</span><h2>Structurer le texte : titres, paragraphes, mise en valeur</h2></div>
+      <p>HTML offre 6 niveaux de titres et de nombreuses balises de <em>mise en valeur sémantique</em>. Ces balises ne choisissent pas juste un style visuel — elles donnent du <strong>sens</strong> au contenu, utilisé par les moteurs de recherche et les technologies d'accessibilité.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle d'or — Un seul &lt;h1&gt; par page</div>
+          <p>Pensez à vos titres comme à un livre : <code>&lt;h1&gt;</code> = titre du livre (1 seul), <code>&lt;h2&gt;</code> = chapitres, <code>&lt;h3&gt;</code> = sous-chapitres… Ne sautez jamais de niveau (<code>h1</code> → <code>h3</code> sans <code>h2</code>). Google accorde beaucoup d'importance à cette hiérarchie pour comprendre la structure de votre contenu.</p>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Titres, paragraphes, mise en valeur, citations</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Hiérarchie des titres --&gt;
+&lt;h1&gt;Titre principal de la page (un seul)&lt;/h1&gt;
+&lt;h2&gt;Grand chapitre&lt;/h2&gt;
+&lt;h3&gt;Sous-section&lt;/h3&gt;
+&lt;h4&gt;Sous-sous-section (rare)&lt;/h4&gt;
+
+&lt;!-- Paragraphes avec mise en valeur --&gt;
+&lt;p&gt;Le &lt;strong&gt;HTML&lt;/strong&gt; est le &lt;em&gt;fondement&lt;/em&gt; du web.&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;À retenir&lt;/mark&gt; : toute balise ouvrante doit être fermée.&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;Ancien prix : 100€&lt;/del&gt; &lt;ins&gt;Nouveau prix : 80€&lt;/ins&gt;&lt;/p&gt;
+&lt;p&gt;Appuyez sur &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;S&lt;/kbd&gt; pour sauvegarder.&lt;/p&gt;
+
+&lt;!-- Saut de ligne forcé à l'intérieur d'un paragraphe --&gt;
+&lt;p&gt;12 rue des Fleurs&lt;br&gt;75001 Paris&lt;br&gt;France&lt;/p&gt;
+
+&lt;!-- Abréviation avec infobulle (survol souris) --&gt;
+&lt;p&gt;J'apprends le &lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;.&lt;/p&gt;
+
+&lt;!-- Citation longue depuis une source externe --&gt;
+&lt;blockquote cite="https://fr.wikiquote.org"&gt;
+  &lt;p&gt;"La créativité, c'est l'intelligence qui s'amuse."&lt;/p&gt;
+  &lt;footer&gt;— Albert Einstein&lt;/footer&gt;
+&lt;/blockquote&gt;
+
+&lt;!-- Séparateur thématique --&gt;
+&lt;hr&gt;
+
+&lt;!-- Code informatique inline --&gt;
+&lt;p&gt;Utilisez la balise &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; pour un paragraphe.&lt;/p&gt;
+
+&lt;!-- Note secondaire --&gt;
+&lt;p&gt;&lt;small&gt;&amp;copy; 2024 Mon Site. Tous droits réservés.&lt;/small&gt;&lt;/p&gt;</pre></div>
+      </div>
+
+      <!-- LIVE PREVIEW -->
+      <div class="preview-panel">
+        <div class="preview-label">Rendu navigateur — Titres et mise en valeur</div>
+        <div class="preview-body">
+          <h1>Titre h1 — principal</h1>
+          <h2>Titre h2 — chapitre</h2>
+          <h3>Titre h3 — sous-section</h3>
+          <p>Le <strong>HTML</strong> est le <em>fondement</em> du web.</p>
+          <p><mark>À retenir</mark> : toute balise ouvrante doit être fermée.</p>
+          <p><del>Ancien prix : 100€</del> <ins>Nouveau prix : 80€</ins></p>
+          <p>Appuyez sur <kbd>Ctrl</kbd> + <kbd>S</kbd> pour sauvegarder.</p>
+          <p>J'apprends le <abbr title="HyperText Markup Language">HTML</abbr>.</p>
+          <blockquote><p>"La créativité, c'est l'intelligence qui s'amuse."</p><footer>— Albert Einstein</footer></blockquote>
+          <hr>
+          <p>Utilisez la balise <code>&lt;p&gt;</code> pour un paragraphe.</p>
+          <p><small>© 2024 Mon Site. Tous droits réservés.</small></p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Balise</th><th>Rendu</th><th>Sens sémantique réel</th><th>Quand l'utiliser</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;strong&gt;</code></td><td><strong>Gras</strong></td><td>Importance critique du contenu</td><td>Mots-clés essentiels, avertissements — lu plus fort par les lecteurs d'écran.</td></tr>
+            <tr><td><code>&lt;em&gt;</code></td><td><em>Italique</em></td><td>Emphase, intonation différente</td><td>Termes étrangers, mots à prononcer avec une nuance particulière.</td></tr>
+            <tr><td><code>&lt;mark&gt;</code></td><td><mark style="background:#fff176;color:#000;">Surligné</mark></td><td>Relevance dans un contexte de recherche</td><td>Résultats de recherche surlignés, passages à retenir.</td></tr>
+            <tr><td><code>&lt;del&gt;</code></td><td><del>Barré</del></td><td>Contenu supprimé / obsolète</td><td>Historique d'édition, anciens prix, texte retiré mais conservé.</td></tr>
+            <tr><td><code>&lt;ins&gt;</code></td><td><ins>Inséré</ins></td><td>Contenu ajouté / mis à jour</td><td>Nouveau prix, corrections dans un document, ajouts récents.</td></tr>
+            <tr><td><code>&lt;abbr&gt;</code></td><td><abbr title="Exemple" style="border-bottom:1px dotted;cursor:help;">Pointillé</abbr></td><td>Abréviation ou acronyme</td><td>Toujours avec <code>title="signification complète"</code> pour accessibilité.</td></tr>
+            <tr><td><code>&lt;blockquote&gt;</code></td><td>Retrait + style</td><td>Citation d'une source externe</td><td>Extraits d'articles, discours — ajouter <code>cite="url"</code> si possible.</td></tr>
+            <tr><td><code>&lt;code&gt;</code></td><td><code>Chasse fixe</code></td><td>Code informatique</td><td>Noms de balises, commandes, fragments de code inline.</td></tr>
+            <tr><td><code>&lt;kbd&gt;</code></td><td><kbd>Ctrl</kbd></td><td>Touche de clavier</td><td>Raccourcis clavier dans la documentation ou les tutoriels.</td></tr>
+            <tr><td><code>&lt;small&gt;</code></td><td><small>Plus petit</small></td><td>Note secondaire, mention légale</td><td>Copyright, disclaimers, notes de bas de page.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Sémantique ≠ style visuel</div>
+          <p>N'utilisez pas <code>&lt;strong&gt;</code> juste pour mettre du gras. Utilisez-le parce que le contenu est <em>réellement important</em>. Si vous voulez du gras purement décoratif → c'est le rôle du CSS (<code>font-weight: bold</code>). Cette distinction est fondamentale pour l'accessibilité (WCAG) et le SEO.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 LISTES ══ -->
+    <div id="s1-listes">
+      <div class="section-header"><span class="section-num">05</span><h2>Les listes : ul, ol et imbrication</h2></div>
+      <p>HTML propose deux types de listes de base. Le choix entre elles est <em>sémantique</em> : choisissez celle qui correspond au sens de votre contenu, indépendamment de l'apparence visuelle (modifiable plus tard en CSS).</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — ul, ol et imbrication</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Liste NON ordonnée : l'ordre n'a pas d'importance --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Pain&lt;/li&gt;
+  &lt;li&gt;Lait&lt;/li&gt;
+  &lt;li&gt;Œufs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Liste ORDONNÉE : la séquence est importante --&gt;
+&lt;ol&gt;
+  &lt;li&gt;Préchauffer le four à 180°C&lt;/li&gt;
+  &lt;li&gt;Mélanger farine, sucre et beurre&lt;/li&gt;
+  &lt;li&gt;Enfourner pendant 25 minutes&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Imbrication : &lt;li&gt; peut contenir une nouvelle liste --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Fruits tropicaux
+    &lt;ul&gt;
+      &lt;li&gt;Mangue&lt;/li&gt;
+      &lt;li&gt;Ananas&lt;/li&gt;
+      &lt;li&gt;Papaye&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Légumes racines
+    &lt;ul&gt;
+      &lt;li&gt;Carotte&lt;/li&gt;
+      &lt;li&gt;Betterave&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Mélange ol + ul --&gt;
+&lt;ol&gt;
+  &lt;li&gt;Choisir les ingrédients
+    &lt;ul&gt;
+      &lt;li&gt;Option A : chocolat noir 70%&lt;/li&gt;
+      &lt;li&gt;Option B : chocolat au lait&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Faire fondre au bain-marie&lt;/li&gt;
+  &lt;li&gt;Laisser refroidir 30 min&lt;/li&gt;
+&lt;/ol&gt;</pre></div>
+      </div>
+
+      <!-- LIVE PREVIEW côte à côte -->
+      <div class="grid-2">
+        <div class="preview-panel" style="margin:0">
+          <div class="preview-label">Rendu — Liste non ordonnée &lt;ul&gt;</div>
+          <div class="preview-body">
+            <ul><li>Pain</li><li>Lait</li><li>Œufs</li></ul>
+            <hr style="margin:.5em 0;border-color:#eee;">
+            <small style="color:#888;">Ordre non garanti → puces • par défaut</small>
+          </div>
+        </div>
+        <div class="preview-panel" style="margin:0">
+          <div class="preview-label">Rendu — Liste ordonnée &lt;ol&gt;</div>
+          <div class="preview-body">
+            <ol><li>Préchauffer à 180°C</li><li>Mélanger les ingrédients</li><li>Enfourner 25 min</li></ol>
+            <hr style="margin:.5em 0;border-color:#eee;">
+            <small style="color:#888;">Numérotation automatique → 1, 2, 3…</small>
+          </div>
+        </div>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — Liste imbriquée (ul dans ul)</div>
+        <div class="preview-body">
+          <ul>
+            <li>Fruits tropicaux<ul><li>Mangue</li><li>Ananas</li><li>Papaye</li></ul></li>
+            <li>Légumes racines<ul><li>Carotte</li><li>Betterave</li></ul></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Indentation = lisibilité du code</div>
+          <p>Indentez chaque niveau d'imbrication avec 2 espaces (ou <kbd>Tab</kbd> dans VS Code). Un code bien indenté est 10× plus facile à lire et à déboguer. VS Code formate automatiquement avec <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>.</p>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Accessibilité — Ne pas simuler une liste avec des tirets</div>
+          <p>Évitez d'écrire <code>&lt;p&gt;- Pain&lt;/p&gt;&lt;p&gt;- Lait&lt;/p&gt;</code>. Les lecteurs d'écran annoncent "liste de 3 éléments" pour une vraie <code>&lt;ul&gt;</code> — permettant à l'utilisateur de naviguer directement entre les éléments. Une fausse liste avec des tirets est juste du texte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 LIENS ══ -->
+    <!-- ══ 06 LIENS — APPROFONDISSEMENT ══ -->
+    <div id="s1-liens">
+      <div class="section-header"><span class="section-num">06</span><h2>Les liens hypertextes &lt;a&gt; — approfondissement</h2></div>
+      <p>Le lien est <strong>l'invention fondatrice du web</strong>. Tim Berners-Lee a conçu le web en 1989 précisément comme un système de documents reliés — d'où le nom <em>HyperText</em>. La balise <code>&lt;a&gt;</code> (pour <em>anchor</em>, ancre) concrétise cette connexion.</p>
+
+      <!-- 6 TYPES VISUAL -->
+      <h3>Les six formes de liens</h3>
+      <div class="link-types">
+        <div class="link-type-card">
+          <span class="lt-icon">🌐</span>
+          <div class="lt-name">Externe</div>
+          <div class="lt-example">href="https://..."</div>
+          <div class="lt-desc">Vers un autre site. URL complète avec https:// obligatoire.</div>
+        </div>
+        <div class="link-type-card">
+          <span class="lt-icon">📄</span>
+          <div class="lt-name">Interne relatif</div>
+          <div class="lt-example">href="page.html"</div>
+          <div class="lt-desc">Vers une autre page du même site. Chemin relatif calculé depuis le fichier courant.</div>
+        </div>
+        <div class="link-type-card">
+          <span class="lt-icon">⚓</span>
+          <div class="lt-name">Ancre interne</div>
+          <div class="lt-example">href="#section"</div>
+          <div class="lt-desc">Vers une section de la même page via son <code>id</code>. Le scroll est animé.</div>
+        </div>
+        <div class="link-type-card">
+          <span class="lt-icon">📧</span>
+          <div class="lt-name">Email</div>
+          <div class="lt-example">href="mailto:..."</div>
+          <div class="lt-desc">Ouvre le client email. On peut pré-remplir sujet et corps.</div>
+        </div>
+        <div class="link-type-card">
+          <span class="lt-icon">📞</span>
+          <div class="lt-name">Téléphone</div>
+          <div class="lt-example">href="tel:+33..."</div>
+          <div class="lt-desc">Compose sur mobile. Format international obligatoire.</div>
+        </div>
+        <div class="link-type-card">
+          <span class="lt-icon">🪟</span>
+          <div class="lt-name">Nouvel onglet</div>
+          <div class="lt-example">target="_blank"</div>
+          <div class="lt-desc">Ouvre dans un nouvel onglet. Toujours ajouter <code>rel="noopener"</code>.</div>
+        </div>
+      </div>
+
+      <!-- PATH DIAGRAM -->
+      <h3>Chemins relatifs — comment ça marche</h3>
+      <p>Un chemin relatif est calculé <strong>depuis l'emplacement du fichier HTML courant</strong>. Comprendre l'arborescence de dossiers est indispensable pour que vos liens internes fonctionnent.</p>
+
+      <div class="path-diagram">
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--text2);margin:0 0 .75rem;">Structure d'un site typique :</p>
+        <div class="pd-tree">
+          <div class="pd-row"><span class="pd-folder">📁</span><span class="pd-name">mon-site/</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-file">📄</span><span class="pd-name current">index.html</span><span class="pd-path">← fichier courant</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-file">📄</span><span class="pd-name">contact.html</span><span class="pd-path">href="contact.html"</span><span class="pd-arrow">✓ même dossier</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-folder">📁</span><span class="pd-name">blog/</span></div>
+          <div class="pd-row" style="margin-left:2.8rem;"><span class="pd-file">📄</span><span class="pd-name">article.html</span><span class="pd-path">href="blog/article.html"</span><span class="pd-arrow">✓ sous-dossier</span></div>
+          <div class="pd-row" style="margin-left:2.8rem;"><span class="pd-file">📄</span><span class="pd-name">liste.html</span><span class="pd-path">href="blog/liste.html"</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-folder">📁</span><span class="pd-name">images/</span></div>
+          <div class="pd-row" style="margin-left:2.8rem;"><span class="pd-file">🖼️</span><span class="pd-name">logo.png</span><span class="pd-path">src="images/logo.png"</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-folder">📁</span><span class="pd-name">css/</span></div>
+          <div class="pd-row" style="margin-left:2.8rem;"><span class="pd-file">🎨</span><span class="pd-name">style.css</span><span class="pd-path">href="css/style.css"</span></div>
+        </div>
+        <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--text3);">
+          <strong style="color:var(--text2);">Si le fichier courant est <span style="color:var(--blue);">blog/article.html</span> :</strong><br>
+          <code style="font-size:.72rem;">href="../index.html"</code> → remonte d'un niveau (../) pour atteindre index.html<br>
+          <code style="font-size:.72rem;">href="../contact.html"</code> → remonte puis pointe vers contact.html<br>
+          <code style="font-size:.72rem;">href="liste.html"</code> → reste dans le même dossier blog/
+        </div>
+      </div>
+
+      <!-- CODE BLOCK COMPLET -->
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Tous les types de liens avec détails</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- ① Lien externe --&gt;
+&lt;a href="https://www.wikipedia.org"&gt;Aller sur Wikipedia&lt;/a&gt;
+
+&lt;!-- ② Liens internes — différents chemins relatifs --&gt;
+&lt;a href="contact.html"&gt;Page Contact (même dossier)&lt;/a&gt;
+&lt;a href="blog/article.html"&gt;Sous-dossier blog&lt;/a&gt;
+&lt;a href="../index.html"&gt;Dossier parent&lt;/a&gt;
+&lt;a href="/index.html"&gt;Racine du site (chemin absolu relatif)&lt;/a&gt;
+
+&lt;!-- ③ Nouvel onglet — TOUJOURS avec rel="noopener noreferrer" --&gt;
+&lt;a href="https://exemple.com" target="_blank" rel="noopener noreferrer"&gt;
+  Ouvrir dans un nouvel onglet
+&lt;/a&gt;
+
+&lt;!-- ④ Ancre interne — cible doit avoir un id --&gt;
+&lt;h2 id="section-contact"&gt;Nous contacter&lt;/h2&gt;
+&lt;a href="#section-contact"&gt;Aller à la section Contact&lt;/a&gt;
+&lt;a href="#"&gt;Retour en haut&lt;/a&gt;
+&lt;a href="autre-page.html#bas-de-page"&gt;Ancre sur une autre page&lt;/a&gt;
+
+&lt;!-- ⑤ Email avec paramètres pré-remplis --&gt;
+&lt;a href="mailto:contact@exemple.com"&gt;Email simple&lt;/a&gt;
+&lt;a href="mailto:contact@exemple.com?subject=Demande de devis"&gt;Avec sujet&lt;/a&gt;
+&lt;a href="mailto:contact@exemple.com?subject=Devis&amp;body=Bonjour%2C%0A%0AJe souhaite..."&gt;
+  Avec sujet et corps pré-rempli
+&lt;/a&gt;
+&lt;!-- Encodage URL : espace = %20, virgule = %2C, retour ligne = %0A --&gt;
+
+&lt;!-- ⑥ Téléphone — format international obligatoire --&gt;
+&lt;a href="tel:+33600000000"&gt;+33 6 00 00 00 00&lt;/a&gt;
+
+&lt;!-- ⑦ Téléchargement (fichier du même domaine) --&gt;
+&lt;a href="documents/guide.pdf" download="Guide_HTML_2024.pdf"&gt;
+  Télécharger le guide PDF
+&lt;/a&gt;
+
+&lt;!-- ⑧ Image cliquable --&gt;
+&lt;a href="https://exemple.com" target="_blank" rel="noopener"&gt;
+  &lt;img src="logo.png" alt="Logo — cliquer pour visiter le site"&gt;
+&lt;/a&gt;
+
+&lt;!-- ⑨ Lien multilingue --&gt;
+&lt;a href="https://en.wikipedia.org" hreflang="en" target="_blank" rel="noopener"&gt;
+  Wikipedia (English)
+&lt;/a&gt;</pre></div>
+      </div>
+
+      <!-- LIVE PREVIEW -->
+      <div class="preview-panel">
+        <div class="preview-label">Rendu navigateur — Apparence et états des liens</div>
+        <div class="preview-body">
+          <p><a href="#">Lien non visité (bleu souligné par défaut)</a></p>
+          <p><a href="" style="color:#551a8b">Lien visité (violet par défaut)</a></p>
+          <p>Texte avec un <a href="#">lien intégré dans une phrase</a> qui continue après.</p>
+          <p><a href="#">📄 contact.html</a> &nbsp;|&nbsp; <a href="#">📁 blog/article.html</a> &nbsp;|&nbsp; <a href="#">⚓ #section-id</a></p>
+          <p><a href="#">✉️ contact@exemple.com</a> &nbsp;|&nbsp; <a href="#">📞 +33 6 00 00 00 00</a></p>
+          <p><a href="#">⬇️ Télécharger le guide PDF</a></p>
+        </div>
+      </div>
+
+      <!-- ATTRIBUTS DU LIEN TABLEAU -->
+      <h3>Tableau complet des attributs de &lt;a&gt;</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Valeurs possibles</th><th>Rôle détaillé</th></tr></thead>
+          <tbody>
+            <tr><td><code>href</code></td><td>URL, chemin, #id, mailto:, tel:</td><td><strong>Destination du lien.</strong> Obligatoire pour un vrai lien. Sans href, &lt;a&gt; est juste un texte sans comportement.</td></tr>
+            <tr><td><code>target</code></td><td><code>_blank</code> <code>_self</code> <code>_parent</code> <code>_top</code></td><td><code>_blank</code> = nouvel onglet. <code>_self</code> = onglet courant (défaut). <code>_parent</code> et <code>_top</code> utilisés avec les iframes.</td></tr>
+            <tr><td><code>rel</code></td><td><code>noopener</code> <code>noreferrer</code> <code>nofollow</code> <code>sponsored</code></td><td><code>noopener noreferrer</code> = sécurité avec _blank. <code>nofollow</code> = demande à Google de ne pas suivre ce lien (partenaires, commentaires). <code>sponsored</code> = lien sponsorisé.</td></tr>
+            <tr><td><code>download</code></td><td>nom du fichier (optionnel)</td><td>Force le téléchargement. La valeur suggère le nom de fichier. Fonctionne uniquement avec les fichiers du même domaine.</td></tr>
+            <tr><td><code>hreflang</code></td><td>code langue ISO 639 (en, fr, de…)</td><td>Langue de la page cible. Aide les moteurs de recherche pour le SEO multilingue.</td></tr>
+            <tr><td><code>type</code></td><td>type MIME (application/pdf…)</td><td>Indique le type de contenu du lien. Aide le navigateur à décider comment traiter le fichier.</td></tr>
+            <tr><td><code>title</code></td><td>texte libre</td><td>Infobulle au survol. Utile pour clarifier la destination, mais ne remplace pas un texte de lien clair.</td></tr>
+            <tr><td><code>aria-label</code></td><td>texte descriptif</td><td>Description pour les lecteurs d'écran quand le texte du lien n'est pas assez explicite (ex : lien "Lire la suite" qui ne dit pas de quoi).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Sécurité — rel="noopener noreferrer" obligatoire avec target="_blank"</div>
+          <p>Sans <code>rel="noopener"</code>, la page ouverte peut accéder à votre page via <code>window.opener</code> et la rediriger vers un site malveillant — une attaque appelée <em>tabnapping</em>. <code>noreferrer</code> empêche en plus l'envoi de l'URL de votre page en tant que référent HTTP. Ces deux valeurs ensemble protègent à la fois vos visiteurs et vous.</p>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Accessibilité — Le texte du lien doit avoir du sens seul</div>
+          <p>❌ <code>&lt;a href="article.html"&gt;Cliquez ici&lt;/a&gt;</code> — un lecteur d'écran annonce juste "cliquez ici" sans contexte.<br>
+          ✅ <code>&lt;a href="article.html"&gt;Lire notre article sur le HTML5&lt;/a&gt;</code> — clair et descriptif.<br>
+          Si le texte visible est court (icône, "Lire la suite"), ajoutez <code>aria-label="Lire la suite sur le HTML5"</code> pour les lecteurs d'écran.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Encodage URL dans les mailto:</div>
+          <p>Les caractères spéciaux dans les paramètres mailto doivent être encodés : espace → <code>%20</code>, retour à la ligne → <code>%0A</code>, virgule → <code>%2C</code>, @ → <code>%40</code>. Utilisez un outil comme <code>encodeURIComponent()</code> en JavaScript pour automatiser cela.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 IMAGES — APPROFONDISSEMENT ══ -->
+    <div id="s1-images">
+      <div class="section-header"><span class="section-num">07</span><h2>Les images &lt;img&gt; — approfondissement</h2></div>
+      <p>La balise <code>&lt;img&gt;</code> est une balise orpheline qui insère une image dans le flux du document. Maîtriser ses attributs est essentiel pour la performance, l'accessibilité et le référencement.</p>
+
+      <!-- IMAGE DIAGRAM -->
+      <h3>Attributs de &lt;img&gt; — rôle de chacun</h3>
+      <div class="img-diagram">
+        <div>
+          <div class="img-placeholder"><span class="img-icon">🖼️</span><span>photo.jpg</span><span style="font-size:.6rem">600×400 px</span></div>
+          <div class="img-alt-bar">alt="Chat roux endormi sur canapé"</div>
+        </div>
+        <div class="img-diagram-attrs">
+          <div class="img-attr-row"><span class="img-attr-badge required">src ★</span><div><strong>Source</strong> — chemin local ou URL. Sans src, l'image est brisée.</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge required">alt ★</span><div><strong>Texte alternatif</strong> — lu par les lecteurs d'écran, affiché si image cassée, indexé par Google. <code>alt=""</code> pour les images décoratives.</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge optional">width/height</span><div>Dimensions en pixels. <strong>Toujours définir les deux</strong> — évite le CLS (saut de mise en page au chargement).</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge perf">loading="lazy"</span><div>Charge l'image seulement quand visible à l'écran. Améliore le temps de chargement initial.</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge perf">decoding="async"</span><div>Décode l'image en parallèle du reste de la page. Améliore la réactivité.</div></div>
+        </div>
+      </div>
+
+      <!-- CODE COMPLET -->
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Images : tous les cas d'usage</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- ① Image basique avec attributs recommandés --&gt;
+&lt;img src="images/chat.jpg"
+     alt="Un chat roux endormi sur un canapé bleu"
+     width="600" height="400"
+     loading="lazy"
+     decoding="async"&gt;
+
+&lt;!-- ② Image depuis une URL externe --&gt;
+&lt;img src="https://picsum.photos/seed/nature/500/300"
+     alt="Paysage naturel"
+     width="500" height="300"
+     loading="lazy"&gt;
+
+&lt;!-- ③ Image décorative — alt vide = ignorée par les lecteurs d'écran --&gt;
+&lt;img src="separateur.png" alt="" width="800" height="4"&gt;
+
+&lt;!-- ④ Image avec légende sémantique --&gt;
+&lt;figure&gt;
+  &lt;img src="tokyo.jpg"
+       alt="Vue aérienne de Tokyo au coucher du soleil depuis la Skytree"
+       width="800" height="500"
+       loading="lazy"&gt;
+  &lt;figcaption&gt;Tokyo vu depuis la Tokyo Skytree, juillet 2024.
+    Photo : &lt;a href="https://example.com"&gt;Jean Dupont&lt;/a&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- ⑤ Image responsive avec srcset --&gt;
+&lt;img src="image-800.jpg"
+     srcset="image-400.jpg 400w,
+             image-800.jpg 800w,
+             image-1600.jpg 1600w"
+     sizes="(max-width: 480px) 400px,
+            (max-width: 1024px) 800px,
+            1600px"
+     alt="Paysage de montagne"
+     width="1600" height="900"
+     loading="lazy"&gt;
+
+&lt;!-- ⑥ &lt;picture&gt; : contrôle total (format ET art direction) --&gt;
+&lt;picture&gt;
+  &lt;!-- Format AVIF pour navigateurs compatibles (meilleure compression) --&gt;
+  &lt;source srcset="photo.avif" type="image/avif"&gt;
+  &lt;!-- Format WebP pour navigateurs modernes --&gt;
+  &lt;source srcset="photo.webp" type="image/webp"&gt;
+  &lt;!-- Fallback JPG universel --&gt;
+  &lt;img src="photo.jpg"
+       alt="Coucher de soleil sur la mer"
+       width="800" height="533"
+       loading="lazy"&gt;
+&lt;/picture&gt;
+
+&lt;!-- ⑦ Image cliquable --&gt;
+&lt;a href="https://exemple.com" target="_blank" rel="noopener"&gt;
+  &lt;img src="logo.png" alt="Visiter le site exemple.com" width="200"&gt;
+&lt;/a&gt;</pre></div>
+      </div>
+
+      <!-- FIGURE PREVIEW -->
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — &lt;figure&gt; + &lt;figcaption&gt;</div>
+        <div class="preview-body">
+          <figure>
+            <img src="https://picsum.photos/seed/tokyo42/600/350" alt="Vue aérienne d'une ville moderne" width="100%" style="max-width:600px;border-radius:4px;display:block;">
+            <figcaption>Tokyo vu depuis la Tokyo Skytree, juillet 2024. Photo : <a href="#">Jean Dupont</a></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- FORMATS COMPARISON -->
+      <h3>Choisir le bon format d'image</h3>
+      <div class="format-grid">
+        <div class="format-card">
+          <span class="format-badge jpeg">JPEG / JPG</span>
+          <div class="format-name">Photographies</div>
+          <div class="format-props">✓ Très compressé<br>✓ Universel<br>✗ Pas de transparence<br>✗ Perte de qualité</div>
+          <div class="format-use">Photos, portraits, paysages</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge png">PNG</span>
+          <div class="format-name">Logos & icônes</div>
+          <div class="format-props">✓ Transparence (fond transparent)<br>✓ Sans perte de qualité<br>✗ Fichier lourd<br>✗ Pas pour photos</div>
+          <div class="format-use">Logos, icônes, captures d'écran</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge webp">WebP</span>
+          <div class="format-name">Polyvalent moderne</div>
+          <div class="format-props">✓ 30% plus léger que JPEG<br>✓ Transparence<br>✓ Animations<br>✗ Pas supporté IE</div>
+          <div class="format-use">Remplacement JPEG/PNG moderne</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge avif">AVIF</span>
+          <div class="format-name">Compression max</div>
+          <div class="format-props">✓ 50% plus léger que JPEG<br>✓ Qualité excellente<br>✓ Transparence<br>✗ Support partiel</div>
+          <div class="format-use">Avec &lt;picture&gt; + fallback</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge svg">SVG</span>
+          <div class="format-name">Graphiques vectoriels</div>
+          <div class="format-props">✓ Infiniment redimensionnable<br>✓ Fichier très léger<br>✓ Animable en CSS<br>✗ Pas pour photos</div>
+          <div class="format-use">Logos, icônes, illustrations</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge gif">GIF</span>
+          <div class="format-name">Animations courtes</div>
+          <div class="format-props">✓ Animations en boucle<br>✓ Universel<br>✗ 256 couleurs max<br>✗ Très lourd</div>
+          <div class="format-use">→ Préférer WebP ou vidéo MP4</div>
+        </div>
+      </div>
+
+      <!-- ALT GUIDE -->
+      <h3>Guide complet de l'attribut alt</h3>
+      <div class="compare">
+        <div class="compare-card good">
+          <div class="compare-label">✅ Bons alt</div>
+          <code>alt="Portrait de Marie Curie en 1903, prix Nobel de physique"</code><br><br>
+          <code>alt="Graphique montrant une croissance de 40% des ventes entre 2022 et 2024"</code><br><br>
+          <code>alt="Bouton rouge Acheter maintenant"</code><br><br>
+          <code>alt=""</code> (image purement décorative, séparateur)
+        </div>
+        <div class="compare-card bad">
+          <div class="compare-label">❌ Mauvais alt</div>
+          <code>alt="image"</code> ou <code>alt="photo"</code><br><br>
+          <code>alt="DSC_4892_final_v2.jpg"</code><br><br>
+          <code>alt="image de l'article"</code><br><br>
+          <code>alt="image image image"</code> (bourrage de mots-clés)
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle pratique pour rédiger un bon alt</div>
+          <p>Fermez les yeux et imaginez qu'on vous lit la page à voix haute. Que voudriez-vous entendre à la place de l'image ? C'est votre alt. Pour une image dans un article, décrivez ce qui est visible ET ce qui est pertinent pour le contexte. Pour un graphique, donnez la conclusion ou la tendance principale, pas juste "graphique".</p>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Performance — Pourquoi width et height sont essentiels</div>
+          <p>Sans ces attributs, le navigateur ne sait pas quelle place réserver avant que l'image charge. Il affiche d'abord le texte, puis quand l'image arrive, tout le contenu "saute" vers le bas. Ce phénomène s'appelle <strong>CLS (Cumulative Layout Shift)</strong>. Google le pénalise depuis 2021 dans son algorithme Core Web Vitals. Un score CLS mauvais peut faire reculer votre site dans les résultats de recherche.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 DIV SPAN ENTITÉS ══ -->
+    <div id="s1-div">
+      <div class="section-header"><span class="section-num">08</span><h2>div, span, commentaires &amp; entités HTML</h2></div>
+      <p>Deux balises "neutres" permettent de regrouper du contenu sans lui donner de sens sémantique propre. Elles sont omniprésentes dans le développement web car elles servent de base au CSS et au JavaScript.</p>
+
+      <!-- BLOCK VS INLINE VISUAL -->
+      <h3>La différence cruciale : bloc vs en ligne</h3>
+      <div class="block-inline-demo">
+        <div class="bi-card">
+          <div class="bi-card-label block">📦 &lt;div&gt; — Élément de bloc</div>
+          <div class="bi-visual">
+            <div class="bi-block-box">&lt;div&gt; 1 — occupe toute la largeur</div>
+            <div class="bi-block-box">&lt;div&gt; 2 — force un retour à la ligne</div>
+            <div class="bi-block-box">&lt;div&gt; 3 — chaque div sur sa propre ligne</div>
+          </div>
+        </div>
+        <div class="bi-card">
+          <div class="bi-card-label inline">🖊️ &lt;span&gt; — Élément en ligne</div>
+          <div class="bi-visual">
+            <div class="bi-inline-row">
+              Texte avant
+              <span class="bi-inline-box">&lt;span&gt; A</span>
+              texte du milieu
+              <span class="bi-inline-box">&lt;span&gt; B</span>
+              texte après
+            </div>
+            <div class="bi-inline-row">
+              Les spans restent
+              <span class="bi-inline-box">dans le flux</span>
+              du texte
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — div, span et commentaires</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- div : regroupe des éléments de bloc (pour le style CSS futur) --&gt;
+&lt;div class="carte-produit"&gt;
+  &lt;h2&gt;Casque Audio Pro&lt;/h2&gt;
+  &lt;p&gt;Son immersif, confort 8 heures.&lt;/p&gt;
+  &lt;a href="acheter.html"&gt;Ajouter au panier&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class="carte-produit"&gt;
+  &lt;h2&gt;Clavier Mécanique&lt;/h2&gt;
+  &lt;p&gt;Switches Cherry MX, rétroéclairé RGB.&lt;/p&gt;
+  &lt;a href="acheter.html"&gt;Ajouter au panier&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- span : cible un mot précis dans une phrase pour le style --&gt;
+&lt;p&gt;Livraison en &lt;span class="delai"&gt;24h&lt;/span&gt; pour toute commande
+   avant &lt;span class="heure"&gt;17h00&lt;/span&gt;.&lt;/p&gt;
+
+&lt;!-- Commentaires : invisibles dans le navigateur, visibles dans le code source --&gt;
+&lt;!-- NOTE : ajouter le formulaire de contact ici --&gt;
+
+&lt;!-- Désactiver temporairement un bloc de code --&gt;
+&lt;!--
+&lt;p&gt;Ce paragraphe est temporairement masqué.&lt;/p&gt;
+&lt;img src="promo.jpg" alt="Bannière promotionnelle"&gt;
+--&gt;</pre></div>
+      </div>
+
+      <!-- ENTITÉS -->
+      <h3>Entités HTML — caractères réservés et spéciaux</h3>
+      <p>Certains caractères sont "réservés" par HTML : <code>&lt;</code> et <code>&gt;</code> démarrent/finissent des balises, <code>&amp;</code> démarre une entité. Pour les afficher <em>littéralement</em> dans le texte, il faut utiliser leur code entité.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Entités courantes</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Afficher des chevrons sans créer une balise --&gt;
+&lt;p&gt;La balise paragraphe s'écrit : &amp;lt;p&amp;gt;&lt;/p&gt;
+&lt;!-- Résultat affiché : La balise paragraphe s'écrit : &lt;p&gt; --&gt;
+
+&lt;!-- Afficher une esperluette --&gt;
+&lt;p&gt;Rock &amp;amp; Roll&lt;/p&gt;
+&lt;!-- Résultat : Rock &amp; Roll --&gt;
+
+&lt;!-- Espace insécable : empêche la coupure entre deux mots --&gt;
+&lt;p&gt;M.&amp;nbsp;Dupont a payé 29&amp;nbsp;€.&lt;/p&gt;
+&lt;!-- Sans &amp;nbsp; : "M." pourrait finir une ligne et "Dupont" commencer la suivante --&gt;
+
+&lt;!-- Symboles courants --&gt;
+&lt;p&gt;&amp;copy; 2024 Mon Site. Tous droits réservés.&lt;/p&gt;
+&lt;p&gt;Température extérieure : 37&amp;deg;C&lt;/p&gt;
+&lt;p&gt;Contact&amp;nbsp;&amp;mdash;&amp;nbsp;nous écrire ou appeler&lt;/p&gt;</pre></div>
+      </div>
+
+      <!-- ENTITIES PREVIEW -->
+      <div class="preview-panel">
+        <div class="preview-label">Rendu navigateur — Entités HTML</div>
+        <div class="preview-body">
+          <p>La balise paragraphe s'écrit : &lt;p&gt;</p>
+          <p>Rock &amp; Roll</p>
+          <p>M.&nbsp;Dupont a payé 29&nbsp;€.</p>
+          <p>© 2024 Mon Site. Tous droits réservés.</p>
+          <p>Température extérieure : 37°C</p>
+          <p>Contact &mdash; nous écrire ou appeler</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Entité</th><th>Caractère</th><th>Quand l'utiliser</th></tr></thead>
+          <tbody>
+            <tr><td><code>&amp;lt;</code></td><td><strong>&lt;</strong></td><td>Afficher un chevron ouvrant sans créer une balise (documentation, tutoriels)</td></tr>
+            <tr><td><code>&amp;gt;</code></td><td><strong>&gt;</strong></td><td>Afficher un chevron fermant</td></tr>
+            <tr><td><code>&amp;amp;</code></td><td><strong>&amp;</strong></td><td>Afficher une esperluette — toujours échapper le &amp; dans les URLs aussi</td></tr>
+            <tr><td><code>&amp;nbsp;</code></td><td>(espace)</td><td>Espace insécable entre un nombre et son unité (29 €), civilité et nom (M. Dupont)</td></tr>
+            <tr><td><code>&amp;copy;</code></td><td><strong>©</strong></td><td>Symbole copyright dans les pieds de page</td></tr>
+            <tr><td><code>&amp;euro;</code></td><td><strong>€</strong></td><td>Symbole euro (garantit l'affichage correct quel que soit l'encodage)</td></tr>
+            <tr><td><code>&amp;deg;</code></td><td><strong>°</strong></td><td>Symbole degré — températures, angles</td></tr>
+            <tr><td><code>&amp;mdash;</code></td><td><strong>—</strong></td><td>Tiret cadratin long (incise dans une phrase — comme ici)</td></tr>
+            <tr><td><code>&amp;ndash;</code></td><td><strong>–</strong></td><td>Tiret demi-cadratin (plages : 2020–2024, pp. 12–15)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s1-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Votre première page personnelle</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un dossier <code>Seance1/</code> et un fichier <code>index.html</code> à l'intérieur. Copiez la structure HTML5 complète de la section 3.</li>
+            <li>Personnalisez le <code>&lt;title&gt;</code> (visible dans l'onglet) et la <code>&lt;meta name="description"&gt;</code>.</li>
+            <li>Dans <code>&lt;body&gt;</code> : un <code>&lt;h1&gt;</code> avec votre prénom et nom, un <code>&lt;h2&gt;</code> "Qui suis-je ?", un paragraphe vous décrivant avec au moins un <code>&lt;strong&gt;</code> et un <code>&lt;em&gt;</code>.</li>
+            <li>Un <code>&lt;h3&gt;</code> "Mes centres d'intérêt" suivi d'une <code>&lt;ul&gt;</code> de 4 items. L'un doit contenir une sous-liste <code>&lt;ol&gt;</code> de 3 éléments ordonnés.</li>
+            <li>Un <code>&lt;blockquote&gt;</code> avec une citation qui vous inspire (avec <code>&lt;footer&gt;</code> pour l'attribution).</li>
+            <li>Un <code>&lt;hr&gt;</code> puis une <code>&lt;address&gt;</code> avec votre ville (ligne 1) et votre pays (ligne 2), séparés par <code>&lt;br&gt;</code>.</li>
+            <li>Ouvrez le fichier dans Chrome. Inspectez avec <kbd>F12</kbd> → onglet Éléments pour voir votre arbre HTML.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔗 Liens, images et entités</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ajoutez un lien externe vers un site que vous aimez, avec <code>target="_blank" rel="noopener noreferrer"</code>.</li>
+            <li>Ajoutez un lien <code>mailto:</code> vers une adresse fictive et un <code>tel:</code> vers un numéro fictif.</li>
+            <li>Ajoutez <code>id="haut"</code> à votre <code>&lt;h1&gt;</code>, puis un lien "↑ Retour en haut" tout en bas pointant vers <code>#haut</code>.</li>
+            <li>Insérez une image depuis <code>https://picsum.photos/seed/monprenom/500/300</code> (remplacez "monprenom") avec un <code>alt</code> descriptif, des dimensions et <code>loading="lazy"</code>.</li>
+            <li>Encadrez cette image dans <code>&lt;figure&gt;&lt;/figure&gt;</code> avec un <code>&lt;figcaption&gt;</code> de votre choix.</li>
+            <li>Utilisez au moins 4 entités HTML différentes dans votre page (<code>&amp;copy;</code>, <code>&amp;mdash;</code>, <code>&amp;nbsp;</code>, <code>&amp;deg;</code>…).</li>
+            <li>Ajoutez un commentaire HTML expliquant à quoi sert chaque grande section de votre code.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Inspecteur de code sur un vrai site</div>
+          <p>Ouvrez <strong>Wikipedia</strong> dans Chrome. Appuyez sur <kbd>F12</kbd> → onglet <strong>Éléments</strong>. Retrouvez les balises apprises : <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;ul&gt;</code>. Double-cliquez sur le titre de l'article pour le modifier en direct. Explorez le panneau de droite ("Styles") pour voir le CSS appliqué — même si vous ne le comprenez pas encore, observez la structure.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s1-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Modèle client/serveur : DNS, requête HTTP, codes de statut (200, 301, 404, 500)</li>
+        <li>Différence HTTP vs HTTPS et rôle du navigateur</li>
+        <li>Structure complète HTML5 : DOCTYPE, html, head, body et chaque élément de head</li>
+        <li>Hiérarchie des titres h1–h6 et règle du h1 unique</li>
+        <li>Balises de mise en valeur : strong, em, mark, del, ins, abbr, blockquote, code, kbd, small</li>
+        <li>Listes ordonnées ol, non ordonnées ul, imbrication, accessibilité des listes</li>
+        <li>Liens a : 6 types, sécurité target/_blank, chemins relatifs vs absolus</li>
+        <li>Images img : src, alt, width, height, loading, figure/figcaption</li>
+        <li>Commentaires HTML et 9 entités courantes</li>
+        <li>Différence div (bloc) vs span (en ligne) et leur rôle avec le CSS</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Balise</dt><dd>Instruction entre chevrons &lt; &gt;. Définit le rôle sémantique du contenu. Ex : &lt;p&gt;, &lt;h1&gt;, &lt;a&gt;.</dd>
+          <dt>Élément</dt><dd>Balise ouvrante + contenu + balise fermante = un bloc de sens. Les éléments s'imbriquent les uns dans les autres.</dd>
+          <dt>Attribut</dt><dd>Information dans la balise ouvrante. Format : nom="valeur". Ex : href="url", alt="texte", id="nom".</dd>
+          <dt>DOCTYPE</dt><dd>Déclaration HTML5 en toute première ligne. Évite le mode "quirks" et assure un comportement cohérent entre navigateurs.</dd>
+          <dt>Balise orpheline</dt><dd>Balise sans contenu ni fermeture. Ex : &lt;br&gt;, &lt;img&gt;, &lt;hr&gt;, &lt;meta&gt;, &lt;input&gt;.</dd>
+          <dt>Sémantique HTML</dt><dd>Principe de choisir les balises selon leur signification (pas leur style). Ex : &lt;strong&gt; pour importance réelle, pas juste pour le gras visuel.</dd>
+          <dt>Entité HTML</dt><dd>Code commençant par &amp; pour afficher un caractère spécial. Ex : &amp;copy; → ©, &amp;lt; → &lt;, &amp;nbsp; → espace insécable.</dd>
+          <dt>id</dt><dd>Identifiant unique d'un élément dans toute la page. Utilisé pour les ancres (&lt;a href="#id"&gt;) et le ciblage CSS/JS.</dd>
+          <dt>alt</dt><dd>Texte alternatif d'une image. Obligatoire : lu par lecteurs d'écran, affiché si image cassée, indexé par Google.</dd>
+          <dt>chemin relatif</dt><dd>Chemin calculé depuis le fichier courant. Ex : "images/chat.jpg", "../index.html". Recommandé pour les liens internes.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 2 — Tableaux, Attributs avancés &amp; Sémantique</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Attributs globaux · Listes avancées · Tableaux HTML · Balises sémantiques HTML5</div>
+        </div>
+        <a href="seance2.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 2 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

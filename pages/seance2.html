@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 2 — Tableaux &amp; Sémantique · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--teal); background:var(--teal-dim); border-color:rgba(45,212,191,.25); }
+    .section-header    { border-bottom-color:rgba(45,212,191,.2); }
+    h3                 { color:var(--blue); }
+    .sidebar-item.active { color:var(--teal); border-left-color:var(--teal); background:var(--teal-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html" class="active">Séance 2</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s2">Séance 2</div>
+      <a href="#s2-rappel"   class="sidebar-item s2"><span class="sidebar-num">01</span>Rappel séance 1</a>
+      <a href="#s2-attrs"    class="sidebar-item s2"><span class="sidebar-num">02</span>Attributs globaux</a>
+      <a href="#s2-listes"   class="sidebar-item s2"><span class="sidebar-num">03</span>Listes avancées &amp; dl</a>
+      <a href="#s2-liens"    class="sidebar-item s2"><span class="sidebar-num">04</span>Liens avancés</a>
+      <a href="#s2-images"   class="sidebar-item s2"><span class="sidebar-num">05</span>Images avancées</a>
+      <a href="#s2-tableaux" class="sidebar-item s2"><span class="sidebar-num">06</span>Tableaux</a>
+      <a href="#s2-semantiq" class="sidebar-item s2"><span class="sidebar-num">07</span>HTML5 sémantique</a>
+      <a href="#s2-entites"  class="sidebar-item s2"><span class="sidebar-num">08</span>Entités avancées</a>
+      <a href="#s2-exo"      class="sidebar-item s2"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s2-bilan"    class="sidebar-item s2"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance1.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--blue);">← Séance 1</a>
+    </div>
+  </aside>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s2">
+      <div class="session-badge s2">Séance 02 / 06</div>
+      <h1>Tableaux &amp; Sémantique</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Attributs avancés • Listes de définitions • Tableaux • HTML5 sémantique</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">5 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 RAPPEL ══ -->
+    <div id="s2-rappel">
+      <div class="section-header"><span class="section-num">01</span><h2>Rappel express — Séance 1</h2></div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Acquis de la séance 1</div>
+          <p>Structure HTML5 (DOCTYPE, html, head, body) · Titres h1–h6, paragraphes, strong, em, mark, del, ins, abbr · Listes ul/ol imbriquées · Liens &lt;a&gt; (6 types) + sécurité · Images &lt;img&gt; + figure/figcaption · Commentaires, entités HTML, div/span</p>
+        </div>
+      </div>
+      <p>Dans cette séance, nous allons <strong>approfondir</strong> plusieurs de ces éléments avec de nouveaux attributs, découvrir les <strong>tableaux de données</strong>, les <strong>listes de définitions</strong>, et les essentielles <strong>balises sémantiques HTML5</strong> qui remplacent les <code>&lt;div&gt;</code> génériques pour donner du sens à la structure de la page.</p>
+    </div>
+
+    <!-- ══ 02 ATTRIBUTS GLOBAUX ══ -->
+    <div id="s2-attrs">
+      <div class="section-header"><span class="section-num">02</span><h2>Les attributs globaux</h2></div>
+      <p>Les <strong>attributs globaux</strong> sont utilisables sur <em>presque tous</em> les éléments HTML, quelle que soit la balise. Ils définissent des comportements transversaux : identité, accessibilité, données personnalisées, interaction clavier.</p>
+
+      <!-- ATTR ANATOMY VISUAL -->
+      <h3>Attributs globaux les plus importants</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Rôle détaillé</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td><strong>Identifiant unique</strong> dans la page entière. Utilisé pour les ancres (<code>href="#mon-id"</code>), le CSS (<code>#mon-id { }</code>) et le JS (<code>document.getElementById()</code>). Jamais deux éléments avec le même id sur une page.</td></tr>
+            <tr><td><code>class</code></td><td><strong>Classe CSS</strong> — peut être partagée par plusieurs éléments. On peut mettre plusieurs classes séparées par des espaces : <code>class="bouton rouge large"</code>. C'est la base de toute feuille de style CSS.</td></tr>
+            <tr><td><code>title</code></td><td><strong>Infobulle</strong> au survol de l'élément. Utile pour les abréviations, les icônes, les éléments dont le sens n'est pas évident seul.</td></tr>
+            <tr><td><code>style</code></td><td>CSS <strong>inline</strong> directement sur l'élément. À éviter sauf urgence — préférez les classes CSS dans un fichier séparé. Contenu = règles CSS : <code>style="color:red; font-size:18px;"</code></td></tr>
+            <tr><td><code>lang</code></td><td>Langue du contenu de <em>cet élément</em> (remplace le <code>lang</code> global de &lt;html&gt;). Permet d'avoir une phrase en anglais dans une page française : <code>&lt;span lang="en"&gt;Hello world&lt;/span&gt;</code>.</td></tr>
+            <tr><td><code>data-*</code></td><td><strong>Attributs de données personnalisés</strong>. Stockent des informations utiles pour JavaScript sans affecter l'affichage. Le nom peut être tout ce que vous voulez après <code>data-</code>. Ex : <code>data-user-id="42"</code>, <code>data-color="blue"</code>.</td></tr>
+            <tr><td><code>tabindex</code></td><td><strong>Ordre de navigation au clavier</strong> (touche <kbd>Tab</kbd>). <code>tabindex="0"</code> = rend un élément focusable dans l'ordre naturel. <code>tabindex="-1"</code> = focusable uniquement par script, pas par Tab. Valeur positive = ordre forcé (déconseillé).</td></tr>
+            <tr><td><code>hidden</code></td><td><strong>Attribut booléen</strong> — masque l'élément (équivaut à <code>display:none</code> en CSS). Ne prend pas de valeur : <code>&lt;div hidden&gt;</code>.</td></tr>
+            <tr><td><code>contenteditable</code></td><td>Rend l'élément <strong>éditable</strong> par l'utilisateur directement dans le navigateur. <code>contenteditable="true"</code>. Utilisé par certains éditeurs rich-text.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Attributs globaux en situation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- id : unique dans la page --&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;a href="#introduction"&gt;Aller à l'introduction&lt;/a&gt;
+
+&lt;!-- class : partageable, plusieurs classes possibles --&gt;
+&lt;p class="texte-important mise-en-valeur"&gt;Contenu crucial.&lt;/p&gt;
+&lt;p class="texte-important"&gt;Aussi important.&lt;/p&gt;
+
+&lt;!-- title : infobulle au survol --&gt;
+&lt;abbr title="HyperText Markup Language" id="html-abbr"&gt;HTML&lt;/abbr&gt;
+&lt;img src="icone.png" alt="Aide" title="Cliquez pour afficher l'aide"&gt;
+
+&lt;!-- lang : langue d'un passage spécifique --&gt;
+&lt;p&gt;En anglais on dit &lt;span lang="en"&gt;"developer"&lt;/span&gt;.&lt;/p&gt;
+
+&lt;!-- data-* : données pour JavaScript --&gt;
+&lt;button data-product-id="42" data-action="add-cart"&gt;Ajouter au panier&lt;/button&gt;
+&lt;div data-theme="dark" data-user-role="admin"&gt;Panneau d'administration&lt;/div&gt;
+
+&lt;!-- hidden : masque l'élément --&gt;
+&lt;p hidden&gt;Ce texte est masqué mais reste dans le code source.&lt;/p&gt;
+
+&lt;!-- contenteditable : zone éditable --&gt;
+&lt;div contenteditable="true" style="border: 1px solid #ccc; padding: 8px;"&gt;
+  Cliquez ici pour modifier ce texte directement dans le navigateur.
+&lt;/div&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">id vs class — règle mnémotechnique</div>
+          <p><code>id</code> = comme un numéro de sécurité sociale — <strong>unique</strong>, un seul élément y répond. <code>class</code> = comme un groupe scolaire — <strong>plusieurs élèves</strong> peuvent être dans la même classe. En CSS : <code>#mon-id</code> cible un seul élément, <code>.ma-classe</code> cible tous les éléments de cette classe.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 LISTES AVANCÉES ══ -->
+    <div id="s2-listes">
+      <div class="section-header"><span class="section-num">03</span><h2>Listes avancées et liste de définitions</h2></div>
+      <p>Les listes <code>&lt;ol&gt;</code> disposent d'attributs puissants pour contrôler la numérotation. Et HTML offre un troisième type de liste souvent méconnu : la <strong>liste de définitions</strong> <code>&lt;dl&gt;</code>.</p>
+
+      <h3>Attributs avancés de &lt;ol&gt;</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Valeurs</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><code>type</code></td><td><code>1</code> <code>A</code> <code>a</code> <code>I</code> <code>i</code></td><td>Type de marqueur : chiffres arabes (défaut), lettres majuscules, lettres minuscules, chiffres romains majuscules, chiffres romains minuscules.</td></tr>
+            <tr><td><code>start</code></td><td>n'importe quel entier</td><td>Valeur de départ. <code>start="5"</code> commence à 5. <code>start="3"</code> avec <code>type="A"</code> commence à C.</td></tr>
+            <tr><td><code>reversed</code></td><td>(attribut booléen)</td><td>Inverse l'ordre de numérotation (compte à rebours). Ne prend pas de valeur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — ol avec type, start et reversed</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Chiffres romains majuscules --&gt;
+&lt;ol type="I"&gt;
+  &lt;li&gt;Introduction&lt;/li&gt;
+  &lt;li&gt;Développement&lt;/li&gt;
+  &lt;li&gt;Conclusion&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- Affiche : I. Introduction / II. Développement / III. Conclusion --&gt;
+
+&lt;!-- Lettres majuscules, départ à C (start="3") --&gt;
+&lt;ol type="A" start="3"&gt;
+  &lt;li&gt;Option C&lt;/li&gt;
+  &lt;li&gt;Option D&lt;/li&gt;
+  &lt;li&gt;Option E&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Compte à rebours (reversed) --&gt;
+&lt;ol reversed&gt;
+  &lt;li&gt;Top 3&lt;/li&gt;
+  &lt;li&gt;Top 2&lt;/li&gt;
+  &lt;li&gt;Top 1 !!!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- Affiche : 3, 2, 1 --&gt;
+
+&lt;!-- Chaque &lt;li&gt; peut aussi avoir sa propre valeur avec value --&gt;
+&lt;ol&gt;
+  &lt;li value="10"&gt;Dixième étape&lt;/li&gt;
+  &lt;li&gt;Onzième étape&lt;/li&gt;
+  &lt;li value="20"&gt;Vingtième étape (saut)&lt;/li&gt;
+&lt;/ol&gt;</pre></div>
+      </div>
+
+      <!-- OL PREVIEW -->
+      <div class="grid-2">
+        <div class="preview-panel" style="margin:0">
+          <div class="preview-label">Rendu — type="I" (romain)</div>
+          <div class="preview-body">
+            <ol type="I"><li>Introduction</li><li>Développement</li><li>Conclusion</li></ol>
+          </div>
+        </div>
+        <div class="preview-panel" style="margin:0">
+          <div class="preview-label">Rendu — reversed (compte à rebours)</div>
+          <div class="preview-body">
+            <ol reversed><li>Top 3</li><li>Top 2</li><li>Top 1 !!!</li></ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- DL SECTION -->
+      <h3>La liste de définitions : &lt;dl&gt;, &lt;dt&gt;, &lt;dd&gt;</h3>
+      <p>Troisième type de liste HTML, idéale pour des paires <strong>terme / définition</strong>. Aussi utilisée pour des FAQ, des glossaires, des fiches techniques ou des métadonnées.</p>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin:1rem 0;display:flex;gap:1.5rem;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:.82rem;">
+        <div style="text-align:center">
+          <div style="background:rgba(59,130,246,.2);color:var(--blue);padding:.4rem .8rem;border-radius:4px;font-weight:700;margin-bottom:.4rem;">&lt;dl&gt;</div>
+          <div style="font-size:.7rem;color:var(--text3);">Conteneur<br>de la liste</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--text3);padding-top:.8rem;">→</div>
+        <div style="text-align:center">
+          <div style="background:rgba(245,158,11,.15);color:var(--amber);padding:.4rem .8rem;border-radius:4px;font-weight:700;margin-bottom:.4rem;">&lt;dt&gt;</div>
+          <div style="font-size:.7rem;color:var(--text3);">Terme<br>(definition term)</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--text3);padding-top:.8rem;">+</div>
+        <div style="text-align:center">
+          <div style="background:rgba(52,211,153,.15);color:var(--green);padding:.4rem .8rem;border-radius:4px;font-weight:700;margin-bottom:.4rem;">&lt;dd&gt;</div>
+          <div style="font-size:.7rem;color:var(--text3);">Définition<br>(definition desc.)</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--text3);padding-top:.8rem;">=</div>
+        <div style="flex:1;min-width:150px;font-size:.75rem;color:var(--text2);padding:.4rem 0;">Un terme peut avoir plusieurs définitions, et une définition peut correspondre à plusieurs termes.</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — dl : glossaire, FAQ, fiche technique</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Glossaire --&gt;
+&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language — langage de structuration du web.&lt;/dd&gt;
+
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets — mise en forme des pages web.&lt;/dd&gt;
+
+  &lt;dt&gt;JavaScript&lt;/dt&gt;
+  &lt;dd&gt;Langage de programmation pour les interactions web.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;!-- Un terme avec plusieurs définitions --&gt;
+&lt;dl&gt;
+  &lt;dt&gt;Serveur&lt;/dt&gt;
+  &lt;dd&gt;En informatique : ordinateur qui héberge et distribue des ressources.&lt;/dd&gt;
+  &lt;dd&gt;Dans un restaurant : employé qui prend les commandes et sert les plats.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;!-- Fiche technique produit --&gt;
+&lt;dl&gt;
+  &lt;dt&gt;Marque&lt;/dt&gt;
+  &lt;dd&gt;Sony&lt;/dd&gt;
+  &lt;dt&gt;Modèle&lt;/dt&gt;
+  &lt;dd&gt;WH-1000XM5&lt;/dd&gt;
+  &lt;dt&gt;Prix&lt;/dt&gt;
+  &lt;dd&gt;380&amp;nbsp;&amp;euro;&lt;/dd&gt;
+&lt;/dl&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu navigateur — Liste de définitions &lt;dl&gt;</div>
+        <div class="preview-body">
+          <dl>
+            <dt><strong>HTML</strong></dt>
+            <dd>HyperText Markup Language — langage de structuration du web.</dd>
+            <dt><strong>CSS</strong></dt>
+            <dd>Cascading Style Sheets — mise en forme des pages web.</dd>
+            <dt><strong>JavaScript</strong></dt>
+            <dd>Langage de programmation pour les interactions web.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 LIENS AVANCÉS ══ -->
+    <div id="s2-liens">
+      <div class="section-header"><span class="section-num">04</span><h2>Liens avancés : attributs supplémentaires</h2></div>
+      <p>En plus de <code>href</code>, <code>target</code> et <code>rel</code> vus en séance 1, la balise <code>&lt;a&gt;</code> dispose d'attributs supplémentaires utiles pour améliorer l'expérience utilisateur.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Rôle détaillé</th></tr></thead>
+          <tbody>
+            <tr><td><code>download</code></td><td>Force le <strong>téléchargement</strong> du fichier au lieu de l'ouvrir. La valeur optionnelle suggère le nom du fichier téléchargé. <strong>Limite :</strong> ne fonctionne que pour les fichiers du même domaine (restrictions CORS).</td></tr>
+            <tr><td><code>hreflang</code></td><td>Indique la <strong>langue de la page cible</strong>. Utilisé par les moteurs de recherche pour le SEO multilingue. Ex : <code>hreflang="en"</code>, <code>hreflang="de"</code>.</td></tr>
+            <tr><td><code>type</code></td><td>Type <strong>MIME</strong> du contenu lié. Aide le navigateur à décider comment traiter le lien. Ex : <code>type="application/pdf"</code>, <code>type="image/png"</code>.</td></tr>
+            <tr><td><code>referrerpolicy</code></td><td>Contrôle les informations de <strong>référent</strong> envoyées lors du clic. <code>no-referrer</code> = n'envoie pas d'où vient l'utilisateur. Utile pour la confidentialité.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Liens avancés avec attributs supplémentaires</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Téléchargement forcé avec nom de fichier suggéré --&gt;
+&lt;a href="documents/cv.pdf" download="CV_Jean_Dupont_2024.pdf"&gt;
+  Télécharger mon CV (PDF)
+&lt;/a&gt;
+
+&lt;!-- Téléchargement sans nom suggéré (garde le nom original) --&gt;
+&lt;a href="rapport-annuel.xlsx" download&gt;Rapport annuel (Excel)&lt;/a&gt;
+
+&lt;!-- Lien vers page en anglais (SEO multilingue) --&gt;
+&lt;a href="https://en.wikipedia.org/wiki/HTML" hreflang="en" target="_blank" rel="noopener"&gt;
+  Wikipedia HTML (version anglaise)
+&lt;/a&gt;
+
+&lt;!-- Lien PDF avec type MIME (aide le navigateur) --&gt;
+&lt;a href="catalogue.pdf" type="application/pdf" target="_blank"&gt;
+  Voir le catalogue (PDF, s'ouvre dans un nouvel onglet)
+&lt;/a&gt;
+
+&lt;!-- Email avec sujet et corps pré-remplis --&gt;
+&lt;a href="mailto:contact@exemple.com?subject=Demande de devis&amp;body=Bonjour,%0A%0AJe souhaite obtenir un devis."&gt;
+  Nous écrire (sujet pré-rempli)
+&lt;/a&gt;
+&lt;!-- %0A = retour à la ligne dans le corps de l'email --&gt;
+
+&lt;!-- Lien avec politique de référent --&gt;
+&lt;a href="https://partenaire.com" referrerpolicy="no-referrer" target="_blank" rel="noopener"&gt;
+  Lien confidentiel (sans information de provenance)
+&lt;/a&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Limite de download — CORS</div>
+          <p>L'attribut <code>download</code> ne fonctionne que pour les fichiers <strong>hébergés sur votre propre domaine</strong>. Pour un fichier sur un autre domaine (ex : Google Drive, CDN tiers), le navigateur ignore <code>download</code> et ouvre le fichier normalement. C'est une restriction de sécurité du navigateur (politique CORS — Cross-Origin Resource Sharing).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 IMAGES AVANCÉES ══ -->
+    <div id="s2-images">
+      <div class="section-header"><span class="section-num">05</span><h2>Images avancées : responsive et performance</h2></div>
+      <p>En séance 1, nous avons vu les attributs essentiels de <code>&lt;img&gt;</code>. Voici les attributs avancés pour créer des images adaptatives (responsive) et optimiser les performances de chargement.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Rôle détaillé</th></tr></thead>
+          <tbody>
+            <tr><td><code>loading</code></td><td><code>lazy</code> = charge l'image seulement quand l'utilisateur scrolle pour la voir. <code>eager</code> = charge immédiatement (défaut). À utiliser sur toutes les images sous le pli de la page.</td></tr>
+            <tr><td><code>srcset</code></td><td>Fournit plusieurs versions de l'image (petite, moyenne, grande). Le navigateur choisit automatiquement la plus adaptée selon la résolution de l'écran.</td></tr>
+            <tr><td><code>sizes</code></td><td>Indique quelle taille l'image occupera selon la largeur de l'écran (en CSS). Aide le navigateur à choisir la bonne image dans srcset avant même de charger la page.</td></tr>
+            <tr><td><code>width / height</code></td><td>Dimensions en pixels. <strong>Toujours les définir</strong> — le navigateur réserve l'espace avant le chargement, évitant le "Cumulative Layout Shift" (CLS), critère de performance de Google.</td></tr>
+            <tr><td><code>decoding</code></td><td><code>async</code> = décode l'image en parallèle du reste de la page (améliore les performances). <code>sync</code> = décode avant d'afficher le reste (bloquant).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Images optimisées et responsive</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Image avec lazy loading (recommandé pour toutes les images hors écran) --&gt;
+&lt;img src="photo.jpg"
+     alt="Description précise"
+     width="800" height="600"
+     loading="lazy"
+     decoding="async"&gt;
+
+&lt;!-- Image responsive avec srcset : 3 résolutions fournies --&gt;
+&lt;img src="image-800.jpg"
+     srcset="image-400.jpg 400w,
+             image-800.jpg 800w,
+             image-1200.jpg 1200w"
+     sizes="(max-width: 480px) 400px,
+            (max-width: 900px) 800px,
+            1200px"
+     alt="Paysage de montagne enneigé"
+     width="1200" height="800"
+     loading="lazy"&gt;
+
+&lt;!-- &lt;picture&gt; : encore plus de contrôle (différents formats selon le navigateur) --&gt;
+&lt;picture&gt;
+  &lt;!-- WebP (format moderne, plus léger) pour les navigateurs compatibles --&gt;
+  &lt;source srcset="photo.webp" type="image/webp"&gt;
+  &lt;!-- Fallback JPG pour les navigateurs anciens --&gt;
+  &lt;img src="photo.jpg" alt="Paysage" width="800" height="600" loading="lazy"&gt;
+&lt;/picture&gt;</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi toujours mettre width et height ?</div>
+          <p>Sans dimensions, le navigateur ne sait pas quelle place réserver avant que l'image charge. Résultat : le texte sous l'image "saute" quand l'image arrive. Ce phénomène s'appelle <strong>Cumulative Layout Shift (CLS)</strong> — Google le pénalise dans son algorithme de classement depuis 2021.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 TABLEAUX ══ -->
+    <!-- ══ 06 TABLEAUX — APPROFONDISSEMENT ══ -->
+    <div id="s2-tableaux">
+      <div class="section-header"><span class="section-num">06</span><h2>Les tableaux — approfondissement complet</h2></div>
+      <p>Un tableau HTML sert exclusivement à afficher des <strong>données tabulaires</strong> — informations naturellement organisées en lignes et colonnes. Il ne sert pas à la mise en page.</p>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Les balises d'un tableau</div>
+          <p><code>&lt;table&gt;</code> conteneur · <code>&lt;caption&gt;</code> titre · <code>&lt;thead&gt;</code> en-tête · <code>&lt;tbody&gt;</code> corps · <code>&lt;tfoot&gt;</code> pied · <code>&lt;tr&gt;</code> ligne · <code>&lt;th&gt;</code> cellule d'en-tête · <code>&lt;td&gt;</code> cellule de données · <code>&lt;colgroup&gt;</code> / <code>&lt;col&gt;</code> colonnes</p>
+        </div>
+      </div>
+
+      <!-- TABLEAU MINIMAL -->
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Tableau minimal avec caption et th</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;caption&gt;Classement du groupe A&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Équipe&lt;/th&gt;
+    &lt;th&gt;Victoires&lt;/th&gt;
+    &lt;th&gt;Points&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Paris FC&lt;/td&gt;
+    &lt;td&gt;15&lt;/td&gt;
+    &lt;td&gt;48&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Lyon United&lt;/td&gt;
+    &lt;td&gt;12&lt;/td&gt;
+    &lt;td&gt;39&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre></div>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-label">Rendu</div>
+        <div class="preview-body">
+          <table><caption>Classement du groupe A</caption>
+            <tr><th>Équipe</th><th>Victoires</th><th>Points</th></tr>
+            <tr><td>Paris FC</td><td>15</td><td>48</td></tr>
+            <tr><td>Lyon United</td><td>12</td><td>39</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- THEAD TBODY TFOOT -->
+      <h3>Structure sémantique : thead, tbody, tfoot</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Tableau structuré avec thead / tbody / tfoot</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;caption&gt;Budget mensuel — Mars 2024&lt;/caption&gt;
+
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Catégorie&lt;/th&gt;
+      &lt;th scope="col"&gt;Prévu&lt;/th&gt;
+      &lt;th scope="col"&gt;Réel&lt;/th&gt;
+      &lt;th scope="col"&gt;Écart&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Loyer&lt;/th&gt;
+      &lt;td&gt;900 €&lt;/td&gt;
+      &lt;td&gt;900 €&lt;/td&gt;
+      &lt;td&gt;0 €&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Alimentation&lt;/th&gt;
+      &lt;td&gt;300 €&lt;/td&gt;
+      &lt;td&gt;340 €&lt;/td&gt;
+      &lt;td&gt;+40 €&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Transport&lt;/th&gt;
+      &lt;td&gt;80 €&lt;/td&gt;
+      &lt;td&gt;75 €&lt;/td&gt;
+      &lt;td&gt;-5 €&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;TOTAL&lt;/th&gt;
+      &lt;td&gt;1 280 €&lt;/td&gt;
+      &lt;td&gt;1 315 €&lt;/td&gt;
+      &lt;td&gt;+35 €&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</pre></div>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — Tableau complet avec thead/tbody/tfoot</div>
+        <div class="preview-body">
+          <table>
+            <caption>Budget mensuel — Mars 2024</caption>
+            <thead><tr><th>Catégorie</th><th>Prévu</th><th>Réel</th><th>Écart</th></tr></thead>
+            <tbody>
+              <tr><th style="text-align:left;font-weight:normal;">Loyer</th><td>900 €</td><td>900 €</td><td>0 €</td></tr>
+              <tr><th style="text-align:left;font-weight:normal;">Alimentation</th><td>300 €</td><td>340 €</td><td>+40 €</td></tr>
+              <tr><th style="text-align:left;font-weight:normal;">Transport</th><td>80 €</td><td>75 €</td><td>-5 €</td></tr>
+            </tbody>
+            <tfoot><tr><th style="text-align:left;">TOTAL</th><td>1 280 €</td><td>1 315 €</td><td>+35 €</td></tr></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- SCOPE -->
+      <h3>L'attribut scope — accessibilité des tableaux</h3>
+      <p>L'attribut <code>scope</code> sur les <code>&lt;th&gt;</code> indique si la cellule d'en-tête s'applique à une colonne (<code>col</code>), une ligne (<code>row</code>), un groupe de colonnes (<code>colgroup</code>) ou un groupe de lignes (<code>rowgroup</code>). C'est <strong>essentiel pour les lecteurs d'écran</strong>.</p>
+
+      <div class="scope-diagram table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th scope="col">Lundi<span class="scope-label">scope="col"</span></th>
+              <th scope="col">Mardi<span class="scope-label">scope="col"</span></th>
+              <th scope="col">Mercredi<span class="scope-label">scope="col"</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="scope-row-header">Matin<span class="scope-label">scope="row"</span></th>
+              <td>HTML</td><td>CSS</td><td>JavaScript</td>
+            </tr>
+            <tr>
+              <th scope="row" class="scope-row-header">Après-midi<span class="scope-label">scope="row"</span></th>
+              <td>Projet</td><td>Projet</td><td>Correction</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- COLSPAN ROWSPAN -->
+      <h3>Fusion de cellules : colspan et rowspan</h3>
+      <p><code>colspan</code> = fusionner horizontalement sur N colonnes. <code>rowspan</code> = fusionner verticalement sur N lignes. <strong>Règle clé :</strong> les cellules "absorbées" ne doivent plus apparaître dans le code HTML.</p>
+
+      <div class="merge-diagram">
+        <div class="merge-table-wrap">
+          <div class="merge-table-label">colspan="2" — fusion horizontale</div>
+          <div class="merge-grid" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="merge-cell header">Produit</div>
+            <div class="merge-cell merged" style="grid-column:span 2;">Prix (colspan=2)</div>
+            <div class="merge-cell normal">Stylo</div>
+            <div class="merge-cell normal">HT : 1.50€</div>
+            <div class="merge-cell normal">TTC : 1.80€</div>
+            <div class="merge-cell normal">Cahier</div>
+            <div class="merge-cell normal">HT : 2.00€</div>
+            <div class="merge-cell normal">TTC : 2.40€</div>
+          </div>
+        </div>
+        <div class="merge-table-wrap">
+          <div class="merge-table-label">rowspan="2" — fusion verticale</div>
+          <div class="merge-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="merge-cell header">Jour</div>
+            <div class="merge-cell header">Activité</div>
+            <div class="merge-cell normal">Lundi</div>
+            <div class="merge-cell merged" style="grid-row:span 2;">Pause déjeuner (rowspan=2)</div>
+            <div class="merge-cell normal">Mardi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — colspan et rowspan en situation réelle</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Tableau avec les deux types de fusion --&gt;
+&lt;table&gt;
+  &lt;caption&gt;Planning de la semaine&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Heure&lt;/th&gt;
+      &lt;th scope="col"&gt;Lundi&lt;/th&gt;
+      &lt;th scope="col"&gt;Mardi&lt;/th&gt;
+      &lt;th scope="col"&gt;Mercredi&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;9h–10h&lt;/th&gt;
+      &lt;td colspan="3"&gt;Réunion d'équipe (colspan=3 → occupe 3 colonnes)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;10h–11h&lt;/th&gt;
+      &lt;td&gt;HTML&lt;/td&gt;
+      &lt;td rowspan="2"&gt;Atelier pratique (rowspan=2 → occupe 2 lignes)&lt;/td&gt;
+      &lt;td&gt;CSS&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;11h–12h&lt;/th&gt;
+      &lt;td&gt;JavaScript&lt;/td&gt;
+      &lt;!-- PAS de &lt;td&gt; ici : déjà occupé par le rowspan ci-dessus --&gt;
+      &lt;td&gt;Exercices&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — colspan + rowspan combinés</div>
+        <div class="preview-body">
+          <table>
+            <caption>Planning de la semaine</caption>
+            <thead><tr><th>Heure</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th></tr></thead>
+            <tbody>
+              <tr>
+                <th style="text-align:left;">9h–10h</th>
+                <td colspan="3" class="merged-cell">Réunion d'équipe (colspan=3)</td>
+              </tr>
+              <tr>
+                <th style="text-align:left;">10h–11h</th>
+                <td>HTML</td>
+                <td rowspan="2" class="merged-cell">Atelier pratique (rowspan=2)</td>
+                <td>CSS</td>
+              </tr>
+              <tr>
+                <th style="text-align:left;">11h–12h</th>
+                <td>JavaScript</td>
+                <td>Exercices</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COLGROUP -->
+      <h3>Cibler des colonnes avec &lt;colgroup&gt; et &lt;col&gt;</h3>
+      <p>Ces balises permettent d'appliquer des styles à des colonnes entières — utile pour colorer une colonne sans modifier chaque <code>&lt;td&gt;</code> individuellement.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — colgroup et col pour styliser des colonnes</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;caption&gt;Notes des élèves&lt;/caption&gt;
+
+  &lt;!-- colgroup : définit les colonnes AVANT thead et tbody --&gt;
+  &lt;colgroup&gt;
+    &lt;col style="background-color: #f0f0f0;"&gt; &lt;!-- Colonne 1 : Nom --&gt;
+    &lt;col&gt;                                    &lt;!-- Colonne 2 : Math --&gt;
+    &lt;col&gt;                                    &lt;!-- Colonne 3 : Français --&gt;
+    &lt;col style="background-color: #fffbeb;"&gt; &lt;!-- Colonne 4 : Moyenne --&gt;
+  &lt;/colgroup&gt;
+
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Élève&lt;/th&gt;
+      &lt;th scope="col"&gt;Maths&lt;/th&gt;
+      &lt;th scope="col"&gt;Français&lt;/th&gt;
+      &lt;th scope="col"&gt;Moyenne&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Alice&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;15.5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Bob&lt;/th&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;14.0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+      </div>
+
+      <!-- TABLEAU RÉCAPITULATIF ATTRIBUTS -->
+      <h3>Attributs importants des cellules</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Élément</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>colspan="N"</code></td><td><code>&lt;td&gt;</code> <code>&lt;th&gt;</code></td><td>Fusionne la cellule sur N colonnes (horizontalement). La valeur = nombre de colonnes occupées.</td></tr>
+            <tr><td><code>rowspan="N"</code></td><td><code>&lt;td&gt;</code> <code>&lt;th&gt;</code></td><td>Fusionne la cellule sur N lignes (verticalement). Les cellules absorbées disparaissent du code.</td></tr>
+            <tr><td><code>scope="col"</code></td><td><code>&lt;th&gt;</code></td><td>Indique que ce th est un en-tête de colonne. Obligatoire pour l'accessibilité.</td></tr>
+            <tr><td><code>scope="row"</code></td><td><code>&lt;th&gt;</code></td><td>Indique que ce th est un en-tête de ligne. Permet aux lecteurs d'écran d'associer données et en-têtes.</td></tr>
+            <tr><td><code>headers="id"</code></td><td><code>&lt;td&gt;</code></td><td>Pour les tableaux complexes : liste les id des th associés à cette cellule.</td></tr>
+            <tr><td><code>span="N"</code></td><td><code>&lt;col&gt;</code></td><td>La colonne couvre N colonnes (équivalent de colspan pour &lt;col&gt;).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne jamais utiliser les tableaux pour la mise en page</div>
+          <p>Dans les années 1990, les développeurs utilisaient <code>&lt;table&gt;</code> pour créer des colonnes et positionner des éléments. Cette pratique est aujourd'hui <strong>strictement à éviter</strong> : illisible pour les lecteurs d'écran (annonce des données tabulaires là où il y a de la mise en page), difficile à maintenir, et pénalisé par Google. La mise en page se fait avec <strong>CSS Flexbox</strong> et <strong>CSS Grid</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 SÉMANTIQUE ══ -->
+    <div id="s2-semantiq">
+      <div class="section-header"><span class="section-num">07</span><h2>Balises sémantiques HTML5</h2></div>
+      <p>HTML5 (2014) a introduit des balises qui décrivent <strong>la fonction des zones de la page</strong>. Ces balises remplacent les <code>&lt;div&gt;</code> anonymes et donnent du sens à la structure — crucial pour l'accessibilité, le SEO et la lisibilité du code.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🏗️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : les pièces d'une maison</div>
+          <p>Avant HTML5, tout le monde vivait dans des <code>&lt;div&gt;</code> anonymes — comme si toute une maison n'avait que des "pièces". HTML5 a nommé les pièces : <code>&lt;header&gt;</code> = entrée, <code>&lt;nav&gt;</code> = couloir, <code>&lt;main&gt;</code> = salon, <code>&lt;aside&gt;</code> = bureau, <code>&lt;footer&gt;</code> = cave. Un plan de maison avec des noms de pièces est bien plus lisible qu'un plan avec des rectangles numérotés.</p>
+        </div>
+      </div>
+
+      <!-- SEMANTIC LAYOUT VISUAL -->
+      <h3>Schéma d'une page sémantique HTML5</h3>
+      <div class="sem-layout">
+        <div class="sem-zone sz-header">
+          <span class="sem-zone-tag">&lt;header&gt;</span>
+          <span class="sem-zone-desc">Logo, titre du site, slogan — en-tête de la page ou d'une section</span>
+        </div>
+        <div class="sem-zone sz-nav">
+          <span class="sem-zone-tag">&lt;nav&gt;</span>
+          <span class="sem-zone-desc">Menu de navigation principal, fil d'Ariane, liens de catégories</span>
+        </div>
+        <div class="sem-zone sz-main">
+          <span class="sem-zone-tag">&lt;main&gt;</span>
+          <span class="sem-zone-desc">Contenu central et unique de la page — <strong>un seul par page</strong></span>
+        </div>
+        <div class="sem-zone sz-art">
+          <span class="sem-zone-tag">&lt;article&gt;</span>
+          <span class="sem-zone-desc">Contenu autonome et redistribuable : billet de blog, fiche produit, commentaire</span>
+        </div>
+        <div class="sem-zone sz-sec">
+          <span class="sem-zone-tag">&lt;section&gt;</span>
+          <span class="sem-zone-desc">Groupe thématique avec un titre — chapitre, onglet, catégorie</span>
+        </div>
+        <div class="sem-zone sz-aside">
+          <span class="sem-zone-tag">&lt;aside&gt;</span>
+          <span class="sem-zone-desc">Contenu complémentaire : barre latérale, publicité, liens connexes, biographie de l'auteur</span>
+        </div>
+        <div class="sem-zone sz-footer">
+          <span class="sem-zone-tag">&lt;footer&gt;</span>
+          <span class="sem-zone-desc">Pied de page : copyright, mentions légales, liens secondaires, contact</span>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Balise</th><th>Équivalent avant HTML5</th><th>Quand l'utiliser</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;header&gt;</code></td><td><code>&lt;div id="header"&gt;</code></td><td>En-tête de page (logo + nav) OU en-tête d'un article/section. Peut apparaître plusieurs fois sur une page.</td></tr>
+            <tr><td><code>&lt;nav&gt;</code></td><td><code>&lt;div id="navigation"&gt;</code></td><td>Groupe de liens de navigation importants. Ne pas l'utiliser pour chaque groupe de liens — réservez aux navigations principales.</td></tr>
+            <tr><td><code>&lt;main&gt;</code></td><td><code>&lt;div id="main"&gt;</code></td><td>Contenu central unique de la page. <strong>Un seul par document.</strong> Les lecteurs d'écran permettent de sauter directement au main.</td></tr>
+            <tr><td><code>&lt;article&gt;</code></td><td><code>&lt;div class="article"&gt;</code></td><td>Contenu <em>autonome</em> — peut être extrait, redistribué ou syndiqué seul (RSS, email). Ex : billet de blog, commentaire, fiche produit.</td></tr>
+            <tr><td><code>&lt;section&gt;</code></td><td><code>&lt;div class="section"&gt;</code></td><td>Regroupement thématique. Doit avoir un titre (<code>&lt;h2&gt;</code>…). Si le contenu peut être autonome → préférer <code>&lt;article&gt;</code>.</td></tr>
+            <tr><td><code>&lt;aside&gt;</code></td><td><code>&lt;div id="sidebar"&gt;</code></td><td>Contenu tangentiellement lié au contenu principal. Peut être retiré sans que la page perde son sens.</td></tr>
+            <tr><td><code>&lt;footer&gt;</code></td><td><code>&lt;div id="footer"&gt;</code></td><td>Pied de page ou pied d'un article/section. Peut apparaître plusieurs fois.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Page complète avec balises sémantiques HTML5</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;&lt;a href="/"&gt;MonBlog&lt;/a&gt;&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/"&gt;Accueil&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/blog"&gt;Articles&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;header&gt;
+        &lt;!-- &lt;header&gt; peut aussi aller dans un &lt;article&gt; --&gt;
+        &lt;h2&gt;Comment apprendre le HTML efficacement&lt;/h2&gt;
+        &lt;p&gt;Publié le &lt;time datetime="2024-03-15"&gt;15 mars 2024&lt;/time&gt;&lt;/p&gt;
+      &lt;/header&gt;
+
+      &lt;section&gt;
+        &lt;h3&gt;Les fondamentaux&lt;/h3&gt;
+        &lt;p&gt;Commencez par maîtriser la structure de base...&lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;section&gt;
+        &lt;h3&gt;La pratique quotidienne&lt;/h3&gt;
+        &lt;p&gt;Codez au moins 20 minutes par jour...&lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;footer&gt;
+        &lt;!-- pied de l'article --&gt;
+        &lt;p&gt;Tags : &lt;a href="/tag/html"&gt;HTML&lt;/a&gt;, &lt;a href="/tag/web"&gt;Web&lt;/a&gt;&lt;/p&gt;
+      &lt;/footer&gt;
+    &lt;/article&gt;
+  &lt;/main&gt;
+
+  &lt;aside&gt;
+    &lt;h2&gt;Articles récents&lt;/h2&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/blog/css"&gt;Introduction au CSS&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/blog/js"&gt;Débuter en JavaScript&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2024 MonBlog. &lt;a href="/mentions"&gt;Mentions légales&lt;/a&gt;&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Sémantique ≠ style visuel</div>
+          <p>Ces balises n'ont <strong>aucune apparence visuelle particulière</strong> par défaut — elles ressemblent à des <code>&lt;div&gt;</code>. Leur valeur est invisible mais réelle : un lecteur d'écran annonce "région de navigation principale" pour <code>&lt;nav&gt;</code>, "contenu principal" pour <code>&lt;main&gt;</code>. Google comprend la structure de votre page. Et votre collègue qui lit le code comprend instantanément le rôle de chaque zone.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ENTITÉS ══ -->
+    <div id="s2-entites">
+      <div class="section-header"><span class="section-num">08</span><h2>Entités HTML supplémentaires &amp; time</h2></div>
+      <p>Nous avons vu les entités fondamentales en séance 1. Voici des entités typographiques courantes en français, plus la balise <code>&lt;time&gt;</code> souvent oubliée mais très utile.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Entités typographiques et balise time</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Guillemets français typographiques --&gt;
+&lt;p&gt;&amp;laquo;&amp;nbsp;Bonjour le monde&amp;nbsp;&amp;raquo;&lt;/p&gt;
+&lt;!-- Résultat : « Bonjour le monde » (espaces insécables avant et après) --&gt;
+
+&lt;!-- Tirets typographiques --&gt;
+&lt;p&gt;Paris&amp;ndash;Lyon en TGV&lt;/p&gt;         &lt;!-- Plage : Paris–Lyon --&gt;
+&lt;p&gt;Il répond&amp;mdash;sans hésiter.&lt;/p&gt;    &lt;!-- Incise : —sans hésiter. --&gt;
+
+&lt;!-- Guillemets doubles anglais (citations dans texte) --&gt;
+&lt;p&gt;Il dit : &amp;ldquo;Hello&amp;rdquo;.&lt;/p&gt;    &lt;!-- "Hello" --&gt;
+
+&lt;!-- Apostrophe typographique (évite les problèmes d'encodage) --&gt;
+&lt;p&gt;C&amp;rsquo;est l&amp;rsquo;heure.&lt;/p&gt;        &lt;!-- C'est l'heure. --&gt;
+
+&lt;!-- Symboles mathématiques et monétaires --&gt;
+&lt;p&gt;Prix : 25&amp;euro; soit environ 27&amp;dollar;&lt;/p&gt;
+&lt;p&gt;Score : 4 &amp;times; 3 = 12&lt;/p&gt;
+&lt;p&gt;Surface : 45 m&amp;sup2;&lt;/p&gt;
+
+&lt;!-- &lt;time&gt; : date lisible par les machines (SEO + accessibilité) --&gt;
+&lt;p&gt;Publié le &lt;time datetime="2024-03-15"&gt;15 mars 2024&lt;/time&gt;&lt;/p&gt;
+&lt;p&gt;Rendez-vous à &lt;time datetime="14:30"&gt;14h30&lt;/time&gt;&lt;/p&gt;
+&lt;p&gt;Événement du &lt;time datetime="2024-06-01"&gt;1er juin&lt;/time&gt;
+   au &lt;time datetime="2024-06-03"&gt;3 juin 2024&lt;/time&gt;&lt;/p&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-label">Rendu — Entités typographiques</div>
+        <div class="preview-body">
+          <p>«&nbsp;Bonjour le monde&nbsp;»</p>
+          <p>Paris–Lyon en TGV</p>
+          <p>Il répond—sans hésiter.</p>
+          <p>Il dit : "Hello".</p>
+          <p>C'est l'heure.</p>
+          <p>Prix : 25€ soit environ 27$</p>
+          <p>Score : 4 × 3 = 12 &nbsp;·&nbsp; Surface : 45 m²</p>
+          <p>Publié le <time datetime="2024-03-15">15 mars 2024</time></p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Entité</th><th>Résultat</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>&amp;laquo;</code></td><td>«</td><td>Guillemet double ouvrant français — toujours avec <code>&amp;nbsp;</code> avant le texte</td></tr>
+            <tr><td><code>&amp;raquo;</code></td><td>»</td><td>Guillemet double fermant français — toujours avec <code>&amp;nbsp;</code> après le texte</td></tr>
+            <tr><td><code>&amp;ndash;</code></td><td>–</td><td>Tiret demi-cadratin : plages (pp. 12–15), liaisons géographiques (Paris–Lyon)</td></tr>
+            <tr><td><code>&amp;mdash;</code></td><td>—</td><td>Tiret cadratin : incise dans une phrase — comme ceci — ou interruption</td></tr>
+            <tr><td><code>&amp;ldquo;</code> / <code>&amp;rdquo;</code></td><td>" "</td><td>Guillemets doubles anglais ouvrant/fermant</td></tr>
+            <tr><td><code>&amp;rsquo;</code></td><td>'</td><td>Apostrophe typographique droite (préférable à l'apostrophe droite ')</td></tr>
+            <tr><td><code>&amp;times;</code></td><td>×</td><td>Symbole de multiplication (dimensions : 1920×1080, scores)</td></tr>
+            <tr><td><code>&amp;sup2;</code></td><td>²</td><td>Exposant 2 (mètres carrés m²)</td></tr>
+            <tr><td><code>&amp;sup3;</code></td><td>³</td><td>Exposant 3 (mètres cubes m³)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">La balise &lt;time&gt; — invisible mais précieuse</div>
+          <p><code>&lt;time datetime="2024-03-15"&gt;15 mars 2024&lt;/time&gt;</code> permet aux moteurs de recherche et aux applications de calendrier de comprendre exactement quelle date ou heure vous mentionnez. Google peut afficher cette date dans les résultats de recherche (rich snippets). L'attribut <code>datetime</code> accepte les formats ISO 8601 : <code>AAAA-MM-JJ</code>, <code>HH:MM</code>, <code>AAAA-MM-JJTHH:MM</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s2-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 01</span><span class="exercise-title">📋 Listes avancées</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une liste ordonnée de vos 5 films préférés en chiffres romains (<code>type="I"</code>).</li>
+            <li>Créez une liste de définitions <code>&lt;dl&gt;</code> avec 4 termes informatiques et leurs définitions.</li>
+            <li>Créez une liste ordonnée inversée (<code>reversed</code>) de "10 raisons d'apprendre le HTML" — de 10 à 1.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 02</span><span class="exercise-title">🖼️ Galerie responsive</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une galerie de 4 images depuis <code>https://picsum.photos/seed/NOM/600/400</code> (remplacez NOM par des mots différents).</li>
+            <li>Pour chaque image : <code>loading="lazy"</code>, dimensions explicites, <code>alt</code> descriptif, <code>decoding="async"</code>.</li>
+            <li>Encadrez chaque image dans <code>&lt;figure&gt;</code> + <code>&lt;figcaption&gt;</code> + <code>&lt;a&gt;</code> (image cliquable vers l'URL originale).</li>
+            <li>Ajoutez un attribut <code>data-category="nature"</code> (ou autre catégorie) sur chaque <code>&lt;figure&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 03</span><span class="exercise-title">📊 Tableau de planning</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un emploi du temps sur 5 jours × 4 créneaux horaires.</li>
+            <li>Utilisez <code>&lt;th scope="col"&gt;</code> pour les jours et <code>&lt;th scope="row"&gt;</code> pour les heures.</li>
+            <li>Ajoutez au moins une fusion <code>colspan="2"</code> (cours de 2 heures) et une <code>rowspan="2"</code> (activité sur 2 jours).</li>
+            <li>Structurez avec <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> et <code>&lt;tfoot&gt;</code> (total d'heures par jour dans le pied).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 04</span><span class="exercise-title">🏗️ Page sémantique complète</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Reprenez la page de la séance 1 et restructurez entièrement avec : <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code>.</li>
+            <li>Dans <code>&lt;nav&gt;</code> : une liste <code>&lt;ul&gt;</code> avec au moins 4 liens de navigation.</li>
+            <li>Dans <code>&lt;article&gt;</code> : deux <code>&lt;section&gt;</code> avec des <code>&lt;h2&gt;</code>.</li>
+            <li>Dans <code>&lt;aside&gt;</code> : une liste <code>&lt;dl&gt;</code> de 3 ressources recommandées.</li>
+            <li>Dans <code>&lt;footer&gt;</code> : copyright avec <code>&lt;time datetime="2024"&gt;</code>, entités typographiques et lien de contact.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header"><span class="exercise-num">EX 05</span><span class="exercise-title">🔗 Liens et téléchargements avancés</span></div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ajoutez un lien de téléchargement avec <code>download="mon_fichier.pdf"</code> vers un PDF fictif.</li>
+            <li>Ajoutez un lien <code>mailto:</code> avec sujet ET corps pré-remplis (encodez les espaces avec <code>%20</code>).</li>
+            <li>Ajoutez un lien vers Wikipedia en anglais avec <code>hreflang="en"</code> et en espagnol avec <code>hreflang="es"</code>.</li>
+            <li>Utilisez les entités <code>&amp;laquo;</code>, <code>&amp;raquo;</code>, <code>&amp;rsquo;</code> et <code>&amp;times;</code> dans le texte de votre page.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s2-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez maintenant</h3>
+      <ul class="checklist">
+        <li>Attributs globaux : id (unique), class (partagé), title, lang, data-*, hidden, contenteditable</li>
+        <li>Différence id vs class — ciblage CSS et JavaScript</li>
+        <li>Listes ol avancées : type (1 A a I i), start, reversed, value sur &lt;li&gt;</li>
+        <li>Liste de définitions : dl (conteneur), dt (terme), dd (définition)</li>
+        <li>Liens avancés : download, hreflang, type MIME, mailto avec sujet/corps pré-remplis</li>
+        <li>Images avancées : loading lazy, srcset, sizes, &lt;picture&gt;, decoding</li>
+        <li>Tableaux : table, tr, td, th, caption, colspan, rowspan, thead, tbody, tfoot</li>
+        <li>Balises sémantiques HTML5 : header, nav, main, article, section, aside, footer</li>
+        <li>Balise &lt;time&gt; avec attribut datetime (ISO 8601)</li>
+        <li>Entités typographiques : guillemets français, tirets, apostrophe, ×, ²</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>colspan</dt><dd>Fusionne une cellule sur N colonnes (horizontalement). La valeur = nombre de colonnes occupées.</dd>
+          <dt>rowspan</dt><dd>Fusionne une cellule sur N lignes (verticalement). Les cellules "absorbées" ne doivent plus apparaître dans le code.</dd>
+          <dt>thead / tbody / tfoot</dt><dd>Structuration sémantique d'un tableau en en-tête, corps et pied. Permet la répétition de l'en-tête à l'impression et lors du scroll horizontal.</dd>
+          <dt>sémantique HTML5</dt><dd>Principe de choisir les balises selon leur signification structurelle. header/nav/main/article/section/aside/footer remplacent les div anonymes.</dd>
+          <dt>data-*</dt><dd>Attribut personnalisé pour stocker des données dans un élément HTML. Accessible en JavaScript via dataset. Ex : data-user-id="42".</dd>
+          <dt>loading="lazy"</dt><dd>Différer le chargement d'une image jusqu'à ce qu'elle entre dans la zone visible. Améliore le temps de chargement initial.</dd>
+          <dt>srcset</dt><dd>Liste de versions de l'image à différentes résolutions. Le navigateur choisit automatiquement la plus adaptée à l'écran.</dd>
+          <dt>CLS</dt><dd>Cumulative Layout Shift — déplacement des éléments au chargement. Pénalisé par Google. Prévenu en définissant width et height sur les images.</dd>
+          <dt>&lt;time&gt;</dt><dd>Balise pour les dates et heures. L'attribut datetime (format ISO 8601) rend la date lisible par les machines : moteurs de recherche, agendas.</dd>
+          <dt>CORS</dt><dd>Cross-Origin Resource Sharing — politique de sécurité du navigateur restreignant les requêtes entre domaines différents. Explique pourquoi download ne fonctionne pas sur des fichiers distants.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 3 — Formulaires HTML5</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">input, select, textarea · validation native · attributs de formulaire · accessibilité</div>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;" href="seance3.html" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          Séance 3 →
+        </a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>
