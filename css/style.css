@@ -1780,3 +1780,40 @@ kbd { font-family:'JetBrains Mono',monospace; font-size:.78em; background:var(--
 .method-card code { font-size:.75rem; }
 
 @media (max-width:640px) { .validation-demo,.method-compare { grid-template-columns:1fr; } }
+/* Reveal animation */
+.session-card,
+.home-hero,
+.callout,
+.grid-2 > div {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all .6s ease;
+}
+
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover glow dynamique */
+.session-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.session-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    300px circle at var(--x) var(--y),
+    rgba(255,255,255,0.08),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.session-card:hover::after {
+  opacity: 1;
+}
