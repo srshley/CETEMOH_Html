@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 4 — Multimédia &amp; HTML5 Avancé · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    :root { --s4: #A78BFA; --s4-dim: rgba(167,139,250,.08); }
+    .section-num       { color:var(--s4); background:var(--s4-dim); border-color:rgba(167,139,250,.25); }
+    .section-header    { border-bottom-color:rgba(167,139,250,.15); }
+    h3                 { color:var(--teal); }
+    .session-badge.s4  { color:var(--s4); background:var(--s4-dim); border-color:rgba(167,139,250,.3); }
+    .sidebar-item.active { color:var(--s4); border-left-color:var(--s4); background:var(--s4-dim); }
+    .sidebar-session-label.s4 { color:var(--s4); }
+    /* media cards */
+    .media-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin:1.5rem 0; }
+    .media-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.25rem; text-align:center; }
+    .media-card-icon { font-size:2rem; margin-bottom:.5rem; }
+    .media-card-name { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; margin-bottom:.3rem; }
+    .media-card-desc { font-size:.8rem; color:var(--text2); }
+    /* format table */
+    .format-badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:.72rem; padding:.2em .5em; border-radius:4px; border:1px solid var(--border); background:var(--bg3); color:var(--teal); }
+    /* storage visual */
+    .storage-visual { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.5rem; margin:1.5rem 0; }
+    .storage-row { display:flex; align-items:center; gap:1rem; padding:.6rem 0; border-bottom:1px solid var(--border); }
+    .storage-row:last-child { border-bottom:none; }
+    .storage-key { font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--blue); min-width:160px; }
+    .storage-val { font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--green); }
+    /* srcset diagram */
+    .srcset-diagram { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; margin:1.5rem 0; }
+    .srcset-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; text-align:center; }
+    .srcset-card-size { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700; color:var(--s4); }
+    .srcset-card-label { font-size:.75rem; color:var(--text2); margin-top:.25rem; }
+    .srcset-card-img { font-size:.7rem; color:var(--teal); margin-top:.4rem; font-family:'JetBrains Mono',monospace; }
+    /* API cards */
+    .api-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin:1.5rem 0; }
+    .api-card { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--s4); border-radius:var(--radius); padding:1.1rem; }
+    .api-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; margin-bottom:.4rem; }
+    .api-card-desc { font-size:.82rem; color:var(--text2); }
+    .api-card-use { font-size:.75rem; color:var(--teal); margin-top:.5rem; font-family:'JetBrains Mono',monospace; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html" class="active">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s4">Séance 4</div>
+      <a href="#s4-video"   class="sidebar-item"><span class="sidebar-num">01</span>Vidéo HTML5</a>
+      <a href="#s4-audio"   class="sidebar-item"><span class="sidebar-num">02</span>Audio HTML5</a>
+      <a href="#s4-canvas"  class="sidebar-item"><span class="sidebar-num">03</span>Canvas</a>
+      <a href="#s4-iframe"  class="sidebar-item"><span class="sidebar-num">04</span>iframes</a>
+      <a href="#s4-storage" class="sidebar-item"><span class="sidebar-num">05</span>Web Storage</a>
+      <a href="#s4-apis"    class="sidebar-item"><span class="sidebar-num">06</span>APIs HTML5</a>
+      <a href="#s4-picture" class="sidebar-item"><span class="sidebar-num">07</span>picture &amp; srcset</a>
+      <a href="#s4-data"    class="sidebar-item"><span class="sidebar-num">08</span>Attributs data-*</a>
+      <a href="#s4-exo"     class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s4-bilan"   class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance3.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">← Séance 3</a>
+      <a href="seance5.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--s4);">Séance 5 →</a>
+    </div>
+  </aside>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero" style="--s-glow:rgba(167,139,250,.12);">
+      <style>.session-hero::before { background:radial-gradient(ellipse at top left,rgba(167,139,250,.12),transparent 60%) !important; }</style>
+      <div class="session-badge s4">Séance 04 / 06</div>
+      <h1>Multimédia &amp; HTML5 Avancé</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">video • audio • canvas • iframe • Web Storage • APIs HTML5 • picture • data-*</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire+</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 VIDÉO ══ -->
+    <div id="s4-video">
+      <div class="section-header"><span class="section-num">01</span><h2>Vidéo HTML5 — &lt;video&gt;</h2></div>
+      <p>Avant HTML5 (2008), intégrer une vidéo nécessitait un plugin tiers — Flash, QuickTime, RealPlayer. Aujourd'hui la balise <code>&lt;video&gt;</code> est native dans tous les navigateurs modernes : aucun plugin, aucune dépendance externe.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📺</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — La chaîne TV avec décodeur de secours</div>
+          <p>Pensez aux sources multiples comme des chaînes de secours : si le navigateur ne supporte pas MP4, il essaie WebM, puis OGG. Si <em>aucune</em> source ne fonctionne, le texte de repli s'affiche — comme un message "signal indisponible" sur votre télé.</p>
+        </div>
+      </div>
+
+      <h3>Syntaxe de base</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Forme minimale --&gt;
+&lt;video src="film.mp4" controls&gt;&lt;/video&gt;
+
+&lt;!-- Forme recommandée — sources multiples + accessibilité --&gt;
+&lt;video
+  width="800"
+  height="450"
+  controls
+  poster="miniature.jpg"
+  preload="metadata"
+  muted
+  loop
+  playsinline
+  aria-label="Démonstration de la balise video HTML5"&gt;
+
+  &lt;source src="film.webm" type="video/webm"&gt;
+  &lt;source src="film.mp4"  type="video/mp4"&gt;
+  &lt;source src="film.ogv"  type="video/ogg"&gt;
+
+  &lt;!-- Sous-titres / transcription --&gt;
+  &lt;track kind="subtitles" src="sous-titres-fr.vtt" srclang="fr" label="Français" default&gt;
+  &lt;track kind="subtitles" src="subtitles-en.vtt"   srclang="en" label="English"&gt;
+  &lt;track kind="captions"  src="audio-desc.vtt"     srclang="fr" label="Description audio"&gt;
+
+  &lt;!-- Texte de repli pour navigateurs très anciens --&gt;
+  &lt;p&gt;Votre navigateur ne supporte pas la balise vidéo HTML5.
+     &lt;a href="film.mp4"&gt;Télécharger la vidéo&lt;/a&gt; (MP4, 42 Mo).&lt;/p&gt;
+&lt;/video&gt;</pre></div>
+      </div>
+
+      <h3>Tous les attributs de &lt;video&gt;</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Valeur(s)</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>src</code></td><td>URL</td><td>Source unique (alternativement, utilisez des balises &lt;source&gt;)</td></tr>
+            <tr><td><code>controls</code></td><td>booléen</td><td>Affiche les contrôles natifs du navigateur (lecture, volume, plein écran)</td></tr>
+            <tr><td><code>width / height</code></td><td>pixels</td><td>Dimensions de la zone de lecture — évite le layout shift</td></tr>
+            <tr><td><code>poster</code></td><td>URL image</td><td>Image affichée avant la lecture (comme la jaquette d'un DVD)</td></tr>
+            <tr><td><code>autoplay</code></td><td>booléen</td><td>Lecture automatique — nécessite <code>muted</code> sur la plupart des navigateurs</td></tr>
+            <tr><td><code>muted</code></td><td>booléen</td><td>Soupe coupé au démarrage — obligatoire pour autoplay</td></tr>
+            <tr><td><code>loop</code></td><td>booléen</td><td>Lecture en boucle infinie</td></tr>
+            <tr><td><code>preload</code></td><td><code>none</code> / <code>metadata</code> / <code>auto</code></td><td>Contrôle le chargement anticipé : metadata = durée + dimensions seulement</td></tr>
+            <tr><td><code>playsinline</code></td><td>booléen</td><td>iOS : empêche le passage en plein écran automatique — nécessaire pour mobile</td></tr>
+            <tr><td><code>crossorigin</code></td><td><code>anonymous</code> / <code>use-credentials</code></td><td>Autorise CORS pour les ressources cross-domain</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Les formats vidéo — lequel choisir ?</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Format</th><th>Extension</th><th>Codec</th><th>Support</th><th>Recommandation</th></tr></thead>
+          <tbody>
+            <tr><td><span class="format-badge">.mp4</span></td><td>video/mp4</td><td>H.264 / AVC</td><td>✅ Universel (99%+)</td><td>Source principale — toujours inclure</td></tr>
+            <tr><td><span class="format-badge">.webm</span></td><td>video/webm</td><td>VP9 / AV1</td><td>✅ Chrome, Firefox, Edge</td><td>Mettre en premier — meilleure compression</td></tr>
+            <tr><td><span class="format-badge">.ogv</span></td><td>video/ogg</td><td>Theora</td><td>⚠️ Firefox uniquement (ancien)</td><td>Optionnel — rétro-compatibilité</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Ordre des sources — important !</div>
+          <p>Le navigateur essaie les <code>&lt;source&gt;</code> <strong>dans l'ordre</strong> et utilise le premier qu'il supporte. Placez toujours WebM en premier (meilleure compression = fichier plus léger), puis MP4 en filet de sécurité universel.</p>
+        </div>
+      </div>
+
+      <h3>Sous-titres avec &lt;track&gt; — accessibilité et SEO</h3>
+      <p>La balise <code>&lt;track&gt;</code> lie un fichier de sous-titres au format <strong>WebVTT</strong> (.vtt) à votre vidéo. C'est indispensable pour l'accessibilité (personnes sourdes ou malentendantes) et pour le référencement (Google peut indexer le contenu de vos sous-titres).</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">VTT</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>WEBVTT
+
+00:00:00.000 --> 00:00:03.500
+Bienvenue dans ce tutoriel HTML5.
+
+00:00:03.500 --> 00:00:07.000
+Aujourd'hui nous allons apprendre la balise &lt;video&gt;.
+
+00:00:07.000 --> 00:00:11.200
+Elle permet d'intégrer des vidéos sans plugin.</pre></div>
+      </div>
+
+      <h3>Intégrer YouTube ou Vimeo</h3>
+      <p>YouTube et Vimeo ne fournissent pas de fichier vidéo direct — ils utilisent des <strong>iframes</strong> (voir section 04). Mais si vous hébergez vos propres vidéos, <code>&lt;video&gt;</code> est la solution.</p>
+    </div>
+
+    <!-- ══ 02 AUDIO ══ -->
+    <div id="s4-audio">
+      <div class="section-header"><span class="section-num">02</span><h2>Audio HTML5 — &lt;audio&gt;</h2></div>
+      <p>La balise <code>&lt;audio&gt;</code> fonctionne exactement comme <code>&lt;video&gt;</code> : même logique de sources multiples, mêmes attributs booléens, même texte de repli. Seul manque : pas d'attribut <code>poster</code> ni <code>width/height</code> puisqu'il n'y a pas d'image à afficher.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Forme minimale --&gt;
+&lt;audio src="musique.mp3" controls&gt;&lt;/audio&gt;
+
+&lt;!-- Forme recommandée --&gt;
+&lt;audio
+  controls
+  preload="metadata"
+  aria-label="Extrait sonore — Introduction au HTML5"&gt;
+
+  &lt;source src="extrait.ogg" type="audio/ogg"&gt;
+  &lt;source src="extrait.mp3" type="audio/mpeg"&gt;
+  &lt;source src="extrait.wav" type="audio/wav"&gt;
+
+  &lt;p&gt;Votre navigateur ne supporte pas l'audio HTML5.
+     &lt;a href="extrait.mp3"&gt;Télécharger l'audio&lt;/a&gt;&lt;/p&gt;
+&lt;/audio&gt;
+
+&lt;!-- Audio en boucle pour fond musical (toujours muted + autoplay) --&gt;
+&lt;audio autoplay muted loop&gt;
+  &lt;source src="ambiance.webm" type="audio/webm"&gt;
+  &lt;source src="ambiance.mp3"  type="audio/mpeg"&gt;
+&lt;/audio&gt;</pre></div>
+      </div>
+
+      <h3>Formats audio — comparatif</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Format</th><th>Type MIME</th><th>Compression</th><th>Support</th><th>Usage typique</th></tr></thead>
+          <tbody>
+            <tr><td><span class="format-badge">.mp3</span></td><td>audio/mpeg</td><td>Avec pertes</td><td>✅ Universel</td><td>Musique, podcasts — standard</td></tr>
+            <tr><td><span class="format-badge">.ogg</span></td><td>audio/ogg</td><td>Avec pertes</td><td>✅ Chrome, FF, Edge</td><td>Effets sonores jeux web</td></tr>
+            <tr><td><span class="format-badge">.wav</span></td><td>audio/wav</td><td>Sans pertes</td><td>✅ Universel</td><td>Sons courts (effets UI) — fichier lourd</td></tr>
+            <tr><td><span class="format-badge">.webm</span></td><td>audio/webm</td><td>Avec pertes</td><td>✅ Navigateurs modernes</td><td>Meilleure compression que MP3</td></tr>
+            <tr><td><span class="format-badge">.aac</span></td><td>audio/aac</td><td>Avec pertes</td><td>✅ Safari, Chrome</td><td>Mobile / Apple — bon pour streaming</td></tr>
+            <tr><td><span class="format-badge">.flac</span></td><td>audio/flac</td><td>Sans pertes</td><td>⚠️ Partiel</td><td>Audio haute qualité (musique)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">🎵</div>
+        <div class="callout-body">
+          <div class="callout-title">Stratégie de sources pour l'audio</div>
+          <p>Fournissez toujours <strong>OGG + MP3</strong> minimum. OGG est plus léger et open-source ; MP3 est le filet universel. Pour les applications exigeantes (jeux), ajoutez WAV pour des sons très courts (latence nulle).</p>
+        </div>
+      </div>
+
+      <h3>Accessibilité et audio</h3>
+      <p>Un lecteur audio seul n'est pas suffisant pour l'accessibilité. Accompagnez toujours un contenu audio important d'une <strong>transcription textuelle</strong> — soit visible sur la page, soit dans un <code>&lt;details&gt;</code> expansible juste en dessous.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;figure&gt;
+  &lt;figcaption&gt;🎙️ Interview — Introduction au HTML5 (3 min 42)&lt;/figcaption&gt;
+  &lt;audio controls&gt;
+    &lt;source src="interview.ogg" type="audio/ogg"&gt;
+    &lt;source src="interview.mp3" type="audio/mpeg"&gt;
+  &lt;/audio&gt;
+&lt;/figure&gt;
+
+&lt;!-- Transcription accessible --&gt;
+&lt;details&gt;
+  &lt;summary&gt;📝 Lire la transcription&lt;/summary&gt;
+  &lt;div&gt;
+    &lt;p&gt;&lt;strong&gt;Interviewer :&lt;/strong&gt; Qu'est-ce que le HTML5 ?&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Invité :&lt;/strong&gt; Le HTML5 est la cinquième version du langage...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/details&gt;</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 03 CANVAS ══ -->
+    <div id="s4-canvas">
+      <div class="section-header"><span class="section-num">03</span><h2>Canvas — dessin avec JavaScript</h2></div>
+      <p>La balise <code>&lt;canvas&gt;</code> est une zone de dessin bitmap pilotée par JavaScript. Contrairement aux SVG (vectoriels et dans le DOM), le canvas est un <strong>tableau de pixels</strong> : parfait pour les jeux, les graphiques dynamiques et les traitements d'image en temps réel.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🎨</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — La toile et le pinceau</div>
+          <p><code>&lt;canvas&gt;</code> est la <em>toile vierge</em>. JavaScript (via le <strong>contexte 2D</strong>) est le pinceau. Vous dessinez instruction par instruction : tracez un rectangle, remplissez-le de rouge, écrivez du texte, dessinez un cercle… chaque instruction s'exécute sur la toile immédiatement.</p>
+        </div>
+      </div>
+
+      <h3>Structure de base du canvas</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Déclaration HTML : juste width et height --&gt;
+&lt;canvas
+  id="monCanvas"
+  width="600"
+  height="400"
+  aria-label="Graphique de ventes mensuelles — Voir le tableau ci-dessous"
+  role="img"&gt;
+  &lt;!-- Contenu de repli pour navigateurs sans canvas --&gt;
+  &lt;p&gt;Votre navigateur ne supporte pas le canvas HTML5.&lt;/p&gt;
+&lt;/canvas&gt;</pre></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JS</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>// 1. Récupérer la référence de l'élément canvas
+const canvas = document.getElementById('monCanvas');
+
+// 2. Obtenir le contexte de rendu 2D
+const ctx = canvas.getContext('2d');
+
+// ── Rectangles ──────────────────────────────────
+ctx.fillStyle   = '#3B82F6';          // couleur de remplissage
+ctx.fillRect(50, 50, 200, 100);       // fillRect(x, y, largeur, hauteur)
+
+ctx.strokeStyle = '#2DD4BF';          // couleur de contour
+ctx.lineWidth   = 3;
+ctx.strokeRect(300, 50, 200, 100);    // rectangle vide (contour)
+
+ctx.clearRect(80, 80, 60, 40);        // efface une zone
+
+// ── Texte ────────────────────────────────────────
+ctx.fillStyle = '#E6EDF3';
+ctx.font      = 'bold 24px Syne, sans-serif';
+ctx.fillText('Bonjour Canvas !', 50, 230);
+
+// ── Chemin (path) — cercle ────────────────────────
+ctx.beginPath();
+ctx.arc(400, 280, 60, 0, Math.PI * 2);  // (x, y, rayon, début, fin)
+ctx.fillStyle = '#A78BFA';
+ctx.fill();
+
+// ── Ligne ────────────────────────────────────────
+ctx.beginPath();
+ctx.moveTo(50,  350);
+ctx.lineTo(550, 350);
+ctx.strokeStyle = '#F59E0B';
+ctx.lineWidth   = 2;
+ctx.stroke();</pre></div>
+      </div>
+
+      <h3>Canvas vs SVG — quand choisir quoi ?</h3>
+      <div class="grid-2">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--s4);border-radius:var(--radius);padding:1.1rem;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.75rem;">Canvas &lt;canvas&gt;</div>
+          <p style="font-size:.85rem;color:var(--text2);">✅ Jeux vidéo, animations temps réel<br>✅ Traitement d'image pixel par pixel<br>✅ Graphiques avec +1000 éléments<br>✅ Effets visuels complexes<br>✅ Manipulation de pixels (filtres photo)<br>❌ Non accessible (pas dans le DOM)<br>❌ Pas de clic par élément<br>❌ Qualité pixelisée en zoom</p>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--teal);border-radius:var(--radius);padding:1.1rem;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.75rem;">SVG &lt;svg&gt;</div>
+          <p style="font-size:.85rem;color:var(--text2);">✅ Icônes, logos (infiniment scalable)<br>✅ Graphiques interactifs (chaque élément cliquable)<br>✅ Animations CSS possibles<br>✅ Indexable par les moteurs de recherche<br>✅ Accessible (du texte dans le DOM)<br>❌ Lent avec beaucoup d'éléments<br>❌ Pas adapté aux jeux<br>❌ Pas de manipulation de pixels</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Canvas et accessibilité</div>
+          <p>Le canvas est <strong>opaque aux lecteurs d'écran</strong>. Si votre canvas affiche des informations (graphique de données, carte), vous devez OBLIGATOIREMENT fournir un équivalent textuel : soit un tableau HTML juste dessous, soit des attributs ARIA (<code>role="img"</code> + <code>aria-label</code>), soit les deux.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 IFRAMES ══ -->
+    <div id="s4-iframe">
+      <div class="section-header"><span class="section-num">04</span><h2>iframes — intégrer d'autres pages</h2></div>
+      <p>La balise <code>&lt;iframe&gt;</code> (inline frame) permet d'<strong>incorporer une page web complète dans une autre</strong>. C'est le mécanisme utilisé par YouTube, Google Maps, Spotify et la plupart des widgets tiers pour s'intégrer dans vos pages.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🖼️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — La fenêtre dans un mur</div>
+          <p>Un iframe est comme percer une <em>fenêtre dans votre mur</em> pour voir la maison du voisin. Votre page reste votre page, mais à travers la fenêtre vous voyez le contenu d'un autre site. Ce site voisin n'a aucun accès à votre maison (sécurité des iframes).</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- YouTube embed --&gt;
+&lt;iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/qz0aGYrrlhU"
+  title="Introduction au HTML5 — Tutoriel complet"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+  loading="lazy"&gt;
+&lt;/iframe&gt;
+
+&lt;!-- Google Maps embed --&gt;
+&lt;iframe
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!..."
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"
+  title="Localisation — Paris, France"&gt;
+&lt;/iframe&gt;
+
+&lt;!-- Page locale ou intranet --&gt;
+&lt;iframe
+  src="formulaire-contact.html"
+  width="100%"
+  height="500"
+  title="Formulaire de contact intégré"
+  sandbox="allow-forms allow-scripts"&gt;
+&lt;/iframe&gt;</pre></div>
+      </div>
+
+      <h3>L'attribut sandbox — sécurité des iframes</h3>
+      <p>L'attribut <code>sandbox</code> <strong>isole</strong> le contenu de l'iframe : par défaut tout est interdit, puis on autorise explicitement ce qu'on veut. C'est la bonne pratique pour les contenus tiers non maîtrisés.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur sandbox</th><th>Ce qui est autorisé</th></tr></thead>
+          <tbody>
+            <tr><td><code>allow-forms</code></td><td>Soumettre des formulaires</td></tr>
+            <tr><td><code>allow-scripts</code></td><td>Exécuter du JavaScript</td></tr>
+            <tr><td><code>allow-same-origin</code></td><td>Conserver l'origine (cookies, stockage)</td></tr>
+            <tr><td><code>allow-popups</code></td><td>Ouvrir des popups / nouvelles fenêtres</td></tr>
+            <tr><td><code>allow-top-navigation</code></td><td>Naviguer dans la fenêtre parente</td></tr>
+            <tr><td><code>allow-modals</code></td><td>Ouvrir des boîtes de dialogue</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Iframe responsive — le problème du ratio</div>
+          <p>Un iframe avec <code>width="560" height="315"</code> fixe n'est pas responsive. La technique standard : enveloppez l'iframe dans un <code>&lt;div&gt;</code> avec <code>position:relative; padding-bottom:56.25%; height:0;</code> et l'iframe avec <code>position:absolute; width:100%; height:100%;</code>. Le ratio 56.25% correspond au format 16:9 (315/560 × 100).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 WEB STORAGE ══ -->
+    <div id="s4-storage">
+      <div class="section-header"><span class="section-num">05</span><h2>Web Storage — stocker des données côté client</h2></div>
+      <p>Avant HTML5, les cookies étaient le seul moyen de stocker des données dans le navigateur. Le <strong>Web Storage</strong> introduit deux mécanismes bien plus simples et puissants — sans limite des 4 Ko des cookies, sans envoyer les données au serveur à chaque requête.</p>
+
+      <div class="grid-2">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:var(--radius);padding:1.1rem;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.4rem;color:var(--blue);">localStorage</div>
+          <p style="font-size:.85rem;color:var(--text2);">Données <strong>persistantes</strong> — survivent à la fermeture du navigateur et au redémarrage de l'ordinateur. Idéal pour les préférences utilisateur (thème sombre, langue).</p>
+          <p style="font-size:.8rem;margin-top:.5rem;"><strong>Capacité :</strong> ~5 Mo par domaine</p>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--purple);border-radius:var(--radius);padding:1.1rem;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.4rem;color:var(--s4);">sessionStorage</div>
+          <p style="font-size:.85rem;color:var(--text2);">Données de <strong>session</strong> — effacées dès que l'onglet est fermé. Idéal pour l'état d'un formulaire multi-étapes ou un panier temporaire.</p>
+          <p style="font-size:.8rem;margin-top:.5rem;"><strong>Capacité :</strong> ~5 Mo par onglet</p>
+        </div>
+      </div>
+
+      <h3>Visualisation — ce qu'il y a dans le localStorage</h3>
+      <div class="storage-visual">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text3);margin-bottom:.75rem;letter-spacing:.1em;text-transform:uppercase;">localStorage — domaine : monsite.com</div>
+        <div class="storage-row">
+          <span class="storage-key">theme</span>
+          <span style="color:var(--text3);">→</span>
+          <span class="storage-val">"dark"</span>
+        </div>
+        <div class="storage-row">
+          <span class="storage-key">langue</span>
+          <span style="color:var(--text3);">→</span>
+          <span class="storage-val">"fr"</span>
+        </div>
+        <div class="storage-row">
+          <span class="storage-key">user_prefs</span>
+          <span style="color:var(--text3);">→</span>
+          <span class="storage-val">{"fontSize":16,"notifications":true}</span>
+        </div>
+        <div class="storage-row">
+          <span class="storage-key">derniere_visite</span>
+          <span style="color:var(--text3);">→</span>
+          <span class="storage-val">"2024-09-15T14:32:00Z"</span>
+        </div>
+      </div>
+
+      <h3>L'API Web Storage en JavaScript</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JS</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>// ── localStorage ─────────────────────────────────
+
+// Stocker une valeur (toujours des strings)
+localStorage.setItem('theme', 'dark');
+localStorage.setItem('prenom', 'Alice');
+
+// Lire une valeur
+const theme = localStorage.getItem('theme');   // → "dark"
+const absent = localStorage.getItem('xyz');    // → null (si inexistant)
+
+// Supprimer une clé
+localStorage.removeItem('theme');
+
+// Tout effacer (attention !)
+localStorage.clear();
+
+// Nombre d'éléments stockés
+console.log(localStorage.length);  // → 1
+
+// ── Stocker des objets (JSON) ──────────────────────
+const prefs = { fontSize: 16, notifications: true, langue: 'fr' };
+localStorage.setItem('user_prefs', JSON.stringify(prefs));
+
+// Récupérer l'objet
+const prefsStockees = JSON.parse(localStorage.getItem('user_prefs'));
+console.log(prefsStockees.fontSize);  // → 16
+
+// ── Pattern défensif recommandé ───────────────────
+function sauvegarderTheme(theme) {
+  try {
+    localStorage.setItem('theme', theme);
+  } catch (e) {
+    // localStorage peut être indisponible (navigation privée, quota dépassé)
+    console.warn('Impossible de sauvegarder le thème :', e);
+  }
+}
+
+function chargerTheme() {
+  return localStorage.getItem('theme') || 'light';  // 'light' par défaut
+}
+
+// ── sessionStorage — même API, périmètre différent ──
+sessionStorage.setItem('etape_formulaire', '2');
+sessionStorage.setItem('panier_temp', JSON.stringify([{ id: 1, qty: 2 }]));</pre></div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ce que Web Storage ne remplace PAS</div>
+          <p><strong>Ne stockez jamais</strong> dans localStorage : mots de passe, tokens d'authentification sensibles, données médicales ou bancaires. Le localStorage est accessible à tout JavaScript sur le même domaine — une attaque XSS peut tout lire. Pour les données sensibles, utilisez des cookies <code>HttpOnly; Secure; SameSite=Strict</code> gérés côté serveur.</p>
+        </div>
+      </div>
+
+      <h3>Inspecter le Web Storage — DevTools</h3>
+      <p>Dans Chrome ou Firefox : <kbd>F12</kbd> → onglet <strong>Application</strong> (Chrome) ou <strong>Stockage</strong> (Firefox) → <em>Local Storage</em> / <em>Session Storage</em>. Vous pouvez ajouter, modifier et supprimer des entrées en direct depuis cet outil.</p>
+    </div>
+
+    <!-- ══ 06 APIs HTML5 ══ -->
+    <div id="s4-apis">
+      <div class="section-header"><span class="section-num">06</span><h2>APIs HTML5 modernes</h2></div>
+      <p>HTML5 a introduit un ensemble d'<strong>APIs JavaScript</strong> qui étendent les capacités du navigateur bien au-delà de l'affichage de texte : géolocalisation, glisser-déposer, travail hors ligne, notifications… Ces APIs sont appelées par JavaScript mais déclenchées ou configurées en HTML.</p>
+
+      <div class="api-grid">
+        <div class="api-card">
+          <div class="api-card-title">🌍 Geolocation</div>
+          <div class="api-card-desc">Récupère la position GPS de l'utilisateur (avec sa permission).</div>
+          <div class="api-card-use">navigator.geolocation</div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-title">🔔 Notifications</div>
+          <div class="api-card-desc">Affiche des notifications natives du système d'exploitation.</div>
+          <div class="api-card-use">Notification API</div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-title">🖱️ Drag &amp; Drop</div>
+          <div class="api-card-desc">Glisser-déposer d'éléments HTML et de fichiers depuis le bureau.</div>
+          <div class="api-card-use">draggable + events</div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-title">📶 Online / Offline</div>
+          <div class="api-card-desc">Détecte si l'utilisateur a une connexion internet active.</div>
+          <div class="api-card-use">navigator.onLine</div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-title">📋 Clipboard</div>
+          <div class="api-card-desc">Lire et écrire dans le presse-papier du système (avec permission).</div>
+          <div class="api-card-use">navigator.clipboard</div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-title">🗄️ IndexedDB</div>
+          <div class="api-card-desc">Base de données côté client pour grandes quantités de données structurées.</div>
+          <div class="api-card-use">window.indexedDB</div>
+        </div>
+      </div>
+
+      <h3>Geolocation — exemple complet</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;button id="btn-position"&gt;📍 Obtenir ma position&lt;/button&gt;
+&lt;p id="resultat-geo"&gt;Cliquez pour activer la géolocalisation.&lt;/p&gt;</pre></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JS</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>document.getElementById('btn-position').addEventListener('click', () => {
+  const output = document.getElementById('resultat-geo');
+
+  // 1. Vérifier le support
+  if (!('geolocation' in navigator)) {
+    output.textContent = '❌ Géolocalisation non supportée.';
+    return;
+  }
+
+  output.textContent = '⏳ Récupération de la position…';
+
+  // 2. Demander la position (déclenche une popup de permission)
+  navigator.geolocation.getCurrentPosition(
+    // Succès
+    (position) => {
+      const { latitude, longitude, accuracy } = position.coords;
+      output.innerHTML = `
+        ✅ Latitude  : &lt;strong&gt;${latitude.toFixed(6)}&lt;/strong&gt;&lt;br&gt;
+        Longitude : &lt;strong&gt;${longitude.toFixed(6)}&lt;/strong&gt;&lt;br&gt;
+        Précision : ${Math.round(accuracy)} mètres
+      `;
+    },
+    // Erreur (permission refusée, timeout…)
+    (error) => {
+      const messages = {
+        1: 'Permission refusée par l'utilisateur.',
+        2: 'Position indisponible (GPS hors portée).',
+        3: 'Délai dépassé (timeout).'
+      };
+      output.textContent = '❌ ' + (messages[error.code] || 'Erreur inconnue.');
+    },
+    // Options
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+  );
+});</pre></div>
+      </div>
+
+      <h3>Drag &amp; Drop natif HTML5</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Rendre un élément "draggable" --&gt;
+&lt;div
+  draggable="true"
+  id="carte-1"
+  ondragstart="glisser(event)"
+  class="carte"&gt;
+  🃏 Carte déplaçable
+&lt;/div&gt;
+
+&lt;!-- Zone de dépôt --&gt;
+&lt;div
+  id="zone-depot"
+  ondrop="deposer(event)"
+  ondragover="event.preventDefault()"
+  class="zone-depot"&gt;
+  📦 Déposez ici
+&lt;/div&gt;</pre></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JS</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>function glisser(e) {
+  // Stocker l'id de l'élément glissé
+  e.dataTransfer.setData('text/plain', e.target.id);
+}
+
+function deposer(e) {
+  e.preventDefault();
+  const id = e.dataTransfer.getData('text/plain');
+  const element = document.getElementById(id);
+  e.target.appendChild(element);
+}</pre></div>
+      </div>
+
+      <h3>Détection online / offline</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JS</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>// État actuel
+console.log('Connecté :', navigator.onLine);  // true / false
+
+// Écouter les changements
+window.addEventListener('online',  () => afficherMessage('✅ Connexion rétablie'));
+window.addEventListener('offline', () => afficherMessage('⚠️ Connexion perdue — mode hors ligne'));</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 07 PICTURE & SRCSET ══ -->
+    <div id="s4-picture">
+      <div class="section-header"><span class="section-num">07</span><h2>Images responsive — picture &amp; srcset</h2></div>
+      <p>Une image de 2000 px de large chargée sur un téléphone de 390 px, c'est une catastrophe pour les performances. HTML5 résout ce problème avec deux mécanismes complémentaires : l'attribut <code>srcset</code> sur <code>&lt;img&gt;</code> et la balise <code>&lt;picture&gt;</code>.</p>
+
+      <h3>srcset — proposer plusieurs résolutions</h3>
+      <p>L'attribut <code>srcset</code> liste plusieurs versions de la même image. Le navigateur choisit <strong>automatiquement</strong> la plus adaptée selon la densité de pixels de l'écran et la taille d'affichage.</p>
+
+      <div class="srcset-diagram">
+        <div class="srcset-card">
+          <div class="srcset-card-size">320px</div>
+          <div class="srcset-card-label">Téléphone</div>
+          <div class="srcset-card-img">photo-320.webp</div>
+        </div>
+        <div class="srcset-card">
+          <div class="srcset-card-size">768px</div>
+          <div class="srcset-card-label">Tablette</div>
+          <div class="srcset-card-img">photo-768.webp</div>
+        </div>
+        <div class="srcset-card">
+          <div class="srcset-card-size">1200px</div>
+          <div class="srcset-card-label">Desktop</div>
+          <div class="srcset-card-img">photo-1200.webp</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- srcset avec descripteurs de largeur (w) --&gt;
+&lt;img
+  src="photo-800.jpg"
+  srcset="
+    photo-320.webp  320w,
+    photo-640.webp  640w,
+    photo-800.jpg   800w,
+    photo-1200.jpg 1200w,
+    photo-1600.jpg 1600w
+  "
+  sizes="
+    (max-width: 480px)  100vw,
+    (max-width: 768px)  90vw,
+    (max-width: 1200px) 66vw,
+    50vw
+  "
+  alt="Paysage montagneux au lever du soleil"
+  width="800"
+  height="534"
+  loading="lazy"&gt;
+
+&lt;!-- srcset avec descripteurs de densité (x) — pour icônes/logos --&gt;
+&lt;img
+  src="logo.png"
+  srcset="logo.png 1x, logo@2x.png 2x, logo@3x.png 3x"
+  alt="Logo MonSite"
+  width="200"
+  height="60"&gt;</pre></div>
+      </div>
+
+      <h3>&lt;picture&gt; — art direction et formats modernes</h3>
+      <p>La balise <code>&lt;picture&gt;</code> va plus loin que <code>srcset</code> : elle permet de servir des <strong>formats différents</strong> (WebP, AVIF) avec un fallback, et d'adapter le <em>cadrage</em> de l'image selon la taille d'écran (art direction).</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;picture&gt;
+  &lt;!-- Format AVIF — meilleure compression (support partiel) --&gt;
+  &lt;source
+    srcset="hero-mobile.avif 480w, hero-desktop.avif 1200w"
+    sizes="(max-width:768px) 100vw, 50vw"
+    type="image/avif"&gt;
+
+  &lt;!-- Format WebP — bon support moderne --&gt;
+  &lt;source
+    srcset="hero-mobile.webp 480w, hero-desktop.webp 1200w"
+    sizes="(max-width:768px) 100vw, 50vw"
+    type="image/webp"&gt;
+
+  &lt;!-- Art direction — image carrée sur mobile, panoramique sur desktop --&gt;
+  &lt;source
+    media="(max-width: 768px)"
+    srcset="hero-portrait.jpg"&gt;
+
+  &lt;!-- Fallback JPEG universel — TOUJOURS obligatoire --&gt;
+  &lt;img
+    src="hero-desktop.jpg"
+    alt="Vue aérienne de la ville de Paris"
+    width="1200"
+    height="630"
+    loading="lazy"&gt;
+&lt;/picture&gt;</pre></div>
+      </div>
+
+      <h3>Comparatif des formats d'image modernes</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Format</th><th>Compression</th><th>Transparence</th><th>Support</th><th>Utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><span class="format-badge">AVIF</span></td><td>Excellente (-50% vs JPEG)</td><td>✅</td><td>Chrome, Firefox (partiel Safari)</td><td>Photos — format d'avenir</td></tr>
+            <tr><td><span class="format-badge">WebP</span></td><td>Très bonne (-30% vs JPEG)</td><td>✅</td><td>✅ Tous navigateurs modernes</td><td>Photos et illustrations — standard actuel</td></tr>
+            <tr><td><span class="format-badge">JPEG</span></td><td>Bonne</td><td>❌</td><td>✅ Universel</td><td>Fallback photo — toujours fournir</td></tr>
+            <tr><td><span class="format-badge">PNG</span></td><td>Lossless (lourd)</td><td>✅</td><td>✅ Universel</td><td>Logos, screenshots, UI avec transparence</td></tr>
+            <tr><td><span class="format-badge">SVG</span></td><td>Vecteur (très léger)</td><td>✅</td><td>✅ Universel</td><td>Icônes, logos, illustrations géométriques</td></tr>
+            <tr><td><span class="format-badge">GIF</span></td><td>Mauvaise</td><td>Partielle</td><td>✅ Universel</td><td>Animations courtes (préférez WebP animé)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 08 DATA-* ══ -->
+    <div id="s4-data">
+      <div class="section-header"><span class="section-num">08</span><h2>Attributs data-* — données personnalisées</h2></div>
+      <p>Les attributs <code>data-*</code> permettent de stocker des <strong>données personnalisées directement dans le HTML</strong>, associées à un élément. Ils servent de pont entre votre HTML et JavaScript — sans polluer les attributs standard, sans variables globales JS.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🏷️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — Les étiquettes sur les produits</div>
+          <p>Imaginez chaque élément HTML comme un produit en rayon. Les attributs <code>data-*</code> sont les <em>étiquettes</em> que vous collez dessus : <code>data-prix="29.90"</code>, <code>data-categorie="electronique"</code>, <code>data-stock="12"</code>. Ces infos sont invisibles au visiteur mais lisibles instantanément par JavaScript.</p>
+        </div>
+      </div>
+
+      <h3>Syntaxe et lecture</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Carte produit avec données métier --&gt;
+&lt;article
+  class="carte-produit"
+  data-id="42"
+  data-prix="29.90"
+  data-categorie="electronique"
+  data-stock="8"
+  data-promo="true"&gt;
+
+  &lt;h3&gt;Casque Bluetooth XS Pro&lt;/h3&gt;
+  &lt;p&gt;Prix : 29,90 €&lt;/p&gt;
+  &lt;button class="btn-ajout"&gt;Ajouter au panier&lt;/button&gt;
+&lt;/article&gt;
+
+&lt;!-- Bouton avec action et cible --&gt;
+&lt;button
+  data-action="supprimer"
+  data-cible-id="article-7"
+  data-confirmation="Êtes-vous sûr ?"&gt;
+  🗑️ Supprimer
+&lt;/button&gt;
+
+&lt;!-- Onglets — état courant --&gt;
+&lt;nav class="onglets"&gt;
+  &lt;button data-onglet="accueil"  data-actif="true"&gt;Accueil&lt;/button&gt;
+  &lt;button data-onglet="profil"   data-actif="false"&gt;Profil&lt;/button&gt;
+  &lt;button data-onglet="reglages" data-actif="false"&gt;Réglages&lt;/button&gt;
+&lt;/nav&gt;</pre></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JS</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>// ── Lire les data-* ──────────────────────────────
+const article = document.querySelector('.carte-produit');
+
+// Via .dataset (propriété camelCase)
+console.log(article.dataset.id);          // "42"
+console.log(article.dataset.prix);        // "29.90"
+console.log(article.dataset.categorie);   // "electronique"
+// data-en-stock → dataset.enStock (tiret → camelCase)
+
+// Via getAttribute (nom exact avec "data-")
+console.log(article.getAttribute('data-stock'));  // "8"
+
+// ── Écrire/modifier un data-* ────────────────────
+article.dataset.stock = '7';          // modifie data-stock en HTML aussi !
+article.dataset.nouveauChamp = 'abc'; // crée data-nouveau-champ
+
+// ── Supprimer ────────────────────────────────────
+delete article.dataset.promo;         // supprime data-promo de l'élément
+
+// ── Cas d'usage — système d'onglets ──────────────
+document.querySelectorAll('[data-onglet]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Désactiver tous
+    document.querySelectorAll('[data-onglet]').forEach(b => {
+      b.dataset.actif = 'false';
+    });
+    // Activer celui cliqué
+    btn.dataset.actif = 'true';
+    afficherOnglet(btn.dataset.onglet);
+  });
+});
+
+// ── Sélecteurs CSS sur data-* ────────────────────
+// [data-actif="true"] { font-weight: bold; border-bottom: 2px solid blue; }</pre></div>
+      </div>
+
+      <h3>Nommage des attributs data-*</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>HTML (kebab-case)</th><th>JS (camelCase via .dataset)</th></tr></thead>
+          <tbody>
+            <tr><td><code>data-nom</code></td><td><code>element.dataset.nom</code></td></tr>
+            <tr><td><code>data-prenom-complet</code></td><td><code>element.dataset.prenomComplet</code></td></tr>
+            <tr><td><code>data-user-id</code></td><td><code>element.dataset.userId</code></td></tr>
+            <tr><td><code>data-is-active</code></td><td><code>element.dataset.isActive</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s4-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎬 Galerie multimédia</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un dossier <code>Seance4/</code> avec <code>index.html</code>. Ajoutez la structure HTML5 complète avec les balises sémantiques vues en séance 2.</li>
+            <li>Intégrez une vidéo YouTube via <code>&lt;iframe&gt;</code> avec les bons attributs de sécurité (<code>title</code>, <code>loading="lazy"</code>, <code>allow</code>, <code>allowfullscreen</code>).</li>
+            <li>Ajoutez un lecteur <code>&lt;audio&gt;</code> avec deux formats (MP3 + OGG — vous pouvez utiliser n'importe quel fichier audio de test). Placez-le dans une <code>&lt;figure&gt;</code> avec <code>&lt;figcaption&gt;</code>.</li>
+            <li>Sous le lecteur audio, ajoutez un bloc <code>&lt;details&gt;&lt;summary&gt;</code> contenant une transcription fictive en 3 lignes de dialogue.</li>
+            <li>Ajoutez une image responsive avec <code>&lt;picture&gt;</code> proposant au moins WebP + JPEG et un <code>srcset</code> avec 3 résolutions.</li>
+            <li>Vérifiez que la page passe la validation W3C (<code>validator.w3.org</code>).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">💾 Préférences persistantes avec localStorage</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page avec deux boutons : "Thème clair" et "Thème sombre". Ajoutez une classe CSS <code>.dark</code> sur <code>&lt;body&gt;</code> qui change les couleurs.</li>
+            <li>En JavaScript, lorsque l'utilisateur clique sur un bouton, basculez la classe <code>.dark</code> sur <code>&lt;body&gt;</code> ET sauvegardez le choix dans <code>localStorage</code> sous la clé <code>'theme'</code>.</li>
+            <li>Au chargement de la page, lisez <code>localStorage.getItem('theme')</code> et appliquez le thème sauvegardé automatiquement.</li>
+            <li>Ajoutez un troisième bouton "Réinitialiser" qui efface l'entrée localStorage et repasse en thème clair.</li>
+            <li>Testez : rechargez la page — votre choix doit persister. Ouvrez les DevTools → Application → Local Storage pour voir l'entrée.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🏷️ Tableau filtrable avec data-*</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau HTML de 8 films (titre, année, genre, note/5) avec <code>data-genre</code> et <code>data-note</code> sur chaque <code>&lt;tr&gt;</code>.</li>
+            <li>Ajoutez un <code>&lt;select&gt;</code> "Filtrer par genre" avec les options : Tous, Action, Comédie, Science-fiction, Drame.</li>
+            <li>En JavaScript, écoutez le <code>change</code> du select. Parcourez toutes les lignes du tableau et cachez (<code>style.display = 'none'</code>) celles dont le <code>dataset.genre</code> ne correspond pas au filtre. "Tous" les affiche toutes.</li>
+            <li>Ajoutez un deuxième filtre "Note minimum" (1 à 5) avec un <code>&lt;input type="range"&gt;</code> qui cache les films sous la note choisie.</li>
+            <li>Affichez le nombre de films visibles dans un <code>&lt;span&gt;</code> mis à jour dynamiquement.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">🎯</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Canvas mini-animation</div>
+          <p>Créez une page avec un <code>&lt;canvas&gt;</code> de 600×400. Dessinez un cercle coloré qui rebondit sur les bords à l'aide de <code>requestAnimationFrame</code>. Ajoutez un bouton Pause/Reprendre. Fournissez un paragraphe de description accessible sous le canvas (<code>role="img"</code> + <code>aria-label</code> sur le canvas).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s4-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Balise <code>&lt;video&gt;</code> : sources multiples, formats (MP4/WebM), <code>&lt;track&gt;</code> pour les sous-titres, tous les attributs</li>
+        <li>Balise <code>&lt;audio&gt;</code> : formats (MP3/OGG/WAV), transcription accessible avec <code>&lt;details&gt;</code></li>
+        <li>Canvas : obtenir un contexte 2D, dessiner rectangles, texte, cercles, lignes — et quand préférer SVG</li>
+        <li>Iframes : intégrer YouTube/Maps, attribut <code>sandbox</code> et ses valeurs, technique du ratio responsive</li>
+        <li>localStorage vs sessionStorage : API complète (setItem, getItem, removeItem, clear), stockage JSON</li>
+        <li>APIs HTML5 : Geolocation (getCurrentPosition, gestion d'erreurs), Drag &amp; Drop, Online/Offline</li>
+        <li>Images responsive : <code>srcset</code> avec descripteurs <code>w</code> et <code>x</code>, attribut <code>sizes</code>, balise <code>&lt;picture&gt;</code> pour art direction et formats</li>
+        <li>Attributs <code>data-*</code> : lire/écrire via <code>.dataset</code>, convention kebab-case → camelCase, cibler en CSS</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Codec</dt><dd>Algorithme de compression/décompression d'un flux vidéo ou audio. Ex : H.264 (vidéo), Opus (audio).</dd>
+          <dt>WebVTT</dt><dd>Format de fichier texte pour sous-titres et légendes (.vtt). Associé à une vidéo via <code>&lt;track&gt;</code>.</dd>
+          <dt>Canvas</dt><dd>Zone de dessin bitmap en HTML. Pilotée uniquement par JavaScript. Contenu non accessible au DOM.</dd>
+          <dt>Contexte 2D</dt><dd>Objet JavaScript renvoyé par <code>canvas.getContext('2d')</code> qui expose toutes les méthodes de dessin.</dd>
+          <dt>iframe</dt><dd>Fenêtre dans la page qui affiche un document HTML externe. Le contenu est isolé de la page hôte.</dd>
+          <dt>sandbox (iframe)</dt><dd>Attribut de sécurité qui restreint les actions du contenu de l'iframe. Liste blanche d'autorisations.</dd>
+          <dt>localStorage</dt><dd>Stockage clé/valeur côté navigateur, persistant après fermeture. Limité à ~5 Mo par domaine.</dd>
+          <dt>sessionStorage</dt><dd>Même API que localStorage mais effacé à la fermeture de l'onglet.</dd>
+          <dt>srcset</dt><dd>Attribut de <code>&lt;img&gt;</code> listant plusieurs sources. Le navigateur choisit selon la taille et la densité de l'écran.</dd>
+          <dt>data-*</dt><dd>Attributs HTML personnalisés pour stocker des métadonnées sur un élément. Accessibles en JS via <code>element.dataset</code>.</dd>
+          <dt>WebP / AVIF</dt><dd>Formats d'image modernes à haute compression. WebP : support universel ; AVIF : encore partiel mais meilleur ratio.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--s4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 5 — SEO &amp; Accessibilité</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Balises meta · Open Graph · ARIA · Audit d'accessibilité · Bonnes pratiques</div>
+        </div>
+        <a href="seance5.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--s4);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;padding:.6rem 1.25rem;border-radius:var(--radius);font-size:.9rem;white-space:nowrap;">Séance 5 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

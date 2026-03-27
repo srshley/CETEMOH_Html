@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 5 — SEO &amp; Accessibilité · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    :root { --s5: #34D399; --s5-dim: rgba(52,211,153,.08); }
+    .section-num       { color:var(--s5); background:var(--s5-dim); border-color:rgba(52,211,153,.25); }
+    .section-header    { border-bottom-color:rgba(52,211,153,.15); }
+    h3                 { color:var(--teal); }
+    .session-badge.s5  { color:var(--s5); background:var(--s5-dim); border-color:rgba(52,211,153,.3); }
+    .sidebar-item.active { color:var(--s5); border-left-color:var(--s5); background:var(--s5-dim); }
+    .sidebar-session-label.s5 { color:var(--s5); }
+    /* SERP preview */
+    .serp-preview { background:#fff; border-radius:var(--radius-lg); padding:1.25rem 1.5rem; margin:1.5rem 0; max-width:600px; }
+    .serp-url  { font-size:.75rem; color:#202124; font-family:Arial,sans-serif; margin-bottom:.15rem; }
+    .serp-url span { color:#5f6368; }
+    .serp-title { color:#1a0dab; font-size:1.15rem; font-family:Arial,sans-serif; line-height:1.3; text-decoration:underline; margin-bottom:.2rem; }
+    .serp-desc { font-size:.85rem; color:#4d5156; font-family:Arial,sans-serif; line-height:1.4; }
+    .serp-date { font-size:.75rem; color:#70757a; font-family:Arial,sans-serif; margin-bottom:.1rem; }
+    /* OG card */
+    .og-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; max-width:520px; margin:1.5rem 0; }
+    .og-card-img { height:160px; background:linear-gradient(135deg,#1e3a5f,#3B82F6); display:flex;align-items:center;justify-content:center;font-size:2.5rem; }
+    .og-card-body { padding:1rem; }
+    .og-card-domain { font-size:.72rem; color:var(--text3); text-transform:uppercase; letter-spacing:.05em; font-family:'JetBrains Mono',monospace; }
+    .og-card-title  { font-weight:700; font-size:.95rem; margin:.2rem 0 .3rem; }
+    .og-card-desc   { font-size:.82rem; color:var(--text2); }
+    /* ARIA roles */
+    .aria-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:.75rem; margin:1.5rem 0; }
+    .aria-card { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--s5); border-radius:var(--radius); padding:.9rem; }
+    .aria-role  { font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--s5); font-weight:700; margin-bottom:.3rem; }
+    .aria-desc  { font-size:.78rem; color:var(--text2); }
+    /* audit items */
+    .audit-list { list-style:none; padding:0; margin:1.25rem 0; }
+    .audit-list li { display:flex; align-items:flex-start; gap:.75rem; padding:.65rem 0; border-bottom:1px solid var(--border); font-size:.9rem; }
+    .audit-list li:last-child { border-bottom:none; }
+    .audit-status { flex-shrink:0; font-size:1rem; }
+    /* contrast demo */
+    .contrast-demo { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; }
+    .contrast-card { border-radius:var(--radius); padding:1rem; text-align:center; }
+    .contrast-bad  { background:#444; color:#888; }
+    .contrast-good { background:#1e293b; color:#f1f5f9; }
+    .contrast-label { font-size:.72rem; font-family:'JetBrains Mono',monospace; margin-bottom:.4rem; display:block; }
+    .contrast-text  { font-size:1rem; font-weight:600; }
+    .contrast-ratio { font-size:.75rem; margin-top:.4rem; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html" class="active">Séance 5</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s5">Séance 5</div>
+      <a href="#s5-intro"  class="sidebar-item"><span class="sidebar-num">01</span>SEO — introduction</a>
+      <a href="#s5-meta"   class="sidebar-item"><span class="sidebar-num">02</span>Balises meta SEO</a>
+      <a href="#s5-og"     class="sidebar-item"><span class="sidebar-num">03</span>Open Graph &amp; Twitter</a>
+      <a href="#s5-struct" class="sidebar-item"><span class="sidebar-num">04</span>Structure sémantique</a>
+      <a href="#s5-a11y"   class="sidebar-item"><span class="sidebar-num">05</span>Accessibilité — bases</a>
+      <a href="#s5-aria"   class="sidebar-item"><span class="sidebar-num">06</span>ARIA — rôles &amp; attributs</a>
+      <a href="#s5-bp"     class="sidebar-item"><span class="sidebar-num">07</span>Bonnes pratiques a11y</a>
+      <a href="#s5-audit"  class="sidebar-item"><span class="sidebar-num">08</span>Audit d'accessibilité</a>
+      <a href="#s5-exo"    class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s5-bilan"  class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance4.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">← Séance 4</a>
+    </div>
+  </aside>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero" style="--s-glow:rgba(52,211,153,.12);">
+      <style>.session-hero::before { background:radial-gradient(ellipse at top left,rgba(52,211,153,.12),transparent 60%) !important; }</style>
+      <div class="session-badge s5">Séance 05 / 06</div>
+      <h1>SEO &amp; Accessibilité</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">meta · Open Graph · structure sémantique · ARIA · audit WCAG · bonnes pratiques</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire+</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 INTRO SEO ══ -->
+    <div id="s5-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>SEO — introduction</h2></div>
+      <p>Le <strong>SEO</strong> (Search Engine Optimization — référencement naturel) est l'ensemble des techniques qui permettent à votre page d'apparaître en bonne position dans les résultats de recherche. Le HTML est la <em>fondation</em> du SEO : un balisage correct et sémantique est la première chose qu'un moteur comme Google analyse.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📚</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — Le bibliothécaire et le catalogueur</div>
+          <p>Google est un <em>bibliothécaire automatique</em>. Votre HTML est la <em>fiche de catalogage</em> de votre livre. Plus la fiche est précise (titre correct, résumé clair, mots-clés pertinents), plus le bibliothécaire rangera votre livre dans les bonnes sections et le recommandera aux bons lecteurs. Une fiche mal remplie = livre introuvable.</p>
+        </div>
+      </div>
+
+      <div class="trio">
+        <div class="trio-card">
+          <span class="trio-emoji">🕷️</span>
+          <div class="trio-name">Exploration</div>
+          <div class="trio-desc">Un robot (<em>crawler</em>) parcourt le web, suit les liens et découvre vos pages</div>
+        </div>
+        <div class="trio-card">
+          <span class="trio-emoji">📊</span>
+          <div class="trio-name">Indexation</div>
+          <div class="trio-desc">Google analyse votre HTML, extrait le contenu et le stocke dans son index</div>
+        </div>
+        <div class="trio-card active" style="border-color:var(--s5);">
+          <span class="trio-emoji">🏆</span>
+          <div class="trio-name">Classement</div>
+          <div class="trio-desc">L'algorithme calcule votre position pour chaque requête selon 200+ critères</div>
+        </div>
+      </div>
+
+      <h3>Ce que Google voit dans votre HTML</h3>
+      <p>Google n'exécute pas toujours le CSS ou le JavaScript. Ce qu'il lit en priorité : le contenu texte brut, les balises <code>&lt;title&gt;</code>, <code>&lt;meta description&gt;</code>, les titres <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>, les textes alternatifs <code>alt</code>, les URL des liens et la structure sémantique des balises HTML5.</p>
+    </div>
+
+    <!-- ══ 02 BALISES META SEO ══ -->
+    <div id="s5-meta">
+      <div class="section-header"><span class="section-num">02</span><h2>Balises meta SEO — la tête de votre document</h2></div>
+      <p>La balise <code>&lt;title&gt;</code> et les balises <code>&lt;meta&gt;</code> dans le <code>&lt;head&gt;</code> sont le <strong>formulaire d'inscription</strong> de votre page dans l'index de Google. Ce sont les premières informations lues par les robots.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+  &lt;!-- ── SEO fondamental ──────────────────────────────── --&gt;
+
+  &lt;!-- Titre affiché dans l'onglet ET dans Google (50–60 car.) --&gt;
+  &lt;title&gt;Apprendre le HTML — Cours complet pour débutants | MonSite&lt;/title&gt;
+
+  &lt;!-- Description visible sous le titre dans Google (120–158 car.) --&gt;
+  &lt;meta name="description"
+        content="Cours HTML complet en 6 séances progressives : structure, listes,
+                 tableaux, formulaires, multimédia et accessibilité. Exemples de
+                 code copiables, exercices pratiques et glossaire."&gt;
+
+  &lt;!-- Mots-clés (impact SEO faible aujourd'hui, mais bonne doc interne) --&gt;
+  &lt;meta name="keywords" content="HTML, CSS, tutoriel, web, débutant, cours"&gt;
+
+  &lt;!-- Auteur de la page --&gt;
+  &lt;meta name="author" content="Prénom Nom"&gt;
+
+  &lt;!-- URL canonique — évite le contenu dupliqué --&gt;
+  &lt;link rel="canonical" href="https://monsite.com/cours-html/"&gt;
+
+  &lt;!-- ── Instructions pour les robots ──────────────────── --&gt;
+
+  &lt;!-- Indexer la page ET suivre ses liens (comportement par défaut) --&gt;
+  &lt;meta name="robots" content="index, follow"&gt;
+
+  &lt;!-- Ne PAS indexer (ex : page admin, brouillon, page de confirmation) --&gt;
+  &lt;!-- &lt;meta name="robots" content="noindex, nofollow"&gt; --&gt;
+
+  &lt;!-- ── Mobile et PWA ──────────────────────────────────── --&gt;
+  &lt;meta name="theme-color" content="#0D1117"&gt;
+  &lt;link rel="icon" href="/favicon.ico" sizes="any"&gt;
+  &lt;link rel="icon" href="/icon.svg" type="image/svg+xml"&gt;
+  &lt;link rel="apple-touch-icon" href="/apple-touch-icon.png"&gt;
+&lt;/head&gt;</pre></div>
+      </div>
+
+      <h3>Prévisualisation SERP — ce que voit l'utilisateur dans Google</h3>
+      <p>Voici comment le <code>&lt;title&gt;</code> et la <code>&lt;meta description&gt;</code> s'affichent dans les résultats de recherche :</p>
+
+      <div class="serp-preview">
+        <div class="serp-url">monsite.com <span>› cours-html</span></div>
+        <div class="serp-date">15 sept. 2024 — </div>
+        <div class="serp-title">Apprendre le HTML — Cours complet pour débutants | MonSite</div>
+        <div class="serp-desc">Cours HTML complet en 6 séances progressives : structure, listes, tableaux, formulaires, multimédia et accessibilité. Exemples de code copiables, exercices pratiques et glossaire.</div>
+      </div>
+
+      <h3>Règles d'or pour le &lt;title&gt; et la meta description</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Élément</th><th>Longueur idéale</th><th>À faire</th><th>À éviter</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>&lt;title&gt;</code></td>
+              <td>50–60 caractères</td>
+              <td>Mot-clé principal en tête, marque à la fin, unique par page</td>
+              <td>Duplication entre pages, titre trop court ou trop générique ("Accueil")</td>
+            </tr>
+            <tr>
+              <td><code>meta description</code></td>
+              <td>120–158 caractères</td>
+              <td>Résumé vendeur avec appel à l'action, mot-clé naturellement intégré</td>
+              <td>Description identique sur plusieurs pages, keyword stuffing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Google peut ignorer votre meta description</div>
+          <p>Google se réserve le droit de réécrire la description affichée dans les résultats s'il estime qu'un extrait de votre page est plus pertinent pour la requête. Mais fournir une bonne description reste important : elle est utilisée quand le contenu de la page est jugé suffisamment pertinent.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 OPEN GRAPH ══ -->
+    <div id="s5-og">
+      <div class="section-header"><span class="section-num">03</span><h2>Open Graph &amp; Twitter Cards — partager sur les réseaux</h2></div>
+      <p>Quand un lien est partagé sur Facebook, LinkedIn, WhatsApp ou Twitter/X, ces plateformes lisent des balises <code>&lt;meta&gt;</code> spéciales pour générer une <strong>prévisualisation riche</strong> (image, titre, description). Sans elles, vous obtenez un aperçu vide ou générique.</p>
+
+      <h3>Open Graph (OG) — Facebook, LinkedIn, WhatsApp…</h3>
+      <p>Le protocole Open Graph a été créé par Facebook en 2010. Il est aujourd'hui le standard universel pour les aperçus de liens sur presque toutes les plateformes sociales.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;!-- ── Open Graph — balises obligatoires ──────────── --&gt;
+  &lt;meta property="og:title"       content="Apprendre le HTML — Cours complet"&gt;
+  &lt;meta property="og:description" content="6 séances progressives pour maîtriser le HTML, de la structure aux formulaires."&gt;
+  &lt;meta property="og:image"       content="https://monsite.com/images/og-html-cours.jpg"&gt;
+  &lt;meta property="og:url"         content="https://monsite.com/cours-html/"&gt;
+  &lt;meta property="og:type"        content="website"&gt;
+
+  &lt;!-- ── Open Graph — balises recommandées ─────────── --&gt;
+  &lt;meta property="og:locale"      content="fr_FR"&gt;
+  &lt;meta property="og:site_name"   content="Cours HTML MonSite"&gt;
+  &lt;meta property="og:image:width"  content="1200"&gt;
+  &lt;meta property="og:image:height" content="630"&gt;
+  &lt;meta property="og:image:alt"    content="Aperçu du cours HTML — fond sombre, code en surbrillance"&gt;
+
+  &lt;!-- ── Twitter / X Cards ─────────────────────────── --&gt;
+  &lt;meta name="twitter:card"        content="summary_large_image"&gt;
+  &lt;meta name="twitter:site"        content="@moncompte_twitter"&gt;
+  &lt;meta name="twitter:creator"     content="@auteur_twitter"&gt;
+  &lt;meta name="twitter:title"       content="Apprendre le HTML — Cours complet"&gt;
+  &lt;meta name="twitter:description" content="6 séances progressives pour maîtriser le HTML."&gt;
+  &lt;meta name="twitter:image"       content="https://monsite.com/images/twitter-html-cours.jpg"&gt;
+  &lt;meta name="twitter:image:alt"   content="Aperçu du cours HTML"&gt;
+&lt;/head&gt;</pre></div>
+      </div>
+
+      <h3>Aperçu d'une carte OG — ce que voit l'utilisateur</h3>
+      <div class="og-card">
+        <div class="og-card-img">📘</div>
+        <div class="og-card-body">
+          <div class="og-card-domain">monsite.com</div>
+          <div class="og-card-title">Apprendre le HTML — Cours complet</div>
+          <div class="og-card-desc">6 séances progressives pour maîtriser le HTML, de la structure aux formulaires.</div>
+        </div>
+      </div>
+
+      <h3>Formats d'image recommandés pour l'image OG</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Plateforme</th><th>Type de carte</th><th>Dimension recommandée</th><th>Ratio</th></tr></thead>
+          <tbody>
+            <tr><td>Facebook / LinkedIn</td><td>og:image</td><td>1200 × 630 px</td><td>1.91:1</td></tr>
+            <tr><td>Twitter/X (grande)</td><td>summary_large_image</td><td>1200 × 628 px</td><td>~1.91:1</td></tr>
+            <tr><td>Twitter/X (petite)</td><td>summary</td><td>400 × 400 px</td><td>1:1</td></tr>
+            <tr><td>WhatsApp</td><td>og:image</td><td>300 × 200 px minimum</td><td>Flexible</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Tester vos métadonnées sociales</div>
+          <p>Utilisez ces outils officiels pour valider et prévisualiser vos cartes : <code>developers.facebook.com/tools/debug/</code> (Sharing Debugger), <code>cards-dev.twitter.com/validator</code> et <code>www.linkedin.com/post-inspector/</code>. Ces outils invalident aussi le cache — utile après une mise à jour.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 STRUCTURE SÉMANTIQUE ══ -->
+    <div id="s5-struct">
+      <div class="section-header"><span class="section-num">04</span><h2>Structure sémantique pour le SEO</h2></div>
+      <p>La sémantique HTML (vue en séance 2) n'est pas seulement une question de propreté de code : elle a un <strong>impact direct sur le SEO</strong>. Google comprend mieux une page dont la structure est explicite, et peut en extraire des informations enrichies pour les résultats.</p>
+
+      <h3>Les signaux sémantiques les plus importants pour Google</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Signal HTML</th><th>Impact SEO</th><th>Règle à suivre</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;h1&gt;</code></td><td>⭐⭐⭐⭐⭐ Très fort</td><td>Un seul &lt;h1&gt; par page, contenant le mot-clé principal naturellement</td></tr>
+            <tr><td><code>&lt;h2&gt;–&lt;h6&gt;</code></td><td>⭐⭐⭐⭐ Fort</td><td>Hiérarchie logique, mots-clés secondaires, pas de sauts (h1 → h3)</td></tr>
+            <tr><td><code>alt</code> des images</td><td>⭐⭐⭐⭐ Fort</td><td>Descriptif, naturel, contient le sujet de l'image — jamais vide si image informative</td></tr>
+            <tr><td>Texte des liens <code>&lt;a&gt;</code></td><td>⭐⭐⭐⭐ Fort</td><td>Descriptif ("lire le guide HTML") jamais générique ("cliquez ici")</td></tr>
+            <tr><td><code>&lt;main&gt;</code></td><td>⭐⭐⭐ Moyen</td><td>Délimite le contenu principal — aidez Google à le distinguer de la nav/footer</td></tr>
+            <tr><td><code>&lt;article&gt;</code></td><td>⭐⭐⭐ Moyen</td><td>Contenu autonome (article de blog, news) — peut être partagé indépendamment</td></tr>
+            <tr><td><code>&lt;strong&gt;, &lt;em&gt;</code></td><td>⭐⭐ Faible</td><td>Signale l'importance — à utiliser avec parcimonie et pour du sens réel</td></tr>
+            <tr><td>URL lisible + <code>canonical</code></td><td>⭐⭐⭐⭐ Fort</td><td>URLs courtes, en français, sans paramètres inutiles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Structured data — données structurées JSON-LD</h3>
+      <p>Les <strong>données structurées</strong> permettent à Google d'afficher des <em>rich snippets</em> dans les résultats : étoiles de note, prix de produits, horaires d'événements, recettes… Le format recommandé par Google est <strong>JSON-LD</strong>, placé dans une balise <code>&lt;script&gt;</code> dans le <code>&lt;head&gt;</code>.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;!-- ── Données structurées JSON-LD (schema.org) ────── --&gt;
+  &lt;script type="application/ld+json"&gt;
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Apprendre le HTML — Cours complet",
+    "description": "Cours HTML en 6 séances progressives.",
+    "provider": {
+      "@type": "Organization",
+      "name": "MonSite",
+      "url": "https://monsite.com"
+    },
+    "url": "https://monsite.com/cours-html/",
+    "inLanguage": "fr",
+    "educationalLevel": "Débutant"
+  }
+  &lt;/script&gt;
+
+  &lt;!-- ── Données structurées pour un article de blog ─── --&gt;
+  &lt;script type="application/ld+json"&gt;
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Les 10 meilleures pratiques HTML5",
+    "author": { "@type": "Person", "name": "Alice Dupont" },
+    "datePublished": "2024-09-15",
+    "dateModified": "2024-10-01",
+    "image": "https://monsite.com/images/article-html5.jpg"
+  }
+  &lt;/script&gt;
+&lt;/head&gt;</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 05 ACCESSIBILITÉ BASES ══ -->
+    <div id="s5-a11y">
+      <div class="section-header"><span class="section-num">05</span><h2>Accessibilité — pourquoi et pour qui ?</h2></div>
+      <p>L'<strong>accessibilité web</strong> (notée <strong>a11y</strong> — "a" + 11 lettres + "y") est la pratique qui consiste à rendre les sites web utilisables par <em>toutes les personnes</em>, quelles que soient leurs capacités physiques, cognitives ou techniques.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">♿</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie — Le trottoir avec abaissement de bordure</div>
+          <p>Un trottoir abaissé est conçu pour les fauteuils roulants. Mais il profite aussi aux parents avec poussette, aux livreurs avec chariot, aux cyclistes, aux enfants en vélo… L'accessibilité web fonctionne pareil : une interface accessible bénéficie à tout le monde, pas seulement aux personnes en situation de handicap.</p>
+        </div>
+      </div>
+
+      <h3>Qui bénéficie de l'accessibilité ?</h3>
+      <div class="grid-2">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;">
+          <div style="font-size:1.3rem;margin-bottom:.5rem;">👁️ Visuel</div>
+          <p style="font-size:.85rem;color:var(--text2);">Cécité, malvoyance, daltonisme, sensibilité à la lumière. Utilisent des lecteurs d'écran (VoiceOver, NVDA), du zoom, des contrastes élevés.</p>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;">
+          <div style="font-size:1.3rem;margin-bottom:.5rem;">🦻 Auditif</div>
+          <p style="font-size:.85rem;color:var(--text2);">Surdité, malentendance. Ont besoin de sous-titres, transcriptions, alternatives textuelles aux contenus audio.</p>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;">
+          <div style="font-size:1.3rem;margin-bottom:.5rem;">🖐️ Moteur</div>
+          <p style="font-size:.85rem;color:var(--text2);">Paralysie, tremblement, SEP. Naviguent uniquement au clavier (Tab, Entrée, flèches) ou avec des dispositifs alternatifs.</p>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;">
+          <div style="font-size:1.3rem;margin-bottom:.5rem;">🧠 Cognitif</div>
+          <p style="font-size:.85rem;color:var(--text2);">Dyslexie, autisme, TDAH, troubles de la mémoire. Ont besoin de structure claire, d'un langage simple, d'animations réduites.</p>
+        </div>
+      </div>
+
+      <h3>Le référentiel WCAG</h3>
+      <p>Les <strong>WCAG</strong> (Web Content Accessibility Guidelines) sont les lignes directrices internationales publiées par le W3C. Elles s'organisent autour de <strong>4 principes POUR</strong> :</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Principe</th><th>Signification</th><th>Exemples</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:var(--s5);">P</strong>erceptible</td><td>Les informations doivent être présentables de plusieurs façons</td><td>Texte alt pour les images, sous-titres pour vidéos, contraste suffisant</td></tr>
+            <tr><td><strong style="color:var(--s5);">O</strong>pérable</td><td>L'interface doit être navigable sans souris</td><td>Navigation clavier complète, focus visible, pas de piège à focus</td></tr>
+            <tr><td><strong style="color:var(--s5);">U</strong>nderstandable</td><td>Le contenu doit être lisible et prévisible</td><td>Langue déclarée (lang="fr"), labels de formulaires, messages d'erreur clairs</td></tr>
+            <tr><td><strong style="color:var(--s5);">R</strong>obust</td><td>Compatible avec les technologies d'assistance actuelles et futures</td><td>HTML valide, ARIA correct, pas de dépendance à une seule technologie</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">⚖️</div>
+        <div class="callout-body">
+          <div class="callout-title">Accessibilité et obligation légale</div>
+          <p>Dans l'Union Européenne, la directive <strong>EAAA</strong> (European Accessibility Act) impose des normes d'accessibilité à tous les services numériques commerciaux depuis juin 2025. En France, la <strong>RGAA</strong> (Référentiel Général d'Amélioration de l'Accessibilité) est obligatoire pour les services publics. En pratique : même si la loi ne vous oblige pas encore, vos utilisateurs l'exigent.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 ARIA ══ -->
+    <div id="s5-aria">
+      <div class="section-header"><span class="section-num">06</span><h2>ARIA — Accessible Rich Internet Applications</h2></div>
+      <p>ARIA est un ensemble d'attributs HTML qui permettent de <strong>compléter ou corriger la sémantique</strong> d'une page pour les technologies d'assistance (lecteurs d'écran). La règle d'or : <em>n'utilisez ARIA que si le HTML natif ne suffit pas</em>.</p>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">La première règle d'ARIA — préférez le HTML natif</div>
+          <p>Avant d'ajouter un <code>role="button"</code> sur un <code>&lt;div&gt;</code>, demandez-vous : pourquoi ne pas simplement utiliser <code>&lt;button&gt;</code> ? Un vrai <code>&lt;button&gt;</code> est focusable au clavier, activable à Entrée et Espace, et annoncé correctement — gratuitement. ARIA ne <em>recrée</em> pas le comportement, il ne fait qu'<em>annoter</em>.</p>
+        </div>
+      </div>
+
+      <h3>Les 3 types d'attributs ARIA</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- ── 1. RÔLES — définir le type d'élément ──────────── --&gt;
+&lt;div role="navigation" aria-label="Menu principal"&gt;…&lt;/div&gt;
+&lt;div role="main"&gt;…&lt;/div&gt;
+&lt;div role="dialog" aria-modal="true" aria-labelledby="titre-modal"&gt;…&lt;/div&gt;
+&lt;span role="button" tabindex="0"&gt;Ouvrir&lt;/span&gt; &lt;!-- derniers recours seulement --&gt;
+
+&lt;!-- ── 2. PROPRIÉTÉS — informations statiques ─────────── --&gt;
+&lt;input type="text"
+       aria-label="Rechercher dans le site"
+       aria-required="true"
+       aria-describedby="conseil-recherche"&gt;
+&lt;p id="conseil-recherche"&gt;Entrez un mot-clé, au moins 3 caractères.&lt;/p&gt;
+
+&lt;img src="schema.png" alt="" role="presentation"&gt; &lt;!-- image décorative --&gt;
+&lt;img src="graphique.png"
+     alt="Graphique barres : ventes 2023"
+     aria-describedby="desc-graphique"&gt;
+&lt;p id="desc-graphique"&gt;Les ventes ont augmenté de 30% entre janvier et juin.&lt;/p&gt;
+
+&lt;!-- ── 3. ÉTATS — informations dynamiques ─────────────── --&gt;
+&lt;button aria-expanded="false" aria-controls="menu-contenu"&gt;
+  Menu
+&lt;/button&gt;
+&lt;nav id="menu-contenu" aria-hidden="true"&gt;…&lt;/nav&gt;
+
+&lt;input type="text"
+       aria-invalid="true"
+       aria-errormessage="erreur-email"&gt;
+&lt;p id="erreur-email" role="alert"&gt;
+  Adresse e-mail invalide.
+&lt;/p&gt;
+
+&lt;div role="progressbar"
+     aria-valuenow="65"
+     aria-valuemin="0"
+     aria-valuemax="100"
+     aria-label="Chargement : 65%"&gt;
+&lt;/div&gt;</pre></div>
+      </div>
+
+      <h3>Les rôles ARIA les plus utilisés</h3>
+      <div class="aria-grid">
+        <div class="aria-card"><div class="aria-role">role="alert"</div><div class="aria-desc">Message important lu immédiatement par le lecteur d'écran. Pour erreurs, confirmations.</div></div>
+        <div class="aria-card"><div class="aria-role">role="dialog"</div><div class="aria-desc">Modale/popup. Doit avoir aria-modal="true" et aria-labelledby.</div></div>
+        <div class="aria-card"><div class="aria-role">role="tab"</div><div class="aria-desc">Onglet dans un système tablist/tabpanel.</div></div>
+        <div class="aria-card"><div class="aria-role">role="tooltip"</div><div class="aria-desc">Info-bulle associée à un élément via aria-describedby.</div></div>
+        <div class="aria-card"><div class="aria-role">role="status"</div><div class="aria-desc">Message d'état non-urgent (chargement, sauvegarde auto).</div></div>
+        <div class="aria-card"><div class="aria-role">role="presentation"</div><div class="aria-desc">Élément purement décoratif — retiré de l'arbre d'accessibilité.</div></div>
+      </div>
+
+      <h3>aria-label vs aria-labelledby vs aria-describedby</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Source du texte</th><th>Cas d'usage typique</th></tr></thead>
+          <tbody>
+            <tr><td><code>aria-label</code></td><td>Chaîne directe dans l'attribut</td><td>Bouton icône seul : <code>&lt;button aria-label="Fermer"&gt;✕&lt;/button&gt;</code></td></tr>
+            <tr><td><code>aria-labelledby</code></td><td>ID d'un élément existant dans la page</td><td>Modal référençant son titre : <code>aria-labelledby="id-du-h2"</code></td></tr>
+            <tr><td><code>aria-describedby</code></td><td>ID d'un élément de description</td><td>Input avec aide contextuelle visible : <code>aria-describedby="conseil-id"</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 07 BONNES PRATIQUES ══ -->
+    <div id="s5-bp">
+      <div class="section-header"><span class="section-num">07</span><h2>Bonnes pratiques a11y en HTML</h2></div>
+      <p>La plupart des problèmes d'accessibilité viennent de <strong>mauvaises habitudes HTML</strong> corrigibles facilement. Voici les plus importantes, avec leurs solutions.</p>
+
+      <h3>Navigation au clavier — indispensable</h3>
+      <p>Toute l'interface doit être navigable uniquement avec le clavier : <kbd>Tab</kbd> avance, <kbd>Shift</kbd>+<kbd>Tab</kbd> recule, <kbd>Entrée</kbd>/<kbd>Espace</kbd> active, flèches naviguent dans les menus.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- ✅ BIEN — bouton natif, focusable et activable nativement --&gt;
+&lt;button type="button" onclick="ouvrirMenu()"&gt;Menu&lt;/button&gt;
+
+&lt;!-- ❌ MAL — div non focusable, inaccessible au clavier --&gt;
+&lt;div onclick="ouvrirMenu()"&gt;Menu&lt;/div&gt;
+
+&lt;!-- Si vous DEVEZ utiliser un div (raison CSS), ajoutez tabindex et rôle --&gt;
+&lt;div role="button" tabindex="0"
+     onclick="ouvrirMenu()"
+     onkeydown="if(event.key==='Enter'||event.key===' ') ouvrirMenu()"&gt;
+  Menu
+&lt;/div&gt;
+
+&lt;!-- ── Focus visible — WCAG 2.4.7 ─────────────────────── --&gt;
+&lt;!-- Ne JAMAIS faire : outline: none; sans alternative visible --&gt;
+&lt;style&gt;
+  /* Contour de focus personnalisé mais toujours visible */
+  :focus-visible {
+    outline: 3px solid #2DD4BF;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+&lt;/style&gt;
+
+&lt;!-- ── Lien d'évitement — sauter la navigation ──────── --&gt;
+&lt;a href="#contenu-principal" class="skip-link"&gt;
+  Aller au contenu principal
+&lt;/a&gt;
+&lt;!-- Ce lien doit être le PREMIER élément du body. Il devient visible au focus. --&gt;</pre></div>
+      </div>
+
+      <h3>Contraste de couleurs — WCAG AA</h3>
+      <p>Le ratio de contraste entre le texte et son fond doit être d'au moins <strong>4.5:1 pour le texte normal</strong> et <strong>3:1 pour le texte grand</strong> (18pt+) ou gras (14pt+). Niveau AAA : 7:1.</p>
+
+      <div class="contrast-demo">
+        <div class="contrast-card contrast-bad">
+          <span class="contrast-label">❌ INSUFFISANT</span>
+          <span class="contrast-text">Texte difficile à lire</span>
+          <div class="contrast-ratio">Ratio : 2.1:1 (échec AA)</div>
+        </div>
+        <div class="contrast-card contrast-good">
+          <span class="contrast-label">✅ CONFORME AA</span>
+          <span class="contrast-text">Texte lisible</span>
+          <div class="contrast-ratio">Ratio : 12.6:1 (passe AAA)</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Outils de vérification de contraste</div>
+          <p><strong>WebAIM Contrast Checker</strong> (<code>webaim.org/resources/contrastchecker/</code>) : entrez vos couleurs en hex et voyez instantanément le ratio et si vous passez AA/AAA. Dans Chrome DevTools : inspectez un texte → propriété <em>color</em> → cliquez le carré couleur → le Contrast Ratio s'affiche avec ✓ ou ✗.</p>
+        </div>
+      </div>
+
+      <h3>Formulaires accessibles</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- ✅ BIEN — label lié explicitement --&gt;
+&lt;label for="prenom"&gt;Prénom &lt;span aria-hidden="true"&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input type="text" id="prenom" name="prenom"
+       required aria-required="true"
+       autocomplete="given-name"&gt;
+
+&lt;!-- ✅ BIEN — message d'erreur lié et annoncé --&gt;
+&lt;input type="email" id="email"
+       aria-invalid="true"
+       aria-describedby="erreur-email-msg"&gt;
+&lt;p id="erreur-email-msg" role="alert" style="color:red;"&gt;
+  ⚠️ Veuillez entrer une adresse e-mail valide (ex : alice@exemple.com)
+&lt;/p&gt;
+
+&lt;!-- ✅ BIEN — placeholder n'est PAS un label --&gt;
+&lt;label for="ville"&gt;Ville de résidence&lt;/label&gt;
+&lt;input type="text" id="ville" placeholder="Ex : Paris"&gt;
+&lt;!-- placeholder disparaît à la saisie → ne jamais l'utiliser seul comme label --&gt;
+
+&lt;!-- ✅ BIEN — groupe de boutons radio avec fieldset --&gt;
+&lt;fieldset&gt;
+  &lt;legend&gt;Niveau d'expérience&lt;/legend&gt;
+  &lt;label&gt;&lt;input type="radio" name="niveau" value="debutant"&gt; Débutant&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="niveau" value="moyen"&gt; Intermédiaire&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="niveau" value="avance"&gt; Avancé&lt;/label&gt;
+&lt;/fieldset&gt;</pre></div>
+      </div>
+
+      <h3>Images — quand mettre alt="" ?</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type d'image</th><th>Attribut alt</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td>Image informative (photo, schéma)</td><td>Description précise du contenu visuel</td><td><code>alt="Schéma du modèle OSI — 7 couches réseau"</code></td></tr>
+            <tr><td>Image décorative (fond, séparateur)</td><td><code>alt=""</code> (vide — obligatoire !) + éventuellement <code>role="presentation"</code></td><td><code>alt=""</code></td></tr>
+            <tr><td>Logo ou identité visuelle</td><td>Nom de l'entité uniquement</td><td><code>alt="Google"</code></td></tr>
+            <tr><td>Bouton/lien composé d'une image seule</td><td>Action déclenchée, pas description visuelle</td><td><code>alt="Retour à l'accueil"</code></td></tr>
+            <tr><td>Image contenant du texte</td><td>Tout le texte visible (ou utiliser du vrai texte HTML)</td><td><code>alt="Promotion — 50% de réduction jusqu'au 31 décembre"</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Langue et mouvement — autres bonnes pratiques</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">HTML</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Déclarer la langue de la page (WCAG 3.1.1) --&gt;
+&lt;html lang="fr"&gt;
+
+&lt;!-- Changer de langue dans le contenu --&gt;
+&lt;p&gt;Le terme anglais &lt;span lang="en"&gt;accessibility&lt;/span&gt; se traduit par accessibilité.&lt;/p&gt;
+
+&lt;!-- ── Réduire les animations (WCAG 2.3.3) ──────────── --&gt;
+&lt;style&gt;
+  /* Respecter la préférence système "Réduire les animations" */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+&lt;/style&gt;
+
+&lt;!-- ── Liens — texte descriptif (WCAG 2.4.4) ────────── --&gt;
+
+&lt;!-- ❌ MAL --&gt;
+&lt;a href="guide.html"&gt;Cliquez ici&lt;/a&gt;
+
+&lt;!-- ✅ BIEN --&gt;
+&lt;a href="guide.html"&gt;Lire le guide HTML5 complet&lt;/a&gt;
+
+&lt;!-- ✅ BIEN — si texte court, ajouter aria-label --&gt;
+&lt;a href="guide.html" aria-label="Lire le guide HTML5 complet"&gt;En savoir plus&lt;/a&gt;</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 08 AUDIT ══ -->
+    <div id="s5-audit">
+      <div class="section-header"><span class="section-num">08</span><h2>Audit d'accessibilité — outils et méthodes</h2></div>
+      <p>Un audit d'accessibilité évalue votre page selon les critères WCAG. Il existe des outils automatiques (qui détectent ~30–40% des problèmes) et des méthodes manuelles (indispensables pour le reste).</p>
+
+      <h3>Outils automatiques</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Outil</th><th>Type</th><th>Comment l'utiliser</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Lighthouse</strong></td><td>Extension Chrome intégrée</td><td>F12 → Lighthouse → cocher "Accessibilité" → Analyser. Score /100 avec recommandations.</td></tr>
+            <tr><td><strong>axe DevTools</strong></td><td>Extension Chrome/Firefox</td><td>Outil le plus précis. F12 → onglet "axe" → Scan. Classe les problèmes par criticité.</td></tr>
+            <tr><td><strong>WAVE</strong></td><td>Extension + site web</td><td><code>wave.webaim.org</code> ou extension. Visualise les problèmes directement sur la page.</td></tr>
+            <tr><td><strong>W3C Validator</strong></td><td>Site web</td><td><code>validator.w3.org</code>. HTML invalide = problèmes d'accessibilité potentiels.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Audit manuel — les 5 tests incontournables</h3>
+      <ul class="audit-list">
+        <li>
+          <span class="audit-status">⌨️</span>
+          <div>
+            <strong>Test clavier complet</strong><br>
+            <span style="font-size:.85rem;color:var(--text2);">Débranchez votre souris. Naviguez sur toute la page uniquement avec Tab, Shift+Tab, Entrée, Espace et flèches. Vous devez pouvoir accéder à tous les liens, boutons, champs et interactifs. Le focus doit toujours être visible. Vous ne devez jamais être "piégé".</span>
+          </div>
+        </li>
+        <li>
+          <span class="audit-status">🔊</span>
+          <div>
+            <strong>Test lecteur d'écran</strong><br>
+            <span style="font-size:.85rem;color:var(--text2);">Activez NVDA (Windows, gratuit) ou VoiceOver (Mac : Cmd+F5 / iOS : 3 pressions bouton). Fermez les yeux. Naviguez uniquement en écoutant. Est-ce que le contenu a du sens ? Les images ont-elles un alt ? Les formulaires sont-ils annoncés correctement ?</span>
+          </div>
+        </li>
+        <li>
+          <span class="audit-status">🔍</span>
+          <div>
+            <strong>Test zoom 200%</strong><br>
+            <span style="font-size:.85rem;color:var(--text2);">Dans Chrome : Ctrl/Cmd + (ou dans les paramètres → zoom 200%). La page doit rester lisible et utilisable sans perte de contenu ni scrolling horizontal obligatoire. WCAG 1.4.4.</span>
+          </div>
+        </li>
+        <li>
+          <span class="audit-status">🎨</span>
+          <div>
+            <strong>Test sans couleurs (niveaux de gris)</strong><br>
+            <span style="font-size:.85rem;color:var(--text2);">Activez le mode niveaux de gris de votre OS ou utilisez l'extension "Colorblindly". Toutes les informations importantes doivent rester compréhensibles sans la couleur. Un lien ne doit pas être distinguable uniquement par sa couleur rouge.</span>
+          </div>
+        </li>
+        <li>
+          <span class="audit-status">📐</span>
+          <div>
+            <strong>Test de structure avec les titres</strong><br>
+            <span style="font-size:.85rem;color:var(--text2);">Installez l'extension "HeadingsMap" (Chrome/Firefox). Elle affiche l'arborescence de vos titres h1–h6. La structure doit être logique et hiérarchique. Un h1 unique, des h2 pour les sections principales, h3 pour les sous-sections — pas de saut de niveau.</span>
+          </div>
+        </li>
+      </ul>
+
+      <h3>Checklist rapide — les 10 points essentiels</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">CHECKLIST</span><button class="copy-btn">COPIER</button></div>
+        <div class="code-body"><pre>□ lang="fr" (ou autre) sur la balise &lt;html&gt;
+□ &lt;title&gt; unique et descriptif sur chaque page
+□ Un seul &lt;h1&gt; par page, hiérarchie des titres cohérente
+□ Tout &lt;img&gt; a un attribut alt (vide "" si décoratif)
+□ Chaque &lt;input&gt; a un &lt;label&gt; lié (for/id)
+□ Contrastes de couleurs ≥ 4.5:1 (texte normal) / 3:1 (grand texte)
+□ Navigation clavier complète — focus visible sur tous les éléments interactifs
+□ Pas de "cliquez ici" — texte des liens descriptif
+□ @media (prefers-reduced-motion: reduce) implémenté si animations présentes
+□ Page valide W3C (validator.w3.org) sans erreurs bloquantes</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🔗</div>
+        <div class="callout-body">
+          <div class="callout-title">SEO et accessibilité — des objectifs communs</div>
+          <p>Ce n'est pas un hasard : beaucoup de bonnes pratiques SEO sont aussi des bonnes pratiques a11y. Un bon <code>alt</code> aide Google <em>et</em> les lecteurs d'écran. Un <code>&lt;h1&gt;</code> bien rédigé structure le contenu pour Google <em>et</em> pour la navigation par titres. Des textes de liens descriptifs aident l'indexation <em>et</em> la navigation clavier. Faites du bon HTML : vous gagnez sur les deux tableaux.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s5-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🔍 Audit et correction d'une page existante</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Prenez votre page créée en séance 1 (ou recréez-en une simple avec titre, navigation, image, formulaire et pied de page).</li>
+            <li>Ouvrez Chrome DevTools → Lighthouse → cochez Accessibilité → Analyser. Notez le score et les problèmes listés.</li>
+            <li>Installez l'extension axe DevTools et relancez un scan. Comparez les résultats avec Lighthouse.</li>
+            <li>Corrigez au minimum : tout <code>alt</code> manquant, tout <code>&lt;label&gt;</code> manquant, les problèmes de contraste signalés.</li>
+            <li>Vérifiez la navigation clavier : Tab sur tous les éléments interactifs. Le focus est-il visible ? Ajoutez du CSS de focus si nécessaire.</li>
+            <li>Relancez le scan Lighthouse. Comparez votre nouveau score.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🌐 Optimiser le head SEO d'une page</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>article.html</code> sur un sujet de votre choix (cuisine, sport, technologie…).</li>
+            <li>Écrivez un <code>&lt;title&gt;</code> de 50–60 caractères avec le mot-clé principal en début.</li>
+            <li>Rédigez une <code>&lt;meta name="description"&gt;</code> de 120–158 caractères, incitative et avec le mot-clé.</li>
+            <li>Ajoutez toutes les balises Open Graph obligatoires (og:title, og:description, og:image, og:url, og:type).</li>
+            <li>Ajoutez les balises Twitter Card (<code>twitter:card="summary_large_image"</code> + title + description + image).</li>
+            <li>Ajoutez un bloc de données structurées JSON-LD de type <code>Article</code> avec auteur, date et image.</li>
+            <li>Vérifiez votre JSON-LD sur <code>search.google.com/test/rich-results</code>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">♿ Composant accessible complet — menu de navigation</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un menu de navigation principal avec <code>&lt;nav aria-label="Navigation principale"&gt;</code> et une liste <code>&lt;ul&gt;</code>.</li>
+            <li>Ajoutez un lien d'évitement <code>&lt;a href="#main-content" class="skip-link"&gt;Aller au contenu&lt;/a&gt;</code> en tout premier enfant du body. Stylez-le pour qu'il soit invisible jusqu'au focus (<code>position: absolute; top: -100px;</code> → <code>top: 0</code> au <code>:focus</code>).</li>
+            <li>Ajoutez un sous-menu déroulant sur l'un des items. Implémentez le pattern ARIA correct : <code>aria-haspopup="true"</code> sur le bouton parent, <code>aria-expanded="false/true"</code> mis à jour par JavaScript, <code>aria-controls</code> pointant vers le sous-menu.</li>
+            <li>Assurez-vous que les flèches ↑/↓ naviguent dans le sous-menu et qu'Échap le ferme.</li>
+            <li>Vérifiez avec WAVE ou axe que votre menu n'a pas d'erreurs d'accessibilité.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">🎯</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Optimisation complète d'une page</div>
+          <p>Prenez votre meilleure page créée pendant ce cours. Appliquez <em>toutes</em> les optimisations vues : head SEO complet (title, meta description, OG, Twitter, JSON-LD), structure sémantique parfaite (header/nav/main/footer), hiérarchie h1–h3 logique, images avec srcset + alt descriptifs, navigation clavier complète, focus visible, contrastes conformes WCAG AA, et zéro erreur sur le W3C Validator. Soumettez votre score Lighthouse final.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s5-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>SEO : mécanisme crawler/indexation/classement, signaux sémantiques HTML prioritaires</li>
+        <li>Head SEO : <code>&lt;title&gt;</code> (50-60 car.), <code>meta description</code> (120-158 car.), <code>robots</code>, <code>canonical</code></li>
+        <li>Open Graph : og:title, og:description, og:image (1200×630), og:url, og:type et toutes les balises recommandées</li>
+        <li>Twitter Cards : summary_large_image, twitter:title, twitter:description, twitter:image</li>
+        <li>Données structurées : JSON-LD dans &lt;script type="application/ld+json"&gt;, types Article et Course</li>
+        <li>Structure sémantique pour SEO : poids des h1–h6, alt, textes de liens, main/article/nav</li>
+        <li>Accessibilité WCAG : 4 principes POUR, niveaux AA/AAA, contexte légal</li>
+        <li>ARIA : 3 types (rôles, propriétés, états), aria-label vs aria-labelledby vs aria-describedby</li>
+        <li>Bonnes pratiques a11y : navigation clavier, contrastes 4.5:1 / 3:1, alt images, labels formulaires, prefers-reduced-motion</li>
+        <li>Audit : Lighthouse, axe DevTools, WAVE, 5 tests manuels, checklist 10 points</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>SEO</dt><dd>Search Engine Optimization. Ensemble des pratiques pour améliorer la visibilité d'une page dans les résultats de recherche organiques.</dd>
+          <dt>Crawler</dt><dd>Robot automatique qui parcourt le web en suivant les liens. Google Bot est le crawler de Google.</dd>
+          <dt>Canonical</dt><dd>Balise &lt;link rel="canonical"&gt; indiquant l'URL de référence d'une page. Évite la pénalité pour contenu dupliqué.</dd>
+          <dt>Open Graph</dt><dd>Protocole de métadonnées (meta property="og:*") créé par Facebook pour générer des aperçus de liens sur les réseaux sociaux.</dd>
+          <dt>Rich Snippet</dt><dd>Résultat enrichi dans Google affichant des étoiles, prix, dates… grâce aux données structurées schema.org.</dd>
+          <dt>a11y</dt><dd>Abréviation d'accessibility : "a" + 11 lettres + "y". Désigne l'accessibilité numérique.</dd>
+          <dt>WCAG</dt><dd>Web Content Accessibility Guidelines. Référentiel international du W3C. Niveaux A, AA (cible standard), AAA.</dd>
+          <dt>ARIA</dt><dd>Accessible Rich Internet Applications. Attributs HTML (role, aria-*) pour annoter la sémantique en faveur des technologies d'assistance.</dd>
+          <dt>Lecteur d'écran</dt><dd>Logiciel qui lit le contenu d'un écran à voix haute. Ex : NVDA (Windows, gratuit), VoiceOver (Mac/iOS), TalkBack (Android).</dd>
+          <dt>Ratio de contraste</dt><dd>Rapport entre la luminosité relative du texte et de son fond. WCAG AA exige 4.5:1 (texte normal) et 3:1 (grand texte).</dd>
+          <dt>RGAA</dt><dd>Référentiel Général d'Amélioration de l'Accessibilité. Déclinaison française des WCAG, obligatoire pour les services publics.</dd>
+          <dt>skip link</dt><dd>Lien "Aller au contenu principal" caché visuellement mais premier dans le code — permet aux utilisateurs clavier d'éviter de traverser la navigation à chaque page.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--s5);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Dernière séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 6 — Projet Final</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Créez votre page personnelle complète, de A à Z, en appliquant tout ce que vous avez appris.</div>
+        </div>
+        <a href="../index.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--s5);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;padding:.6rem 1.25rem;border-radius:var(--radius);font-size:.9rem;white-space:nowrap;">← Retour au programme</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>
