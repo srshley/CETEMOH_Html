@@ -1,153 +1,181 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cours HTML — Apprendre le HTML</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="layout">
+  <div class="layout">
 
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="topbar-brand">
-      <span class="badge">&lt;/&gt;</span>
-      Cours HTML
-    </div>
-    <nav class="topbar-nav">
-      <a href="index.html" class="active">Accueil</a>
-      <a href="pages/seance1.html">Séance 1</a>
-      <a href="pages/seance2.html">Séance 2</a>
-      <a href="pages/seance3.html">Séance 3</a>
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-brand">
+        <span class="badge">&lt;/&gt;</span>
+        Cours HTML
+      </div>
+      <nav class="topbar-nav">
+        <a href="index.html" class="active">Accueil</a>
+        <a href="pages/seance1.html">Séance 1</a>
+        <a href="pages/seance2.html">Séance 2</a>
+        <a href="pages/seance3.html">Séance 3</a>
         <a href="pages/seance4.html">Séance 4</a>
-  <a href="pages/seance5.html">Séance 5</a>
-    </nav>
-    <button class="hamburger" aria-label="Menu">☰</button>
-  </header>
+        <a href="pages/seance5.html">Séance 5</a>
+      </nav>
+      <button class="hamburger" aria-label="Menu">☰</button>
+    </header>
 
-  <!-- No sidebar on home page -->
-  <main class="content" style="grid-column: 1/-1;">
-    <div class="content-inner" style="max-width:860px;">
+    <!-- No sidebar on home page -->
+    <main class="content" style="grid-column: 1/-1;">
+      <div class="content-inner" style="max-width:860px;">
 
-      <!-- Hero -->
-      <div class="home-hero">
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem;">
-          Pour apprenants avec quelques bases
-        </p>
-        <h1>Apprendre le <span>HTML</span></h1>
-        <p class="home-subtitle">
-          Un cours structuré en 6 séances progressives pour maîtriser le langage fondamental du web — de la structure à la sémantique.
-        </p>
-        <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
-          <span class="tag-pill">Structure</span>
-          <span class="tag-pill">Texte & Listes</span>
-          <span class="tag-pill">Liens & Images</span>
-          <span class="tag-pill">Tableaux</span>
-          <span class="tag-pill">Sémantique HTML5</span>
-          <span class="tag-pill">Formulaires</span>
+        <!-- Hero -->
+        <div class="home-hero">
+          <p
+            style="font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem;">
+            Pour apprenants avec quelques bases
+          </p>
+          <h1>Apprendre le <span>HTML</span></h1>
+          <p class="home-subtitle">
+            Un cours structuré en 6 séances progressives pour maîtriser le langage fondamental du web — de la structure
+            à la sémantique.
+          </p>
+          <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+            <span class="tag-pill">Structure</span>
+            <span class="tag-pill">Texte & Listes</span>
+            <span class="tag-pill">Liens & Images</span>
+            <span class="tag-pill">Tableaux</span>
+            <span class="tag-pill">Sémantique HTML5</span>
+            <span class="tag-pill">Formulaires</span>
+          </div>
         </div>
+
+        <!-- Session cards -->
+        <h2
+          style="font-size:1rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:1.25rem;">
+          Programme du cours
+        </h2>
+        <div class="session-cards">
+
+          <a href="pages/seance1.html" class="session-card s1">
+            <div class="sc-num s1">Séance 01 — Disponible</div>
+            <h2>Les Fondations</h2>
+            <p>Comment fonctionne le web, syntaxe HTML, structure d'un document, texte, listes, liens et images.</p>
+            <div class="sc-tags">
+              <span class="sc-tag">Structure HTML5</span>
+              <span class="sc-tag">Titres &amp; paragraphes</span>
+              <span class="sc-tag">Listes ul/ol</span>
+              <span class="sc-tag">Liens &lt;a&gt;</span>
+              <span class="sc-tag">Images &lt;img&gt;</span>
+            </div>
+          </a>
+
+          <a href="pages/seance2.html" class="session-card s2">
+            <div class="sc-num s2">Séance 02 — Disponible</div>
+            <h2>Tableaux &amp; Sémantique</h2>
+            <p>Attributs globaux, listes avancées, liens et images approfondis, tableaux HTML et balises sémantiques
+              HTML5.</p>
+            <div class="sc-tags">
+              <span class="sc-tag">Attributs globaux</span>
+              <span class="sc-tag">Tableaux</span>
+              <span class="sc-tag">colspan/rowspan</span>
+              <span class="sc-tag">header/main/footer</span>
+              <span class="sc-tag">Liste &lt;dl&gt;</span>
+            </div>
+          </a>
+
+          <a href="pages/seance3.html" class="session-card" style="border-top-color:var(--amber);">
+            <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
+            <h2>Formulaires HTML5</h2>
+            <p>Champs de saisie, validation native HTML5, textarea, select, fieldset et accessibilité.</p>
+            <div class="sc-tags">
+              <span class="sc-tag">input</span><span class="sc-tag">select</span>
+              <span class="sc-tag">textarea</span><span class="sc-tag">fieldset</span>
+              <span class="sc-tag">validation</span><span class="sc-tag">label</span>
+            </div>
+          </a>
+          <a href="pages/seance4.html" class="session-card s4">
+  <div class="sc-num s4">Séance 04 — Disponible</div>
+  <h2>Multimédia &amp; HTML5 Avancé</h2>
+  <p>Vidéo, audio, canvas, web storage et APIs HTML5 modernes.</p>
+  <div class="sc-tags">
+    <span class="sc-tag">video</span>
+    <span class="sc-tag">audio</span>
+    <span class="sc-tag">canvas</span>
+    <span class="sc-tag">localStorage</span>
+    <span class="sc-tag">APIs HTML5</span>
+  </div>
+</a>
+
+<a href="pages/seance5.html" class="session-card s5">
+  <div class="sc-num s5">Séance 05 — Disponible</div>
+  <h2>SEO &amp; Accessibilité</h2>
+  <p>Bonnes pratiques, référencement, ARIA et audit d'accessibilité.</p>
+  <div class="sc-tags">
+    <span class="sc-tag">SEO</span>
+    <span class="sc-tag">meta tags</span>
+    <span class="sc-tag">ARIA</span>
+    <span class="sc-tag">accessibilité</span>
+    <span class="sc-tag">audit</span>
+  </div>
+</a>
+
+          <div class="session-card locked">
+            <div class="sc-num  locked">Séance 06 — Bientôt</div>
+            <h2>Projet Final</h2>
+            <p>Créez votre page personnelle complète, de A à Z, en appliquant tout ce que vous avez appris.</p>
+          </div>
+
+        </div>
+
+        <!-- How to use -->
+        <div
+          style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:2rem 0;">
+          <h2 style="margin-top:0;">Comment utiliser ce cours</h2>
+          <div class="grid-2">
+            <div>
+              <h3 style="margin-top:0;">📖 Lire</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Chaque séance est structurée en sections numérotées. Lisez
+                les explications et les exemples.</p>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">💻 Pratiquer</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Copiez les blocs de code (bouton COPIER) et testez-les dans
+                VS Code + Live Server.</p>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">✏️ Exercices</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Chaque séance se termine par des exercices pratiques pour
+                ancrer les notions.</p>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">🔍 Inspecter</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Ouvrez l'inspecteur (F12) sur n'importe quel site pour voir
+                le HTML en action.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools tip -->
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">Outils recommandés</div>
+            <p>Téléchargez <strong>VS Code</strong> sur <code>code.visualstudio.com</code> et installez l'extension
+              <strong>Live Server</strong> pour voir vos modifications en temps réel. Un navigateur moderne (Chrome ou
+              Firefox) suffira pour tout le reste.
+            </p>
+          </div>
+        </div>
+
       </div>
+    </main>
 
-      <!-- Session cards -->
-      <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:1.25rem;">
-        Programme du cours
-      </h2>
-      <div class="session-cards">
-
-        <a href="pages/seance1.html" class="session-card s1">
-          <div class="sc-num s1">Séance 01 — Disponible</div>
-          <h2>Les Fondations</h2>
-          <p>Comment fonctionne le web, syntaxe HTML, structure d'un document, texte, listes, liens et images.</p>
-          <div class="sc-tags">
-            <span class="sc-tag">Structure HTML5</span>
-            <span class="sc-tag">Titres &amp; paragraphes</span>
-            <span class="sc-tag">Listes ul/ol</span>
-            <span class="sc-tag">Liens &lt;a&gt;</span>
-            <span class="sc-tag">Images &lt;img&gt;</span>
-          </div>
-        </a>
-
-        <a href="pages/seance2.html" class="session-card s2">
-          <div class="sc-num s2">Séance 02 — Disponible</div>
-          <h2>Tableaux &amp; Sémantique</h2>
-          <p>Attributs globaux, listes avancées, liens et images approfondis, tableaux HTML et balises sémantiques HTML5.</p>
-          <div class="sc-tags">
-            <span class="sc-tag">Attributs globaux</span>
-            <span class="sc-tag">Tableaux</span>
-            <span class="sc-tag">colspan/rowspan</span>
-            <span class="sc-tag">header/main/footer</span>
-            <span class="sc-tag">Liste &lt;dl&gt;</span>
-          </div>
-        </a>
-
-        <a href="pages/seance3.html" class="session-card" style="border-top-color:var(--amber);">
-          <div class="sc-num" style="color:var(--amber);">Séance 03 — Disponible</div>
-          <h2>Formulaires HTML5</h2>
-          <p>Champs de saisie, validation native HTML5, textarea, select, fieldset et accessibilité.</p>
-          <div class="sc-tags">
-            <span class="sc-tag">input</span><span class="sc-tag">select</span>
-            <span class="sc-tag">textarea</span><span class="sc-tag">fieldset</span>
-            <span class="sc-tag">validation</span><span class="sc-tag">label</span>
-          </div>
-        </a>
-
-        <div class="session-card ">
-          <div class="sc-num ">Séance 04 — Disponible</div>
-          <h2>Multimédia &amp; HTML5 Avancé</h2>
-          <p>Vidéo, audio, canvas, web storage et APIs HTML5 modernes.</p>
-        </div>
-
-        <div class="session-card ">
-          <div class="sc-num ">Séance 05 — Disponible</div>
-          <h2>SEO &amp; Accessibilité</h2>
-          <p>Bonnes pratiques, référencement, ARIA et audit d'accessibilité.</p>
-        </div>
-
-        <div class="session-card locked">
-          <div class="sc-num locked">Séance 06 — Bientôt</div>
-          <h2>Projet Final</h2>
-          <p>Créez votre page personnelle complète, de A à Z, en appliquant tout ce que vous avez appris.</p>
-        </div>
-
-      </div>
-
-      <!-- How to use -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:2rem 0;">
-        <h2 style="margin-top:0;">Comment utiliser ce cours</h2>
-        <div class="grid-2">
-          <div>
-            <h3 style="margin-top:0;">📖 Lire</h3>
-            <p style="font-size:.9rem;color:var(--text2);">Chaque séance est structurée en sections numérotées. Lisez les explications et les exemples.</p>
-          </div>
-          <div>
-            <h3 style="margin-top:0;">💻 Pratiquer</h3>
-            <p style="font-size:.9rem;color:var(--text2);">Copiez les blocs de code (bouton COPIER) et testez-les dans VS Code + Live Server.</p>
-          </div>
-          <div>
-            <h3 style="margin-top:0;">✏️ Exercices</h3>
-            <p style="font-size:.9rem;color:var(--text2);">Chaque séance se termine par des exercices pratiques pour ancrer les notions.</p>
-          </div>
-          <div>
-            <h3 style="margin-top:0;">🔍 Inspecter</h3>
-            <p style="font-size:.9rem;color:var(--text2);">Ouvrez l'inspecteur (F12) sur n'importe quel site pour voir le HTML en action.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tools tip -->
-      <div class="callout tip">
-        <div class="callout-icon">💡</div>
-        <div class="callout-body">
-          <div class="callout-title">Outils recommandés</div>
-          <p>Téléchargez <strong>VS Code</strong> sur <code>code.visualstudio.com</code> et installez l'extension <strong>Live Server</strong> pour voir vos modifications en temps réel. Un navigateur moderne (Chrome ou Firefox) suffira pour tout le reste.</p>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-</div>
-<script src="js/app.js"></script>
+  </div>
+  <script src="js/app.js"></script>
 </body>
+
 </html>
