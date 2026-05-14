@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 6 — DOM : Sélection & Manipulation · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+    .preview-body button { background:#3B82F6;color:#fff;border:none;padding:.3rem .8rem;border-radius:4px;cursor:pointer; }
+    .preview-body button:hover { background:#2563EB; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html" class="active">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 6</div>
+      <a href="#s6-dom"          class="sidebar-item"><span class="sidebar-num">01</span>Qu'est-ce que le DOM</a>
+      <a href="#s6-query"        class="sidebar-item"><span class="sidebar-num">02</span>querySelector</a>
+      <a href="#s6-queryall"     class="sidebar-item"><span class="sidebar-num">03</span>querySelectorAll</a>
+      <a href="#s6-text"         class="sidebar-item"><span class="sidebar-num">04</span>textContent &amp; innerHTML</a>
+      <a href="#s6-create"       class="sidebar-item"><span class="sidebar-num">05</span>createElement &amp; appendChild</a>
+      <a href="#s6-classlist"    class="sidebar-item"><span class="sidebar-num">06</span>classList</a>
+      <a href="#s6-style"        class="sidebar-item"><span class="sidebar-num">07</span>style property</a>
+      <a href="#s6-dataset"      class="sidebar-item"><span class="sidebar-num">08</span>Dataset data-*</a>
+      <a href="#s6-exo"          class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s6-bilan"        class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance5-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 5</a>
+      <a href="seance7-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 7 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 06 / 10</div>
+      <h1>DOM — Sélection &amp; Manipulation</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">DOM · querySelector/All · textContent/innerHTML · createElement · classList · style · dataset</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">DOM</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 QU'EST-CE QUE LE DOM ══ -->
+    <div id="s6-dom">
+      <div class="section-header"><span class="section-num">01</span><h2>Qu'est-ce que le DOM ?</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>Le <strong>DOM (Document Object Model)</strong> est une représentation de la page HTML sous forme d'<strong>arbre</strong> d'objets. JavaScript peut lire, modifier, ajouter ou supprimer des éléments via le DOM.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">DOM ≠ HTML source</div>
+          <p>Le DOM est <strong>l'interface</strong> entre JS et le HTML affiché. Quand vous modifiez le DOM, la page se met à jour instantanément, mais le fichier .html original n'est pas modifié.</p>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Hiérarchie DOM</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// document — point d'entrée du DOM
+console.log(document);          // #document
+console.log(document.head);     // &lt;head&gt;
+console.log(document.body);     // &lt;body&gt;
+console.log(document.title);    // titre de l'onglet
+console.log(document.URL);      // URL de la page
+
+// Quelques propriétés utiles
+console.log(document.documentElement); // &lt;html&gt;
+console.log(document.forms);    // collection des formulaires
+console.log(document.images);   // collection des images
+console.log(document.links);    // collection des liens</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 02 QUERYSELECTOR ══ -->
+    <div id="s6-query">
+      <div class="section-header"><span class="section-num">02</span><h2>querySelector — sélectionner un élément</h2></div>
+      <p><code>querySelector</code> retourne le <strong>premier</strong> élément correspondant au sélecteur CSS.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">// Par balise
+const titre = document.querySelector('h1');
+
+// Par classe
+const info = document.querySelector('.info');
+
+// Par id
+const header = document.querySelector('#header');
+
+// Sélecteur CSS complexe
+const premierLi = document.querySelector('ul li:first-child');
+const inputEmail = document.querySelector('input[type="email"]');
+
+// Parent → enfant
+const contenu = document.querySelector('.contenu p');
+
+// Si l'élément n'existe pas → null
+const inexistant = document.querySelector('.rien');
+console.log(inexistant); // null</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <h1 id="demo-title">Titre principal</h1>
+            <p class="info">Paragraphe info</p>
+            <ul><li>Premier élément</li><li>Second</li></ul>
+            <script>document.querySelector('#demo-title')?.style.setProperty('color','#3B82F6','important');</script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 QUERYSELECTORALL ══ -->
+    <div id="s6-queryall">
+      <div class="section-header"><span class="section-num">03</span><h2>querySelectorAll — sélection multiple</h2></div>
+      <p><code>querySelectorAll</code> retourne une <strong>NodeList</strong> (statique) de tous les éléments correspondants.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Tous les paragraphes
+const tousLesP = document.querySelectorAll('p');
+console.log(tousLesP.length); // nombre de paragraphes
+
+// Tous les éléments avec la classe .item
+const items = document.querySelectorAll('.item');
+
+// Sélecteurs multiples
+const titres = document.querySelectorAll('h1, h2, h3');
+
+// Avec attribut
+const actifs = document.querySelectorAll('[data-actif="true"]');
+
+// Parcourir une NodeList
+items.forEach(item => {
+  console.log(item.textContent);
+});
+
+// Convertir en vrai tableau avec spread
+const tableau = [...items];
+tableau.map(item => item.textContent);</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">NodeList vs HTMLCollection</div>
+          <p><code>querySelectorAll</code> renvoie une <strong>NodeList</strong> (statique, supporte forEach). Les anciennes méthodes (<code>getElementsByTagName</code>, <code>getElementsByClassName</code>) renvoient une <strong>HTMLCollection</strong> (live, pas de forEach). Préférez <code>querySelectorAll</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 TEXTCONTENT & INNERHTML ══ -->
+    <div id="s6-text">
+      <div class="section-header"><span class="section-num">04</span><h2>textContent et innerHTML</h2></div>
+      <p><code>textContent</code> lit/modifie le texte seul. <code>innerHTML</code> lit/modifie le HTML complet.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const zone = document.getElementById('demo-zone');
+
+// Lire le texte (ignorer le HTML)
+console.log(zone.textContent);
+
+// Modifier le texte (toute balise est échappée)
+zone.textContent = 'Texte <strong>simple</strong>';
+// Affiche : Texte &lt;strong&gt;simple&lt;/strong&gt;
+
+// Lire le HTML
+console.log(zone.innerHTML);
+
+// Modifier le HTML
+zone.innerHTML = 'Texte <strong>gras</strong>';
+// Affiche : Texte en <strong>gras</strong>
+
+// innerHTML est pratique mais risqué (XSS) !
+// Ne JAMAIS mettre de contenu utilisateur dans innerHTML</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div id="demo-zone"><em>Contenu</em> initial</div>
+            <button onclick="document.getElementById('demo-zone').textContent='Texte <strong>simple</strong>'">textContent</button>
+            <button onclick="document.getElementById('demo-zone').innerHTML='Texte <strong>gras</strong>'">innerHTML</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 CREATEELEMENT & APPENDCHILD ══ -->
+    <div id="s6-create">
+      <div class="section-header"><span class="section-num">05</span><h2>createElement &amp; appendChild</h2></div>
+      <p>Créer dynamiquement des éléments dans le DOM.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">// 1. Créer l'élément
+const nouveauP = document.createElement('p');
+
+// 2. Ajouter du contenu
+nouveauP.textContent = 'Ce paragraphe a été créé par JS !';
+nouveauP.style.color = '#3B82F6';
+nouveauP.style.fontWeight = 'bold';
+
+// 3. Insérer dans le DOM
+const container = document.getElementById('demo-container');
+container.appendChild(nouveauP);
+
+// Ajouter plusieurs éléments
+const liste = document.createElement('ul');
+for (let i = 1; i <= 3; i++) {
+  const li = document.createElement('li');
+  li.textContent = `Item ${i}`;
+  liste.appendChild(li);
+}
+container.appendChild(liste);
+
+// insertBefore et after/before (modernes)
+const span = document.createElement('span');
+span.textContent = ' ★ ';
+container.firstChild?.before(span);  // avant le premier enfant
+container.prepend(span);  // ou au début
+container.append('fin');  // texte directement</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div id="demo-container">
+              <p>Élément HTML existant</p>
+            </div>
+            <button onclick="const p=document.createElement('p');p.textContent='Créé par JS !';p.style.color='#3B82F6';document.getElementById('demo-container').appendChild(p)">Ajouter un élément</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 CLASSLIST ══ -->
+    <div id="s6-classlist">
+      <div class="section-header"><span class="section-num">06</span><h2>classList — gérer les classes CSS</h2></div>
+      <p><code>classList</code> permet d'ajouter, retirer, basculer ou vérifier les classes CSS.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const demo = document.getElementById('demo-class');
+
+// add() — ajouter une classe
+demo.classList.add('actif');
+
+// remove() — retirer une classe
+demo.classList.remove('inactif');
+
+// toggle() — ajoute si absente, retire si présente
+demo.classList.toggle('survole');
+
+// contains() — vérifier si la classe existe
+if (demo.classList.contains('actif')) {
+  console.log('La classe actif est présente');
+}
+
+// replace() — remplacer une classe
+demo.classList.replace('ancien', 'nouveau');
+
+// Multi-classes
+demo.classList.add('rouge', 'gras', 'bordure');
+
+// Style conditionnel
+const estActif = demo.classList.contains('actif');
+demo.style.background = estActif ? '#e0f7e0' : '#f0f0f0';</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <style>.demo-box { padding:.5rem 1rem; margin:.5rem 0; border:2px solid #ddd; border-radius:4px; transition:all .3s; }
+            .demo-box.actif { background:#d4edda; border-color:#28a745; color:#155724; }
+            .demo-box.survole { box-shadow:0 0 10px rgba(59,130,246,.4); }</style>
+            <div id="demo-class" class="demo-box">Boîte à classes</div>
+            <button onclick="document.getElementById('demo-class').classList.toggle('actif')">Toggle actif</button>
+            <button onclick="document.getElementById('demo-class').classList.toggle('survole')">Toggle survol</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 STYLE ══ -->
+    <div id="s6-style">
+      <div class="section-header"><span class="section-num">07</span><h2>Propriété style — CSS inline</h2></div>
+      <p>La propriété <code>style</code> permet de modifier le CSS <strong>inline</strong> d'un élément.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const boite = document.getElementById('demo-style');
+
+// Propriétés individuelles (camelCase)
+boite.style.backgroundColor = '#3B82F6';
+boite.style.color = 'white';
+boite.style.padding = '1rem';
+boite.style.borderRadius = '8px';
+boite.style.fontSize = '1.2rem';
+boite.style.fontWeight = 'bold';
+boite.style.textAlign = 'center';
+
+// Propriétés avec préfixe -webkit-
+boite.style.WebkitTransition = 'all 0.3s';
+
+// Lire le style calculé (CSS réellement appliqué)
+const styles = getComputedStyle(boite);
+console.log(styles.fontSize); // "1.2rem"
+
+// cssText — tout écrire d'un coup
+boite.style.cssText = 'background:#28a745;color:#fff;padding:1rem;border-radius:8px;';</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div id="demo-style">Style en direct</div>
+            <button onclick="const d=document.getElementById('demo-style');d.style.cssText='background:#3B82F6;color:#fff;padding:1rem;border-radius:8px;font-weight:bold;'">Appliquer style</button>
+            <button onclick="document.getElementById('demo-style').style.cssText=''">Réinitialiser</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 DATASET ══ -->
+    <div id="s6-dataset">
+      <div class="section-header"><span class="section-num">08</span><h2>Dataset — attributs data-*</h2></div>
+      <p>Les attributs <code>data-*</code> stockent des données personnalisées dans le HTML. Accessibles via <code>element.dataset</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">// En HTML : &lt;div data-id="42" data-nom="Alice" data-role="admin"&gt;
+
+const user = document.getElementById('demo-user');
+
+// Lire les data-*
+console.log(user.dataset.id);     // "42"
+console.log(user.dataset.nom);    // "Alice"
+console.log(user.dataset.role);   // "admin"
+
+// Modifier
+user.dataset.role = 'utilisateur';
+
+// Ajouter une nouvelle data-*
+user.dataset.dateInscription = '2024-06-15';
+
+// Vérifier
+console.log(user.dataset.role); // "utilisateur"
+console.log(user.dataset.dateInscription); // "2024-06-15"
+
+// Data-* avec kebab-case → dataset en camelCase
+// data-user-name → dataset.userName
+const utilisateur = document.getElementById('demo-user2');
+console.log(utilisateur.dataset.userName); // "Bob"
+
+// Supprimer un data-*
+delete user.dataset.temp;
+
+// Parcourir tous les data-*
+for (const [key, value] of Object.entries(user.dataset)) {
+  console.log(`${key}: ${value}`);
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div id="demo-user" data-id="42" data-nom="Alice" data-role="admin">👤 Alice (admin)</div>
+            <div id="demo-user2" data-user-name="Bob">👤 Bob</div>
+            <button onclick="const u=document.getElementById('demo-user');u.dataset.role='utilisateur';u.textContent='👤 Alice (utilisateur)'">Changer rôle</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s6-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🏗️ Construction dynamique</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page HTML avec un <code>&lt;div id="app"&gt;&lt;/div&gt;</code>.</li>
+            <li>En JS, créez un <code>&lt;h1&gt;</code> avec "Mon site dynamique" et insérez-le dans #app.</li>
+            <li>Créez une liste <code>&lt;ul&gt;</code> avec 4 éléments <code>&lt;li&gt;</code>.</li>
+            <li>Ajoutez un paragraphe avec <code>textContent</code>.</li>
+            <li>Modifiez la couleur du titre avec <code>style</code>.</li>
+            <li>Ajoutez une classe "actif" au premier <code>&lt;li&gt;</code> avec <code>classList</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📋 Galerie de données</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau <code>const fruits = [{nom:"Pomme", couleur:"rouge"}, {nom:"Banane", couleur:"jaune"}, {nom:"Kiwi", couleur:"vert"}]</code>.</li>
+            <li>Pour chaque fruit, créez une <code>&lt;div&gt;</code> avec le nom et la couleur en style.</li>
+            <li>Ajoutez un <code>data-prix</code> aléatoire à chaque fruit affiché.</li>
+            <li>Utilisez <code>querySelectorAll</code> pour sélectionner toutes les divs créées.</li>
+            <li>Au clic sur chaque div, affichez son <code>data-prix</code> dans la console.</li>
+            <li>Créez un bouton "Tout supprimer" qui vide le conteneur.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="06">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s6-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Concept du DOM : arbre d'objets, point d'entrée document</li>
+        <li>querySelector (1 élément) et querySelectorAll (NodeList)</li>
+        <li>textContent (texte brut) vs innerHTML (HTML interprété)</li>
+        <li>createElement, appendChild, insertBefore, prepend, after</li>
+        <li>classList : add, remove, toggle, contains, replace</li>
+        <li>Propriété style et getComputedStyle</li>
+        <li>Attributs data-* et l'objet dataset</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>DOM</dt><dd>Document Object Model — interface de programmation qui représente la page HTML sous forme d'arbre d'objets.</dd>
+          <dt>NodeList</dt><dd>Collection d'éléments retournée par querySelectorAll. Statique, itérable avec forEach.</dd>
+          <dt>textContent</dt><dd>Propriété pour lire/modifier le texte sans balises HTML. Plus performant et plus sûr que innerHTML.</dd>
+          <dt>innerHTML</dt><dd>Propriété pour lire/modifier le HTML interne. Risque XSS si le contenu vient de l'utilisateur.</dd>
+          <dt>classList</dt><dd>Objet avec les méthodes add/remove/toggle/contains pour manipuler les classes CSS.</dd>
+          <dt>dataset</dt><dd>Objet donnant accès aux attributs data-* d'un élément (data-nom → dataset.nom).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 7 — Événements &amp; Formulaires</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">addEventListener · click/input/submit · Event object · Délégation · keydown/up</div>
+        </div>
+        <a href="seance7-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 7 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,775 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 10 — Modules, Classes & Projet · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+    .preview-body button { background:#3B82F6;color:#fff;border:none;padding:.3rem .8rem;border-radius:4px;cursor:pointer;margin:.2rem; }
+    .preview-body input { border:1px solid #ccc;padding:.3rem .5rem;border-radius:4px;margin:.2rem;font-size:14px; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html" class="active">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 10</div>
+      <a href="#s10-modules"    class="sidebar-item"><span class="sidebar-num">01</span>export/import</a>
+      <a href="#s10-class"      class="sidebar-item"><span class="sidebar-num">02</span>Class &amp; constructor</a>
+      <a href="#s10-methodes"   class="sidebar-item"><span class="sidebar-num">03</span>Méthodes de classe</a>
+      <a href="#s10-extends"    class="sidebar-item"><span class="sidebar-num">04</span>extends/super</a>
+      <a href="#s10-classdom"   class="sidebar-item"><span class="sidebar-num">05</span>Classes + DOM</a>
+      <a href="#s10-static"     class="sidebar-item"><span class="sidebar-num">06</span>Static methods</a>
+      <a href="#s10-getset"     class="sidebar-item"><span class="sidebar-num">07</span>Getter/setter</a>
+      <a href="#s10-todo"       class="sidebar-item"><span class="sidebar-num">08</span>Mini-projet Todo</a>
+      <a href="#s10-exo"        class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s10-bilan"      class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance9-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 9</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 10 / 10</div>
+      <h1>Modules, Classes &amp; Projet</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">export/import · Class/constructor · extends/super · Classes + DOM · Static · Getter/setter · Mini-projet Todo List</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">1 projet</span>
+      </div>
+    ══ 01 EXPORT/IMPORT ══ -->
+    <div id="s10-modules">
+      <div class="section-header"><span class="section-num">01</span><h2>Modules ES6 — export / import</h2></div>
+      <p>Les modules permettent de découper le code en fichiers réutilisables. Chaque fichier a sa propre portée.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Export (math.js)</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// ── export nommé ──
+export const PI = 3.14159;
+
+export function addition(a, b) {
+  return a + b;
+}
+
+export function multiplication(a, b) {
+  return a * b;
+}
+
+// ── export par défaut (un seul par fichier) ──
+export default function saluer(nom) {
+  return `Bonjour ${nom} !`;
+}
+
+// ── export avec alias ──
+function interne(n) { return n * 2; }
+export { interne as doubler };</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Import (app.js)</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// ── Importer dans app.js ──
+// Le script HTML doit avoir type="module"
+// &lt;script type="module" src="app.js"&gt;&lt;/script&gt;
+
+// Import nommé
+import { PI, addition, multiplication } from './math.js';
+
+console.log(addition(5, 3));       // 8
+console.log(PI);                    // 3.14159
+
+// Import par défaut
+import saluer from './math.js';
+console.log(saluer('Alice'));       // Bonjour Alice !
+
+// Import avec alias
+import { addition as add, multiplication as mult } from './math.js';
+console.log(add(2, 3)); // 5
+
+// Importer tout
+import * as Math from './math.js';
+console.log(Math.addition(10, 5)); // 15
+
+// Import dynamique (lazy loading)
+const module = await import('./math.js');
+console.log(module.PI);</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Les modules nécessitent un serveur HTTP</div>
+          <p>Les modules ES6 ne fonctionnent pas en ouvrant le fichier HTML directement (<code>file://</code>). Utilisez Live Server (VS Code) ou un serveur local. Ajoutez <code>type="module"</code> à votre balise script.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ══ 02 CLASS & CONSTRUCTOR ══ -->
+    <div id="s10-class">
+      <div class="section-header"><span class="section-num">02</span><h2>Class &amp; constructor</h2></div>
+      <p>Les <strong>classes</strong> (ES6) sont un sucre syntaxique sur les prototypes. Le <code>constructor</code> initialise les propriétés.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Class</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class Personne {
+  constructor(nom, age) {
+    this.nom = nom;
+    this.age = age;
+  }
+}
+
+// Instanciation (avec new)
+const alice = new Personne('Alice', 25);
+const bob = new Personne('Bob', 30);
+
+console.log(alice.nom); // Alice
+console.log(bob.age);   // 30
+console.log(alice instanceof Personne); // true
+
+// ── Avant les classes (prototypes) ──
+function AnciennePersonne(nom, age) {
+  this.nom = nom;
+  this.age = age;
+}
+const ancienne = new AnciennePersonne('Charlie', 35);
+console.log(ancienne.nom); // Charlie
+
+// Les classes modernes sont préférées
+// Plus lisibles et claires sur l'intention</pre></div>
+      </div>
+    ══ 03 MÉTHODES DE CLASSE ══ -->
+    <div id="s10-methodes">
+      <div class="section-header"><span class="section-num">03</span><h2>Méthodes de classe</h2></div>
+      <p>Les méthodes sont définies directement dans le corps de la classe. Pas besoin de <code>function</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Méthodes de classe</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class Personne {
+  constructor(nom, age) {
+    this.nom = nom;
+    this.age = age;
+  }
+
+  // Méthode
+  saluer() {
+    return `Bonjour, je suis ${this.nom}`;
+  }
+
+  estMajeur() {
+    return this.age >= 18;
+  }
+
+  anniversaire() {
+    this.age++;
+    return `Joyeux anniversaire ${this.nom} ! Vous avez ${this.age} ans.`;
+  }
+
+  // Méthode qui utilise une autre méthode
+  description() {
+    const status = this.estMajeur() ? 'majeur' : 'mineur';
+    return `${this.nom}, ${this.age} ans, ${status}`;
+  }
+}
+
+const alice = new Personne('Alice', 25);
+console.log(alice.saluer());        // Bonjour, je suis Alice
+console.log(alice.estMajeur());     // true
+console.log(alice.anniversaire());  // Joyeux anniversaire Alice ! Vous avez 26 ans.
+console.log(alice.description());   // Alice, 26 ans, majeur
+
+// Les méthodes sont sur le prototype (pas sur l'instance)
+console.log(Object.hasOwn(alice, 'nom'));        // true
+console.log(Object.hasOwn(alice, 'saluer'));     // false (sur le proto)</pre></div>
+      </div>
+    ══ 04 EXTENDS / SUPER ══ -->
+    <div id="s10-extends">
+      <div class="section-header"><span class="section-num">04</span><h2>extends / super — héritage</h2></div>
+      <p>L'héritage permet à une classe d'hériter des propriétés et méthodes d'une autre classe.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Héritage</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class Personne {
+  constructor(nom, age) {
+    this.nom = nom;
+    this.age = age;
+  }
+
+  saluer() {
+    return `Bonjour, je suis ${this.nom}`;
+  }
+}
+
+// extends = hériter de Personne
+class Etudiant extends Personne {
+  constructor(nom, age, filiere) {
+    super(nom, age); // Appelle le constructeur parent
+    this.filiere = filiere;
+    this.notes = [];
+  }
+
+  ajouterNote(note) {
+    this.notes.push(note);
+  }
+
+  moyenne() {
+    if (this.notes.length === 0) return 0;
+    const somme = this.notes.reduce((a, n) => a + n, 0);
+    return somme / this.notes.length;
+  }
+
+  // Surcharger (override) une méthode parent
+  saluer() {
+    return `${super.saluer()} — Étudiant en ${this.filiere}`;
+  }
+}
+
+const etudiant = new Etudiant('Alice', 20, 'Informatique');
+etudiant.ajouterNote(15);
+etudiant.ajouterNote(18);
+etudiant.ajouterNote(12);
+
+console.log(etudiant.saluer());  // Bonjour, je suis Alice — Étudiant en Informatique
+console.log(etudiant.moyenne()); // 15
+console.log(etudiant instanceof Etudiant); // true
+console.log(etudiant instanceof Personne);  // true (héritage)
+
+// Classe plus spécialisée
+class EtudiantBoursier extends Etudiant {
+  constructor(nom, age, filiere, montant) {
+    super(nom, age, filiere);
+    this.montantBourse = montant;
+  }
+
+  infoBourse() {
+    return `Bourse de ${this.montantBourse}€/mois`;
+  }
+}</pre></div>
+      </div>
+    ══ 05 CLASSES + DOM ══ -->
+    <div id="s10-classdom">
+      <div class="section-header"><span class="section-num">05</span><h2>Classes et manipulation du DOM</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>Les classes sont parfaites pour structurer le code qui manipule le DOM.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Classe + DOM</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class Compteur {
+  constructor(selector, initial = 0) {
+    this.valeur = initial;
+    this.element = document.querySelector(selector);
+
+    if (!this.element) return;
+
+    this.render();
+    this.ecouter();
+  }
+
+  incrementer() {
+    this.valeur++;
+    this.render();
+  }
+
+  decrementer() {
+    this.valeur--;
+    this.render();
+  }
+
+  render() {
+    this.element.innerHTML = `
+      <div class="compteur-valeur">${this.valeur}</div>
+      <button class="btn-moins">−</button>
+      <button class="btn-plus">+</button>
+    `;
+  }
+
+  ecouter() {
+    this.element.addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn-plus')) {
+        this.incrementer();
+      }
+      if (e.target.classList.contains('btn-moins')) {
+        this.decrementer();
+      }
+    });
+  }
+}
+
+// Utilisation :
+// const cpt = new Compteur('#app-compteur', 5);
+
+// ── Classe pour gérer une liste ──
+class ListeTaches {
+  constructor(conteneurId) {
+    this.conteneur = document.getElementById(conteneurId);
+    this.taches = []; // bientôt avec localStorage
+    this.render();
+  }
+
+  ajouter(texte) {
+    this.taches.push({ id: Date.now(), texte, fait: false });
+    this.render();
+  }
+
+  supprimer(id) {
+    this.taches = this.taches.filter(t => t.id !== id);
+    this.render();
+  }
+
+  render() {
+    if (!this.conteneur) return;
+    this.conteneur.innerHTML = this.taches.map(t => `
+      <div class="tache ${t.fait ? 'faite' : ''}" data-id="${t.id}">
+        <span>${t.texte}</span>
+        <button class="suppr">✕</button>
+      </div>
+    `).join('');
+  }
+}</pre></div>
+      </div>
+    ══ 06 STATIC METHODS ══ -->
+    <div id="s10-static">
+      <div class="section-header"><span class="section-num">06</span><h2>Méthodes statiques</h2></div>
+      <p>Les méthodes <strong>statiques</strong> sont appelées sur la classe elle-même, pas sur les instances.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Static</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class MathUtils {
+  static PI = 3.14159;
+
+  static carre(x) {
+    return x * x;
+  }
+
+  static somme(...nombres) {
+    return nombres.reduce((a, n) => a + n, 0);
+  }
+
+  static estPair(n) {
+    return n % 2 === 0;
+  }
+
+  // Factory statique
+  static creerPersonne(nom, age) {
+    return { nom, age, creeLe: new Date() };
+  }
+
+  // Méthode utilitaire de comparaison
+  static comparerAge(a, b) {
+    return a.age - b.age;
+  }
+}
+
+// Appel sans instanciation
+console.log(MathUtils.PI);             // 3.14159
+console.log(MathUtils.carre(5));       // 25
+console.log(MathUtils.somme(1, 2, 3)); // 6
+console.log(MathUtils.estPair(4));     // true
+
+const personne = MathUtils.creerPersonne('Alice', 25);
+console.log(personne); // { nom:"Alice", age:25, creeLe: Date }
+
+// ❌ Impossible d'appeler une méthode statique sur une instance
+// const utils = new MathUtils();
+// utils.carre(5); // TypeError !
+
+// Exemple concret : config
+class Config {
+  static get API_URL() {
+    return 'https://api.monsite.com';
+  }
+
+  static get VERSION() {
+    return '1.0.0';
+  }
+}
+console.log(Config.API_URL); // https://api.monsite.com</pre></div>
+      </div>
+    ══ 07 GETTER/SETTER ══ -->
+    <div id="s10-getset">
+      <div class="section-header"><span class="section-num">07</span><h2>Getter et setter</h2></div>
+      <p>Les <strong>getters</strong> et <strong>setters</strong> sont des propriétés calculées avec des méthodes <code>get</code> et <code>set</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Getter/Setter</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class Personne {
+  constructor(nom, prenom, age) {
+    this._nom = nom;
+    this._prenom = prenom;
+    this._age = age;        // privée par convention (_)
+  }
+
+  // Getter — comme une propriété (pas d'appel fonction)
+  get nomComplet() {
+    return `${this._prenom} ${this._nom}`;
+  }
+
+  get age() {
+    return this._age;
+  }
+
+  // Setter — validation à l'assignation
+  set age(valeur) {
+    if (valeur < 0 || valeur > 150) {
+      throw new Error('Âge invalide');
+    }
+    this._age = valeur;
+  }
+
+  // Getter calculé
+  get estMajeur() {
+    return this._age >= 18;
+  }
+
+  get initiales() {
+    return `${this._prenom[0]}${this._nom[0]}`.toUpperCase();
+  }
+}
+
+const alice = new Personne('Dupont', 'Alice', 25);
+
+// Utilisation comme des propriétés
+console.log(alice.nomComplet); // Alice Dupont
+console.log(alice.estMajeur);  // true
+console.log(alice.initiales);  // AD
+
+// Setter
+alice.age = 30; // OK
+console.log(alice.age);       // 30
+// alice.age = 200; // Erreur !
+
+// Getter avec underscore privé
+class Temperature {
+  constructor(celsius) {
+    this._celsius = celsius;
+  }
+
+  get fahrenheit() {
+    return this._celsius * 9/5 + 32;
+  }
+
+  set fahrenheit(v) {
+    this._celsius = (v - 32) * 5/9;
+  }
+
+  get celsius() {
+    return this._celsius;
+  }
+}
+
+const temp = new Temperature(25);
+console.log(temp.fahrenheit); // 77
+temp.fahrenheit = 100;
+console.log(temp.celsius);    // ~37.78</pre></div>
+      </div>
+    ══ 08 MINI-PROJET TODO LIST ══ -->
+    <div id="s10-todo">
+      <div class="section-header"><span class="section-num">08</span><h2>Mini-projet : Todo List CRUD + localStorage</h2></div>
+      <p>Le projet final qui combine classes, DOM et localStorage.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Todo List</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">class TodoList {
+  constructor(containerId) {
+    this.container = document.getElementById(containerId);
+    this.taches = this.charger();
+    this.render();
+  }
+
+  // CRUD
+  ajouter(texte) {
+    if (!texte.trim()) return;
+    this.taches.push({
+      id: Date.now(),
+      texte: texte.trim(),
+      complete: false,
+      creeLe: new Date().toISOString()
+    });
+    this.sauvegarder();
+    this.render();
+  }
+
+  supprimer(id) {
+    this.taches = this.taches.filter(t => t.id !== id);
+    this.sauvegarder();
+    this.render();
+  }
+
+  basculer(id) {
+    const tache = this.taches.find(t => t.id === id);
+    if (tache) {
+      tache.complete = !tache.complete;
+      this.sauvegarder();
+      this.render();
+    }
+  }
+
+  // Stockage
+  charger() {
+    try {
+      return JSON.parse(localStorage.getItem('todoList')) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  sauvegarder() {
+    localStorage.setItem('todoList', JSON.stringify(this.taches));
+  }
+
+  // Statistiques
+  get total() { return this.taches.length; }
+  get faites() { return this.taches.filter(t => t.complete).length; }
+  get restantes() { return this.total - this.faites; }
+
+  // HTML
+  render() {
+    this.container.innerHTML = `
+      <div class="todo-header">
+        <h2>📋 Ma Todo List</h2>
+        <div class="todo-stats">
+          ${this.total} tâches · ${this.faites} faites · ${this.restantes} restantes
+        </div>
+      </div>
+      <form class="todo-form">
+        <input type="text" placeholder="Nouvelle tâche..." required autofocus>
+        <button type="submit">Ajouter</button>
+      </form>
+      <div class="todo-items">
+        ${this.taches.map(t => `
+          <div class="todo-item ${t.complete ? 'complete' : ''}" data-id="${t.id}">
+            <input type="checkbox" ${t.complete ? 'checked' : ''}>
+            <span class="todo-texte">${this.escHtml(t.texte)}</span>
+            <button class="todo-suppr">🗑️</button>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    this.ecouter();
+  }
+
+  ecouter() {
+    // Ajout
+    const form = this.container.querySelector('.todo-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input');
+      this.ajouter(input.value);
+      input.value = '';
+    });
+
+    // Délégation pour basculer et supprimer
+    this.container.querySelector('.todo-items').addEventListener('click', (e) => {
+      const item = e.target.closest('.todo-item');
+      if (!item) return;
+      const id = Number(item.dataset.id);
+
+      if (e.target.classList.contains('todo-suppr')) {
+        this.supprimer(id);
+      } else if (e.target.type === 'checkbox') {
+        this.basculer(id);
+      }
+    });
+  }
+
+  escHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+}
+
+// Lancer l'app :
+// const app = new TodoList('app-todo');
+</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Améliorations possibles</div>
+          <p>Ajoutez : filtre (tout/actives/complétées), édition en ligne, date d'échéance, catégories, glisser-déposer, thème clair/sombre. Toutes ces fonctionnalités utilisent les notions vues dans les 10 séances.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s10-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🧩 Classes &amp; modules</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>Vehicule.js</code> avec une classe Vehicule (marque, modele, annee, methode description()).</li>
+            <li>Exportez-la en <code>export default</code>.</li>
+            <li>Créez un fichier <code>Voiture.js</code> qui importe Vehicule et crée une classe Voiture avec <code>extends</code> (ajoutez portes, climatisation).</li>
+            <li>Créez un fichier <code>Moto.js</code> avec <code>extends</code> (ajoutez cylindree, type).</li>
+            <li>Importez les deux et créez des instances.</li>
+            <li>Ajoutez une méthode statique <code>Vehicule.comparer(v1, v2)</code> qui compare les années.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🚀 Amélioration de la Todo List</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ajoutez une barre de filtre "Toutes" / "Actives" / "Complétées".</li>
+            <li>Ajoutez la date de création formatée dans chaque tâche.</li>
+            <li>Permettez l'édition du texte en cliquant dessus (double-clic → input).</li>
+            <li>Ajoutez un compteur visuel du nombre de tâches restantes.</li>
+            <li>Ajoutez un bouton "Tout effacer" avec confirmation.</li>
+            <li>Exportez la classe TodoList dans un module séparé.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="10">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s10-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan du cours &amp; glossaire final</h2></div>
+      <h3>Ce que vous maîtrisez — Récapitulatif des 10 séances</h3>
+      <ul class="checklist">
+        <li><strong>Séance 1</strong> — Variables, types, typeof, template strings, commentaires</li>
+        <li><strong>Séance 2</strong> — Opérateurs, comparaison, logique, if/else, switch, ternaire, truthy/falsy</li>
+        <li><strong>Séance 3</strong> — Boucles (for, while, for...of, for...in), fonctions, fléchées, closure</li>
+        <li><strong>Séance 4</strong> — Objets, propriétés, méthodes, this, factory functions, Object.*, optional chaining</li>
+        <li><strong>Séance 5</strong> — Tableaux, push/pop, map, filter, reduce, find, sort, spread</li>
+        <li><strong>Séance 6</strong> — DOM : querySelector, createElement, classList, style, dataset</li>
+        <li><strong>Séance 7</strong> — Événements : addEventListener, click/submit, délégation, clavier</li>
+        <li><strong>Séance 8</strong> — JSON, localStorage, sessionStorage, CRUD stockage</li>
+        <li><strong>Séance 9</strong> — Async : Promises, async/await, fetch GET/POST, try/catch</li>
+        <li><strong>Séance 10</strong> — Modules ES6, Classes, extends, static, getter/setter, Todo List CRUD</li>
+      </ul>
+      <h3>Glossaire final</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Classe</dt><dd>Modèle pour créer des objets. Définie avec <code>class</code>, instanciée avec <code>new</code>. Sucre syntaxique sur les prototypes.</dd>
+          <dt>extends</dt><dd>Mot-clé pour créer une classe fille qui hérite d'une classe parente.</dd>
+          <dt>super</dt><dd>Mot-clé pour appeler le constructeur ou les méthodes de la classe parente.</dd>
+          <dt>Méthode statique</dt><dd>Méthode appelée sur la classe elle-même (<code>MaClasse.methode()</code>), pas sur les instances.</dd>
+          <dt>Getter/Setter</dt><dd>Propriétés calculées avec les mots-clés <code>get</code> et <code>set</code>. Permettent la validation et le calcul.</dd>
+          <dt>Module ES6</dt><dd>Fichier JS avec son propre scope. Utilise <code>export</code> et <code>import</code>. Nécessite <code>type="module"</code>.</dd>
+          <dt>CRUD</dt><dd>Create, Read, Update, Delete — les 4 opérations de base de la persistence des données.</dd>
+          <dt>Event Loop</dt><dd>Mécanisme de JS qui gère l'ordre d'exécution entre le code synchrone (call stack) et asynchrone (task queue).</dd>
+          <dt>Closure</dt><dd>Fonction qui se souvient des variables de son contexte lexical parent, même après la fin de l'exécution du parent.</dd>
+          <dt>this</dt><dd>Mot-clé qui fait référence au contexte d'exécution. Sa valeur dépend de comment la fonction est appelée.</dd>
+        </dl>
+      </div>
+      <div class="callout note" style="margin-top:2rem;">
+        <div class="callout-icon">🎉</div>
+        <div class="callout-body">
+          <div class="callout-title">Félicitations !</div>
+          <p>Vous avez terminé les 10 séances du cours JavaScript. Vous avez maintenant les bases solides pour construire des applications web interactives, manipuler le DOM, stocker des données, appeler des API et structurer votre code avec des classes et modules. Continuez à pratiquer en construisant vos propres projets !</p>
+        </div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2rem;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.3rem;">🏁 Fin du cours JavaScript</div>
+        <div style="font-size:.9rem;color:var(--text2);">Continuez votre apprentissage avec le cours PHP ou pratiquez avec des projets personnels.</div>
+        <a href="../../index.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;margin-top:1rem;">← Retour à l'accueil</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

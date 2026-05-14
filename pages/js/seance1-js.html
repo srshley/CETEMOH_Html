@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 1 — Introduction & Variables · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html" class="active">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 1</div>
+      <a href="#s1-intro"      class="sidebar-item"><span class="sidebar-num">01</span>C'est quoi JS</a>
+      <a href="#s1-ou-ecrire"  class="sidebar-item"><span class="sidebar-num">02</span>Où écrire</a>
+      <a href="#s1-let-const"  class="sidebar-item"><span class="sidebar-num">03</span>let &amp; const</a>
+      <a href="#s1-var"        class="sidebar-item"><span class="sidebar-num">04</span>var (ancien)</a>
+      <a href="#s1-types"      class="sidebar-item"><span class="sidebar-num">05</span>Types</a>
+      <a href="#s1-typeof"     class="sidebar-item"><span class="sidebar-num">06</span>typeof</a>
+      <a href="#s1-templates"  class="sidebar-item"><span class="sidebar-num">07</span>Template strings</a>
+      <a href="#s1-comment"    class="sidebar-item"><span class="sidebar-num">08</span>Commentaires</a>
+      <a href="#s1-exo"        class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s1-bilan"      class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 2 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 01 / 10</div>
+      <h1>Introduction &amp; Variables</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Qu'est-ce que JS · Où écrire du code · let/const/var · Types · typeof · Template strings · Commentaires</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 C'EST QUOI JS ══ -->
+    <div id="s1-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>C'est quoi JavaScript ?</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>JavaScript (souvent abrégé <strong>JS</strong>) est le langage de programmation <em>côté client</em> du web. Il permet de rendre une page dynamique : réagir à un clic, valider un formulaire, animer un élément, charger des données sans recharger la page.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">⚡</div>
+        <div class="callout-body">
+          <div class="callout-title">Les muscles de la page</div>
+          <p>HTML est le squelette, CSS les vêtements, JavaScript les <strong>muscles</strong>. Sans JS, la page est statique. Avec JS, elle devient interactive.</p>
+        </div>
+      </div>
+      <h3>Où s'exécute JavaScript ?</h3>
+      <p>Principalement dans le <strong>navigateur</strong> (Chrome, Firefox, Safari, Edge). C'est ce qu'on appelle du <em>client-side</em> JS. Depuis 2009 avec Node.js, JS peut aussi s'exécuter côté serveur.</p>
+      <h3>ECMAScript — la norme derrière JS</h3>
+      <p>JavaScript est basé sur une norme appelée <strong>ECMAScript (ES)</strong>. Chaque année, une nouvelle version apporte des fonctionnalités :</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Version</th><th>Année</th><th>Apports clés</th></tr></thead>
+          <tbody>
+            <tr><td><code>ES5</code></td><td>2009</td><td>Strict mode, JSON, Array methods</td></tr>
+            <tr><td><code>ES6 / ES2015</code></td><td>2015</td><td><strong>let/const</strong>, fonctions fléchées, classes, modules, Promises, template strings</td></tr>
+            <tr><td><code>ES2017</code></td><td>2017</td><td>async/await, Object.entries/values</td></tr>
+            <tr><td><code>ES2020</code></td><td>2020</td><td>Optional chaining (?.), nullish coalescing (??)</td></tr>
+            <tr><td><code>ES2023</code></td><td>2023</td><td>Array findLast, toSorted, toReversed</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">JS n'est pas Java</div>
+          <p>Malgré le nom similaire, JavaScript et Java sont deux langages totalement différents. JavaScript a été nommé ainsi pour des raisons marketing à l'époque. Ne confondez pas !</p>
+        </div>
+      </div>
+    ══ 02 OÙ ÉCRIRE ══ -->
+    <div id="s1-ou-ecrire">
+      <div class="section-header"><span class="section-num">02</span><h2>Où écrire du JavaScript</h2></div>
+      <p>Il y a trois endroits principaux pour placer votre code JavaScript :</p>
+
+      <h3>1. Dans une balise &lt;script&gt; dans le HTML</h3>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Script inline</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Ma page&lt;/h1&gt;
+  &lt;script&gt;
+    alert('Hello depuis le script !');
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+      <h3>2. Dans la console du navigateur</h3>
+      <p>Ouvrez les outils développeur (<kbd>F12</kbd> ou <kbd>Ctrl+Maj+I</kbd>), onglet <strong>Console</strong>. Tapez directement du JS et validez avec <kbd>Entrée</kbd>. Idéal pour tester rapidement.</p>
+
+      <h3>3. Dans un fichier .js externe (recommandé)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML — Lien vers fichier externe</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Tout en bas du body, avant &lt;/body&gt; --&gt;
+&lt;script src="app.js"&gt;&lt;/script&gt;</pre></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — app.js</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// app.js — tout le code JS va ici
+console.log('app.js est chargé');
+let nom = 'Alice';
+console.log('Bonjour ' + nom);</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Toujours placer &lt;script&gt; avant &lt;/body&gt;</div>
+          <p>Si vous mettez le script dans &lt;head&gt;, le navigateur bloquera le rendu HTML le temps de charger et exécuter le JS. En plaçant le script en bas du body, le HTML est déjà affiché quand JS s'exécute. Alternative : l'attribut <code>defer</code>.</p>
+        </div>
+      </div>
+    </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+<!-- ══ 03 let & const ══ -->
+    <div id="s1-let-const">
+      <div class="section-header"><span class="section-num">03</span><h2>let et const — les variables modernes</h2></div>
+      <p>Depuis ES6 (2015), on déclare les variables avec <code>let</code> et <code>const</code>.</p>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--amber);">let — variable qui peut changer</h3>
+          <p style="font-size:.9rem;">Utilisez <code>let</code> quand la valeur va <strong>changer</strong> au fil du temps. Portée au bloc <code>{}</code>.</p>
+          <pre style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text);background:var(--bg3);padding:.6rem;border-radius:4px;margin:0;">let age = 25;
+age = 26; // OK
+let age = 30; // ERREUR !</pre>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--amber);">const — valeur constante</h3>
+          <p style="font-size:.9rem;">Utilisez <code>const</code> pour les valeurs qui ne <strong>doivent pas</strong> changer. Obligatoire d'assigner une valeur dès la déclaration.</p>
+          <pre style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text);background:var(--bg3);padding:.6rem;border-radius:4px;margin:0;">const prenom = 'Alice';
+prenom = 'Bob'; // ERREUR !
+const PI = 3.14159;</pre>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle d'or : const par défaut, let si nécessaire</div>
+          <p>Utilisez <strong>toujours</strong> <code>const</code> par défaut. Si vous avez besoin de réassigner la variable, passez à <code>let</code>. Cela rend le code plus prévisible et évite les erreurs.<br><br>⚠️ <code>const</code> ne rend pas l'objet/tableau immuable : on peut modifier ses propriétés, mais pas réassigner la variable.</p>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — let vs const</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">let compteur = 0;      // va changer
+compteur++;             // 1
+
+const nom = 'Alice';    // ne changera jamais
+// nom = 'Bob';         // TypeError
+
+const couleurs = ['rouge', 'vert']; // objet immuable ?
+couleurs.push('bleu');  // OK ! car on modifie, pas réassigne
+// couleurs = [];       // ERREUR : réassignation
+
+console.log(compteur, nom, couleurs);
+// → 1 "Alice" ["rouge", "vert", "bleu"]</pre></div>
+      </div>
+    ══ 04 VAR ══ -->
+    <div id="s1-var">
+      <div class="section-header"><span class="section-num">04</span><h2>var — l'ancienne façon</h2></div>
+      <p>Avant ES6, on utilisait <code>var</code>. Elle existe encore mais il est <strong>déconseillé</strong> de l'utiliser dans du code moderne.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Caractéristique</th><th><code>var</code></th><th><code>let</code> / <code>const</code></th></tr></thead>
+          <tbody>
+            <tr><td>Portée (scope)</td><td>Fonction</td><td>Bloc <code>{}</code></td></tr>
+            <tr><td>Hoisting</td><td>Oui (undefined)</td><td>Oui (mais pas initialisé — TDZ)</td></tr>
+            <tr><td>Redéclaration</td><td>Possible</td><td>Impossible</td></tr>
+            <tr><td>Réassignation</td><td>Possible</td><td>let oui, const non</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Problèmes de var</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Problème 1 : pas de portée de bloc
+if (true) {
+  var x = 10;   // var ignore le bloc
+}
+console.log(x); // 10 — fuite !!
+
+if (true) {
+  let y = 20;   // let reste dans le bloc
+}
+console.log(y); // ReferenceError
+
+// Problème 2 : redéclaration silencieuse
+var nom = 'Alice';
+var nom = 'Bob'; // pas d'erreur
+console.log(nom); // Bob
+
+// Problème 3 : hoisting avec undefined
+console.log(z);  // undefined (pas d'erreur !)
+var z = 5;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">N'utilisez plus var dans du code moderne</div>
+          <p>Les problèmes de <code>var</code> (portée de fonction, hoisting dangereux, redéclaration) sont source de bugs. <strong>Tout code ES6+ doit utiliser <code>let</code> et <code>const</code>.</strong> Même si vous voyez <code>var</code> dans du code existant, écrivez systématiquement en let/const.</p>
+        </div>
+      </div>
+    ══ 05 TYPES ══ -->
+    <div id="s1-types">
+      <div class="section-header"><span class="section-num">05</span><h2>Les types de données</h2></div>
+      <p>JavaScript est un langage <strong>faiblement typé</strong> : une variable peut changer de type. Mais chaque valeur a un type bien défini.</p>
+      <h3>Les types primitifs</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Exemple</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>string</code></td><td><code>"Bonjour"</code>, <code>'A'</code></td><td>Chaîne de caractères — guillemets simples, doubles ou backticks</td></tr>
+            <tr><td><code>number</code></td><td><code>42</code>, <code>3.14</code>, <code>NaN</code>, <code>Infinity</code></td><td>Nombres entiers ou décimaux (il n'y a qu'un seul type number)</td></tr>
+            <tr><td><code>boolean</code></td><td><code>true</code>, <code>false</code></td><td>Vrai ou faux — utilisé dans les conditions</td></tr>
+            <tr><td><code>null</code></td><td><code>null</code></td><td>"Rien" — valeur intentionnellement vide</td></tr>
+            <tr><td><code>undefined</code></td><td><code>undefined</code></td><td>"Pas encore défini" — valeur par défaut d'une variable déclarée sans valeur</td></tr>
+            <tr><td><code>symbol</code></td><td><code>Symbol('id')</code></td><td>Valeur unique et immuable (avancé)</td></tr>
+            <tr><td><code>bigint</code></td><td><code>9007199254740991n</code></td><td>Entiers très grands (ES2020)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Les types en pratique</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const nom     = 'Alice';        // string
+const age     = 25;              // number
+const prix    = 19.99;           // number (décimal)
+const majeur  = true;            // boolean
+const voiture = null;            // null (vide intentionnel)
+const taille  = undefined;       // undefined (pas définie)
+const id      = Symbol('id');    // symbol
+const big     = 123n;            // bigint
+
+// Différence clé : null vs undefined
+let a;          // undefined (déclarée mais pas initialisée)
+let b = null;   // null (explicitement vide)
+
+console.log(a); // undefined
+console.log(b); // null
+
+// NaN est un number (même si c'est "Not a Number")
+console.log(typeof NaN);        // "number"
+console.log(0 / 0);             // NaN
+console.log(Infinity);          // Infinity</pre></div>
+      </div>
+    ══ 06 typeof ══ -->
+    <div id="s1-typeof">
+      <div class="section-header"><span class="section-num">06</span><h2>typeof — connaître le type d'une valeur</h2></div>
+      <p>L'opérateur <code>typeof</code> renvoie une chaîne indiquant le type de la valeur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — typeof en action</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">console.log(typeof 'Bonjour'); // "string"
+console.log(typeof 42);        // "number"
+console.log(typeof 3.14);      // "number"
+console.log(typeof true);      // "boolean"
+console.log(typeof null);      // "object" — c'est un bug historique !
+console.log(typeof undefined); // "undefined"
+console.log(typeof {});        // "object"
+console.log(typeof []);        // "object"
+console.log(typeof function(){}); // "function"
+console.log(typeof Symbol());  // "symbol"
+console.log(typeof 123n);      // "bigint"
+
+// Attention !
+console.log(typeof null === 'object'); // true (bug)
+// Pour tester null : valeur === null</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">typeof null === "object" — un bug historique</div>
+          <p>Depuis la création de JS, <code>typeof null</code> renvoie <code>"object"</code>. C'est un bug reconnu mais jamais corrigé car trop de code existant en dépendrait. Pour tester null, utilisez <code>valeur === null</code>.</p>
+        </div>
+      </div>
+    ══ 07 TEMPLATE STRINGS ══ -->
+    <div id="s1-templates">
+      <div class="section-header"><span class="section-num">07</span><h2>Template strings (littéraux de gabarit)</h2></div>
+      <p>Les <strong>template strings</strong> (ou littéraux de gabarit) permettent d'intégrer des expressions dans une chaîne avec <code>${}</code>, et de créer des chaînes multi-lignes.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Template strings</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const prenom = 'Alice';
+const age = 25;
+
+// Ancienne façon (concaténation)
+const msg1 = 'Je m\'appelle ' + prenom + ' et j\'ai ' + age + ' ans.';
+
+// Nouvelle façon (template string)
+const msg2 = `Je m'appelle ${prenom} et j'ai ${age} ans.`;
+
+console.log(msg1); // Je m'appelle Alice et j'ai 25 ans.
+console.log(msg2); // Je m'appelle Alice et j'ai 25 ans.
+
+// Multi-lignes
+const poeme = `
+  Roses are red,
+  Violets are blue,
+  JavaScript is awesome,
+  And so are you.
+`;
+console.log(poeme);
+
+// Expressions à l'intérieur
+const a = 10, b = 5;
+console.log(`${a} + ${b} = ${a + b}`); // 10 + 5 = 15
+
+// Appels de fonctions
+function saluer(n) { return `Bonjour ${n} !`; }
+console.log(saluer('Alice')); // Bonjour Alice !</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Backticks `` — toujours disponibles</div>
+          <p>Les backticks (``) fonctionnent partout où JS est exécuté (navigateurs, Node.js). Préférez-les systématiquement aux guillemets pour les chaînes contenant des variables, et pour toutes les chaînes multi-lignes.</p>
+        </div>
+      </div>
+    ══ 08 COMMENTAIRES ══ -->
+    <div id="s1-comment">
+      <div class="section-header"><span class="section-num">08</span><h2>Les commentaires</h2></div>
+      <p>Les commentaires sont ignorés par JavaScript. Ils servent à <strong>documenter</strong> le code pour les humains.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Commentaires</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// --- Commentaire sur une seule ligne ---
+
+// Ceci est un commentaire ligne — tout après // est ignoré
+let x = 5; // On peut aussi commenter en fin de ligne
+
+// --- Commentaire multi-lignes ---
+
+/*
+  Ceci est un commentaire
+  qui s'étend sur plusieurs lignes.
+  Très utile pour désactiver temporairement du code.
+*/
+
+/*
+  Exemple : configuration utilisateur
+  On initialise les valeurs par défaut
+*/
+const config = {
+  theme: 'dark',
+  lang: 'fr'
+};
+
+// --- JSDoc (commentaire de documentation) ---
+
+/**
+ * Calcule le carré d'un nombre
+ * @param {number} n - Le nombre à élever au carré
+ * @returns {number} Le résultat
+ */
+function carre(n) {
+  return n * n;
+}</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Un code bien écrit n'a pas besoin de commentaires</div>
+          <p>Préférez des noms de variables et fonctions explicites plutôt que des commentaires. Un commentaire qui dit "c'est compliqué" est un signe qu'il faut simplifier le code. Les commentaires doivent dire <strong>pourquoi</strong>, pas <strong>quoi</strong>.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s1-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🧪 Variables &amp; types</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>exercice1.js</code> et liez-le à une page HTML.</li>
+            <li>Déclarez une variable <code>const ville = "Paris"</code>. Affichez-la dans la console.</li>
+            <li>Déclarez <code>let population = 2161000</code>. Puis modifiez-la pour <code>population = 11000000</code> (aire urbaine).</li>
+            <li>Utilisez <code>typeof</code> pour afficher le type de <code>ville</code>, <code>population</code>, <code>true</code>, <code>null</code> et <code>undefined</code>.</li>
+            <li>Créez un template string : <code>`${ville} a ${population} habitants.`</code> et affichez-le.</li>
+            <li>Ajoutez un commentaire expliquant chaque étape.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔄 let vs const vs var</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Déclarez <code>var test = "ancien"</code>. Déclarez-la à nouveau avec <code>var test = "nouveau"</code>. Que se passe-t-il ?</li>
+            <li>Essayez de redéclarer une variable <code>let</code> avec le même nom. Observez l'erreur.</li>
+            <li>Dans un <code>if (true) { }</code>, déclarez une variable <code>let</code> et une <code>var</code>. Essayez d'accéder aux deux après le bloc. Que constatez-vous ?</li>
+            <li>Déclarez <code>const MA_CONST = 42</code>. Essayez de la modifier. Notez l'erreur.</li>
+            <li>Déclarez <code>const tableau = [1, 2, 3]</code>. Ajoutez 4 avec <code>tableau.push(4)</code>. Pourquoi ça marche ?</li>
+            <li>Dans la console du navigateur, tapez <code>document.title = "Mon titre JS"</code>. Observez le changement dans l'onglet.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="01">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s1-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Rôle de JavaScript : client-side, ECMAScript, évolution ES6+</li>
+        <li>Les 3 façons d'inclure JS : script tag, console, fichier .js externe</li>
+        <li>let pour les variables qui changent, const pour les constantes</li>
+        <li>var : l'ancienne façon avec ses pièges (scope, hoisting, redéclaration)</li>
+        <li>Les 7 types primitifs : string, number, boolean, null, undefined, symbol, bigint</li>
+        <li>typeof pour inspecter le type d'une valeur</li>
+        <li>Template strings avec backticks `` et interpolation ${}</li>
+        <li>Commentaires //, /* */ et JSDoc /** */</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>ECMAScript (ES)</dt><dd>Norme standardisée sur laquelle JavaScript est basé. ES6 (2015) a apporté des changements majeurs.</dd>
+          <dt>let</dt><dd>Mot-clé pour déclarer une variable réassignable avec une portée de bloc.</dd>
+          <dt>const</dt><dd>Mot-clé pour déclarer une variable non réassignable. La valeur ne peut pas être remplacée.</dd>
+          <dt>Template string</dt><dd>Chaîne délimitée par des backticks `` permettant l'interpolation ${} et le multi-lignes.</dd>
+          <dt>typeof</dt><dd>Opérateur retournant le type d'une valeur sous forme de chaîne (ex: "number", "string").</dd>
+          <dt>Hoisting</dt><dd>Comportement où les déclarations var et function sont remontées en haut de leur portée avant l'exécution.</dd>
+          <dt>TDZ (Temporal Dead Zone)</dt><dd>Zone entre le début du bloc et la déclaration let/const où la variable existe mais n'est pas accessible.</dd>
+          <dt>null</dt><dd>Valeur primitive représentant l'absence intentionnelle de valeur.</dd>
+          <dt>undefined</dt><dd>Valeur par défaut d'une variable déclarée mais non initialisée.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 2 — Opérateurs &amp; Conditions</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Arithmétique · Comparaison · Logique · if/else · switch · Ternaire · Truthy/Falsy</div>
+        </div>
+        <a href="seance2-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 2 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

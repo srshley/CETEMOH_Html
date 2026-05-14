@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 3 — Couleurs, Unités & Typographie · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html" class="active">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s3">Séance 3</div>
+      <a href="#s3-colors"   class="sidebar-item"><span class="sidebar-num">01</span>Couleurs</a>
+      <a href="#s3-abs"      class="sidebar-item"><span class="sidebar-num">02</span>Unités absolues</a>
+      <a href="#s3-rel"      class="sidebar-item"><span class="sidebar-num">03</span>Unités relatives</a>
+      <a href="#s3-font"     class="sidebar-item"><span class="sidebar-num">04</span>font-family & Google Fonts</a>
+      <a href="#s3-size"     class="sidebar-item"><span class="sidebar-num">05</span>font-size & line-height</a>
+      <a href="#s3-weight"   class="sidebar-item"><span class="sidebar-num">06</span>font-weight & font-style</a>
+      <a href="#s3-text"     class="sidebar-item"><span class="sidebar-num">07</span>text-align, transform, decoration</a>
+      <a href="#s3-space"    class="sidebar-item"><span class="sidebar-num">08</span>Espacement & white-space</a>
+      <a href="#s3-exo"      class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s3-bilan"    class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance4-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 4 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 03 / 10</div>
+      <h1>Couleurs, Unités & Typographie</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Couleurs · Unités absolues/relatives · Polices · Texte · Espacement</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Fondamental</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 COULEURS ══ -->
+    <div id="s3-colors">
+      <div class="section-header"><span class="section-num">01</span><h2>Les couleurs en CSS</h2></div>
+      <p>CSS propose plusieurs formats pour définir une couleur. Chacun a ses avantages selon le contexte : précision, transparence, lisibilité du code.</p>
+
+      <h3>Les différents formats</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Format</th><th>Syntaxe</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td>Noms prédéfinis</td><td><code>nom</code></td><td><code>red</code>, <code>blue</code>, <code>tomato</code>, <code>rebeccapurple</code> (148 noms)</td></tr>
+            <tr><td>Hexadécimal</td><td><code>#RRGGBB</code> ou <code>#RGB</code></td><td><code>#ff6600</code>, <code>#f60</code>, <code>#3498db</code></td></tr>
+            <tr><td>Hexa avec alpha</td><td><code>#RRGGBBAA</code></td><td><code>#e6394680</code> (50% transparent)</td></tr>
+            <tr><td>RGB</td><td><code>rgb(r, g, b)</code></td><td><code>rgb(231, 57, 70)</code></td></tr>
+            <tr><td>RGBA</td><td><code>rgba(r, g, b, a)</code></td><td><code>rgba(231, 57, 70, .5)</code></td></tr>
+            <tr><td>HSL</td><td><code>hsl(h, s%, l%)</code></td><td><code>hsl(4, 79%, 56%)</code></td></tr>
+            <tr><td>HSLA</td><td><code>hsla(h, s%, l%, a)</code></td><td><code>hsla(4, 79%, 56%, .5)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Tous les formats de couleurs</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* NOM — limité, mais pratique pour les couleurs de base */
+.box-red    { background: red; }
+.box-tomato { background: tomato; }
+.box-gold   { background: gold; }
+
+/* HEX — le plus utilisé en production */
+.box-hex    { background: #3498db; }     /* bleu vif */
+.box-hex2   { background: #2ecc71; }     /* vert */
+.box-hex3   { background: #e74c3c; }     /* rouge */
+
+/* HEX avec transparence (#RRGGBBAA) */
+.box-hexa   { background: #e74c3c80; }   /* rouge à 50% */
+
+/* RGB — pratique pour les couleurs programmatiques */
+.box-rgb    { background: rgb(52, 152, 219); }
+
+/* RGBA — comme RGB mais avec transparence (a = 0 à 1) */
+.box-rgba   { background: rgba(52, 152, 219, .3); }
+
+/* HSL — plus intuitif pour créer des variations */
+.box-hsl    { background: hsl(210, 70%, 53%); }  /* même bleu */
+.box-hsl2   { background: hsl(210, 50%, 70%); }  /* même teinte, moins saturé, plus clair */
+
+/* HSLA — avec transparence */
+.box-hsla   { background: hsla(210, 70%, 53%, .5); }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              <span style="background:#3498db;color:white;padding:4px 10px;">HEX #3498db</span>
+              <span style="background:#2ecc71;color:white;padding:4px 10px;">#2ecc71</span>
+              <span style="background:#e74c3c;color:white;padding:4px 10px;">#e74c3c</span>
+              <span style="background:rgba(231,76,60,.5);padding:4px 10px;">RGBA 50%</span>
+              <span style="background:hsl(210,70%,53%);color:white;padding:4px 10px;">HSL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Quand utiliser quel format</div>
+          <p><strong>HEX</strong> : standard industriel, parfait pour les couleurs fixes. <strong>RGBA</strong> : quand vous avez besoin de transparence. <strong>HSL</strong> : idéal pour créer des variations (plus clair, plus foncé, moins saturé) à partir d'une teinte de base. Utilisez des <strong>variables CSS</strong> (vues en séance 10) pour stocker vos couleurs et les réutiliser.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 UNITÉS ABSOLUES ══ -->
+    <div id="s3-abs">
+      <div class="section-header"><span class="section-num">02</span><h2>Unités absolues : px, pt, cm</h2></div>
+      <p>Les unités absolues correspondent à des mesures physiques fixes. La plus utilisée dans le web est le <strong>pixel (px)</strong>. Les autres (pt, cm, mm, in, pc) viennent de l'imprimerie et sont rarement employées pour les écrans.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Unités absolues</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* PIXEL — unité standard pour les écrans */
+.border-px   { border: 2px solid #333; }    /* bordure fine */
+.font-px     { font-size: 18px; }           /* taille de texte */
+.padding-px  { padding: 16px 24px; }        /* espacement interne */
+
+/* POINT — 1pt = 1/72 inch, pour l'imprimé */
+.print-font  { font-size: 12pt; }
+
+/* CENTIMÈTRE / MILLIMÈTRE — rare sur le web */
+.margin-cm   { margin: 1cm 0; }
+
+/* ⚠️ Les unités physiques (pt, cm, mm) sont imprécises à l'écran
+   car la résolution réelle varie selon les moniteurs.
+   Sur le web, utilisez presque toujours px ou des unités relatives. */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="border:2px solid #333;padding:16px 24px;font-size:18px;">
+              Padding 16px 24px, texte 18px, bordure 2px.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Le pixel CSS n'est pas un pixel physique</div>
+          <p>Un <code>px</code> en CSS correspond à un "pixel de référence" (environ 1/96 de pouce), pas nécessairement à un pixel physique de l'écran. Les écrans Retina (2×, 3×) utilisent plusieurs pixels physiques pour afficher un pixel CSS. C'est normal et transparent pour le développeur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 UNITÉS RELATIVES ══ -->
+    <div id="s3-rel">
+      <div class="section-header"><span class="section-num">03</span><h2>Unités relatives : em, rem, %, vw, vh</h2></div>
+      <p>Les unités relatives sont calculées par rapport à une autre valeur (parent, racine, viewport). Elles sont <strong>essentielles</strong> pour le responsive design et l'accessibilité.</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Unités relatives</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ═══ % — pourcentage du parent ═══ */
+.parent  { width: 600px; }
+.child   { width: 50%; }  /* = 300px */
+
+/* ═══ em — relatif à la taille de police DU PARENT ═══ */
+.parent  { font-size: 16px; }
+.child   { font-size: 1.5em; } /* = 24px (1.5 × 16) */
+.child   { padding: 1em; }     /* = 24px (1 × font-size courant) */
+
+/* ═══ rem — relatif à la taille de police RACINE (html) ═══ */
+html     { font-size: 16px; } /* valeur par défaut */
+h1       { font-size: 2rem; } /* = 32px (2 × 16) */
+p        { font-size: 1rem; } /* = 16px */
+.small   { font-size: .875rem; } /* = 14px */
+
+/* ═══ vw / vh — relatif au viewport (fenêtre) ═══ */
+.full-width  { width: 100vw; }  /* 100% de la largeur de la fenêtre */
+.full-height { height: 100vh; } /* 100% de la hauteur de la fenêtre */
+.hero-title  { font-size: 5vw; } /* 5% de la largeur de la fenêtre */
+
+/* ═══ vmin / vmax ═══ */
+.min-dim     { width: 50vmin; }  /* 50% de la plus petite dimension */
+.max-dim     { height: 50vmax; } /* 50% de la plus grande dimension */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="width:80%;background:#e8f4f8;padding:10px;margin-bottom:8px;">80% du parent</div>
+            <div style="font-size:1.5rem;">1.5rem (24px si html 16px)</div>
+            <div style="font-size:0.875rem;">0.875rem (14px)</div>
+            <div style="background:#d4edda;padding:8px;margin-top:4px;width:50%;">50% du parent</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">rem recommandé, em à utiliser avec précaution</div>
+          <p><code>rem</code> est plus prévisible que <code>em</code> car il se base toujours sur la racine (<code>html</code>). Avec <code>em</code>, la valeur s'accumule si vous imbriquez des éléments (ex : un <code>li</code> avec <code>font-size: .9em</code> dans une liste imbriquée rétrécit à chaque niveau). Préférez <code>rem</code> pour les tailles de police et <code>em</code> pour les espacements (padding, margin) qui doivent s'adapter à la taille de police locale.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 FONT-FAMILY & GOOGLE FONTS ══ -->
+    <div id="s3-font">
+      <div class="section-header"><span class="section-num">04</span><h2>font-family & Google Fonts</h2></div>
+      <p>La propriété <code>font-family</code> définit la police de caractères. On fournit toujours une <strong>liste de fallback</strong> (polices de secours) séparées par des virgules, car on ne peut pas garantir qu'une police est installée chez l'utilisateur.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — font-family avec fallback</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Les 5 grandes familles génériques */
+.serif      { font-family: Georgia, 'Times New Roman', serif; }
+.sans-serif { font-family: 'Helvetica Neue', Arial, sans-serif; }
+.monospace  { font-family: 'Courier New', Consolas, monospace; }
+.cursive    { font-family: 'Brush Script MT', cursive; }
+.fantasy    { font-family: 'Papyrus', fantasy; }
+
+/* Police avec espace dans le nom → guillemets */
+.custom     { font-family: 'Fira Code', 'JetBrains Mono', monospace; }
+
+/* Utilisation de Google Fonts (dans le HTML) */
+/* &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"&gt; */
+.google     { font-family: 'Inter', sans-serif; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="font-family:Georgia,'Times New Roman',serif;">Georgia — police serif (avec empattements)</p>
+            <p style="font-family:'Helvetica Neue',Arial,sans-serif;">Arial — sans-serif (sans empattements)</p>
+            <p style="font-family:'Courier New',Consolas,monospace;">Consolas — monospace (chasse fixe)</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Comment utiliser Google Fonts</h3>
+      <ol>
+        <li>Allez sur <a href="https://fonts.google.com" target="_blank" rel="noopener">fonts.google.com</a></li>
+        <li>Choisissez une police (ex : Inter, Roboto, Open Sans, Lora)</li>
+        <li>Sélectionnez les graisses nécessaires (400 = normal, 700 = gras)</li>
+        <li>Copiez la balise <code>&lt;link&gt;</code> fournie et collez-la dans votre <code>&lt;head&gt;</code></li>
+        <li>Utilisez le nom de la police dans votre CSS</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Performance — ne pas abuser des Google Fonts</div>
+          <p>Chaque police Google Fonts ajoute un chargement externe qui ralentit la page. Limitez-vous à <strong>1 ou 2 familles</strong> (ex : une pour les titres, une pour le texte). Utilisez <code>display=swap</code> dans l'URL (affichage immédiat avec une police de secours le temps du chargement). Privilégiez les polices système quand c'est possible.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 FONT-SIZE & LINE-HEIGHT ══ -->
+    <div id="s3-size">
+      <div class="section-header"><span class="section-num">05</span><h2>font-size & line-height</h2></div>
+      <p><code>font-size</code> contrôle la taille du texte. <code>line-height</code> contrôle l'interlignage (hauteur de ligne). Ensemble, ils déterminent la lisibilité du contenu textuel.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* font-size : tailles absolues et relatives */
+.tres-grand  { font-size: 2.5rem; }   /* ~40px */
+.grand       { font-size: 1.5rem; }   /* ~24px */
+.normal      { font-size: 1rem; }     /* ~16px (défaut) */
+.petit       { font-size: .875rem; }  /* ~14px */
+.tres-petit  { font-size: .75rem; }   /* ~12px */
+
+/* line-height : sans unité est recommandé */
+.serre       { line-height: 1.2; }    /* serré — titres */
+.confortable { line-height: 1.6; }    /* confortable — paragraphes */
+.aere        { line-height: 2; }      /* aéré — citations */
+
+/* Valeur avec unité (déconseillé pour line-height) */
+/* line-height: 24px; → rigide, ne s'adapte pas si font-size change */
+/* line-height: 1.6; → 1.6 × font-size, s'adapte automatiquement */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="font-size:2.5rem;">2.5rem (titre)</div>
+            <div style="font-size:1.5rem;">1.5rem (sous-titre)</div>
+            <div style="font-size:1rem;line-height:1.6;">1rem, line-height 1.6 — interlignage confortable pour la lecture de longs paragraphes.</div>
+            <div style="font-size:.875rem;line-height:1.2;">0.875rem, line-height 1.2 — serré, pour des petites notes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle typographique : line-height sans unité</div>
+          <p>Toujours utiliser un <strong>nombre sans unité</strong> pour <code>line-height</code> (ex : <code>1.6</code>). Pourquoi ? Parce que la valeur est alors proportionnelle à la taille de police. Si vous mettez <code>line-height: 24px</code> sur un élément dont la police passe à 20px, l'interlignage ne s'adapte pas. Avec <code>1.5</code>, il sera toujours de 1.5× la taille courante. C'est l'une des rares règles CSS universellement recommandées.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 FONT-WEIGHT & FONT-STYLE ══ -->
+    <div id="s3-weight">
+      <div class="section-header"><span class="section-num">06</span><h2>font-weight & font-style</h2></div>
+      <p><code>font-weight</code> contrôle la graisse (épaisseur) du texte. <code>font-style</code> gère l'italique. Ces propriétés dépendent des variantes disponibles dans la police utilisée.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* font-weight : valeurs numériques et mots-clés */
+.fw-thin    { font-weight: 100; }  /* Thin / Hairline */
+.fw-light   { font-weight: 300; }  /* Light */
+.fw-normal  { font-weight: 400; }  /* Normal (défaut) */
+.fw-medium  { font-weight: 500; }  /* Medium */
+.fw-bold    { font-weight: 700; }  /* Bold */
+.fw-black   { font-weight: 900; }  /* Black */
+
+/* Mots-clés équivalents */
+.fw-normal  { font-weight: normal; }  /* = 400 */
+.fw-bold    { font-weight: bold; }    /* = 700 */
+
+/* font-style */
+.fs-normal  { font-style: normal; }
+.fs-italic  { font-style: italic; }
+.fs-oblique { font-style: oblique; }  /* presque identique à italic */
+
+/* font-variant */
+.fv-small   { font-variant: small-caps; } /* petites capitales */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="font-weight:100;">Thin 100</div>
+            <div style="font-weight:300;">Light 300</div>
+            <div style="font-weight:400;">Normal 400</div>
+            <div style="font-weight:500;">Medium 500</div>
+            <div style="font-weight:700;">Bold 700</div>
+            <div style="font-weight:900;">Black 900</div>
+            <div style="font-style:italic;">Italic</div>
+            <div style="font-variant:small-caps;">Small Caps</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Toutes les graisses ne sont pas disponibles</div>
+          <p>Si vous utilisez <code>font-weight: 500</code> mais que la police ne contient pas cette graisse, le navigateur choisit la plus proche. Avec les Google Fonts, sélectionnez explicitement les graisses nécessaires dans l'URL de chargement pour garantir leur disponibilité. Évitez d'utiliser <code>font-weight</code> avec des valeurs intermédiaires (200, 600, 800) sans vérifier que la police les supporte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 TEXT-ALIGN, TRANSFORM, DECORATION ══ -->
+    <div id="s3-text">
+      <div class="section-header"><span class="section-num">07</span><h2>text-align, text-transform, text-decoration</h2></div>
+      <p>Ces trois propriétés contrôlent l'alignement, la casse et la décoration du texte. Elles sont simples mais essentielles au quotidien.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ═══ text-align ═══ */
+.gauche  { text-align: left; }       /* défaut */
+.centre  { text-align: center; }
+.droite  { text-align: right; }
+.justifie { text-align: justify; }   /* pour l'imprimé, évitez sur le web */
+
+/* ═══ text-transform ═══ */
+.majuscules { text-transform: uppercase; }
+.minuscules { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; } /* 1ère lettre de chaque mot en maj */
+.normal-case{ text-transform: none; }
+
+/* ═══ text-decoration ═══ */
+.souligne   { text-decoration: underline; }
+.barre      { text-decoration: line-through; }
+.none       { text-decoration: none; }  /* enlever le souligné des liens */
+
+/* Forme longue (property, style, color) */
+.deco       { text-decoration: underline wavy #e63946; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="text-align:left;">Aligné à gauche</div>
+            <div style="text-align:center;">Centré</div>
+            <div style="text-align:right;">Aligné à droite</div>
+            <div style="text-transform:uppercase;">uppercase</div>
+            <div style="text-transform:capitalize;">chaque mot en capitale</div>
+            <div style="text-decoration:underline;">souligné</div>
+            <div style="text-decoration:line-through;">barré</div>
+            <div style="text-decoration:underline wavy #e63946;">souligné ondulé rouge</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">text-transform ne remplace pas le contenu HTML</div>
+          <p><code>text-transform: uppercase</code> est visuel seulement → un lecteur d'écran lira le texte comme il est écrit dans le HTML, pas en majuscules. Si le texte DOIT être lu en majuscules (sigle, acronyme), écrivez-le en majuscules directement dans le HTML. Si c'est juste un style, utilisez CSS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ESPACEMENT ══ -->
+    <div id="s3-space">
+      <div class="section-header"><span class="section-num">08</span><h2>Espacement : letter-spacing, word-spacing, white-space</h2></div>
+      <p>Ces propriétés contrôlent l'espacement entre les caractères, entre les mots, et le comportement des espaces blancs dans le texte.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* letter-spacing : espacement entre les caractères */
+.lettre-serre   { letter-spacing: -0.02em; }  /* resserré — titres */
+.lettre-normal  { letter-spacing: normal; }
+.lettre-espace  { letter-spacing: 0.1em; }    /* étalé */
+.lettre-tres    { letter-spacing: 0.3em; }    /* très étalé — style luxe */
+
+/* word-spacing : espacement entre les mots */
+.mots-normaux   { word-spacing: normal; }
+.mots-espace    { word-spacing: 0.25em; }
+
+/* white-space : gestion des espaces */
+.ws-normal  { white-space: normal; }     /* défaut — les espaces multiples sont compressés */
+.ws-nowrap  { white-space: nowrap; }     /* pas de retour à la ligne */
+.ws-pre     { white-space: pre; }        /* comme &lt;pre&gt; — respecte les espaces */
+.ws-pre-wrap{ white-space: pre-wrap; }   /* comme pre mais avec retour auto */
+.ws-pre-line{ white-space: pre-line; }   /* respecte les retours ligne, pas les espaces */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="letter-spacing:.3em;margin-bottom:6px;">ESPACÉ</div>
+            <div style="letter-spacing:-.02em;margin-bottom:6px;">Resserré</div>
+            <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Texte long sans retour à la ligne automatique — tronqué avec ellipsis</div>
+            <div style="white-space:pre;background:#f0f0f0;padding:8px;margin-top:6px;">Ligne 1
+Ligne 2
+    Indenté</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Quand utiliser letter-spacing</div>
+          <p>Un léger <code>letter-spacing</code> positif (0.05em–0.1em) améliore la lisibilité des textes en majuscules. Les titres de presse et de luxe utilisent souvent un espacement accru. À l'inverse, un espacement négatif peut être beau pour des gros titres très modernes, mais ne l'appliquez pas à des textes longs (illisibles).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s3-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎨 Palette de couleurs & typographie</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-typographie.html</code> avec un article complet : titre h1, sous-titre h2, plusieurs paragraphes, une citation blockquote.</li>
+            <li>Définissez une police Google Font pour les titres et une police système (serif) pour le texte.</li>
+            <li>Utilisez <code>font-size</code> en rem pour tous les textes (2rem pour h1, 1.5rem pour h2, 1rem pour p).</li>
+            <li>Appliquez <code>line-height: 1.7</code> sur les paragraphes et <code>1.3</code> sur les titres.</li>
+            <li>Utilisez au moins 3 formats de couleur différents (hex, rgba, hsl) pour les titres, les liens et les citations.</li>
+            <li>Ajoutez <code>text-transform: uppercase</code> et <code>letter-spacing: .1em</code> sur les sous-titres.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📐 Unités & espacement</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page avec trois blocs côte à côte de largeur 30% chacun, centrés dans la page.</li>
+            <li>Utilisez <code>vh</code> pour donner une hauteur minimale de 50vh à la section principale.</li>
+            <li>Ajoutez un bloc hero avec <code>height: 60vh</code> et un titre en <code>font-size: 5vw</code>.</li>
+            <li>Créez un bouton avec <code>padding: .75em 1.5em</code> (proportionnel à sa propre taille de police).</li>
+            <li>Utilisez <code>white-space: nowrap</code> sur un groupe de mots qui ne doivent jamais être séparés (ex : "Paris 75001").</li>
+            <li>Ajoutez <code>text-decoration: underline wavy</code> sur un mot important.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Système de titres complet</div>
+          <p>Créez un système typographique complet pour un blog : h1 à h6 avec des tailles en rem, line-height spécifique pour chaque niveau, couleur dégradée (plus clair pour les niveaux profonds), et une variation de font-weight (h1 en 900, h6 en 400). Appliquez une marge verticale cohérente avec <code>margin: 1.5em 0 0.5em</code> sur tous les titres.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="03">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s3-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Les formats de couleur : hex (#RRGGBB, #RGB, #RRGGBBAA), rgb/rgba, hsl/hsla</li>
+        <li>Les unités absolues (px) et relatives (%, em, rem, vw, vh, vmin, vmax)</li>
+        <li>La différence entre em (parent) et rem (racine), et quand utiliser chacun</li>
+        <li>font-family avec fallback et intégration de Google Fonts</li>
+        <li>font-size en rem et line-height sans unité</li>
+        <li>font-weight (100–900) et font-style (normal, italic)</li>
+        <li>text-align, text-transform, text-decoration</li>
+        <li>letter-spacing, word-spacing, white-space</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>HEX</dt><dd>Format hexadécimal #RRGGBB. Ex : #ff6600. Le format le plus utilisé pour les couleurs fixes.</dd>
+          <dt>HSL</dt><dd>Teinte (Hue 0–360), Saturation (0–100%), Luminosité (Lightness 0–100%). Plus intuitif pour créer des variations.</dd>
+          <dt>rem</dt><dd>Unité relative à la taille de police de la racine (<code>html</code>). 1rem = 16px par défaut. Prévisible et accessible.</dd>
+          <dt>em</dt><dd>Unité relative à la taille de police du parent. S'accumule dans les éléments imbriqués. Utile pour les paddings.</dd>
+          <dt>vw / vh</dt><dd>1vw = 1% de la largeur du viewport. 1vh = 1% de la hauteur du viewport.</dd>
+          <dt>line-height</dt><dd>Hauteur de ligne. Toujours sans unité (ex: 1.6). Essentiel pour la lisibilité du texte.</dd>
+          <dt>font-weight</dt><dd>Graisse de la police : 100 (thin) à 900 (black). 400 = normal, 700 = bold.</dd>
+          <dt>text-transform</dt><dd>Modifie la casse : uppercase, lowercase, capitalize. Visuel seulement, pas sémantique.</dd>
+          <dt>letter-spacing</dt><dd>Espacement entre les caractères. En em. Utile pour les textes en majuscules.</dd>
+          <dt>Google Fonts</dt><dd>Service de polices web hébergées. Gratuit, grande bibliothèque, simple à intégrer.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 4 — Box Model</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Content · Padding · Border · Margin · Box-sizing · Overflow</div>
+        </div>
+        <a href="seance4-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 4 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

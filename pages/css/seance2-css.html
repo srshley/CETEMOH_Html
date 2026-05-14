@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 2 — Sélecteurs CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html" class="active">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s2">Séance 2</div>
+      <a href="#s2-tag"     class="sidebar-item"><span class="sidebar-num">01</span>Sélecteur de balise</a>
+      <a href="#s2-class"   class="sidebar-item"><span class="sidebar-num">02</span>Sélecteur de classe</a>
+      <a href="#s2-id"      class="sidebar-item"><span class="sidebar-num">03</span>Sélecteur d'id</a>
+      <a href="#s2-universal" class="sidebar-item"><span class="sidebar-num">04</span>Universel *</a>
+      <a href="#s2-attr"    class="sidebar-item"><span class="sidebar-num">05</span>Attribut [attr]</a>
+      <a href="#s2-desc"    class="sidebar-item"><span class="sidebar-num">06</span>Descendant (espace)</a>
+      <a href="#s2-combi"   class="sidebar-item"><span class="sidebar-num">07</span>&gt; + ~ combinateurs</a>
+      <a href="#s2-pseudo"  class="sidebar-item"><span class="sidebar-num">08</span>Pseudo-classes</a>
+      <a href="#s2-exo"     class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s2-bilan"   class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance3-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 3 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 02 / 10</div>
+      <h1>Sélecteurs CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Balise · Classe · Id · Attribut · Combinateurs · Pseudo-classes</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Fondamental</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 SÉLECTEUR DE BALISE ══ -->
+    <div id="s2-tag">
+      <div class="section-header"><span class="section-num">01</span><h2>Sélecteur de balise (type selector)</h2></div>
+      <p>Le sélecteur le plus simple : il cible tous les éléments HTML d'un certain type. On écrit simplement le nom de la balise, sans crochet, sans point, sans dièse.</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Sélecteurs de type / de balise */
+h1 { color: #2c3e50; }
+p  { font-size: 16px; line-height: 1.6; }
+a  { color: #2980b9; text-decoration: none; }
+ul { list-style: square; padding-left: 1.5em; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <h4 style="color:#2c3e50;margin:0 0 .3rem;">Titre h4 en #2c3e50</h4>
+            <p style="font-size:16px;line-height:1.6;">Paragraphe en 16px, interligne 1.6.</p>
+            <a href="#" style="color:#2980b9;text-decoration:none;">Lien sans soulignement</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Portée globale</div>
+          <p>Un sélecteur de balise s'applique à <strong>tous</strong> les éléments de ce type dans la page. C'est parfait pour les styles de base (typographie, couleurs principales) mais trop large pour des cas particuliers. Pour cibler un sous-ensemble, utilisez une classe.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 SÉLECTEUR DE CLASSE ══ -->
+    <div id="s2-class">
+      <div class="section-header"><span class="section-num">02</span><h2>Sélecteur de classe .class</h2></div>
+      <p>Le sélecteur de classe est <strong>le plus utilisé</strong> en CSS moderne. Il cible tous les éléments HTML qui possèdent l'attribut <code>class</code> correspondant. Une classe peut être appliquée à n'importe quelle balise, et une balise peut avoir plusieurs classes.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Le point . devant le nom de la classe */
+.important { color: #e63946; font-weight: bold; }
+.small     { font-size: 0.85rem; color: #666; }
+.card      { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; }
+
+/* Une balise peut avoir plusieurs classes */
+/* &lt;p class="important small"&gt; → applique les deux */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="color:#e63946;font-weight:bold;">important</p>
+            <p style="font-size:0.85rem;color:#666;">small</p>
+            <p style="color:#e63946;font-weight:bold;font-size:0.85rem;color:#666;">important + small (deux classes)</p>
+            <div style="border:1px solid #ddd;padding:1rem;border-radius:8px;">.card</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Convention de nommage</div>
+          <p>Utilisez le <strong>kebab-case</strong> (mots séparés par des tirets) pour nommer vos classes : <code>.nav-link</code>, <code>.btn-primary</code>, <code>.card-title</code>. Évitez les underscores, les camelCase, et les abréviations obscures. Un nom de classe doit décrire <em>ce que c'est</em>, pas <em>à quoi ça ressemble</em> (préférez <code>.error-message</code> à <code>.red-text</code>).</p>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Combinaison balise + classe</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Combinaison : ne cible que les &lt;p&gt; avec cette classe */
+p.intro { font-size: 1.2rem; color: #2c3e50; }
+
+/* Sans la balise : tous les éléments avec cette classe */
+.intro  { font-size: 1.2rem; color: #2c3e50; }
+
+/* Différence : p.intro est plus spécifique (0,0,1,1 vs 0,0,1,0) */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="font-size:1.2rem;color:#2c3e50;">p.intro</p>
+            <span style="font-size:1.2rem;color:#2c3e50;">span avec classe .intro</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 SÉLECTEUR D'ID ══ -->
+    <div id="s2-id">
+      <div class="section-header"><span class="section-num">03</span><h2>Sélecteur d'id #id</h2></div>
+      <p>Le sélecteur d'id cible un élément unique grâce à son attribut <code>id</code>. Un id est <strong>unique</strong> dans une page — on ne peut pas avoir deux éléments avec le même id. La spécificité est très élevée (0,1,0,0).</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Le dièse # devant le nom de l'id */
+#header    { background: #2c3e50; color: white; padding: 1rem; }
+#logo      { width: 120px; height: auto; }
+#main-nav  { display: flex; gap: 1rem; }
+#footer    { background: #1a252f; color: #ccc; padding: 2rem; }
+
+/* Attention : trop de spécificité rend le code rigide */
+/* Préférez les classes pour le style */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#2c3e50;color:white;padding:1rem;">#header</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Id vs Classe — quand utiliser quoi ?</div>
+          <p>Utilisez un <strong>id</strong> pour : les ancres de navigation (<code>#section-contact</code>), le ciblage JavaScript (<code>document.getElementById()</code>), les labels de formulaires (<code>&lt;label for="email"&gt;</code>). Utilisez une <strong>classe</strong> pour : tout ce qui est style CSS. Les classes sont réutilisables, ont une spécificité modérée, et ne créent pas de conflit.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 UNIVERSEL ══ -->
+    <div id="s2-universal">
+      <div class="section-header"><span class="section-num">04</span><h2>Sélecteur universel *</h2></div>
+      <p>L'astérisque <code>*</code> cible <strong>tous</strong> les éléments de la page. Sa spécificité est de 0,0,0,0 — la plus faible possible. Il est souvent utilisé pour des réinitialisations globales.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Tous les éléments */
+* { box-sizing: border-box; }
+
+/* Tous les éléments dans .sidebar uniquement */
+.sidebar * { font-size: 0.9rem; }
+
+/* Tous les enfants directs de nav */
+nav &gt; * { margin: 0; padding: 0; }
+
+/* ⚠️ * appliqué globalement peut impacter les performances
+   car le navigateur évalue la règle pour CHAQUE élément */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="box-sizing:border-box;padding:0;margin:0;"><code>* { box-sizing: border-box; }</code> est appliqué à tous.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Performance du sélecteur universel</div>
+          <p>Utilisé seul (<code>* { ... }</code>), le sélecteur universel est lent car le navigateur doit vérifier <strong>chaque élément</strong> de la page. Préférez l'utiliser combiné à un sélecteur plus précis (<code>.contenu * { ... }</code>) ou dans des contexts spécifiques. L'usage le plus répandu — <code>box-sizing: border-box</code> — est acceptable car cette propriété ne déclenche pas de recalcul de mise en page.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 SÉLECTEUR D'ATTRIBUT ══ -->
+    <div id="s2-attr">
+      <div class="section-header"><span class="section-num">05</span><h2>Sélecteur d'attribut [attr]</h2></div>
+      <p>Les sélecteurs d'attribut ciblent les éléments selon la présence ou la valeur d'un attribut HTML. Ils sont extrêmement puissants pour styliser sans classe supplémentaire.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* [attr] — présence de l'attribut */
+[disabled] { opacity: 0.5; cursor: not-allowed; }
+[required] { border-left: 3px solid #e63946; }
+
+/* [attr="valeur"] — exact */
+[type="submit"] { background: #2c3e50; color: white; }
+[target="_blank"]::after { content: " ↗"; }
+
+/* [attr^="valeur"] — commence par (prefix) */
+a[href^="https"] { color: green; }
+a[href^="mailto"]::before { content: "✉ "; }
+
+/* [attr$="valeur"] — finit par (suffix) */
+a[href$=".pdf"]::after { content: " [PDF]"; color: red; }
+img[src$=".png"] { border: 2px solid #3498db; }
+
+/* [attr*="valeur"] — contient */
+[class*="btn"] { font-weight: bold; }
+[href*="wikipedia"] { color: #636363; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="opacity:0.5;cursor:not-allowed;">disabled</div>
+            <input type="submit" value="Envoyer" style="background:#2c3e50;color:white;border:none;padding:6px 12px;">
+            <div><a href="https://example.com" style="color:green;">Lien HTTPS</a></div>
+            <div><a href="doc.pdf" style="color:#2980b9;">Document PDF</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr]</code></td><td>Présence de l'attribut</td><td><code>[disabled]</code></td></tr>
+            <tr><td><code>[attr="val"]</code></td><td>Égalité exacte</td><td><code>[type="submit"]</code></td></tr>
+            <tr><td><code>[attr^="val"]</code></td><td>Commence par</td><td><code>[href^="https"]</code></td></tr>
+            <tr><td><code>[attr$="val"]</code></td><td>Finit par</td><td><code>[src$=".png"]</code></td></tr>
+            <tr><td><code>[attr*="val"]</code></td><td>Contient</td><td><code>[class*="btn"]</code></td></tr>
+            <tr><td><code>[attr|="val"]</code></td><td>Valeur exacte OU suivie d'un tiret</td><td><code>[lang|="fr"]</code></td></tr>
+            <tr><td><code>[attr~="val"]</code></td><td>Contient le mot (séparé par espace)</td><td><code>[rel~="noopener"]</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 06 DESCENDANT ══ -->
+    <div id="s2-desc">
+      <div class="section-header"><span class="section-num">06</span><h2>Combinateur descendant (espace)</h2></div>
+      <p>Le combinateur descendant cible un élément qui est <strong>à l'intérieur</strong> d'un autre, à <strong>n'importe quel niveau</strong> d'imbrication. Il s'écrit avec un simple espace entre les sélecteurs.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Tous les &lt;li&gt; dans &lt;ul&gt; (même imbriqués) */
+ul li { margin-bottom: 0.5rem; }
+
+/* Tous les &lt;a&gt; dans &lt;nav&gt; */
+nav a { color: #ecf0f1; text-decoration: none; }
+
+/* Tous les &lt;p&gt; dans .article */
+.article p { line-height: 1.8; color: #444; }
+
+/* Combinaisons plus complexes */
+#sidebar .menu &gt; li a { font-size: 0.9rem; }
+/* → un &lt;a&gt; descendant d'un &lt;li&gt; enfant direct de .menu dans #sidebar */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <nav style="background:#2c3e50;padding:.5rem;">
+              <a href="#" style="color:#ecf0f1;text-decoration:none;">Lien dans nav</a>
+            </nav>
+            <div style="max-width:300px;">
+              <p style="line-height:1.8;color:#444;">Paragraphe dans .article</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Attention à la profondeur excessive</div>
+          <p>Évitez les sélecteurs trop longs comme <code>.contenu .sidebar ul li a span</code>. Ils sont : ① très spécifiques (difficiles à surcharger), ② lents à évaluer, ③ fragiles (un changement de structure HTML les casse). Limitez-vous à 3 ou 4 niveaux maximum. Si vous dépassez, créez une classe dédiée.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 ENFANT > ADJACENT + GÉNÉRAL ~ ══ -->
+    <div id="s2-combi">
+      <div class="section-header"><span class="section-num">07</span><h2>Combinateurs > + ~</h2></div>
+      <p>CSS propose trois autres combinateurs plus précis que l'espace descendant : l'enfant direct <code>&gt;</code>, le frère adjacent <code>+</code>, et le frère général <code>~</code>.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Les trois combinateurs</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ═══ &gt; ENFANT DIRECT ═══ */
+/* Uniquement les &lt;li&gt; qui sont enfants DIRECTS de &lt;ul&gt; */
+/* PAS les &lt;li&gt; imbriqués dans une sous-liste */
+ul &gt; li { border-bottom: 1px solid #eee; }
+
+/* ═══ + FRÈRE ADJACENT ═══ */
+/* Le &lt;p&gt; qui suit IMMÉDIATEMENT un &lt;h2&gt; */
+h2 + p { font-weight: bold; margin-top: 0; }
+
+/* ═══ ~ FRÈRE GÉNÉRAL ═══ */
+/* Tous les &lt;p&gt; qui suivent un &lt;h2&gt; (pas juste le premier) */
+h2 ~ p { color: #555; padding-left: 1rem; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <ul style="padding-left:1.5rem;">
+              <li style="border-bottom:1px solid #eee;">Enfant direct → bordure</li>
+              <li style="border-bottom:1px solid #eee;">Enfant direct → bordure</li>
+            </ul>
+            <h4 style="margin:.8rem 0 .3rem;">Titre h4</h4>
+            <p style="font-weight:bold;margin-top:0;">Frère adjacent (h4 + p) → gras</p>
+            <p style="color:#555;padding-left:1rem;">Frère général (h4 ~ p) → gris</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Quand utiliser chaque combinateur</div>
+          <p><code>&gt;</code> (enfant direct) : pour styler les premiers niveaux d'une liste, d'un menu, d'une grille, sans affecter les enfants imbriqués. <code>+</code> (adjacent) : pour espacer ou mettre en valeur le premier élément après un titre. <code>~</code> (général) : rare, utile pour styler tous les éléments après un certain point sans les précéder.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 PSEUDO-CLASSES ══ -->
+    <div id="s2-pseudo">
+      <div class="section-header"><span class="section-num">08</span><h2>Pseudo-classes :hover :focus :nth-child :not</h2></div>
+      <p>Les pseudo-classes ciblent un élément selon son <strong>état</strong> ou sa <strong>position</strong> dans le document. Elles commencent toujours par <code>:</code> et se placent après le sélecteur.</p>
+
+      <h3>Pseudo-classes d'interaction</h3>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* HOVER : survol de la souris */
+a:hover { color: #e63946; text-decoration: underline; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+
+/* FOCUS : élément ciblé (clic, tabulation) */
+input:focus { border-color: #3498db; box-shadow: 0 0 0 3px rgba(52,152,219,.2); outline: none; }
+a:focus { outline: 2px solid #3498db; outline-offset: 2px; }
+
+/* ACTIVE : au moment du clic */
+.btn:active { transform: translateY(0); box-shadow: none; }
+
+/* VISITED : lien déjà visité */
+a:visited { color: #8e44ad; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div><a href="#" style="color:#e63946;">:hover → rouge</a></div>
+            <div style="margin-top:.3rem;"><input value="focus me" style="border:2px solid #3498db;box-shadow:0 0 0 3px rgba(52,152,219,.2);outline:none;padding:4px 8px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Pseudo-classes structurelles</h3>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* :first-child / :last-child — premier/dernier enfant */
+li:first-child { font-weight: bold; }
+li:last-child  { border-bottom: none; }
+
+/* :nth-child() — basé sur la position */
+li:nth-child(odd)  { background: #f8f9fa; } /* lignes impaires */
+li:nth-child(even) { background: #e9ecef; } /* lignes paires */
+li:nth-child(3)    { color: #e63946; }       /* 3e élément exactement */
+li:nth-child(3n+1) { border-left: 3px solid #3498db; } /* 1, 4, 7, 10… */
+
+/* :not() — négation */
+p:not(.intro) { color: #555; }  /* tous les p SAUF .intro */
+input:not([type="submit"]) { border: 1px solid #ccc; }
+
+/* :first-of-type / :last-of-type — par type, pas par position */
+p:first-of-type { font-size: 1.1em; }  /* premier &lt;p&gt; dans le parent */
+p:last-of-type  { margin-bottom: 0; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <ul style="padding-left:1.5rem;">
+              <li style="font-weight:bold;background:#f8f9fa;padding:4px 8px;">1er : gras + fond gris clair</li>
+              <li style="background:#e9ecef;padding:4px 8px;">2e : fond gris foncé</li>
+              <li style="color:#e63946;background:#f8f9fa;padding:4px 8px;">3e : rouge</li>
+              <li style="background:#e9ecef;padding:4px 8px;">4e</li>
+              <li style="background:#f8f9fa;padding:4px 8px;border-bottom:1px solid #ccc;">5e</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Les pseudo-classes les plus utiles au quotidien</div>
+          <p>En pratique : <code>:hover</code> pour les interactions, <code>:focus</code> pour l'accessibilité clavier, <code>:nth-child()</code> pour les tableaux/listes en bandes, <code>:not()</code> pour les exceptions, <code>:first-child</code>/<code>:last-child</code> pour les coins arrondis ou séparateurs. Évitez <code>:nth-child()</code> avec des formules trop complexes (elles deviennent illisibles).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s2-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎯 Ciblage par sélecteurs</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-selecteurs.html</code> avec un <code>&lt;nav&gt;</code> contenant 5 liens, une <code>&lt;section&gt;</code> avec 3 articles (<code>&lt;article&gt;</code>), chacun avec titre, paragraphe et liste.</li>
+            <li>Dans un fichier CSS externe <code>style-selecteurs.css</code> : appliquez une couleur à tous les liens dans le <code>nav</code>.</li>
+            <li>Ciblez uniquement le premier <code>&lt;li&gt;</code> de chaque liste avec <code>:first-child</code> et mettez-le en gras.</li>
+            <li>Utilisez <code>[href^="https"]</code> pour ajouter une icône devant les liens externes.</li>
+            <li>Utilisez <code>:nth-child(odd)</code> pour colorer une ligne sur deux dans une liste.</li>
+            <li>Ajoutez un <code>:hover</code> qui souligne les liens et change leur couleur.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🧩 Combinateurs & pseudo-classes</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une carte de profil avec photo, nom, bio et réseaux sociaux. Utilisez des classes.</li>
+            <li>Utilisez <code>&gt;</code> pour styler uniquement les enfants directs de la carte (pas ceux d'une éventuelle sous-carte).</li>
+            <li>Utilisez <code>h2 + p</code> pour mettre en valeur le premier paragraphe après le titre.</li>
+            <li>Utilisez <code>:hover</code> sur la carte pour agrandir légèrement l'ombre portée.</li>
+            <li>Utilisez <code>:focus</code> sur les liens des réseaux sociaux pour un contour visible au clavier.</li>
+            <li>Utilisez <code>:not(:last-child)</code> pour ajouter un séparateur entre les éléments d'une liste horizontale.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Menu à plusieurs niveaux</div>
+          <p>Créez un menu de navigation à 2 niveaux (ul > li > ul > li). Utilisez <code>&gt;</code> pour styler le premier niveau (barre horizontale) et le descendant espace pour le sous-menu (vertical). Ajoutez <code>:hover</code> pour faire apparaître le sous-menu. Stylez le dernier élément de chaque liste sans bordure avec <code>:last-child</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="02">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s2-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Sélecteur de balise (type selector) : cible tous les éléments d'un type donné</li>
+        <li>Sélecteur de classe .nom : réutilisable, spécificité modérée, usage quotidien</li>
+        <li>Sélecteur d'id #nom : unique, très spécifique, à réserver aux ancres et JS</li>
+        <li>Sélecteur universel * : tous les éléments, faible spécificité, usage mesuré</li>
+        <li>Sélecteurs d'attribut [attr] : exact, préfixe ^, suffixe $, contient *</li>
+        <li>Combinateur descendant (espace) : n'importe quel niveau d'imbrication</li>
+        <li>Enfant direct &gt;, adjacent +, général ~</li>
+        <li>Pseudo-classes : :hover, :focus, :active, :visited, :nth-child(), :not()</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Sélecteur</dt><dd>Motif qui cible des éléments HTML. Types : balise, classe (.nom), id (#nom), attribut ([attr]), universel (*).</dd>
+          <dt>Classe</dt><dd>Attribut HTML réutilisable (<code>class="nom"</code>) ciblé en CSS par un point. Plusieurs classes possibles par élément.</dd>
+          <dt>Combinateur</dt><dd>Symbole qui relie deux sélecteurs : espace (descendant), &gt; (enfant direct), + (adjacent), ~ (général).</dd>
+          <dt>Pseudo-classe</dt><dd>Mot-clé après <code>:</code> qui cible un état (:hover, :focus) ou une position (:nth-child, :first-child).</dd>
+          <dt>Enfant direct</dt><dd>Élément directement contenu dans un parent, pas dans un sous-élément. Syntaxe : <code>parent &gt; enfant</code>.</dd>
+          <dt>Frère adjacent</dt><dd>Élément qui suit immédiatement un autre, au même niveau. Syntaxe : <code>élément + frère</code>.</dd>
+          <dt>nth-child</dt><dd>Pseudo-classe basée sur la position. Formule : <code>an+b</code> (odd, even, 3, 2n+1…).</dd>
+          <dt>Négation :not()</dt><dd>Pseudo-classe qui exclut les éléments correspondant au sélecteur entre parenthèses.</dd>
+          <dt>Kebab-case</dt><dd>Convention de nommage : mots en minuscules séparés par des tirets (<code>.ma-classe</code>).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 3 — Couleurs, Unités & Typographie</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Couleurs hex/rgb/hsl · Unités absolues/relatives · Polices · Texte</div>
+        </div>
+        <a href="seance3-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 3 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

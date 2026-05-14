@@ -1,0 +1,652 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 9 — Async & Fetch API · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html" class="active">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 9</div>
+      <a href="#s9-sync"        class="sidebar-item"><span class="sidebar-num">01</span>Synchrone vs asynchrone</a>
+      <a href="#s9-callbacks"   class="sidebar-item"><span class="sidebar-num">02</span>Callbacks (setTimeout)</a>
+      <a href="#s9-promises"    class="sidebar-item"><span class="sidebar-num">03</span>Promises</a>
+      <a href="#s9-promiseall"  class="sidebar-item"><span class="sidebar-num">04</span>Promise.all</a>
+      <a href="#s9-async"       class="sidebar-item"><span class="sidebar-num">05</span>async/await</a>
+      <a href="#s9-fetchget"    class="sidebar-item"><span class="sidebar-num">06</span>Fetch GET</a>
+      <a href="#s9-fetchpost"   class="sidebar-item"><span class="sidebar-num">07</span>Fetch POST</a>
+      <a href="#s9-trycatch"    class="sidebar-item"><span class="sidebar-num">08</span>try/catch erreurs</a>
+      <a href="#s9-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s9-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance8-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 8</a>
+      <a href="seance10-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 10 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 09 / 10</div>
+      <h1>Async &amp; Fetch API</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Synchrone/Asynchrone · Callbacks · Promises · Promise.all · async/await · Fetch GET/POST · try/catch</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 SYNCHRONE VS ASYNCHRONE ══ -->
+    <div id="s9-sync">
+      <div class="section-header"><span class="section-num">01</span><h2>Synchrone vs asynchrone</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>En JavaScript, certaines opérations prennent du temps : requêtes réseau, lecture de fichier, timer. Le code <strong>synchrone</strong> bloque l'exécution. Le code <strong>asynchrone</strong> permet de continuer.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Synchrone vs asynchrone</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// ── Synchrone (bloquant) ──
+console.log('Début');
+for (let i = 0; i < 1000000000; i++) {} // boucle longue
+console.log('Fin');
+// → "Début" ... (attente) ... "Fin"
+
+// ── Asynchrone (non-bloquant) ──
+console.log('Début');
+setTimeout(() => {
+  console.log('Timer terminé');
+}, 1000);
+console.log('Fin');
+// → "Début", "Fin", (1 seconde) "Timer terminé"
+
+// JavaScript a un modèle "event loop" :
+// 1. Call stack exécute le code synchrone
+// 2. Les opérations async vont dans une file d'attente
+// 3. Quand la stack est vide, la file est traitée
+
+console.log('A');
+setTimeout(() => console.log('B'), 0); // même avec 0ms
+console.log('C');
+// → A, C, B (toujours B en dernier !)
+
+// Pourquoi ? Parce que setTimeout est async,
+// même avec 0ms, il passe par la file d'attente</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 CALLBACKS ══ -->
+    <div id="s9-callbacks">
+      <div class="section-header"><span class="section-num">02</span><h2>Callbacks (setTimeout)</h2></div>
+      <p>Un <strong>callback</strong> est une fonction passée à une autre fonction, exécutée plus tard.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Callbacks</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// setTimeout — exécute après un délai
+setTimeout(() => {
+  console.log('1 seconde plus tard');
+}, 1000);
+
+// setInterval — exécute périodiquement
+const id = setInterval(() => {
+  console.log('Toutes les 500ms');
+}, 500);
+
+// Arrêter après 3 secondes
+setTimeout(() => {
+  clearInterval(id);
+  console.log('Intervalle arrêté');
+}, 3000);
+
+// Callback personnalisé
+function attendreEtDire(message, callback) {
+  console.log('Préparation...');
+  setTimeout(() => {
+    console.log(message);
+    if (callback) callback();
+  }, 1000);
+}
+
+attendreEtDire('Hello !', () => {
+  console.log('Callback exécuté !');
+});
+
+// Problème : callback hell (enfer des callbacks)
+function etape1(cb) { setTimeout(() => { console.log(1); cb(); }, 1000); }
+function etape2(cb) { setTimeout(() => { console.log(2); cb(); }, 1000); }
+function etape3(cb) { setTimeout(() => { console.log(3); cb(); }, 1000); }
+
+// Pyramid of doom :
+etape1(() => {
+  etape2(() => {
+    etape3(() => {
+      console.log('Fini');
+    });
+  });
+});
+// Les Promises résolvent ce problème</pre></div>
+      </div>
+    ══ 03 PROMISES ══ -->
+    <div id="s9-promises">
+      <div class="section-header"><span class="section-num">03</span><h2>Promises (resolve, reject, then, catch)</h2></div>
+      <p>Une <strong>Promise</strong> est un objet qui représente une valeur future. Elle a 3 états : <em>pending</em> (en attente), <em>fulfilled</em> (résolue), <em>rejected</em> (rejetée).</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Promises</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Créer une Promise
+const maPromise = new Promise((resolve, reject) => {
+  const succes = true;
+
+  setTimeout(() => {
+    if (succes) {
+      resolve('✅ Opération réussie');
+    } else {
+      reject('❌ Opération échouée');
+    }
+  }, 1000);
+});
+
+// Utiliser la Promise
+maPromise
+  .then(resultat => {
+    console.log(resultat); // "✅ Opération réussie"
+  })
+  .catch(erreur => {
+    console.error(erreur);
+  })
+  .finally(() => {
+    console.log('Terminé');
+  });
+
+// Exemple concret : simuler une API
+function fetchUser(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (id > 0) {
+        resolve({ id, nom: 'Alice', age: 25 });
+      } else {
+        reject(new Error('ID invalide'));
+      }
+    }, 500);
+  });
+}
+
+// Chaînage de .then()
+fetchUser(1)
+  .then(user => {
+    console.log(user.nom); // Alice
+    return user.age;
+  })
+  .then(age => {
+    console.log(`${age} ans`);
+  })
+  .catch(err => {
+    console.error(err.message);
+  });</pre></div>
+      </div>
+    ══ 04 PROMISE.ALL ══ -->
+    <div id="s9-promiseall">
+      <div class="section-header"><span class="section-num">04</span><h2>Promise.all — exécution parallèle</h2></div>
+      <p><code>Promise.all</code> exécute plusieurs promesses en parallèle et attend que toutes soient résolues.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Promise.all</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">function fetchUser(id) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve({ id, nom: `User ${id}` }), Math.random() * 1000);
+  });
+}
+
+// Lancer 3 requêtes en parallèle
+const promesses = [fetchUser(1), fetchUser(2), fetchUser(3)];
+
+Promise.all(promesses)
+  .then(users => {
+    console.log(users);
+    // → [{ id:1, nom:"User 1" }, { id:2, nom:"User 2" }, { id:3, nom:"User 3" }]
+    console.log('Tous les utilisateurs chargés');
+  })
+  .catch(err => {
+    console.error('Au moins une requête a échoué', err);
+  });
+
+// Promise.allSettled — ne rejette jamais, donne l'état de chaque
+const p1 = Promise.resolve('OK');
+const p2 = Promise.reject('ERREUR');
+
+Promise.allSettled([p1, p2]).then(resultats => {
+  console.log(resultats);
+  // → [{ status:"fulfilled", value:"OK" }, { status:"rejected", reason:"ERREUR" }]
+});
+
+// Promise.race — la première promesse qui se résout
+Promise.race([fetchUser(1), fetchUser(2)])
+  .then(plusRapide => console.log('Plus rapide:', plusRapide));
+
+// Promise.any — la première qui réussit (ignore les rejets)
+Promise.any([Promise.reject('A'), Promise.resolve('B')])
+  .then(r => console.log(r)); // "B"</pre></div>
+      </div>
+    ══ 05 ASYNC/AWAIT ══ -->
+    <div id="s9-async">
+      <div class="section-header"><span class="section-num">05</span><h2>async / await — syntaxe moderne</h2></div>
+      <p><code>async/await</code> permet d'écrire du code asynchrone qui ressemble à du synchrone. C'est du <em>sucre syntaxique</em> sur les Promises.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — async/await</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// async transforme une fonction en Promise
+async function saluer() {
+  return 'Bonjour !';
+}
+
+saluer().then(msg => console.log(msg)); // "Bonjour !"
+
+// await attend la résolution d'une Promise
+function attendre(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function exemple() {
+  console.log('Début');
+  await attendre(1000); // 1 seconde
+  console.log('Après 1 seconde');
+  await attendre(500);
+  console.log('Après 500ms de plus');
+}
+exemple();
+
+// Éviter le callback hell / then chaîné
+function fetchUser(id) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve({ id, nom: `User ${id}` }), 500);
+  });
+}
+
+async function afficherUtilisateur(id) {
+  // Au lieu de .then().then()
+  const user = await fetchUser(id);
+  console.log(`Nom: ${user.nom}`);
+  return user;
+}
+
+afficherUtilisateur(1);
+
+// Parallèle avec await + Promise.all
+async function chargerTout() {
+  const [u1, u2] = await Promise.all([
+    fetchUser(1),
+    fetchUser(2)
+  ]);
+  console.log(u1, u2);
+}</pre></div>
+      </div>
+    ══ 06 FETCH GET ══ -->
+    <div id="s9-fetchget">
+      <div class="section-header"><span class="section-num">06</span><h2>Fetch API — requête GET</h2></div>
+      <p><code>fetch</code> est l'API moderne pour faire des requêtes HTTP. Elle retourne une Promise.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Fetch GET</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// JSONPlaceholder — API gratuite pour tests
+const API_URL = 'https://jsonplaceholder.typicode.com';
+
+// ══ GET avec Promises ══
+fetch(`${API_URL}/posts/1`)
+  .then(response => {
+    // response.ok = true si statut 200-299
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return response.json(); // réponse parsée en JSON
+  })
+  .then(data => {
+    console.log(data);
+    // → { userId: 1, id: 1, title: "...", body: "..." }
+  })
+  .catch(err => console.error('Erreur:', err));
+
+// ══ GET avec async/await ══
+async function getPost(id) {
+  try {
+    const response = await fetch(`${API_URL}/posts/${id}`);
+    if (!response.ok) throw new Error(`Erreur ${response.status}`);
+    const post = await response.json();
+    console.log(post.title);
+    return post;
+  } catch (err) {
+    console.error('Échec du chargement:', err);
+  }
+}
+
+getPost(1);
+
+// ══ Récupérer et afficher une liste ══
+async function getUsers() {
+  const response = await fetch(`${API_URL}/users`);
+  const users = await response.json();
+  users.forEach(u => console.log(`${u.name} — ${u.email}`));
+}
+
+getUsers();
+
+// Autres formats : response.text(), response.blob(), response.formData()</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">JSONPlaceholder est votre ami</div>
+          <p><code>jsonplaceholder.typicode.com</code> est une API gratuite pour tester vos requêtes. Ressources : <code>/posts</code>, <code>/comments</code>, <code>/users</code>, <code>/todos</code>. Idéal pour apprendre fetch.</p>
+        </div>
+      </div>
+    ══ 07 FETCH POST ══ -->
+    <div id="s9-fetchpost">
+      <div class="section-header"><span class="section-num">07</span><h2>Fetch POST — envoyer des données</h2></div>
+      <p>Pour envoyer des données au serveur, on utilise la méthode POST avec <code>body</code> et <code>headers</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Fetch POST</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const API_URL = 'https://jsonplaceholder.typicode.com';
+
+// ══ POST avec async/await ══
+async function creerPost(titre, corps) {
+  const nouveauPost = {
+    userId: 1,
+    title: titre,
+    body: corps
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/posts`, {
+      method: 'POST',             // Méthode HTTP
+      headers: {
+        'Content-Type': 'application/json', // Type de données envoyées
+      },
+      body: JSON.stringify(nouveauPost)     // Convertir en JSON
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Post créé:', data);
+    // → { userId:1, title:"...", body:"...", id:101 }
+    return data;
+  } catch (err) {
+    console.error('Erreur création:', err);
+  }
+}
+
+creerPost('Mon titre', 'Mon contenu');
+
+// ══ PUT (mise à jour complète) ══
+async function mettreAJourPost(id, titre) {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title: titre })
+  });
+  return response.json();
+}
+
+// ══ DELETE ══
+async function supprimerPost(id) {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: 'DELETE'
+  });
+  if (response.ok) console.log('Post supprimé');
+}
+
+// ══ PATCH (mise à jour partielle) ══
+async function patcherPost(id, champs) {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(champs)
+  });
+  return response.json();
+}</pre></div>
+      </div>
+    ══ 08 TRY/CATCH ══ -->
+    <div id="s9-trycatch">
+      <div class="section-header"><span class="section-num">08</span><h2>try/catch — gestion d'erreurs</h2></div>
+      <p>La gestion d'erreurs asynchrones est essentielle. <code>try/catch</code> fonctionne avec async/await.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — try/catch</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// ══ try/catch basique ══
+try {
+  console.log('Tentative...');
+  JSON.parse('json invalide');
+  console.log('Ceci ne s\'affiche pas');
+} catch (erreur) {
+  console.error('Erreur attrapée:', erreur.message);
+} finally {
+  console.log('Toujours exécuté');
+}
+
+// ══ Avec async/await et fetch ══
+async function chargerDonnees(url) {
+  try {
+    const response = await fetch(url);
+
+    // Vérifier le statut HTTP
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (erreur) {
+    // Erreur réseau ou HTTP
+    if (erreur instanceof TypeError) {
+      console.error('Erreur réseau (pas de connexion ?)');
+    } else {
+      console.error('Erreur API:', erreur.message);
+    }
+
+    // Valeur par défaut
+    return { fallback: true, data: [] };
+  }
+}
+
+// ══ Gestion granulaire ══
+async function apiCall(url) {
+  try {
+    const res = await fetch(url);
+    if (res.status === 404) throw new Error('Ressource introuvable');
+    if (res.status === 500) throw new Error('Erreur serveur');
+    return await res.json();
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      console.log('Requête annulée');
+    }
+    throw err; // Re-lancer si besoin
+  }
+}
+
+// ══ Timeout avec AbortController ══
+async function fetchWithTimeout(url, timeoutMs = 5000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    return await response.json();
+  } finally {
+    clearTimeout(timeout);
+  }
+}</pre></div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s9-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">⏱️ Timer &amp; Promises</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une fonction <code>delay(ms)</code> qui retourne une Promise résolue après ms millisecondes.</li>
+            <li>Utilisez-la avec <code>.then()</code> pour afficher "1", "2", "3" avec 1 seconde d'intervalle.</li>
+            <li>Réécrivez avec <code>async/await</code>.</li>
+            <li>Créez une Promise qui se reject 50% du temps aléatoirement. Testez avec .catch().</li>
+            <li>Utilisez <code>Promise.all</code> pour exécuter 3 <code>delay</code> en parallèle.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🌐 Appel API REST</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Faites un fetch GET vers <code>https://jsonplaceholder.typicode.com/users</code>.</li>
+            <li>Affichez la liste des noms dans une <code>&lt;ul&gt;</code> du DOM.</li>
+            <li>Ajoutez un champ de recherche qui filtre les utilisateurs par nom (en temps réel).</li>
+            <li>Créez un bouton "Ajouter" qui fait un POST vers /users avec un formulaire.</li>
+            <li>Gérez les erreurs : si fetch échoue, affichez "Erreur de chargement".</li>
+            <li>Ajoutez un bouton "Recharger" qui récupère à nouveau les données.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="09">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s9-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Synchrone (bloquant) vs asynchrone (event loop)</li>
+        <li>Callbacks avec setTimeout/setInterval</li>
+        <li>Promises : new Promise, resolve, reject, then, catch, finally</li>
+        <li>Promise.all, allSettled, race, any</li>
+        <li>async/await : syntaxe moderne pour l'asynchrone</li>
+        <li>Fetch GET : récupérer des données d'une API</li>
+        <li>Fetch POST/PUT/DELETE avec headers et body JSON</li>
+        <li>try/catch pour gérer les erreurs asynchrones</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Asynchrone</dt><dd>Opération qui ne bloque pas le thread principal. JS utilise l'event loop pour gérer les opérations différées.</dd>
+          <dt>Promise</dt><dd>Objet représentant une valeur future. États : pending, fulfilled, rejected.</dd>
+          <dt>async</dt><dd>Mot-clé qui transforme une fonction en fonction asynchrone retournant une Promise.</dd>
+          <dt>await</dt><dd>Mot-clé qui suspend l'exécution de la fonction async jusqu'à la résolution de la Promise.</dd>
+          <dt>fetch</dt><dd>API navigateur pour effectuer des requêtes HTTP. Retourne une Promise de Response.</dd>
+          <dt>JSONPlaceholder</dt><dd>API REST gratuite pour tests et prototypage avec des données factices.</dd>
+          <dt>AbortController</dt><dd>Mécanisme pour annuler une requête fetch en cours (timeout, navigation).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 10 — Modules, Classes &amp; Projet</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">export/import · Class · extends · Mini-projet Todo List CRUD · localStorage</div>
+        </div>
+        <a href="seance10-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 10 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

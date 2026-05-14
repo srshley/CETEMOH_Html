@@ -1,0 +1,515 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 7 — Sessions & Cookies · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html" class="active">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 7</div>
+      <a href="#s7-start"      class="sidebar-item"><span class="sidebar-num">01</span>session_start()</a>
+      <a href="#s7-session"    class="sidebar-item"><span class="sidebar-num">02</span>$_SESSION</a>
+      <a href="#s7-login"      class="sidebar-item"><span class="sidebar-num">03</span>Login / logout</a>
+      <a href="#s7-flash"      class="sidebar-item"><span class="sidebar-num">04</span>Flash messages</a>
+      <a href="#s7-setcookie"  class="sidebar-item"><span class="sidebar-num">05</span>setcookie()</a>
+      <a href="#s7-cookies"    class="sidebar-item"><span class="sidebar-num">06</span>Lire / expirer cookies</a>
+      <a href="#s7-secsess"    class="sidebar-item"><span class="sidebar-num">07</span>Sécurité sessions</a>
+      <a href="#s7-params"     class="sidebar-item"><span class="sidebar-num">08</span>Paramètres cookie</a>
+      <a href="#s7-exo"        class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s7-bilan"      class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance8-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 8 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 07 / 10</div>
+      <h1>Sessions &amp; Cookies</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">session_start • $_SESSION • Login/logout • Cookies • Sécurité</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 SESSION_START ══ -->
+    <div id="s7-start">
+      <div class="section-header"><span class="section-num">01</span><h2>session_start()</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p>Une session PHP permet de stocker des données utilisateur <strong>entre les pages</strong>. <code>session_start()</code> démarre ou reprend une session existante. Elle doit être appelée <strong>avant tout affichage</strong>.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Démarrer une session</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// À placer TOUT EN HAUT du fichier, avant toute sortie HTML
+session_start();
+
+// Si la session n'existe pas, PHP crée un ID unique (cookie PHPSESSID)
+// Si la session existe déjà, PHP la reprend
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;...</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Headers already sent</div>
+          <p>Si vous voyez "Headers already sent", c'est que du HTML ou des espaces ont été affichés avant <code>session_start()</code>. Vérifiez : aucun espace avant <code>&lt;?php</code>, pas d'écho, pas de BOM dans le fichier.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ══ 02 $_SESSION ══ -->
+    <div id="s7-session">
+      <div class="section-header"><span class="section-num">02</span><h2>$_SESSION — lire et écrire</h2></div>
+      <p><code>$_SESSION</code> est un tableau associatif qui persiste entre les pages. Chaque visiteur a sa propre session isolée.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Utilisation de $_SESSION</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+session_start();
+
+// Écrire dans la session
+$_SESSION['nom'] = "Alice";
+$_SESSION['age'] = 30;
+$_SESSION['roles'] = ["admin", "editeur"];
+
+// Lire depuis la session
+echo $_SESSION['nom'];   // Alice
+
+// Vérifier l'existence
+if (isset($_SESSION['nom'])) {
+    echo "Bonjour " . $_SESSION['nom'];
+}
+
+// Valeur par défaut
+$nom = $_SESSION['nom'] ?? 'Invité';
+
+// Modifier une valeur
+$_SESSION['age'] = 31;
+
+// Supprimer une clé
+unset($_SESSION['age']);
+
+// Vider la session (mais pas le cookie)
+$_SESSION = [];
+?&gt;</pre></div>
+      </div>
+    ══ 03 LOGIN/LOGOUT ══ -->
+    <div id="s7-login">
+      <div class="section-header"><span class="section-num">03</span><h2>Système de login / logout</h2></div>
+      <p>Les sessions sont idéales pour gérer l'authentification : l'utilisateur se connecte une fois et reste identifié sur toutes les pages.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Login / Logout</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+session_start();
+
+// --- login.php ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $mdp = $_POST['mdp'] ?? '';
+
+    // Vérification (simulée — en réalité, vérifiez en BDD)
+    if ($email === 'admin@exemple.com' &amp;&amp; $mdp === 'secret') {
+        $_SESSION['user_id'] = 1;
+        $_SESSION['user_email'] = $email;
+        $_SESSION['logged_in'] = true;
+        header('Location: dashboard.php');
+        exit;
+    } else {
+        $erreur = "Email ou mot de passe incorrect";
+    }
+}
+
+// --- dashboard.php (page protégée) ---
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: login.php');
+    exit;
+}
+
+// --- logout.php ---
+session_start();
+$_SESSION = [];
+
+// Détruire le cookie de session
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
+
+session_destroy();
+header('Location: login.php');
+exit;
+?&gt;</pre></div>
+      </div>
+    ══ 04 FLASH MESSAGES ══ -->
+    <div id="s7-flash">
+      <div class="section-header"><span class="section-num">04</span><h2>Flash messages</h2></div>
+      <p>Un flash message est un message qui n'est affiché qu'une seule fois (typiquement après une redirection). On le stocke en session et on le supprime après affichage.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Système de flash messages</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+session_start();
+
+// Fonction utilitaire pour définir un flash
+function setFlash(string $type, string $message): void {
+    $_SESSION['flash'] = ['type' =&gt; $type, 'message' =&gt; $message];
+}
+
+// Fonction pour afficher ET supprimer le flash
+function getFlash(): ?array {
+    if (isset($_SESSION['flash'])) {
+        $flash = $_SESSION['flash'];
+        unset($_SESSION['flash']);
+        return $flash;
+    }
+    return null;
+}
+
+// --- usage ---
+// page1.php : après une action
+setFlash('success', 'Article créé avec succès !');
+header('Location: page2.php');
+exit;
+
+// page2.php : affichage
+$flash = getFlash();
+if ($flash) {
+    $css = $flash['type'] === 'success' ? 'green' : 'red';
+    echo "&lt;div style='color:$css'&gt;" . htmlspecialchars($flash['message']) . "&lt;/div&gt;";
+}
+
+// Types courants : success, error, warning, info
+?&gt;</pre></div>
+      </div>
+    ══ 05 setcookie ══ -->
+    <div id="s7-setcookie">
+      <div class="section-header"><span class="section-num">05</span><h2>setcookie()</h2></div>
+      <p>Un cookie est un petit fichier stocké côté navigateur. PHP permet d'en créer avec <code>setcookie()</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Créer un cookie</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Syntaxe : setcookie(nom, valeur, expiration, chemin, domaine, secure, httponly)
+
+// Cookie basique — expire à la fin de la session (fermeture navigateur)
+setcookie('theme', 'dark');
+
+// Cookie avec expiration (30 jours)
+setcookie('pref_langue', 'fr', time() + 86400 * 30);
+
+// Cookie avec chemin spécifique
+setcookie('admin_mode', '1', time() + 3600, '/admin/');
+
+// Cookie sécurisé (HTTPS uniquement + inaccessible au JS)
+setcookie('token', 'abc123', [
+    'expires' =&gt; time() + 3600,
+    'path' =&gt; '/',
+    'secure' =&gt; true,      // HTTPS uniquement
+    'httponly' =&gt; true,    // inaccessible au JavaScript
+    'samesite' =&gt; 'Strict' // protection CSRF
+]);
+
+// setcookie() doit être appelé avant tout HTML
+?&gt;</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">setcookie et l'ordre d'appel</div>
+          <p>Comme <code>session_start()</code>, <code>setcookie()</code> envoie un en-tête HTTP et doit être appelé <strong>avant</strong> tout affichage HTML.</p>
+        </div>
+      </div>
+    ══ 06 LIRE / EXPIRER COOKIES ══ -->
+    <div id="s7-cookies">
+      <div class="section-header"><span class="section-num">06</span><h2>Lire et expirer les cookies</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Lire et supprimer les cookies</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// LECTURE — via $_COOKIE
+$theme = $_COOKIE['theme'] ?? 'light';
+$langue = $_COOKIE['pref_langue'] ?? 'fr';
+
+echo "Thème : " . htmlspecialchars($theme);
+
+// Vérifier l'existence
+if (isset($_COOKIE['token'])) {
+    echo "Token présent : " . $_COOKIE['token'];
+}
+
+// SUPPRESSION — en mettant une date passée
+setcookie('theme', '', time() - 3600);           // suppression
+setcookie('pref_langue', '', time() - 3600);     // suppression
+
+// Afficher tous les cookies
+echo "&lt;pre&gt;";
+print_r($_COOKIE);
+echo "&lt;/pre&gt;";
+
+// ATTENTION : $_COOKIE n'est mis à jour qu'au prochain chargement !
+// Après setcookie('theme', ''), $_COOKIE contient encore l'ancienne valeur
+// jusqu'à ce que la page soit rechargée.
+?&gt;</pre></div>
+      </div>
+    ══ 07 SÉCURITÉ SESSION ══ -->
+    <div id="s7-secsess">
+      <div class="section-header"><span class="section-num">07</span><h2>Sécurité des sessions</h2></div>
+      <p>Plusieurs pratiques essentielles pour sécuriser les sessions PHP contre le vol d'identité et les attaques.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Bonnes pratiques de sécurité</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+session_start();
+
+// 1. Régénérer l'ID de session après login (empêche fixation de session)
+session_regenerate_id(true);
+
+// 2. Vérifier l'IP et User-Agent (détection de vol de session)
+if (!isset($_SESSION['ip'])) {
+    $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+    $_SESSION['ua'] = $_SERVER['HTTP_USER_AGENT'];
+} else {
+    if ($_SESSION['ip'] !== $_SERVER['REMOTE_ADDR'] ||
+        $_SESSION['ua'] !== $_SERVER['HTTP_USER_AGENT']) {
+        session_destroy();
+        header('Location: login.php');
+        exit;
+    }
+}
+
+// 3. Timeout d'inactivité
+$timeout = 1800;  // 30 minutes
+if (isset($_SESSION['last_activity']) &amp;&amp;
+    (time() - $_SESSION['last_activity']) &gt; $timeout) {
+    session_destroy();
+    header('Location: login.php?timeout=1');
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
+// 4. Configuration php.ini recommandée (ou ini_set)
+ini_set('session.cookie_httponly', 1);     // Cookie inaccessible au JS
+ini_set('session.cookie_secure', 1);       // HTTPS uniquement
+ini_set('session.cookie_samesite', 'Strict'); // Anti-CSRF
+ini_set('session.use_only_cookies', 1);    // Pas d'ID dans l'URL
+ini_set('session.gc_maxlifetime', 3600);   // Durée de vie session
+?&gt;</pre></div>
+      </div>
+    ══ 08 PARAMÈTRES COOKIE ══ -->
+    <div id="s7-params">
+      <div class="section-header"><span class="section-num">08</span><h2>Paramètres avancés des cookies</h2></div>
+      <p>Depuis PHP 7.3, on peut passer un tableau d'options à <code>setcookie()</code> pour un contrôle plus fin.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Options avancées des cookies</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Syntaxe moderne (PHP 7.3+) avec tableau d'options
+setcookie('session_token', 'valeur', [
+    'expires'  =&gt; time() + 86400,
+    'path'     =&gt; '/',
+    'domain'   =&gt; 'monsite.com',
+    'secure'   =&gt; true,           // HTTPS seulement
+    'httponly' =&gt; true,           // pas d'accès JavaScript
+    'samesite' =&gt; 'Lax',          // 'Strict' | 'Lax' | 'None'
+]);
+
+// SameSite explication :
+// - Strict : cookie jamais envoyé pour les requêtes intersites (max sécurité)
+// - Lax : cookie envoyé pour les navigations top-level (GET) — bon équilibre
+// - None : toujours envoyé (nécessite secure=true)
+
+// Lecture des paramètres de session
+$params = session_get_cookie_params();
+echo "&lt;pre&gt;";
+print_r($params);
+echo "&lt;/pre&gt;";
+// Array (
+//   [lifetime] =&gt; 0
+//   [path] =&gt; /
+//   [domain] =&gt;
+//   [secure] =&gt;
+//   [httponly] =&gt;
+//   [samesite] =&gt;
+// )
+?&gt;</pre></div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s7-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Système d'authentification</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>login.php</code> avec un formulaire (email, mot de passe).</li>
+            <li>Simulez un utilisateur avec un tableau : <code>$users = ["admin@exemple.com" =&gt; password_hash("1234", PASSWORD_DEFAULT)];</code></li>
+            <li>Vérifiez le mot de passe avec <code>password_verify()</code>.</li>
+            <li>Connectez l'utilisateur et redirigez vers <code>dashboard.php</code>.</li>
+            <li>Sur dashboard, affichez "Bienvenue, [email]" et un bouton "Déconnexion".</li>
+            <li>Créez <code>logout.php</code> qui détruit la session et redirige vers login.</li>
+            <li>Protégez dashboard.php : si pas connecté → redirection vers login.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🍪 Préférences utilisateur</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page <code>preferences.php</code> avec un formulaire (theme: light/dark, langue: fr/en).</li>
+            <li>Sauvegardez les choix en cookies avec une expiration de 30 jours.</li>
+            <li>Appliquez le thème choisi sur la page (si dark → fond sombre).</li>
+            <li>Ajoutez un flash message "Préférences sauvegardées !" après l'envoi.</li>
+            <li>Ajoutez un lien "Réinitialiser" qui supprime les cookies.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="07">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s7-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>session_start() — démarrer/reprendre une session</li>
+        <li>$_SESSION — stocker et lire des données entre les pages</li>
+        <li>Système login/logout avec vérification</li>
+        <li>Flash messages pour les notifications</li>
+        <li>setcookie() — créer, lire et supprimer des cookies</li>
+        <li>Sécurité : session_regenerate_id, timeout, SameSite</li>
+        <li>Options avancées : httponly, secure, samesite</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Session</dt><dd>Stockage côté serveur de données utilisateur persistantes entre les pages.</dd>
+          <dt>PHPSESSID</dt><dd>Cookie contenant l'identifiant unique de session.</dd>
+          <dt>session_start</dt><dd>Fonction qui démarre ou reprend une session. Doit être avant tout HTML.</dd>
+          <dt>$_SESSION</dt><dd>Tableau superglobal accessible sur toutes les pages après session_start().</dd>
+          <dt>session_destroy</dt><dd>Détruit toutes les données de la session courante.</dd>
+          <dt>Cookie</dt><dd>Petit fichier stocké côté navigateur, envoyé avec chaque requête.</dd>
+          <dt>setcookie</dt><dd>Fonction PHP qui crée/modifie/supprime un cookie.</dd>
+          <dt>Flash message</dt><dd>Message stocké en session, affiché une seule fois puis supprimé.</dd>
+          <dt>httponly</dt><dd>Attribut de cookie qui le rend inaccessible au JavaScript (anti-XSS).</dd>
+          <dt>SameSite</dt><dd>Attribut qui contrôle quand le cookie est envoyé (anti-CSRF).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 8 — Fichiers &amp; Uploads</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">fopen/fclose · fwrite · fgets · $_FILES · Upload validation</div>
+        </div>
+        <a href="seance8-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 8 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

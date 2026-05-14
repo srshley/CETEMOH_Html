@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 3 — Conditions · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html" class="active">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 3</div>
+      <a href="#s3-if"        class="sidebar-item"><span class="sidebar-num">01</span>if / else</a>
+      <a href="#s3-elseif"    class="sidebar-item"><span class="sidebar-num">02</span>elseif</a>
+      <a href="#s3-switch"    class="sidebar-item"><span class="sidebar-num">03</span>switch</a>
+      <a href="#s3-match"     class="sidebar-item"><span class="sidebar-num">04</span>match (PHP 8)</a>
+      <a href="#s3-ternaire"  class="sidebar-item"><span class="sidebar-num">05</span>Opérateur ternaire</a>
+      <a href="#s3-null"      class="sidebar-item"><span class="sidebar-num">06</span>Null coalescent</a>
+      <a href="#s3-isset"     class="sidebar-item"><span class="sidebar-num">07</span>isset() &amp; empty()</a>
+      <a href="#s3-strict"    class="sidebar-item"><span class="sidebar-num">08</span>Comparaison stricte vs lâche</a>
+      <a href="#s3-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s3-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance4-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 4 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 03 / 10</div>
+      <h1>Conditions</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">if/else • switch • match • Ternaire • Null coalescent • isset/empty</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 IF/ELSE ══ -->
+    <div id="s3-if">
+      <div class="section-header"><span class="section-num">01</span><h2>if / else</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p>La structure <code>if / else</code> est la plus fondamentale pour prendre des décisions dans votre code. Si la condition est vraie (<code>true</code>), le premier bloc s'exécute ; sinon, le bloc <code>else</code> s'exécute.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — if / else</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$age = 18;
+
+if ($age &gt;= 18) {
+    echo "Vous êtes majeur.";
+} else {
+    echo "Vous êtes mineur.";
+}
+
+// Sans accolades (une seule instruction)
+if ($age &gt;= 18) echo "Majeur";
+else echo "Mineur";
+
+// Style avec if: / endif; (dans les templates HTML)
+if ($age &gt;= 18):
+    echo "Majeur";
+else:
+    echo "Mineur";
+endif;
+?&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Les valeurs "falsy" en PHP</div>
+          <p>Dans une condition, ces valeurs sont considérées comme <strong>fausses</strong> : <code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>null</code>, <code>[]</code> (tableau vide). Tout le reste est <strong>truthy</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ══ 02 ELSEIF ══ -->
+    <div id="s3-elseif">
+      <div class="section-header"><span class="section-num">02</span><h2>elseif</h2></div>
+      <p><code>elseif</code> permet de tester plusieurs conditions à la suite dès que la précédente est fausse.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — elseif (en un mot)</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$note = 15;
+
+if ($note &gt;= 16) {
+    echo "Très bien";
+} elseif ($note &gt;= 14) {
+    echo "Bien";
+} elseif ($note &gt;= 12) {
+    echo "Assez bien";
+} elseif ($note &gt;= 10) {
+    echo "Passable";
+} else {
+    echo "Insuffisant";
+}
+
+// Important : elseif en UN mot (pas "else if" quand on utilise les accolades)
+// Avec les accolades : "else if" fonctionne aussi mais "elseif" est préférable
+// Avec if:/endif; il faut écrire "elseif" (pas "else if")
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Ordre des conditions</div>
+          <p>Toujours tester les cas les plus spécifiques <strong>en premier</strong>. Si vous testez <code>$note &gt;= 12</code> avant <code>$note &gt;= 16</code>, le "Très bien" ne sera jamais atteint.</p>
+        </div>
+      </div>
+    ══ 03 SWITCH ══ -->
+    <div id="s3-switch">
+      <div class="section-header"><span class="section-num">03</span><h2>switch</h2></div>
+      <p><code>switch</code> compare une valeur contre plusieurs cas. Utile quand vous avez plus de 3-4 cas sur une même variable.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — switch</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$jour = "mardi";
+
+switch ($jour) {
+    case "lundi":
+        echo "Début de semaine";
+        break;
+    case "mardi":
+    case "mercredi":
+    case "jeudi":
+        echo "Milieu de semaine";
+        break;
+    case "vendredi":
+        echo "Bientôt le week-end";
+        break;
+    case "samedi":
+    case "dimanche":
+        echo "C'est le week-end !";
+        break;
+    default:
+        echo "Jour invalide";
+        break;
+}
+
+// Attention : sans break, PHP continue sur le cas suivant (fall-through)
+// Parfois utile : cas groupés ci-dessus (mardi/mercredi/jeudi)
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">switch utilise la comparaison LÂCHE (==)</div>
+          <p><code>switch("2")</code> correspondra au cas <code>case 2:</code> car il utilise <code>==</code> et non <code>===</code>. Soyez vigilant avec les chaînes qui ressemblent à des nombres.</p>
+        </div>
+      </div>
+    ══ 04 MATCH ══ -->
+    <div id="s3-match">
+      <div class="section-header"><span class="section-num">04</span><h2>match (PHP 8)</h2></div>
+      <p>Introduit en PHP 8, <code>match</code> est une version améliorée de <code>switch</code> : il retourne une valeur, utilise la comparaison <strong>stricte</strong> (===), et ne nécessite pas de <code>break</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — match (PHP 8+)</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$jour = "mardi";
+
+$resultat = match ($jour) {
+    "lundi"    =&gt; "Début de semaine",
+    "mardi",
+    "mercredi",
+    "jeudi"    =&gt; "Milieu de semaine",
+    "vendredi"  =&gt; "Bientôt le week-end",
+    "samedi",
+    "dimanche"  =&gt; "C'est le week-end !",
+    default     =&gt; "Jour invalide"
+};
+
+echo $resultat;
+
+// match peut aussi tester des conditions booléennes
+$age = 20;
+$statut = match (true) {
+    $age &lt; 12   =&gt; "Enfant",
+    $age &lt; 18   =&gt; "Adolescent",
+    $age &lt; 65   =&gt; "Adulte",
+    default      =&gt; "Senior"
+};
+echo $statut;   // Adulte
+
+// match lance une UnhandledMatchError si aucun cas ne correspond (sans default)
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">match vs switch : résumé</div>
+          <p><code>match</code> utilise <code>===</code> (strict), retourne une valeur, pas de <code>break</code>, pas de <em>fall-through</em> accidentel. Si vous êtes en PHP 8, préférez <code>match</code> à <code>switch</code>.</p>
+        </div>
+      </div>
+    ══ 05 TERNAIRE ══ -->
+    <div id="s3-ternaire">
+      <div class="section-header"><span class="section-num">05</span><h2>Opérateur ternaire ? :</h2></div>
+      <p>Le ternaire est une version condensée de <code>if/else</code> qui retourne une valeur. Syntaxe : <code>condition ? valeur_si_vrai : valeur_si_faux</code></p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Opérateur ternaire</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$age = 20;
+
+// Version if/else classique
+if ($age &gt;= 18) {
+    $status = "Majeur";
+} else {
+    $status = "Mineur";
+}
+
+// Version ternaire (équivalent strict)
+$status = ($age &gt;= 18) ? "Majeur" : "Mineur";
+
+// Ternaire imbriqué (à utiliser avec modération)
+$note = 15;
+$mention = ($note &gt;= 16) ? "Très bien" :
+           (($note &gt;= 14) ? "Bien" :
+           (($note &gt;= 12) ? "Assez bien" : "Passable"));
+
+// Ternaire raccourci (PHP 7+) : $x ?: $y
+// Retourne $x si truthy, sinon $y
+$nom = $nom ?: "Anonyme";   // équivaut à : $nom ? $nom : "Anonyme"
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Évitez les ternaires imbriqués trop complexes</div>
+          <p>Un ternaire imbriqué est difficile à lire. Pour plus de 2 niveaux, préférez <code>if/elseif</code> ou <code>match</code> qui seront beaucoup plus clairs pour votre équipe (et pour vous-même dans 6 mois).</p>
+        </div>
+      </div>
+    ══ 06 NULL COALESCENT ══ -->
+    <div id="s3-null">
+      <div class="section-header"><span class="section-num">06</span><h2>Null coalescent ?? et ??=</h2></div>
+      <p>L'opérateur null coalescent <code>??</code> retourne la première valeur si elle existe et n'est pas <code>null</code> ; sinon il retourne la seconde. Indispensable pour les formulaires et les tableaux.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Null coalescent et ??=</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// ?? (null coalescent) — PHP 7+
+$nom = $_GET['nom'] ?? "Anonyme";
+// Si $_GET['nom'] existe et n'est pas null → $nom = $_GET['nom']
+// Sinon → $nom = "Anonyme"
+
+// Équivalent long :
+$nom = isset($_GET['nom']) ? $_GET['nom'] : "Anonyme";
+
+// ??= (null coalescent assignment) — PHP 7.4+
+$prenom = null;
+$prenom ??= "Inconnu";      // $prenom = "Inconnu" car null
+$prenom ??= "Jamais";       // $prenom reste "Inconnu" (déjà défini)
+
+// Chaînage possible
+$ville = $_GET['ville'] ?? $_POST['ville'] ?? "Non définie";
+
+// Différence avec ?: (ternaire raccourci)
+$test = 0;
+echo $test ?? "fallback";   // 0 (car 0 n'est pas null)
+echo $test ?: "fallback";   // "fallback" (car 0 est falsy)
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">?? vs ?: — ne les confondez pas</div>
+          <p><code>??</code> teste <strong>null/isset</strong> : <code>0 ?? "fallback"</code> donne <code>0</code>. <code>?:</code> teste <strong>truthy</strong> : <code>0 ?: "fallback"</code> donne <code>"fallback"</code>. Le <code>??</code> est généralement ce que vous voulez pour les formulaires.</p>
+        </div>
+      </div>
+    ══ 07 isset ET empty ══ -->
+    <div id="s3-isset">
+      <div class="section-header"><span class="section-num">07</span><h2>isset() et empty()</h2></div>
+      <p>Deux fonctions essentielles pour vérifier l'existence et le contenu d'une variable ou d'un index de tableau.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fonction</th><th>Retourne true si…</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>isset($var)</code></td><td>la variable existe et n'est pas <code>null</code></td><td><code>isset($x)</code> → false si $x n'existe pas ou vaut null</td></tr>
+            <tr><td><code>empty($var)</code></td><td>la variable n'existe pas OU est "falsy"</td><td><code>empty($x)</code> → true si $x vaut "", 0, null, false, []</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — isset et empty en pratique</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// isset — la variable existe et n'est pas null
+$nom = "Alice";
+var_dump(isset($nom));       // true
+var_dump(isset($inconnu));   // false (variable inexistante)
+
+$ville = null;
+var_dump(isset($ville));     // false (null)
+
+// empty — la variable n'existe pas OU est falsy
+var_dump(empty($nom));       // false ("Alice" est truthy)
+var_dump(empty(0));          // true
+var_dump(empty(""));         // true
+var_dump(empty([]));         // true
+var_dump(empty($foo));       // true (variable inexistante — pas d'erreur)
+
+// Cas typique : formulaire
+if (empty($_POST['email'])) {
+    echo "L'email est obligatoire";
+}
+
+// Vérifier qu'un index existe dans un tableau
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+}
+?&gt;</pre></div>
+      </div>
+    ══ 08 STRICTE VS LÂCHE ══ -->
+    <div id="s3-strict">
+      <div class="section-header"><span class="section-num">08</span><h2>Comparaison stricte vs lâche : le guide</h2></div>
+      <p>Comprendre quand utiliser <code>===</code> vs <code>==</code> est l'une des compétences les plus importantes pour éviter les bugs en PHP.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Comparaison détaillée</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Tableau des pièges de ==
+var_dump(0 == false);         // true  ← piège !
+var_dump("0" == false);       // true  ← piège !
+var_dump("" == false);        // true  ← piège !
+var_dump("php" == 0);         // true  ← GROS piège !
+var_dump(null == false);      // true
+var_dump(null == 0);          // true
+var_dump("123abc" == 123);    // true  ← conversion en nombre
+
+// === élimine tous ces problèmes
+var_dump(0 === false);        // false ✓
+var_dump("0" === false);      // false ✓
+var_dump("" === false);       // false ✓
+var_dump("php" === 0);        // false ✓
+var_dump(null === false);     // false ✓
+
+// Règle d'or
+// - Utilisez === par défaut (sécurité)
+// - Utilisez == seulement quand vous voulez la conversion automatique
+//   (ex: in_array() avec le 3e paramètre à true par défaut ? non)
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Le piège classique : in_array() et array_search()</div>
+          <p>Par défaut, <code>in_array()</code> et <code>array_search()</code> utilisent la comparaison lâche (<code>==</code>). Passez <code>true</code> en 3e paramètre pour la comparaison stricte : <code>in_array("cherche", $tableau, true)</code></p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s3-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Évaluateur de notes</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>note.php</code> avec une variable <code>$note = 13</code>.</li>
+            <li>Écrivez un if/elseif/else qui affiche : "Excellent" (&gt;=16), "Bien" (&gt;=14), "Assez bien" (&gt;=12), "Passable" (&gt;=10), "Insuffisant" (&lt;10).</li>
+            <li>Réécrivez la même logique en utilisant <code>match</code>.</li>
+            <li>Testez avec différentes valeurs de <code>$note</code>.</li>
+            <li>Ajoutez un ternaire pour afficher "Admis" si &gt;=10, "Échec" sinon.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔍 Simulation de formulaire</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Simulez <code>$_GET</code> avec <code>$data = ["nom" =&gt; "Alice", "age" =&gt; ""];</code></li>
+            <li>Utilisez <code>isset()</code> pour vérifier si "nom" et "age" existent.</li>
+            <li>Utilisez <code>empty()</code> pour vérifier s'ils ne sont pas vides.</li>
+            <li>Utilisez l'opérateur <code>??</code> pour fournir des valeurs par défaut : "Anonyme" pour le nom, "non renseigné" pour l'âge.</li>
+            <li>Affichez un message personnalisé basé sur l'âge (enfant/adolescent/adulte/senior) avec <code>match</code>.</li>
+            <li>Testez le piège : comparez <code>"" == false</code> et <code>"" === false</code> — que constatez-vous ?</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="03">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s3-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>if/else et if/elseif/else pour toutes les conditions</li>
+        <li>switch avec break et attention au fall-through</li>
+        <li>match pour une alternative stricte et expressive (PHP 8+)</li>
+        <li>L'opérateur ternaire ?: et le ternaire raccourci</li>
+        <li>Null coalescent ?? et ??= pour les valeurs par défaut</li>
+        <li>isset() vs empty() et leurs différences</li>
+        <li>Comparaison stricte === vs lâche == et les pièges</li>
+        <li>Les valeurs "falsy" en PHP : false, 0, "", null, [], "0"</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Condition</dt><dd>Expression booléenne qui détermine quelle branche du code exécuter.</dd>
+          <dt>Truthy / Falsy</dt><dd>Valeurs considérées comme vraies ou fausses dans un contexte booléen.</dd>
+          <dt>Ternaire</dt><dd>Opérateur <code>? :</code> qui retourne une valeur selon une condition. Forme condensée de if/else.</dd>
+          <dt>Null coalescent</dt><dd><code>??</code> — retourne le premier opérande non-null. Synonyme de <code>isset() ? :</code></dd>
+          <dt>Fall-through</dt><dd>Comportement de switch où l'absence de break exécute le cas suivant.</dd>
+          <dt>match</dt><dd>Expression PHP 8+ qui retourne une valeur avec comparaison stricte.</dd>
+          <dt>isset</dt><dd>Fonction qui vérifie si une variable existe et n'est pas null.</dd>
+          <dt>empty</dt><dd>Fonction qui vérifie si une variable n'existe pas ou est falsy.</dd>
+          <dt>Comparaison lâche</dt><dd><code>==</code> — compare les valeurs après conversion automatique des types.</dd>
+          <dt>Comparaison stricte</dt><dd><code>===</code> — compare les valeurs SANS conversion de type.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 4 — Boucles &amp; Tableaux</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">for · while · foreach · break/continue · Tableaux indexés et associatifs</div>
+        </div>
+        <a href="seance4-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 4 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

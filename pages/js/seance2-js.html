@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 2 — Opérateurs & Conditions · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html" class="active">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 2</div>
+      <a href="#s2-arithm"      class="sidebar-item"><span class="sidebar-num">01</span>Arithmétiques</a>
+      <a href="#s2-compare"     class="sidebar-item"><span class="sidebar-num">02</span>Comparaison</a>
+      <a href="#s2-logic"       class="sidebar-item"><span class="sidebar-num">03</span>Logiques</a>
+      <a href="#s2-if"          class="sidebar-item"><span class="sidebar-num">04</span>if/else if/else</a>
+      <a href="#s2-switch"      class="sidebar-item"><span class="sidebar-num">05</span>switch</a>
+      <a href="#s2-ternaire"    class="sidebar-item"><span class="sidebar-num">06</span>Ternaire</a>
+      <a href="#s2-truthy"      class="sidebar-item"><span class="sidebar-num">07</span>Truthy/Falsy</a>
+      <a href="#s2-short"       class="sidebar-item"><span class="sidebar-num">08</span>Short-circuit</a>
+      <a href="#s2-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s2-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance1-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 1</a>
+      <a href="seance3-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 3 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 02 / 10</div>
+      <h1>Opérateurs &amp; Conditions</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Arithmétique · Comparaison · Logique · if/else · switch · Ternaire · Truthy/Falsy · Short-circuit</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 ARITHMÉTIQUES ══ -->
+    <div id="s2-arithm">
+      <div class="section-header"><span class="section-num">01</span><h2>Opérateurs arithmétiques</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>Les opérateurs arithmétiques permettent d'effectuer des calculs mathématiques.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Opérateur</th><th>Nom</th><th>Exemple</th><th>Résultat</th></tr></thead>
+          <tbody>
+            <tr><td><code>+</code></td><td>Addition</td><td><code>5 + 3</code></td><td><code>8</code></td></tr>
+            <tr><td><code>-</code></td><td>Soustraction</td><td><code>5 - 3</code></td><td><code>2</code></td></tr>
+            <tr><td><code>*</code></td><td>Multiplication</td><td><code>5 * 3</code></td><td><code>15</code></td></tr>
+            <tr><td><code>/</code></td><td>Division</td><td><code>6 / 3</code></td><td><code>2</code></td></tr>
+            <tr><td><code>%</code></td><td>Modulo (reste)</td><td><code>7 % 3</code></td><td><code>1</code></td></tr>
+            <tr><td><code>**</code></td><td>Puissance (ES2016)</td><td><code>2 ** 3</code></td><td><code>8</code></td></tr>
+            <tr><td><code>++</code></td><td>Incémentation</td><td><code>let i=1; i++</code></td><td><code>2</code></td></tr>
+            <tr><td><code>--</code></td><td>Décrémentation</td><td><code>let i=1; i--</code></td><td><code>0</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Opérateurs arithmétiques</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const a = 10, b = 3;
+
+console.log(a + b);  // 13
+console.log(a - b);  // 7
+console.log(a * b);  // 30
+console.log(a / b);  // 3.3333... (division décimale)
+console.log(a % b);  // 1  (reste de 10 ÷ 3)
+console.log(a ** b); // 1000 (10³)
+
+// Priorité des opérateurs (comme en maths)
+console.log(2 + 3 * 4);  // 14 (pas 20)
+console.log((2 + 3) * 4); // 20
+
+// Incrémentation
+let compteur = 0;
+compteur++; // 1
+compteur++; // 2
+compteur--; // 1
+console.log(compteur); // 1</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Division par zéro</div>
+          <p>JS ne génère <strong>pas</strong> d'erreur en cas de division par zéro. Il renvoie <code>Infinity</code> ou <code>-Infinity</code>. <code>0 / 0</code> donne <code>NaN</code> (Not a Number).</p>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ══ 02 COMPARAISON ══ -->
+    <div id="s2-compare">
+      <div class="section-header"><span class="section-num">02</span><h2>Opérateurs de comparaison</h2></div>
+      <p>Les opérateurs de comparaison comparent deux valeurs et renvoient un booléen (<code>true</code> ou <code>false</code>).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Opérateur</th><th>Signification</th><th>Exemple</th><th>Résultat</th></tr></thead>
+          <tbody>
+            <tr><td><code>===</code></td><td>Égalité stricte (valeur ET type)</td><td><code>5 === "5"</code></td><td><code>false</code></td></tr>
+            <tr><td><code>!==</code></td><td>Inégalité stricte</td><td><code>5 !== "5"</code></td><td><code>true</code></td></tr>
+            <tr><td><code>==</code></td><td>Égalité faible (avec conversion)</td><td><code>5 == "5"</code></td><td><code>true</code></td></tr>
+            <tr><td><code>!=</code></td><td>Inégalité faible</td><td><code>5 != "5"</code></td><td><code>false</code></td></tr>
+            <tr><td><code>&gt;</code></td><td>Supérieur</td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr>
+            <tr><td><code>&lt;</code></td><td>Inférieur</td><td><code>5 &lt; 3</code></td><td><code>false</code></td></tr>
+            <tr><td><code>&gt;=</code></td><td>Supérieur ou égal</td><td><code>5 &gt;= 5</code></td><td><code>true</code></td></tr>
+            <tr><td><code>&lt;=</code></td><td>Inférieur ou égal</td><td><code>5 &lt;= 5</code></td><td><code>true</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Comparaison stricte vs faible</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// === et !== sont à PRÉFÉRER (stricts)
+console.log(5 === 5);     // true
+console.log(5 === '5');   // false (number vs string)
+console.log(5 !== '5');   // true
+
+// == et != font conversion de type (à éviter)
+console.log(5 == '5');    // true (convertit '5' en number)
+console.log(0 == false);  // true (0 est falsy)
+console.log('' == false); // true (chaîne vide est falsy)
+
+// Pièges de ==
+console.log(null == undefined); // true (mais ce sont des types différents)
+console.log([] == false);       // true (conversion surprenante)
+
+// Comparaisons de chaînes (ordre alphabétique)
+console.log('abc' < 'abd');     // true
+console.log('pomme' > 'poire'); // false (m > i en lexicographique)
+
+// Règle d'or : TOUJOURS utiliser === et !==</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne JAMAIS utiliser == ou !=</div>
+          <p>Les opérateurs faibles (<code>==</code>, <code>!=</code>) effectuent une conversion de type implicite, ce qui mène à des bugs difficiles à détecter. Utilisez <strong>toujours</strong> <code>===</code> (égalité stricte) et <code>!==</code> (inégalité stricte).</p>
+        </div>
+      </div>
+    ══ 03 LOGIQUES ══ -->
+    <div id="s2-logic">
+      <div class="section-header"><span class="section-num">03</span><h2>Opérateurs logiques</h2></div>
+      <p>Les opérateurs logiques combinent plusieurs conditions booléennes.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Opérateur</th><th>Nom</th><th>Exemple</th><th>Résultat</th></tr></thead>
+          <tbody>
+            <tr><td><code>&amp;&amp;</code></td><td>ET</td><td><code>true &amp;&amp; true</code></td><td><code>true</code></td></tr>
+            <tr><td><code>||</code></td><td>OU</td><td><code>true || false</code></td><td><code>true</code></td></tr>
+            <tr><td><code>!</code></td><td>NON</td><td><code>!true</code></td><td><code>false</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Opérateurs logiques</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const age = 20;
+const permis = true;
+
+// && (ET) — toutes les conditions doivent être vraies
+if (age >= 18 &amp;&amp; permis) {
+  console.log('Vous pouvez conduire');
+}
+
+// || (OU) — au moins une condition vraie
+const carte = 'Visa';
+if (carte === 'Mastercard' || carte === 'Visa') {
+  console.log('Paiement accepté');
+}
+
+// ! (NON) — inverse la valeur booléenne
+const estNuit = false;
+if (!estNuit) {
+  console.log('Il fait jour');
+}
+
+// Double !! pour convertir en booléen
+console.log(!!'Bonjour'); // true
+console.log(!!0);         // false
+console.log(!!'');        // false</pre></div>
+      </div>
+    ══ 04 if/else if/else ══ -->
+    <div id="s2-if">
+      <div class="section-header"><span class="section-num">04</span><h2>if / else if / else</h2></div>
+      <p>La structure conditionnelle la plus utilisée.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — if/else if/else</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const note = 15;
+
+if (note >= 18) {
+  console.log('Excellent');
+} else if (note >= 14) {
+  console.log('Très bien');    // ← s'exécute
+} else if (note >= 10) {
+  console.log('Passable');
+} else {
+  console.log('Insuffisant');
+}
+
+// Conditions imbriquées
+const age = 65;
+const aCarteSenior = true;
+
+if (age >= 60) {
+  if (aCarteSenior) {
+    console.log('Réduction 50%');
+  } else {
+    console.log('Réduction 20%');
+  }
+} else {
+  console.log('Plein tarif');
+}
+
+// Attention aux blocks : sans {}, seule la première ligne est conditionnée
+if (false)
+  console.log('Ceci ne s\'affiche pas');
+  console.log('Ceci s\'affiche TOUJOURS !');
+// Toujours utiliser {} même pour une ligne</pre></div>
+      </div>
+    ══ 05 SWITCH ══ -->
+    <div id="s2-switch">
+      <div class="section-header"><span class="section-num">05</span><h2>switch</h2></div>
+      <p><code>switch</code> est utile quand on a plusieurs cas pour une même valeur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — switch</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const jour = 3;
+let nomJour;
+
+switch (jour) {
+  case 1:
+    nomJour = 'Lundi';
+    break;
+  case 2:
+    nomJour = 'Mardi';
+    break;
+  case 3:
+    nomJour = 'Mercredi';     // ← ce cas
+    break;                     // ← sort du switch
+  case 4:
+    nomJour = 'Jeudi';
+    break;
+  case 5:
+    nomJour = 'Vendredi';
+    break;
+  case 6:
+  case 7:
+    nomJour = 'Week-end';     // cas groupés
+    break;
+  default:
+    nomJour = 'Jour invalide';
+}
+
+console.log(nomJour); // Mercredi
+
+// switch avec chaînes
+const couleur = 'rouge';
+switch (couleur) {
+  case 'rouge':
+  case 'vert':
+  case 'bleu':
+    console.log('Couleur primaire');
+    break;
+  default:
+    console.log('Autre couleur');
+}</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne pas oublier le break</div>
+          <p>Sans <code>break</code>, l'exécution continue sur le cas suivant (c'est le <em>fall-through</em>). Parfois voulu (cas groupés), mais souvent un bug. Utilisez <code>break</code> systématiquement.</p>
+        </div>
+      </div>
+    ══ 06 TERNAIRE ══ -->
+    <div id="s2-ternaire">
+      <div class="section-header"><span class="section-num">06</span><h2>Opérateur ternaire ? :</h2></div>
+      <p>Le ternaire est une forme concise de if/else qui renvoie une valeur. Syntaxe : <code>condition ? valeur_si_vrai : valeur_si_faux</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Opérateur ternaire</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const age = 20;
+
+// Version if/else
+let statut;
+if (age >= 18) {
+  statut = 'Majeur';
+} else {
+  statut = 'Mineur';
+}
+
+// Version ternaire (équivalente)
+const statut2 = age >= 18 ? 'Majeur' : 'Mineur';
+
+console.log(statut);  // Majeur
+console.log(statut2); // Majeur
+
+// Ternaire imbriqué (à utiliser avec parcimonie)
+const note = 15;
+const mention = note >= 18 ? 'Excellent'
+               : note >= 14 ? 'Très bien'
+               : note >= 10 ? 'Passable'
+               : 'Insuffisant';
+
+console.log(mention); // Très bien
+
+// Ternaire pour une assignation conditionnelle
+const largeur = 800;
+const type = largeur > 768 ? 'Desktop' : 'Mobile';</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Quand utiliser le ternaire ?</div>
+          <p>Pour des conditions simples à deux branches. Si la logique est complexe ou nécessite plusieurs instructions, préférez <code>if/else</code> classique pour la lisibilité.</p>
+        </div>
+      </div>
+    ══ 07 TRUTHY / FALSY ══ -->
+    <div id="s2-truthy">
+      <div class="section-header"><span class="section-num">07</span><h2>Truthy &amp; Falsy</h2></div>
+      <p>En JavaScript, les valeurs sont <strong>truthy</strong> (considérées comme vraies) ou <strong>falsy</strong> (considérées comme fausses) dans un contexte booléen.</p>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--red);">❌ Valeurs falsy (6 seulement)</h3>
+          <ul style="font-family:'JetBrains Mono',monospace;font-size:.8rem;">
+            <li><code>false</code></li>
+            <li><code>0</code></li>
+            <li><code>''</code> ou <code>""</code> (chaîne vide)</li>
+            <li><code>null</code></li>
+            <li><code>undefined</code></li>
+            <li><code>NaN</code></li>
+          </ul>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">✅ Valeurs truthy (tout le reste)</h3>
+          <ul style="font-family:'JetBrains Mono',monospace;font-size:.8rem;">
+            <li><code>true</code></li>
+            <li><code>1</code>, <code>-1</code>, <code>3.14</code></li>
+            <li><code>'texte'</code>, <code>'0'</code></li>
+            <li><code>[]</code> (tableau vide)</li>
+            <li><code>{}</code> (objet vide)</li>
+            <li><code>function(){}</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Truthy et Falsy en pratique</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Dans un if, toute valeur est convertie en booléen
+if ('Bonjour') {
+  console.log('Chaîne non-vide → truthy'); // s'exécute
+}
+
+if (0) {
+  console.log('Ceci ne s\'affiche JAMAIS');
+}
+
+if ([]) {
+  console.log('Tableau vide → truthy'); // s'exécute
+}
+
+// Utilisation pratique : valeur par défaut
+const prenom = ''; // chaîne vide (falsy)
+if (prenom) {
+  console.log(`Bonjour ${prenom}`);
+} else {
+  console.log('Bonjour anonyme'); // s'exécute
+}
+
+// Attention : '0' est truthy !
+if ('0') console.log('truthy');  // s'affiche
+if (0) console.log('falsy');     // ne s'affiche pas</pre></div>
+      </div>
+    ══ 08 SHORT-CIRCUIT ══ -->
+    <div id="s2-short">
+      <div class="section-header"><span class="section-num">08</span><h2>Short-circuit &amp;&amp; et ||</h2></div>
+      <p>Les opérateurs <code>&amp;&amp;</code> et <code>||</code> n'évaluent pas toujours les deux opérandes. Ils s'arrêtent dès que le résultat est déterminé (court-circuit).</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Short-circuit evaluation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// || (OU) — renvoie la première valeur truthy
+// ou la dernière si tout est falsy
+console.log('' || 'default');     // "default"
+console.log(0 || 42);             // 42
+console.log(null || 'fallback');  // "fallback"
+console.log('Alice' || 'Bob');    // "Alice" (première truthy)
+console.log(0 || '' || null);     // null (tout falsy → dernier)
+
+// Utile pour valeur par défaut
+const nom = '';
+const affichage = nom || 'Inconnu';
+console.log(affichage); // Inconnu
+
+// && (ET) — renvoie la première valeur falsy
+// ou la dernière si tout est truthy
+console.log('Alice' && 42);       // 42 (dernière truthy)
+console.log(null && 'texte');     // null (première falsy)
+console.log(0 && 'texte');        // 0
+console.log(true && 'suite');     // "suite"
+
+// Utile pour exécution conditionnelle
+const estConnecte = true;
+estConnecte &amp;&amp; console.log('Utilisateur connecté');
+
+// Combinaison
+const age = 0;
+const message = age || 'Âge non spécifié';
+console.log(message); // Âge non spécifié
+// Mais attention : age = 0 est falsy, alors que 0 est un âge valide</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Piège du short-circuit avec 0 et ''</div>
+          <p><code>const prix = 0 || 10</code> → <code>10</code> (car 0 est falsy). Si 0 est une valeur valide, utilisez <code>??</code> (nullish coalescing) : <code>prix ?? 10</code> ne traite que null/undefined comme valeurs à remplacer.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s2-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🧮 Calculatrice conditionnelle</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Déclarez deux variables <code>const a = 15, b = 4</code>.</li>
+            <li>Affichez le résultat de <code>a + b</code>, <code>a - b</code>, <code>a * b</code>, <code>a / b</code>, <code>a % b</code>, <code>a ** b</code>.</li>
+            <li>Si <code>a</code> est pair (utilisez <code>%</code>), affichez "pair", sinon "impair".</li>
+            <li>Comparez <code>a</code> et <code>b</code> : affichez le plus grand des deux.</li>
+            <li>Utilisez un ternaire pour afficher si <code>a</code> est positif, négatif ou nul.</li>
+            <li>Testez avec <code>==</code> : <code>5 == "5"</code> vs <code>5 === "5"</code>. Que constatez-vous ?</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🌤️ Convertisseur de notes</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une variable <code>const note = 13</code>.</li>
+            <li>Utilisez <code>if/else if/else</code> pour afficher : "Excellent" (≥ 18), "Très bien" (≥ 16), "Bien" (≥ 14), "Passable" (≥ 10), "Insuffisant" (&lt; 10).</li>
+            <li>Refaites la même logique avec un ternaire chaîné.</li>
+            <li>Testez les valeurs falsy : écrivez <code>if ("")</code>, <code>if (0)</code>, <code>if ([])</code>. Lesquels s'exécutent ?</li>
+            <li>Utilisez <code>||</code> pour définir une valeur par défaut : <code>const couleur = null; const affiche = couleur || "aucune";</code></li>
+            <li>Utilisez <code>switch</code> pour convertir un chiffre (1-7) en nom de jour.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="02">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s2-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Opérateurs arithmétiques : + - * / % ** ++ --</li>
+        <li>Comparaison stricte === !== vs faible == !=</li>
+        <li>Logiques : && (ET), || (OU), ! (NON)</li>
+        <li>Structures conditionnelles : if/else if/else</li>
+        <li>switch/case/default avec break</li>
+        <li>Opérateur ternaire condition ? vrai : faux</li>
+        <li>Les 6 valeurs falsy et le concept de truthy</li>
+        <li>Évaluation court-circuit : && et ||</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Opérande</dt><dd>Valeur sur laquelle un opérateur agit. Ex: dans <code>a + b</code>, a et b sont les opérandes.</dd>
+          <dt>Égalité stricte (===)</dt><dd>Compare valeur ET type. <code>5 === "5"</code> est false car les types diffèrent.</dd>
+          <dt>Modulo (%)</dt><dd>Reste de la division entière. Utile pour tester pair/impair : <code>n % 2 === 0</code>.</dd>
+          <dt>Falsy</dt><dd>Valeur qui se comporte comme false dans un contexte booléen. Les 6 : false, 0, '', null, undefined, NaN.</dd>
+          <dt>Court-circuit (short-circuit)</dt><dd>Évaluation partielle : && s'arrête à la première valeur falsy, || à la première truthy.</dd>
+          <dt>Ternaire</dt><dd>Opérateur à 3 parties : <code>condition ? valeur_si_vrai : valeur_si_faux</code>.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 3 — Boucles &amp; Fonctions</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">for · while · for...of · for...in · Fonctions · Fléchées · Paramètres · Portée</div>
+        </div>
+        <a href="seance3-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 3 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

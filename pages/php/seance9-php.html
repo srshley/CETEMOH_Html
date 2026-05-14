@@ -1,0 +1,579 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 9 — PDO & MySQL · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html" class="active">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 9</div>
+      <a href="#s9-mysql"      class="sidebar-item"><span class="sidebar-num">01</span>MySQL &amp; phpMyAdmin</a>
+      <a href="#s9-create"     class="sidebar-item"><span class="sidebar-num">02</span>Créer une table (SQL)</a>
+      <a href="#s9-pdo"        class="sidebar-item"><span class="sidebar-num">03</span>Connexion PDO</a>
+      <a href="#s9-fetch"      class="sidebar-item"><span class="sidebar-num">04</span>query &amp; fetch</a>
+      <a href="#s9-prepare"    class="sidebar-item"><span class="sidebar-num">05</span>Requêtes préparées</a>
+      <a href="#s9-insert"     class="sidebar-item"><span class="sidebar-num">06</span>CRUD — Insert</a>
+      <a href="#s9-crud"       class="sidebar-item"><span class="sidebar-num">07</span>CRUD — Select/Update/Delete</a>
+      <a href="#s9-join"       class="sidebar-item"><span class="sidebar-num">08</span>Jointures INNER JOIN</a>
+      <a href="#s9-exo"        class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s9-bilan"      class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance10-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 10 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 09 / 10</div>
+      <h1>PDO &amp; MySQL</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">MySQL • phpMyAdmin • PDO • Requêtes préparées • CRUD • Jointures</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 MySQL ══ -->
+    <div id="s9-mysql">
+      <div class="section-header"><span class="section-num">01</span><h2>MySQL &amp; phpMyAdmin</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p><strong>MySQL</strong> est un système de gestion de base de données relationnelle (SGBDR). Avec XAMPP, vous avez :</p>
+      <ul>
+        <li>MySQL (le serveur de base de données) — accessible en ligne de commande</li>
+        <li>phpMyAdmin — interface web pour administrer MySQL</li>
+      </ul>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Accéder à phpMyAdmin</div>
+          <p>Lancez Apache et MySQL dans XAMPP, puis ouvrez <code>http://localhost/phpmyadmin/</code>. Vous pouvez créer des bases, des tables, et exécuter des requêtes SQL directement depuis l'interface.</p>
+        </div>
+      </div>
+      <h3>Concepts clés</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr><td>Base de données</td><td>Conteneur de tables (ex: <code>blog</code>, <code>ecommerce</code>)</td></tr>
+            <tr><td>Table</td><td>Structure organisée en lignes et colonnes (ex: <code>utilisateurs</code>)</td></tr>
+            <tr><td>Colonne (champ)</td><td>Propriété d'un enregistrement (ex: <code>nom</code>, <code>email</code>)</td></tr>
+            <tr><td>Ligne (enregistrement)</td><td>Un ensemble de valeurs (ex: un utilisateur)</td></tr>
+            <tr><td>Clé primaire (PK)</td><td>Identifiant unique d'une ligne (<code>id</code> auto-incrémenté)</td></tr>
+            <tr><td>Clé étrangère (FK)</td><td>Lien vers une clé primaire d'une autre table</td></tr>
+          </tbody>
+        </table>
+      </div>
+    ══ 02 CRÉER TABLE ══ -->
+    <div id="s9-create">
+      <div class="section-header"><span class="section-num">02</span><h2>Créer une table avec SQL</h2></div>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">SQL — Création de tables</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="sql">-- Créer la base
+CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Table utilisateurs
+CREATE TABLE utilisateurs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    age INT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table articles (avec clé étrangère)
+CREATE TABLE articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(200) NOT NULL,
+    contenu TEXT NOT NULL,
+    auteur_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (auteur_id) REFERENCES utilisateurs(id)
+        ON DELETE CASCADE
+);
+
+-- Table categories
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    description TEXT
+);
+
+-- Table pivot article_categorie (relation N:N)
+CREATE TABLE article_categorie (
+    article_id INT NOT NULL,
+    categorie_id INT NOT NULL,
+    PRIMARY KEY (article_id, categorie_id),
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+    FOREIGN KEY (categorie_id) REFERENCES categories(id) ON DELETE CASCADE
+);</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">utf8mb4 — pour les emojis</div>
+          <p>Utilisez <code>utf8mb4</code> plutôt que <code>utf8</code> qui ne supporte pas les caractères sur 4 octets (emojis, certains caractères asiatiques). <code>utf8_general_ci</code> est plus rapide, <code>utf8_unicode_ci</code> plus précis.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ══ 03 CONNEXION PDO ══ -->
+    <div id="s9-pdo">
+      <div class="section-header"><span class="section-num">03</span><h2>Connexion PDO</h2></div>
+      <p><strong>PDO</strong> (PHP Data Objects) est l'extension recommandée pour accéder aux bases de données en PHP. Elle supporte plusieurs SGBD (MySQL, PostgreSQL, SQLite…) et offre des requêtes préparées sécurisées.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Connexion PDO (config)</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// config.php
+const DB_HOST = 'localhost';
+const DB_NAME = 'blog';
+const DB_USER = 'root';
+const DB_PASS = '';    // pas de mot de passe par défaut sous XAMPP
+const DB_CHARSET = 'utf8mb4';
+
+// DSN (Data Source Name)
+$dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+
+// Options PDO
+$options = [
+    PDO::ATTR_ERRMODE            =&gt; PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   =&gt; false,
+];
+
+try {
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+} catch (PDOException $e) {
+    // En production, loggez l'erreur sans l'afficher
+    error_log("Erreur PDO : " . $e-&gt;getMessage());
+    die("Erreur de connexion à la base de données.");
+}
+
+// Dans chaque fichier qui a besoin de la BDD :
+require_once 'config.php';
+// $pdo est disponible
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Options PDO expliquées</div>
+          <p><code>ERRMODE_EXCEPTION</code> : les erreurs SQL lancent des exceptions. <code>FETCH_ASSOC</code> : les résultats sont des tableaux associatifs. <code>EMULATE_PREPARES = false</code> : utilise les vraies requêtes préparées MySQL (sécurité + performance).</p>
+        </div>
+      </div>
+    ══ 04 QUERY & FETCH ══ -->
+    <div id="s9-fetch">
+      <div class="section-header"><span class="section-num">04</span><h2>query() et fetch / fetchAll</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Lire des données avec PDO</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+require 'config.php';
+
+// query() — pour les requêtes SANS paramètres dynamiques
+$stmt = $pdo-&gt;query('SELECT * FROM utilisateurs');
+
+// fetch() — une seule ligne
+$utilisateur = $stmt-&gt;fetch();
+echo $utilisateur['nom'] . ' - ' . $utilisateur['email'];
+
+// fetchAll() — toutes les lignes d'un coup
+$stmt = $pdo-&gt;query('SELECT * FROM utilisateurs');
+$utilisateurs = $stmt-&gt;fetchAll();
+
+foreach ($utilisateurs as $user) {
+    echo $user['nom'] . '&lt;br&gt;';
+}
+
+// fetch column — une seule colonne
+$stmt = $pdo-&gt;query('SELECT email FROM utilisateurs');
+$emails = $stmt-&gt;fetchAll(PDO::FETCH_COLUMN);
+
+// fetch key-value (première colonne = clé, seconde = valeur)
+$stmt = $pdo-&gt;query('SELECT id, nom FROM utilisateurs');
+$liste = $stmt-&gt;fetchAll(PDO::FETCH_KEY_PAIR);
+
+// Nombre de lignes
+$stmt = $pdo-&gt;query('SELECT COUNT(*) FROM utilisateurs');
+$count = $stmt-&gt;fetchColumn();
+echo "Nombre d'utilisateurs : $count";
+?&gt;</pre></div>
+      </div>
+    ══ 05 REQUÊTES PRÉPARÉES ══ -->
+    <div id="s9-prepare">
+      <div class="section-header"><span class="section-num">05</span><h2>Requêtes préparées (prepare/execute)</h2></div>
+      <p>Les requêtes préparées sont <strong>obligatoires</strong> dès qu'une valeur provient de l'utilisateur. Elles empêchent les attaques par injection SQL.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Requêtes préparées PDO</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+require 'config.php';
+
+// Avec marqueurs nominatifs (:nom)
+$email = $_POST['email'] ?? '';
+
+$stmt = $pdo-&gt;prepare('SELECT * FROM utilisateurs WHERE email = :email');
+$stmt-&gt;execute(['email' =&gt; $email]);
+$user = $stmt-&gt;fetch();
+
+// Avec marqueurs positionnels (?)
+$stmt = $pdo-&gt;prepare('SELECT * FROM utilisateurs WHERE id = ?');
+$stmt-&gt;execute([$id]);
+$user = $stmt-&gt;fetch();
+
+// Plusieurs paramètres
+$stmt = $pdo-&gt;prepare('
+    SELECT * FROM articles
+    WHERE auteur_id = :auteur
+    AND created_at &gt; :date
+    ORDER BY created_at DESC
+    LIMIT 10
+');
+$stmt-&gt;execute([
+    'auteur' =&gt; 1,
+    'date'   =&gt; '2024-01-01'
+]);
+$articles = $stmt-&gt;fetchAll();
+
+// LIKE avec requête préparée
+$recherche = '%' . $_GET['q'] . '%';
+$stmt = $pdo-&gt;prepare('SELECT * FROM articles WHERE titre LIKE :q');
+$stmt-&gt;execute(['q' =&gt; $recherche]);
+
+// IN avec tableau
+$ids = [1, 2, 3];
+$placeholders = implode(',', array_fill(0, count($ids), '?'));
+$stmt = $pdo-&gt;prepare("SELECT * FROM articles WHERE id IN ($placeholders)");
+$stmt-&gt;execute($ids);
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Jamais de variables dans les requêtes SQL brutes</div>
+          <p><code>$pdo-&gt;query("SELECT * FROM users WHERE id = $id")</code> = ❌ <strong>injection SQL</strong> ! Utilisez toujours prepare/execute avec des marqueurs.</p>
+        </div>
+      </div>
+    ══ 06 CRUD INSERT ══ -->
+    <div id="s9-insert">
+      <div class="section-header"><span class="section-num">06</span><h2>CRUD — Insert</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Créer un enregistrement</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+require 'config.php';
+
+// Insertion simple
+$stmt = $pdo-&gt;prepare('
+    INSERT INTO utilisateurs (nom, email, mot_de_passe)
+    VALUES (:nom, :email, :mdp)
+');
+$stmt-&gt;execute([
+    'nom'   =&gt; 'Alice Dupont',
+    'email' =&gt; 'alice@exemple.com',
+    'mdp'   =&gt; password_hash('secret123', PASSWORD_DEFAULT)
+]);
+
+// Récupérer l'ID inséré
+$nouvelId = $pdo-&gt;lastInsertId();
+echo "Nouvel utilisateur n°$nouvelId";
+
+// Insertion multiple (batch)
+$stmt = $pdo-&gt;prepare('INSERT INTO categories (nom) VALUES (:nom)');
+$categories = ['PHP', 'MySQL', 'JavaScript', 'CSS'];
+foreach ($categories as $cat) {
+    $stmt-&gt;execute(['nom' =&gt; $cat]);
+}
+
+// Insertion avec gestion des doublons (ON DUPLICATE KEY)
+$stmt = $pdo-&gt;prepare('
+    INSERT INTO utilisateurs (email, nom)
+    VALUES (:email, :nom)
+    ON DUPLICATE KEY UPDATE nom = VALUES(nom)
+');
+?&gt;</pre></div>
+      </div>
+    ══ 07 CRUD ══ -->
+    <div id="s9-crud">
+      <div class="section-header"><span class="section-num">07</span><h2>CRUD — Select / Update / Delete</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Read, Update, Delete</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+require 'config.php';
+
+// --- SELECT (read) ---
+function getUtilisateur(PDO $pdo, int $id): ?array {
+    $stmt = $pdo-&gt;prepare('SELECT * FROM utilisateurs WHERE id = :id');
+    $stmt-&gt;execute(['id' =&gt; $id]);
+    $user = $stmt-&gt;fetch();
+    return $user ?: null;   // null si pas trouvé
+}
+
+function getArticles(PDO $pdo, int $limit = 10): array {
+    $stmt = $pdo-&gt;prepare('
+        SELECT a.*, u.nom AS auteur_nom
+        FROM articles a
+        JOIN utilisateurs u ON a.auteur_id = u.id
+        ORDER BY a.created_at DESC
+        LIMIT :limit
+    ');
+    $stmt-&gt;bindValue('limit', $limit, PDO::PARAM_INT);
+    $stmt-&gt;execute();
+    return $stmt-&gt;fetchAll();
+}
+
+// --- UPDATE ---
+function updateUtilisateur(PDO $pdo, int $id, string $nom, string $email): bool {
+    $stmt = $pdo-&gt;prepare('
+        UPDATE utilisateurs
+        SET nom = :nom, email = :email
+        WHERE id = :id
+    ');
+    return $stmt-&gt;execute([
+        'id'    =&gt; $id,
+        'nom'   =&gt; $nom,
+        'email' =&gt; $email
+    ]);
+}
+
+// --- DELETE ---
+function deleteArticle(PDO $pdo, int $id): bool {
+    $stmt = $pdo-&gt;prepare('DELETE FROM articles WHERE id = :id');
+    return $stmt-&gt;execute(['id' =&gt; $id]);
+}
+?&gt;</pre></div>
+      </div>
+    ══ 08 JOINTURES ══ -->
+    <div id="s9-join">
+      <div class="section-header"><span class="section-num">08</span><h2>Jointures INNER JOIN</h2></div>
+      <p>Les jointures permettent de combiner des données de plusieurs tables en une seule requête.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">SQL — Types de jointures</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="sql">-- INNER JOIN : uniquement les articles qui ont un auteur
+SELECT a.titre, a.contenu, u.nom AS auteur
+FROM articles a
+INNER JOIN utilisateurs u ON a.auteur_id = u.id;
+
+-- LEFT JOIN : tous les articles, même sans catégorie
+SELECT a.titre, c.nom AS categorie
+FROM articles a
+LEFT JOIN article_categorie ac ON a.id = ac.article_id
+LEFT JOIN categories c ON ac.categorie_id = c.id;
+
+-- Jointure avec plusieurs tables
+SELECT a.titre, u.nom AS auteur, GROUP_CONCAT(c.nom SEPARATOR ', ') AS categories
+FROM articles a
+JOIN utilisateurs u ON a.auteur_id = u.id
+LEFT JOIN article_categorie ac ON a.id = ac.article_id
+LEFT JOIN categories c ON ac.categorie_id = c.id
+GROUP BY a.id
+ORDER BY a.created_at DESC;</pre></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Jointures en action</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+require 'config.php';
+
+// Articles avec leur auteur
+$stmt = $pdo-&gt;query('
+    SELECT a.id, a.titre, u.nom AS auteur, a.created_at
+    FROM articles a
+    INNER JOIN utilisateurs u ON a.auteur_id = u.id
+    ORDER BY a.created_at DESC
+');
+$articlesAvecAuteur = $stmt-&gt;fetchAll();
+
+// Articles avec leurs catégories (relation N:N)
+$stmt = $pdo-&gt;prepare('
+    SELECT a.*, GROUP_CONCAT(c.nom SEPARATOR ", ") AS categories
+    FROM articles a
+    LEFT JOIN article_categorie ac ON a.id = ac.article_id
+    LEFT JOIN categories c ON ac.categorie_id = c.id
+    WHERE a.id = :id
+    GROUP BY a.id
+');
+$stmt-&gt;execute(['id' =&gt; $articleId]);
+$article = $stmt-&gt;fetch();
+// $article['categories'] = "PHP, MySQL, Base de données"
+?&gt;</pre></div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s9-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Blog — CRUD articles</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez la base "blog" et les tables (utilisateurs, articles, categories, article_categorie).</li>
+            <li>Créez <code>config.php</code> avec la connexion PDO (en utilisateur root, pas de mot de passe).</li>
+            <li>Créez <code>create_article.php</code> : formulaire (titre, contenu, auteur_id) + INSERT préparé.</li>
+            <li>Créez <code>articles.php</code> : liste tous les articles avec jointure sur l'auteur.</li>
+            <li>Créez <code>article.php?id=X</code> : affiche un article avec ses catégories.</li>
+            <li>Créez <code>delete_article.php?id=X</code> : supprime un article (avec confirmation).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔍 Recherche avec jointures</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>recherche.php</code> avec un champ de recherche.</li>
+            <li>Recherchez dans les titres d'articles avec LIKE et requête préparée.</li>
+            <li>Affichez pour chaque article : titre, nom de l'auteur, catégories (GROUP_CONCAT).</li>
+            <li>Ajoutez un filtre par catégorie (menu déroulant).</li>
+            <li>Ajoutez un compteur : "X résultats trouvés".</li>
+            <li>Gérez le cas où aucun résultat n'est trouvé.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="09">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s9-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>MySQL et phpMyAdmin : créer base, tables, exécuter SQL</li>
+        <li>Création de tables avec clés primaires, étrangères, index</li>
+        <li>Connexion PDO avec DSN, options, gestion d'erreurs</li>
+        <li>query() / fetch() / fetchAll() / fetchColumn() / FETCH_KEY_PAIR</li>
+        <li>Requêtes préparées avec marqueurs nominatifs et positionnels</li>
+        <li>CRUD complet : INSERT, SELECT, UPDATE, DELETE</li>
+        <li>Jointures INNER JOIN, LEFT JOIN, relations N:N</li>
+        <li>Fonctions SQL : GROUP BY, GROUP_CONCAT, COUNT</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>MySQL</dt><dd>SGBDR libre, système de gestion de base de données relationnelle.</dd>
+          <dt>PDO</dt><dd>PHP Data Objects — extension d'abstraction de base de données.</dd>
+          <dt>DSN</dt><dd>Data Source Name — chaîne de connexion contenant hôte, base, charset.</dd>
+          <dt>Requête préparée</dt><dd>Requête SQL avec paramètres séparés, protège contre l'injection SQL.</dd>
+          <dt>Injection SQL</dt><dd>Attaque consistant à insérer du code SQL malveillant via des entrées utilisateur.</dd>
+          <dt>CRUD</dt><dd>Create / Read / Update / Delete — les 4 opérations de base.</dd>
+          <dt>INNER JOIN</dt><dd>Jointure qui retourne uniquement les lignes correspondant dans les deux tables.</dd>
+          <dt>LEFT JOIN</dt><dd>Jointure qui retourne toutes les lignes de la table gauche, même sans correspondance.</dd>
+          <dt>Clé étrangère</dt><dd>Colonne qui référence la clé primaire d'une autre table.</dd>
+          <dt>lastInsertId</dt><dd>Méthode PDO qui retourne l'ID du dernier enregistrement inséré.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 10 — POO, MVC &amp; Projet</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Classes · Namespaces · Composer · MVC · Tests · Déploiement</div>
+        </div>
+        <a href="seance10-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 10 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

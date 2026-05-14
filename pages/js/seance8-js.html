@@ -1,0 +1,609 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 8 — JSON & Stockage · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+    .preview-body button { background:#3B82F6;color:#fff;border:none;padding:.3rem .8rem;border-radius:4px;cursor:pointer;margin:.2rem; }
+    .preview-body input { border:1px solid #ccc;padding:.3rem .5rem;border-radius:4px;margin:.2rem;font-size:14px; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html" class="active">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 8</div>
+      <a href="#s8-stringify"   class="sidebar-item"><span class="sidebar-num">01</span>JSON.stringify</a>
+      <a href="#s8-parse"       class="sidebar-item"><span class="sidebar-num">02</span>JSON.parse</a>
+      <a href="#s8-local"       class="sidebar-item"><span class="sidebar-num">03</span>localStorage</a>
+      <a href="#s8-tableaux"    class="sidebar-item"><span class="sidebar-num">04</span>Stocker tableaux/objets</a>
+      <a href="#s8-remove"      class="sidebar-item"><span class="sidebar-num">05</span>removeItem &amp; clear</a>
+      <a href="#s8-session"     class="sidebar-item"><span class="sidebar-num">06</span>sessionStorage</a>
+      <a href="#s8-cookie"      class="sidebar-item"><span class="sidebar-num">07</span>Cookie vs Storage</a>
+      <a href="#s8-carnet"      class="sidebar-item"><span class="sidebar-num">08</span>Carnet d'adresses</a>
+      <a href="#s8-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s8-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance7-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 7</a>
+      <a href="seance9-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 9 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 08 / 10</div>
+      <h1>JSON &amp; Stockage Local</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">JSON.stringify · JSON.parse · localStorage · sessionStorage · Cookies vs Storage · Carnet d'adresses</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Données</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 JSON.STRINGIFY ══ -->
+    <div id="s8-stringify">
+      <div class="section-header"><span class="section-num">01</span><h2>JSON.stringify — objet → chaîne JSON</h2></div>
+      <p><strong>JSON (JavaScript Object Notation)</strong> est un format de données textuel léger. <code>JSON.stringify</code> convertit un objet JS en chaîne JSON.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — JSON.stringify</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const personne = {
+  nom: 'Alice',
+  age: 25,
+  adresse: {
+    ville: 'Paris',
+    codePostal: '75001'
+  },
+  loisirs: ['lecture', 'voyages'],
+  estMajeur: true
+};
+
+// Convertir en JSON
+const json = JSON.stringify(personne);
+console.log(json);
+// → {"nom":"Alice","age":25,"adresse":{"ville":"Paris","codePostal":"75001"},"loisirs":["lecture","voyages"],"estMajeur":true}
+
+// JSON est une chaîne de caractères
+console.log(typeof json); // "string"
+
+// Avec espacement (indentation lisible)
+const jsonPretty = JSON.stringify(personne, null, 2);
+console.log(jsonPretty);
+/* {
+  "nom": "Alice",
+  "age": 25,
+  "adresse": { ... }
+} */
+
+// Les méthodes sont ignorées
+const avecMethode = {
+  nom: 'Bob',
+  saluer() { return 'Bonjour'; }
+};
+console.log(JSON.stringify(avecMethode));
+// → {"nom":"Bob"}  (méthode ignorée)
+
+// undefined, Symbol, fonction → ignorés ou null
+console.log(JSON.stringify({ a: undefined, b: Symbol(), c: function(){} }));
+// → {}</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 JSON.PARSE ══ -->
+    <div id="s8-parse">
+      <div class="section-header"><span class="section-num">02</span><h2>JSON.parse — chaîne JSON → objet</h2></div>
+      <p><code>JSON.parse</code> convertit une chaîne JSON valide en objet JavaScript.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — JSON.parse</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Chaîne JSON valide
+const json = '{"nom":"Alice","age":25,"loisirs":["lecture"]}';
+
+// Convertir en objet JS
+const objet = JSON.parse(json);
+console.log(objet.nom);    // Alice
+console.log(objet.age);    // 25
+console.log(objet.loisirs); // ["lecture"]
+
+// Les guillemets DOIVENT être doubles en JSON
+// ❌ JSON.parse("{'nom': 'Alice'}") → ERREUR
+// ✅ JSON.parse('{"nom": "Alice"}') → OK
+
+// JSON.parse lance une erreur si le format est invalide
+try {
+  JSON.parse('{mauvais json}');
+} catch (e) {
+  console.log('JSON invalide :', e.message);
+}
+
+// reviver — transformer les valeurs pendant le parsing
+const data = '{"date":"2024-06-15","nombre":"42"}';
+const avecReviver = JSON.parse(data, (cle, valeur) => {
+  if (cle === 'nombre') return Number(valeur);
+  return valeur;
+});
+console.log(avecReviver.nombre); // 42 (nombre)
+
+// Attention : les dates deviennent des chaînes
+const avecDate = JSON.parse('{"creeLe":"2024-01-15T10:00:00.000Z"}');
+console.log(avecDate.creeLe); // "2024-01-15T10:00:00.000Z" (string)
+console.log(new Date(avecDate.creeLe)); // Date object</pre></div>
+      </div>
+    ══ 03 LOCALSTORAGE ══ -->
+    <div id="s8-local">
+      <div class="section-header"><span class="section-num">03</span><h2>localStorage — stockage persistant</h2></div>
+      <p><code>localStorage</code> stocke des données dans le navigateur. Les données persistent après fermeture du navigateur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — localStorage</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// setItem(clé, valeur) — stocker
+localStorage.setItem('theme', 'dark');
+localStorage.setItem('langue', 'fr');
+
+// getItem(clé) — récupérer (null si inexistant)
+const theme = localStorage.getItem('theme');
+console.log(theme); // "dark"
+
+const inexistant = localStorage.getItem('couleur');
+console.log(inexistant); // null
+
+// length — nombre d'entrées
+console.log(localStorage.length); // 2
+
+// key(index) — nom de la clé à l'index donné
+console.log(localStorage.key(0)); // "theme"
+
+// key() pour parcourir
+for (let i = 0; i < localStorage.length; i++) {
+  const cle = localStorage.key(i);
+  console.log(`${cle}: ${localStorage.getItem(cle)}`);
+}
+
+// Attention : tout est stocké en chaîne !
+localStorage.setItem('age', 25);
+console.log(typeof localStorage.getItem('age')); // "string"
+// Il faut utiliser JSON.parse/stringify</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Voir le localStorage dans le navigateur</div>
+          <p>Ouvrez les outils développeur (<kbd>F12</kbd>), onglet <strong>Application</strong> → <strong>Stockage local</strong>. Vous pouvez voir, modifier ou supprimer les entrées directement.</p>
+        </div>
+      </div>
+    ══ 04 STOCKER TABLEAUX/OBJETS ══ -->
+    <div id="s8-tableaux">
+      <div class="section-header"><span class="section-num">04</span><h2>Stocker tableaux et objets</h2></div>
+      <p>Le localStorage ne stocke que des chaînes. Pour stocker des structures complexes, on utilise JSON.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Stocker des structures</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// ══ STOCKER un objet ══
+const utilisateur = {
+  nom: 'Alice',
+  age: 25,
+  preferences: {
+    theme: 'dark',
+    notifications: true
+  }
+};
+
+// Étape 1 : transformer en JSON
+const json = JSON.stringify(utilisateur);
+
+// Étape 2 : stocker
+localStorage.setItem('utilisateur', json);
+
+// ══ RÉCUPÉRER l'objet ══
+const stocke = localStorage.getItem('utilisateur');
+if (stocke) {
+  const objet = JSON.parse(stocke);
+  console.log(objet.nom);        // Alice
+  console.log(objet.preferences.theme); // dark
+}
+
+// ══ STOCKER un tableau ══
+const taches = [
+  { id: 1, texte: 'Apprendre JS', fait: false },
+  { id: 2, texte: 'Faire les exercices', fait: true }
+];
+
+localStorage.setItem('taches', JSON.stringify(taches));
+
+// ══ RÉCUPÉRER le tableau ══
+const tachesStockees = JSON.parse(localStorage.getItem('taches') || '[]');
+tachesStockees.forEach(t => console.log(t.texte));
+
+// ══ Mettre à jour (lecture → modif → écriture) ══
+function ajouterTache(texte) {
+  const taches = JSON.parse(localStorage.getItem('taches') || '[]');
+  taches.push({ id: Date.now(), texte, fait: false });
+  localStorage.setItem('taches', JSON.stringify(taches));
+}
+
+// ══ Supprimer ══
+function supprimerTache(id) {
+  let taches = JSON.parse(localStorage.getItem('taches') || '[]');
+  taches = taches.filter(t => t.id !== id);
+  localStorage.setItem('taches', JSON.stringify(taches));
+}</pre></div>
+      </div>
+    ══ 05 REMOVEITEM & CLEAR ══ -->
+    <div id="s8-remove">
+      <div class="section-header"><span class="section-num">05</span><h2>removeItem et clear</h2></div>
+      <p>Supprimer des données du localStorage.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Supprimer du localStorage</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Ajoutons quelques données
+localStorage.setItem('test1', 'valeur1');
+localStorage.setItem('test2', 'valeur2');
+localStorage.setItem('test3', 'valeur3');
+
+// removeItem(clé) — supprime une entrée
+localStorage.removeItem('test1');
+console.log(localStorage.getItem('test1')); // null
+
+// clear() — supprime TOUT le localStorage
+localStorage.clear();
+console.log(localStorage.length); // 0
+
+// Vérifier avant d'accéder
+const data = localStorage.getItem('maCle');
+if (data !== null) {
+  console.log(JSON.parse(data));
+} else {
+  console.log('Clé inexistante');
+}
+
+// 👨‍💻 Astuce : préfixer ses clés pour éviter les conflits
+localStorage.setItem('monApp_theme', 'dark');
+localStorage.setItem('monApp_langue', 'fr');
+
+// Supprimer toutes les clés de l'application
+Object.keys(localStorage)
+  .filter(cle => cle.startsWith('monApp_'))
+  .forEach(cle => localStorage.removeItem(cle));</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Attention — clear() supprime tout</div>
+          <p><code>localStorage.clear()</code> supprime <strong>toutes</strong> les entrées, y compris celles d'autres sites. Utilisez <code>removeItem</code> pour une suppression ciblée.</p>
+        </div>
+      </div>
+    ══ 06 SESSIONSTORAGE ══ -->
+    <div id="s8-session">
+      <div class="section-header"><span class="section-num">06</span><h2>sessionStorage — stockage temporaire</h2></div>
+      <p><code>sessionStorage</code> est identique à localStorage, mais les données sont effacées à la fermeture de l'onglet.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — sessionStorage</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Même API que localStorage
+sessionStorage.setItem('panier', JSON.stringify([
+  { produit: 'Clavier', prix: 50 },
+  { produit: 'Souris', prix: 30 }
+]));
+
+const panier = JSON.parse(sessionStorage.getItem('panier') || '[]');
+console.log(panier.length); // 2
+
+// sessionStorage est effacé quand l'onglet est fermé
+// Utile pour : panier temporaire, données de formulaire, état de session
+
+// Différences clés :
+// localStorage  → 10 Mo, persistant, partagé entre tous les onglets
+// sessionStorage → 5-10 Mo, temporaire, isolé par onglet
+
+// Exemple : formulaire en cours
+function sauvegarderBrouillon() {
+  const formulaire = {
+    nom: document.getElementById('nom')?.value || '',
+    message: document.getElementById('message')?.value || ''
+  };
+  sessionStorage.setItem('brouillon', JSON.stringify(formulaire));
+}
+
+function restaurerBrouillon() {
+  const brouillon = sessionStorage.getItem('brouillon');
+  if (brouillon) {
+    const data = JSON.parse(brouillon);
+    // Restaurer les champs...
+  }
+}</pre></div>
+      </div>
+    ══ 07 COOKIE VS STORAGE ══ -->
+    <div id="s8-cookie">
+      <div class="section-header"><span class="section-num">07</span><h2>Cookie vs localStorage vs sessionStorage</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Caractéristique</th><th>Cookie</th><th>localStorage</th><th>sessionStorage</th></tr></thead>
+          <tbody>
+            <tr><td>Capacité</td><td>4 Ko</td><td>5-10 Mo</td><td>5-10 Mo</td></tr>
+            <tr><td>Durée de vie</td><td>Configurable (expire)</td><td>Jusqu'à suppression</td><td>Fermeture onglet</td></tr>
+            <tr><td>Envoyé au serveur</td><td>Oui (chaque requête)</td><td>Non</td><td>Non</td></tr>
+            <tr><td>Accessible en JS</td><td>Oui (sauf HttpOnly)</td><td>Oui</td><td>Oui</td></tr>
+            <tr><td>Partagé entre onglets</td><td>Oui</td><td>Oui</td><td>Non</td></tr>
+            <tr><td>API</td><td>document.cookie (ancienne)</td><td>setItem/getItem (moderne)</td><td>setItem/getItem (moderne)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Cookies (pour info)</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Lire un cookie
+console.log(document.cookie);
+
+// Écrire un cookie
+document.cookie = 'theme=dark; path=/; max-age=3600';
+
+// max-age en secondes (3600 = 1 heure)
+// Sans max-age, le cookie expire à la fermeture du navigateur
+
+// Pour du stockage côté client :
+// ✅ localStorage pour les données persistantes
+// ✅ sessionStorage pour les données temporaires (onglet)
+// ❌ Cookies réservés à l'authentification côté serveur
+
+// Vérifier la disponibilité
+function storageDisponible(type) {
+  try {
+    const storage = window[type];
+    storage.setItem('test', '1');
+    storage.removeItem('test');
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+console.log('localStorage disponible:', storageDisponible('localStorage'));</pre></div>
+      </div>
+    ══ 08 CARNET D'ADRESSES ══ -->
+    <div id="s8-carnet">
+      <div class="section-header"><span class="section-num">08</span><h2>Exemple complet : Carnet d'adresses</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>Un carnet d'adresses avec stockage localStorage.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Carnet d'adresses</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// === Gestion du carnet avec localStorage ===
+
+const CARNET_CLE = 'monCarnet';
+
+// Obtenir tous les contacts
+function getContacts() {
+  return JSON.parse(localStorage.getItem(CARNET_CLE) || '[]');
+}
+
+// Ajouter un contact
+function ajouterContact(nom, email, telephone) {
+  const contacts = getContacts();
+  contacts.push({
+    id: Date.now(),
+    nom,
+    email,
+    telephone,
+    creeLe: new Date().toISOString()
+  });
+  localStorage.setItem(CARNET_CLE, JSON.stringify(contacts));
+  return contacts;
+}
+
+// Supprimer un contact
+function supprimerContact(id) {
+  let contacts = getContacts();
+  contacts = contacts.filter(c => c.id !== id);
+  localStorage.setItem(CARNET_CLE, JSON.stringify(contacts));
+  return contacts;
+}
+
+// Modifier un contact
+function modifierContact(id, nouvellesDonnees) {
+  let contacts = getContacts();
+  contacts = contacts.map(c =>
+    c.id === id ? { ...c, ...nouvellesDonnees } : c
+  );
+  localStorage.setItem(CARNET_CLE, JSON.stringify(contacts));
+  return contacts;
+}
+
+// Rechercher
+function rechercherContacts(terme) {
+  const t = terme.toLowerCase();
+  return getContacts().filter(c =>
+    c.nom.toLowerCase().includes(t) ||
+    c.email.toLowerCase().includes(t)
+  );
+}
+
+// Afficher les contacts dans le DOM
+function afficherContacts() {
+  const liste = document.getElementById('liste-contacts');
+  if (!liste) return;
+
+  const contacts = getContacts();
+  liste.innerHTML = contacts.map(c => `
+    <div class="contact-card" data-id="${c.id}">
+      <strong>${c.nom}</strong>
+      <p>${c.email} · ${c.telephone || 'N/A'}</p>
+      <button onclick="supprimerContact(${c.id}); afficherContacts();">Supprimer</button>
+    </div>
+  `).join('');
+}
+
+// Initialisation
+// ajouterContact('Alice Dupont', 'alice@example.com', '0612345678');
+// ajouterContact('Bob Martin', 'bob@example.com', '0698765432');
+// afficherContacts();</pre></div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s8-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📦 JSON &amp; localStorage</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un objet <code>film</code> avec titre, réalisateur, année, genres (tableau).</li>
+            <li>Utilisez <code>JSON.stringify</code> pour le convertir en chaîne. Affichez-la.</li>
+            <li>Stockez la chaîne dans localStorage avec la clé "monFilm".</li>
+            <li>Récupérez-la avec <code>getItem</code> et reconvertissez avec <code>JSON.parse</code>.</li>
+            <li>Créez un tableau de 3 films et stockez-le.</li>
+            <li>Ajoutez un 4e film au tableau stocké (lire → modifier → écrire).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📋 Gestionnaire de favoris</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page avec un formulaire : titre (texte), url (url), catégorie (select).</li>
+            <li>Au submit, ajoutez le favori au localStorage et affichez la liste.</li>
+            <li>Affichez tous les favoris stockés dans une liste HTML.</li>
+            <li>Chaque favori doit avoir un bouton "Supprimer".</li>
+            <li>Ajoutez un bouton "Tout effacer" qui vide la liste (avec confirmation).</li>
+            <li>Utilisez sessionStorage pour un champ "recherche" qui disparaît à la fermeture.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="08">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s8-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>JSON.stringify : convertir objet/tableau en chaîne JSON</li>
+        <li>JSON.parse : convertir chaîne JSON en objet/tableau</li>
+        <li>localStorage : setItem, getItem, stockage persistant</li>
+        <li>Stocker des structures avec JSON.stringify/parse</li>
+        <li>removeItem et clear pour supprimer</li>
+        <li>sessionStorage : temporaire, isolé par onglet</li>
+        <li>Différences Cookie vs localStorage vs sessionStorage</li>
+        <li>Exemple carnet d'adresses complet</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>JSON</dt><dd>JavaScript Object Notation — format de données textuel léger, basé sur la syntaxe des objets JS mais avec guillemets doubles obligatoires.</dd>
+          <dt>JSON.stringify</dt><dd>Méthode qui convertit une valeur JS en chaîne JSON. Ignore les fonctions, undefined, Symbol.</dd>
+          <dt>JSON.parse</dt><dd>Méthode qui convertit une chaîne JSON valide en valeur JS. Lance une erreur si le format est invalide.</dd>
+          <dt>localStorage</dt><dd>Stockage clé/valeur persistant (5-10 Mo). Les données survivent à la fermeture du navigateur.</dd>
+          <dt>sessionStorage</dt><dd>Stockage clé/valeur temporaire. Les données sont effacées à la fermeture de l'onglet.</dd>
+          <dt>Cookie</dt><dd>Petit fichier texte (4 Ko max) envoyé automatiquement au serveur à chaque requête HTTP.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 9 — Async &amp; Fetch API</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Promise · async/await · fetch GET/POST · try/catch · API REST</div>
+        </div>
+        <a href="seance9-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 9 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

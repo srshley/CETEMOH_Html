@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 8 — CSS Grid · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html" class="active">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s8">Séance 8</div>
+      <a href="#s8-grid"      class="sidebar-item"><span class="sidebar-num">01</span>display: grid</a>
+      <a href="#s8-template"  class="sidebar-item"><span class="sidebar-num">02</span>grid-template</a>
+      <a href="#s8-gap"       class="sidebar-item"><span class="sidebar-num">03</span>Gap</a>
+      <a href="#s8-span"      class="sidebar-item"><span class="sidebar-num">04</span>grid-column/row</a>
+      <a href="#s8-area"      class="sidebar-item"><span class="sidebar-num">05</span>grid-area & template-areas</a>
+      <a href="#s8-autofit"   class="sidebar-item"><span class="sidebar-num">06</span>auto-fit & auto-fill</a>
+      <a href="#s8-minmax"    class="sidebar-item"><span class="sidebar-num">07</span>minmax() & fr</a>
+      <a href="#s8-implicit"  class="sidebar-item"><span class="sidebar-num">08</span>Placement explicite/implicite</a>
+      <a href="#s8-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s8-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance9-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 9 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 08 / 10</div>
+      <h1>CSS Grid</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Grille · Template · Gap · Span · Area · auto-fit · minmax</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 DISPLAY GRID ══ -->
+    <div id="s8-grid">
+      <div class="section-header"><span class="section-num">01</span><h2>display: grid — la grille bidimensionnelle</h2></div>
+      <p>CSS Grid est le premier véritable système de mise en page <strong>bidimensionnel</strong> du CSS. Alors que Flexbox gère une seule dimension (ligne OU colonne), Grid gère les <strong>deux axes simultanément</strong> (lignes ET colonnes).</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Grille simple avec 3 colonnes égales */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* Les enfants se placent automatiquement dans les cellules */
+/* 1ère cellule → 2e → 3e → retour à la ligne automatique */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div style="background:#3498db;color:white;padding:12px;border-radius:4px;text-align:center;">1</div>
+              <div style="background:#e74c3c;color:white;padding:12px;border-radius:4px;text-align:center;">2</div>
+              <div style="background:#2ecc71;color:white;padding:12px;border-radius:4px;text-align:center;">3</div>
+              <div style="background:#f39c12;color:white;padding:12px;border-radius:4px;text-align:center;">4</div>
+              <div style="background:#9b59b6;color:white;padding:12px;border-radius:4px;text-align:center;">5</div>
+              <div style="background:#e67e22;color:white;padding:12px;border-radius:4px;text-align:center;">6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Flexbox vs Grid — comment choisir ?</div>
+          <p>Flexbox est <strong>unidimensionnel</strong> : idéal pour des barres de navigation, des rangées de boutons, des centrages, des répartitions linéaires. Grid est <strong>bidimensionnel</strong> : idéal pour des galeries, des pages entières, des mises en page avec en-tête et pied de page, des disposition où les éléments doivent s'aligner sur deux axes. La règle : si vous gérez une seule dimension → Flexbox. Si vous gérez deux dimensions → Grid.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 GRID-TEMPLATE ══ -->
+    <div id="s8-template">
+      <div class="section-header"><span class="section-num">02</span><h2>grid-template-columns & grid-template-rows</h2></div>
+      <p>Ces deux propriétés définissent la <strong>structure</strong> de la grille : le nombre et la taille des colonnes et des lignes.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* TROIS COLONNES — différentes valeurs */
+.grid-1 {
+  grid-template-columns: 200px 1fr 1fr;
+  /* colonne fixe 200px + 2 colonnes flexibles */
+}
+.grid-2 {
+  grid-template-columns: 1fr 2fr 1fr;
+  /* proportions : 25% + 50% + 25% */
+}
+.grid-3 {
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 colonnes égales — repeat() évite la répétition */
+}
+.grid-4 {
+  grid-template-columns: 100px auto 100px;
+  /* auto = prend l'espace restant */
+}
+
+/* LIGNES explicites */
+.grid-rows {
+  grid-template-rows: auto 1fr auto;
+  /* ligne haut automatique, milieu flexible, bas automatique */
+  height: 100vh; /* nécessaire pour que 1fr ait un sens */
+}
+
+/* Shorthand */
+.grid-layout {
+  grid-template:
+    "header header" 80px
+    "sidebar main" 1fr
+    "footer footer" 60px / 250px 1fr;
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:100px 1fr 1fr;gap:6px;">
+              <div style="background:#3498db;color:white;padding:8px;border-radius:3px;text-align:center;">100px</div>
+              <div style="background:#e74c3c;color:white;padding:8px;border-radius:3px;text-align:center;">1fr</div>
+              <div style="background:#2ecc71;color:white;padding:8px;border-radius:3px;text-align:center;">1fr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">L'unité fr — fraction de l'espace disponible</div>
+          <p>L'unité <code>fr</code> (fraction) est exclusive à Grid. Elle distribue l'espace <strong>restant</strong> (après les colonnes fixes) entre les colonnes déclarées en fr. <code>1fr 1fr 1fr</code> = 3 colonnes égales. <code>1fr 2fr</code> = la deuxième colonne est 2× plus large que la première. Les fr ne se mélangent pas avec des pourcentages de la même manière — préférez les mélanger avec des px.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 GAP ══ -->
+    <div id="s8-gap">
+      <div class="section-header"><span class="section-num">03</span><h2>gap, row-gap, column-gap</h2></div>
+      <p>Comme pour Flexbox, <code>gap</code> définit l'espacement entre les cellules de la grille. Il s'applique à la fois aux lignes et aux colonnes.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* gap uniforme */
+.grid { gap: 16px; }
+
+/* gap différent par axe */
+.grid { row-gap: 24px; column-gap: 16px; }
+
+/* Ancienne syntaxe (encore supportée) */
+.grid { grid-gap: 16px; }       /* déprécié, préférez gap */
+.grid { grid-row-gap: 24px; }   /* déprécié */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#e8f4f8;padding:12px;border-radius:4px;">
+              <div style="background:#3498db;color:white;padding:8px;border-radius:3px;text-align:center;">gap 12px</div>
+              <div style="background:#e74c3c;color:white;padding:8px;border-radius:3px;text-align:center;">gap 12px</div>
+              <div style="background:#2ecc71;color:white;padding:8px;border-radius:3px;text-align:center;">gap 12px</div>
+              <div style="background:#f39c12;color:white;padding:8px;border-radius:3px;text-align:center;">gap 12px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 GRID-COLUMN / ROW ══ -->
+    <div id="s8-span">
+      <div class="section-header"><span class="section-num">04</span><h2>grid-column & grid-row — fusionner des cellules</h2></div>
+      <p>Ces propriétés permettent à un élément de s'étendre sur <strong>plusieurs colonnes</strong> ou <strong>plusieurs lignes</strong>, comme le <code>colspan</code> et <code>rowspan</code> des tableaux HTML.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Les lignes de grille sont numérotées à partir de 1 */
+
+/* Étendre sur 2 colonnes */
+.item-wide {
+  grid-column: span 2;    /* occupe 2 colonnes */
+}
+
+/* Syntaxe avec lignes de début et fin */
+.item-exact {
+  grid-column: 1 / 3;     /* de la ligne 1 à la ligne 3 = 2 colonnes */
+  grid-row: 1 / 3;        /* de la ligne 1 à la ligne 3 = 2 lignes */
+}
+
+/* Valeurs spéciales */
+.item-full {
+  grid-column: 1 / -1;    /* de la première à la dernière colonne = toute la largeur */
+}
+
+/* Shorthand */
+.item-header {
+  grid-column: 1 / -1;    /* occupe toute la largeur */
+  grid-row: 1;
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+              <div style="grid-column:span 3;background:#2c3e50;color:white;padding:10px;border-radius:4px;text-align:center;">span 3 → toute la largeur</div>
+              <div style="background:#3498db;color:white;padding:10px;border-radius:4px;">A</div>
+              <div style="grid-column:span 2;background:#e74c3c;color:white;padding:10px;border-radius:4px;">span 2</div>
+              <div style="background:#2ecc71;color:white;padding:10px;border-radius:4px;">B</div>
+              <div style="background:#f39c12;color:white;padding:10px;border-radius:4px;">C</div>
+              <div style="background:#9b59b6;color:white;padding:10px;border-radius:4px;">D</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Numérotation des lignes de grille</div>
+          <p>Les <strong>lignes de grille</strong> (pas les cellules) sont numérotées de 1 à N+1 (où N = nombre de colonnes). Pour 3 colonnes, les lignes verticales sont 1, 2, 3, 4. <code>grid-column: 1 / 3</code> occupe les colonnes 1 et 2 (de la ligne 1 à la ligne 3). <code>grid-column: 1 / -1</code> occupe <strong>toutes</strong> les colonnes (de la première à la dernière ligne).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 GRID-AREA ══ -->
+    <div id="s8-area">
+      <div class="section-header"><span class="section-num">05</span><h2>grid-area & grid-template-areas</h2></div>
+      <p>La méthode la plus <strong>intuitive</strong> pour définir une mise en page complète : on donne des noms aux zones, et on dessine la grille avec ces noms.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Définir les zones nommées dans le parent */
+.layout {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "sidebar main   main"
+    "sidebar main   main"
+    "footer footer footer";
+  grid-template-columns: 250px 1fr 1fr;
+  grid-template-rows: 80px 1fr 1fr 60px;
+  gap: 0;
+  height: 100vh;
+}
+
+/* Assigner chaque enfant à sa zone */
+header { grid-area: header; background: #2c3e50; }
+aside  { grid-area: sidebar; background: #34495e; }
+main   { grid-area: main; background: #ecf0f1; }
+footer { grid-area: footer; background: #2c3e50; }
+
+/* Le '.' représente une cellule vide */
+.grid-areas {
+  grid-template-areas:
+    "header header header"
+    ".      main   ."       /* colonnes vides à gauche et droite */
+    "footer footer footer";
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-areas:'header header''sidebar main''footer footer';grid-template-columns:100px 1fr;gap:4px;">
+              <div style="grid-area:header;background:#2c3e50;color:white;padding:8px;border-radius:3px;text-align:center;">header</div>
+              <div style="grid-area:sidebar;background:#34495e;color:white;padding:8px;border-radius:3px;">sidebar</div>
+              <div style="grid-area:main;background:#ecf0f1;padding:8px;border-radius:3px;color:#333;">main</div>
+              <div style="grid-area:footer;background:#2c3e50;color:white;padding:8px;border-radius:3px;text-align:center;">footer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">grid-template-areas = mise en page déclarative</div>
+          <p>Cette approche est la plus <strong>lisible</strong> pour définir la structure d'une page. On voit en un coup d'œil la disposition. Pour changer la mise en page en responsive, il suffit de redéfinir <code>grid-template-areas</code> dans une media query (ex : passer de 3 colonnes à 1 colonne sur mobile). Chaque zone doit former un rectangle — Grid ne supporte pas les formes en L.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 AUTO-FIT & AUTO-FILL ══ -->
+    <div id="s8-autofit">
+      <div class="section-header"><span class="section-num">06</span><h2>auto-fit & auto-fill — grilles responsives automatiques</h2></div>
+      <p>Ces mots-clés, combinés avec <code>repeat()</code>, créent des grilles qui s'adaptent automatiquement au nombre de colonnes selon l'espace disponible. C'est la <strong>technique reine</strong> pour les galeries responsives sans media queries.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* AUTO-FIT : crée autant de colonnes que possible */
+/* Au moins 200px chacune, maximum 1fr (s'étirent si espace libre) */
+.auto-fit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* AUTO-FILL : similaire, mais GARDE les colonnes vides */
+.auto-fill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* Différence : auto-fit réduit les colonnes vides à 0 */
+/* auto-fill conserve l'espace réservé pour des colonnes vides */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;">
+              <div style="background:#3498db;color:white;padding:10px;border-radius:4px;text-align:center;">auto-fit</div>
+              <div style="background:#e74c3c;color:white;padding:10px;border-radius:4px;text-align:center;">auto-fit</div>
+              <div style="background:#2ecc71;color:white;padding:10px;border-radius:4px;text-align:center;">auto-fit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">La recette magique : repeat(auto-fit, minmax(250px, 1fr))</div>
+          <p>C'est sans doute la <strong>ligne de CSS la plus utile</strong> pour le responsive design. Une seule déclaration crée une grille qui : ① sur grand écran, affiche 4-5 colonnes de 250px+ qui s'étirent pour remplir l'espace ② sur tablette, passe à 2-3 colonnes ③ sur mobile, passe à 1 colonne. Le tout sans une seule media query. Changez simplement la valeur minmax pour ajuster le point de rupture.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 MINMAX & FR ══ -->
+    <div id="s8-minmax">
+      <div class="section-header"><span class="section-num">07</span><h2>minmax() & l'unité fr</h2></div>
+      <p><code>minmax(min, max)</code> définit une fourchette de taille pour une colonne ou une ligne. L'unité <code>fr</code> distribue l'espace disponible en fractions.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* minmax() — taille minimale et maximale */
+.grid-minmax {
+  grid-template-columns: minmax(200px, 400px) 1fr;
+  /* colonne 1 : entre 200px et 400px, colonne 2 : le reste */
+}
+
+/* Combinaison avec fr */
+.grid-combo {
+  grid-template-columns: 2fr minmax(300px, 1fr) 2fr;
+  /* colonne centrale : au moins 300px, les autres : 2 parts chacune */
+}
+
+/* Avec auto-fit pour responsive automatique */
+.grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Pour les hauteurs aussi */
+.grid-rows {
+  grid-template-rows: minmax(100px, auto) 1fr minmax(60px, auto);
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:minmax(100px,200px) 1fr;gap:8px;">
+              <div style="background:#3498db;color:white;padding:10px;border-radius:4px;text-align:center;">minmax(100px,200px)</div>
+              <div style="background:#e74c3c;color:white;padding:10px;border-radius:4px;text-align:center;">1fr (reste)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">fr vs % — différence fondamentale</div>
+          <p><code>1fr</code> distribue l'espace <strong>restant</strong> après les colonnes en px, em, ou auto. <code>%</code> calcule par rapport à la largeur <strong>totale</strong> du conteneur. Si vous mélangez <code>200px</code> et <code>50%</code>, le pourcentage est calculé sur la largeur totale, pas sur l'espace restant — ce qui peut provoquer un overflow. Avec <code>200px</code> et <code>1fr</code>, le fr prend tout l'espace après les 200px. C'est plus sûr et plus prévisible.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 PLACEMENT EXPLICITE VS IMPLICITE ══ -->
+    <div id="s8-implicit">
+      <div class="section-header"><span class="section-num">08</span><h2>Placement explicite vs implicite</h2></div>
+      <p>Quand vous placez plus d'éléments que de cellules définies, Grid crée <strong>automatiquement</strong> de nouvelles lignes (ou colonnes). C'est le <strong>placement implicite</strong>. Vous pouvez contrôler la taille de ces pistes implicites.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Grille explicite : 3 colonnes, 2 lignes définies */
+.grid-explicit {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 100px;
+  /* Si on a 10 éléments, les 4 derniers créent des lignes implicites */
+}
+
+/* Contrôle des pistes implicites */
+.grid-implicit {
+  grid-auto-rows: 80px;           /* toute nouvelle ligne fait 80px */
+  grid-auto-columns: 200px;       /* toute nouvelle colonne fait 200px */
+  grid-auto-flow: row;            /* placement par ligne (défaut) */
+  grid-auto-flow: column;         /* placement par colonne */
+  grid-auto-flow: dense;          /* remplit les trous automatiquement */
+}
+
+/* dense — comble les espaces vides */
+.grid-dense {
+  grid-auto-flow: row dense;
+  /* utile pour une galerie d'images de tailles différentes */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:50px;gap:6px;">
+              <div style="background:#3498db;color:white;padding:8px;border-radius:3px;text-align:center;">Explicite</div>
+              <div style="background:#e74c3c;color:white;padding:8px;border-radius:3px;text-align:center;">Explicite</div>
+              <div style="background:#2ecc71;color:white;padding:8px;border-radius:3px;text-align:center;">Implicite 50px</div>
+              <div style="background:#f39c12;color:white;padding:8px;border-radius:3px;text-align:center;">Implicite 50px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">grid-auto-flow: dense — le mode "tetris"</div>
+          <p>Avec <code>dense</code>, Grid remplit automatiquement les trous laissés par des éléments qui s'étendent sur plusieurs colonnes. Par exemple, si un élément fait <code>span 2</code> et qu'il ne reste qu'une colonne sur la ligne, il passe à la ligne suivante — mais <code>dense</code> remplit le trou avec l'élément suivant qui tient. Attention : cela change l'ordre visuel (pas l'ordre DOM), ce qui peut dérouter si le contenu a un ordre logique.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s8-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📰 Mise en page magazine</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-grid-magazine.html</code> avec une grille de 3 colonnes 1fr.</li>
+            <li>Placez un article principal (span 2 colonnes, 2 lignes) avec image, titre et texte.</li>
+            <li>Placez 4 articles secondaires (1 colonne, 1 ligne chacun).</li>
+            <li>Ajoutez un encart "À la une" (span 1 colonne, 2 lignes) à droite de l'article principal.</li>
+            <li>Utilisez <code>gap: 20px</code> et <code>border-radius</code> sur chaque article.</li>
+            <li>Ajoutez un footer qui traverse toute la largeur (<code>grid-column: 1 / -1</code>).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🖼️ Galerie responsive automatique</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-grid-galerie.html</code> avec une grille utilisant <code>repeat(auto-fit, minmax(200px, 1fr))</code>.</li>
+            <li>Ajoutez 10 images (utilisez les images du dossier <code>images/</code>).</li>
+            <li>Faites en sorte que la 1ère image fasse <code>span 2</code> sur les colonnes.</li>
+            <li>Utilisez <code>grid-auto-flow: dense</code> pour remplir automatiquement les trous.</li>
+            <li>Chaque image a <code>object-fit: cover</code> et <code>height: 200px</code>.</li>
+            <li>Ajoutez un titre de galerie qui traverse toute la largeur (<code>grid-column: 1 / -1</code>).</li>
+            <li>Testez le redimensionnement de la fenêtre pour voir les colonnes s'adapter.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Holy Grail Layout</div>
+          <p>Créez le "Saint Graal" de la mise en page : header, footer, sidebar gauche, sidebar droite, contenu principal. Utilisez <code>grid-template-areas</code> pour définir la disposition. En mobile (media query < 768px), repassez tout en une seule colonne. C'est un classique des entretiens techniques pour les développeurs front-end. Voir <a href="https://developer.mozilla.org/fr/docs/Web/CSS/CSS_grid_layout/Realising_common_layouts_using_CSS_grids" target="_blank" rel="noopener">MDN Grid Layouts</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="08">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s8-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>display: grid et la différence avec Flexbox (bidimensionnel vs unidimensionnel)</li>
+        <li>grid-template-columns et grid-template-rows avec px, fr, %, auto, repeat()</li>
+        <li>gap, row-gap, column-gap pour l'espacement entre les cellules</li>
+        <li>grid-column et grid-row avec span pour fusionner des cellules</li>
+        <li>grid-template-areas pour une mise en page déclarative</li>
+        <li>auto-fit et auto-fill pour les grilles responsives automatiques</li>
+        <li>minmax() pour les tailles avec fourchette minimum/maximum</li>
+        <li>Placement explicite vs implicite et grid-auto-flow dense</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Grid</dt><dd>Système de mise en page bidimensionnel (lignes + colonnes). Permet de placer des éléments sur une grille.</dd>
+          <dt>fr (fraction)</dt><dd>Unité exclusive à Grid. Distribue l'espace restant en parts égales ou proportionnelles.</dd>
+          <dt>repeat()</dt><dd>Fonction pour répéter une ou plusieurs colonnes. Ex : <code>repeat(3, 1fr)</code>.</dd>
+          <dt>grid-column / grid-row</dt><dd>Fusion de cellules. span 2 = occupe 2 colonnes/lignes. 1 / 3 = de ligne 1 à ligne 3.</dd>
+          <dt>grid-template-areas</dt><dd>Définit des zones nommées. Permet une mise en page déclarative et lisible.</dd>
+          <dt>auto-fit</dt><dd>Crée autant de colonnes que possible, réduit à 0 les colonnes vides.</dd>
+          <dt>auto-fill</dt><dd>Crée autant de colonnes que possible, conserve l'espace des colonnes vides.</dd>
+          <dt>minmax(min, max)</dt><dd>Fonction qui définit une taille minimale et maximale pour une piste.</dd>
+          <dt>Piste implicite</dt><dd>Ligne ou colonne créée automatiquement par Grid quand le nombre d'éléments dépasse la grille explicite.</dd>
+          <dt>grid-auto-flow: dense</dt><dd>Algorithme de placement qui remplit les trous automatiquement ("mode tetris").</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 9 — Responsive Design</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Viewport · Media queries · Breakpoints · Mobile-first · Unités responsives</div>
+        </div>
+        <a href="seance9-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 9 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

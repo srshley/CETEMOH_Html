@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 6 — Positionnement & Display · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html" class="active">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s6">Séance 6</div>
+      <a href="#s6-display"  class="sidebar-item"><span class="sidebar-num">01</span>Display</a>
+      <a href="#s6-static"   class="sidebar-item"><span class="sidebar-num">02</span>Position static</a>
+      <a href="#s6-relative" class="sidebar-item"><span class="sidebar-num">03</span>Position relative</a>
+      <a href="#s6-absolute" class="sidebar-item"><span class="sidebar-num">04</span>Position absolute</a>
+      <a href="#s6-fixed"    class="sidebar-item"><span class="sidebar-num">05</span>Position fixed</a>
+      <a href="#s6-sticky"   class="sidebar-item"><span class="sidebar-num">06</span>Position sticky</a>
+      <a href="#s6-zindex"   class="sidebar-item"><span class="sidebar-num">07</span>z-index & stacking</a>
+      <a href="#s6-float"    class="sidebar-item"><span class="sidebar-num">08</span>Float & clear</a>
+      <a href="#s6-exo"      class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s6-bilan"    class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance7-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 7 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 06 / 10</div>
+      <h1>Positionnement & Display</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Display · Position · z-index · Float</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 DISPLAY ══ -->
+    <div id="s6-display">
+      <div class="section-header"><span class="section-num">01</span><h2>Display : block, inline, inline-block, none</h2></div>
+      <p>La propriété <code>display</code> définit le <strong>type de boîte</strong> d'un élément. C'est la propriété la plus fondamentale pour la mise en page. Chaque élément HTML a un display par défaut.</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* DISPLAY: BLOCK — toute la largeur, retour à la ligne */
+.block { display: block; }
+/* Éléments bloc par défaut : div, p, h1-h6, ul, ol, li, section, article, nav, header, footer */
+
+/* DISPLAY: INLINE — sur la même ligne, pas de width/height */
+.inline { display: inline; }
+/* Éléments inline par défaut : span, a, strong, em, img (inline-block), button */
+
+/* DISPLAY: INLINE-BLOCK — sur la même ligne, mais accepte width/height */
+.inline-block { display: inline-block; width: 150px; height: 50px; }
+
+/* DISPLAY: NONE — invisible et NE prend PAS de place */
+.hidden { display: none; }
+
+/* visibility: hidden — invisible mais GARDE sa place */
+.invisible { visibility: hidden; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#e8f4f8;padding:6px;margin-bottom:4px;">block — toute la largeur</div>
+            <div><span style="background:#d4edda;padding:4px 6px;">inline</span><span style="background:#f8d7da;padding:4px 6px;">inline aussi</span></div>
+            <div style="margin-top:4px;"><span style="display:inline-block;width:120px;height:30px;background:#ffeaa7;text-align:center;">inline-block</span><span style="display:inline-block;width:120px;height:30px;background:#dfe6e9;text-align:center;">inline-block</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Display</th><th>Largeur</th><th>Hauteur</th><th>Nouvelle ligne</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>block</code></td><td>Toute la largeur dispo</td><td>S'adapte au contenu</td><td>Oui</td><td>Sections, conteneurs, titres</td></tr>
+            <tr><td><code>inline</code></td><td>Contenu uniquement</td><td>Contenu uniquement</td><td>Non</td><td>Texte, liens, mise en valeur</td></tr>
+            <tr><td><code>inline-block</code></td><td>Peut être définie</td><td>Peut être définie</td><td>Non</td><td>Boutons, éléments en ligne dimensionnés</td></tr>
+            <tr><td><code>none</code></td><td colspan="4">Élément retiré du flux — invisible, pas de place réservée</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">display: none vs visibility: hidden</div>
+          <p><code>display: none</code> retire complètement l'élément du flux : il n'occupe <strong>aucun espace</strong> et n'est pas rendu du tout. <code>visibility: hidden</code> cache visuellement l'élément mais <strong>garde sa place</strong> dans la mise en page. Pour l'accessibilité, <code>display: none</code> cache aussi aux lecteurs d'écran, tandis que <code>visibility: hidden</code> peut encore être visible par certains (à éviter pour le contenu important).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 POSITION STATIC ══ -->
+    <div id="s6-static">
+      <div class="section-header"><span class="section-num">02</span><h2>Position: static (valeur par défaut)</h2></div>
+      <p><code>position: static</code> est la valeur par défaut de tous les éléments. L'élément suit le <strong>flux normal</strong> du document : les éléments bloc s'empilent verticalement, les éléments inline s'alignent horizontalement. Les propriétés <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code> et <code>z-index</code> <strong>n'ont aucun effet</strong>.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Valeur par défaut — pas besoin de l'écrire */
+.static {
+  position: static;  /* défaut — inutile de le préciser */
+  /* top, left, right, bottom n'ont aucun effet */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#e8f4f8;padding:8px;">Élément 1 — flux normal</div>
+            <div style="background:#d4edda;padding:8px;">Élément 2 — flux normal</div>
+            <div style="background:#f8d7da;padding:8px;">Élément 3 — flux normal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 POSITION RELATIVE ══ -->
+    <div id="s6-relative">
+      <div class="section-header"><span class="section-num">03</span><h2>Position: relative</h2></div>
+      <p>L'élément reste dans le <strong>flux normal</strong> (sa place est conservée), mais on peut le <strong>décaler visuellement</strong> avec <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>. Le décalage est relatif à sa position normale.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* L'élément garde sa place dans le flux mais est décalé visuellement */
+.relative {
+  position: relative;
+  top: 20px;      /* décalé vers le bas de 20px */
+  left: 30px;     /* décalé vers la droite de 30px */
+}
+
+/* Valeurs négatives — remonte ou va à gauche */
+.relative-up {
+  position: relative;
+  top: -10px;     /* remonte de 10px */
+}
+
+/* La position relative sert aussi de point d'ancrage pour absolute
+   (voir section suivante) */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#e8f4f8;padding:8px;">Normal</div>
+            <div style="background:#d4edda;padding:8px;position:relative;top:10px;left:20px;">relative — décalé de 10px bas, 20px droite</div>
+            <div style="background:#f8d7da;padding:8px;position:relative;top:-5px;">relative — remonté de 5px</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Le vrai rôle de position: relative</div>
+          <p>Au-delà du décalage visuel, <code>position: relative</code> est surtout utilisé pour <strong>créer un contexte de positionnement</strong> : il sert de point d'ancrage pour les éléments enfants en <code>position: absolute</code>. Sans relative sur le parent, un élément absolute se positionnera par rapport au viewport ou au prochain parent positionné.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 POSITION ABSOLUTE ══ -->
+    <div id="s6-absolute">
+      <div class="section-header"><span class="section-num">04</span><h2>Position: absolute</h2></div>
+      <p>L'élément est <strong>retiré du flux normal</strong> : il ne prend plus de place et peut se superposer aux autres éléments. Il se positionne par rapport à l'<strong>ancêtre positionné</strong> le plus proche (relative, absolute, fixed ou sticky).</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Parent doit avoir position: relative pour servir d'ancrage */
+.parent {
+  position: relative;  /* crée le repère */
+  width: 400px;
+  height: 200px;
+  background: #e8f4f8;
+}
+
+/* Enfant positionné en absolu dans le parent */
+.child {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  /* placé à 20px du haut et 20px de la droite du parent */
+}
+
+/* Centrer un élément absolu (technique classique) */
+.center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* centré parfaitement dans le parent */
+}
+
+/* Sans parent positionné → par rapport au viewport */
+.floating {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* collé en haut à gauche de la page */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="position:relative;width:100%;height:100px;background:#e8f4f8;border-radius:4px;">
+              <span style="font-size:.75rem;position:absolute;top:4px;left:8px;">parent (relative)</span>
+              <div style="position:absolute;top:10px;right:10px;background:#e74c3c;color:white;padding:6px 12px;border-radius:4px;font-size:12px;">absolute</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Absolute retire du flux — attention aux superpositions</div>
+          <p>Un élément en <code>position: absolute</code> ne prend plus de place dans le parent. Si le parent n'a que des enfants absolus, sa hauteur sera <strong>0</strong> (effondrement). Pour éviter cela, donnez une hauteur explicite au parent, ou utilisez une autre méthode de positionnement. Les éléments absolus peuvent se superposer — gérez l'ordre avec <code>z-index</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 POSITION FIXED ══ -->
+    <div id="s6-fixed">
+      <div class="section-header"><span class="section-num">05</span><h2>Position: fixed</h2></div>
+      <p>Comme absolute, l'élément est retiré du flux. Mais <strong>fixed</strong> se positionne toujours par rapport au <strong>viewport</strong> (la fenêtre du navigateur), indépendamment du défilement. Idéal pour les barres de navigation, les cookies, les boutons flottants.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Barre de navigation fixe en haut */
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #2c3e50;
+  color: white;
+  z-index: 1000;
+  /* reste visible en haut de l'écran même en scrollant */
+}
+
+/* Bouton flottant en bas à droite */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #3498db;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
+/* Bannière de cookies en bas */
+.cookies {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #1a1a2e;
+  color: white;
+  padding: 1rem;
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#2c3e50;color:white;padding:10px;border-radius:4px;text-align:center;font-size:13px;">Navbar fixed (simulation)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Penser à compenser la hauteur du fixed</div>
+          <p>Si vous fixez une navbar en haut, elle sort du flux : le contenu suivant remonte sous elle. Ajoutez <code>padding-top: 60px</code> (hauteur de la navbar) au <code>&lt;body&gt;</code> ou au premier élément après la navbar pour compenser. Les éléments fixed peuvent aussi cacher du contenu sur mobile — prévoyez des media queries.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 POSITION STICKY ══ -->
+    <div id="s6-sticky">
+      <div class="section-header"><span class="section-num">06</span><h2>Position: sticky</h2></div>
+      <p>Un élément <strong>sticky</strong> alterne entre <code>relative</code> et <code>fixed</code> selon le scroll. Il se comporte comme relative jusqu'à ce qu'il atteigne un seuil défini (<code>top</code>, <code>left</code>, etc.), puis il se "colle" comme fixed.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* En-tête de section qui reste visible en scrollant */
+.section-header-sticky {
+  position: sticky;
+  top: 80px;               /* se colle à 80px du haut du viewport */
+  background: white;
+  z-index: 10;
+  padding: .75rem 0;
+  border-bottom: 2px solid #3498db;
+}
+
+/* Sidebar qui suit le scroll */
+.sidebar-sticky {
+  position: sticky;
+  top: 24px;               /* reste à 24px du haut du viewport */
+}
+
+/* Table avec en-tête collant */
+th {
+  position: sticky;
+  top: 0;
+  background: #2c3e50;
+  color: white;
+  /* les en-têtes restent visibles quand on descend dans le tableau */
+}
+
+/* ⚠️ Nécessite un conteneur parent avec overflow visible
+   et une hauteur suffisante pour que le sticky ait de l'espace pour se déplacer */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="border:2px solid #3498db;background:white;padding:8px;border-radius:4px;">
+              <div style="font-size:13px;font-weight:700;">Sticky header (se colle en scrollant)</div>
+              <div style="font-size:12px;color:#666;">Contenu qui défile normalement en dessous.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Sticky — pièges à éviter</div>
+          <p>Pour que <code>sticky</code> fonctionne : ① le parent doit avoir <code>overflow</code> en <code>visible</code> (pas hidden/scroll/auto). ② l'élément sticky a besoin d'au moins un seuil défini (<code>top</code>, <code>bottom</code>, etc.). ③ le parent doit avoir une hauteur supérieure à l'élément sticky pour que le défilement ait un effet. ④ sticky fonctionne dans la limite du conteneur parent — il dépasse du parent, le sticky s'arrête.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 Z-INDEX ══ -->
+    <div id="s6-zindex">
+      <div class="section-header"><span class="section-num">07</span><h2>z-index & empilement (stacking context)</h2></div>
+      <p>Quand des éléments se superposent (position: relative/absolute/fixed/sticky), <code>z-index</code> contrôle <strong>l'ordre d'empilement</strong> sur l'axe Z (profondeur). Plus la valeur est élevée, plus l'élément est au-dessus.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Par défaut, z-index: auto (0) */
+/* Plus la valeur est grande, plus l'élément est au-dessus */
+
+.box1 { position: absolute; z-index: 1; }
+.box2 { position: absolute; z-index: 2; }  /* au-dessus de box1 */
+.box3 { position: absolute; z-index: 3; }  /* au-dessus de tous */
+
+/* stack context */
+.layer {
+  position: relative;
+  z-index: 10;  /* crée un nouveau contexte d'empilement */
+}
+.child {
+  position: absolute;
+  z-index: 999; /* même avec 999, l'enfant reste dans le contexte du parent */
+  /* si un autre contexte a z-index 20, l'enfant z-index 999 sera dessous */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="position:relative;height:80px;">
+              <div style="position:absolute;top:0;left:0;width:100px;height:60px;background:#e74c3c;z-index:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;">z=1</div>
+              <div style="position:absolute;top:10px;left:30px;width:100px;height:60px;background:#3498db;z-index:2;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;">z=2</div>
+              <div style="position:absolute;top:20px;left:60px;width:100px;height:60px;background:#2ecc71;z-index:3;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;">z=3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">z-index ne fonctionne que sur les éléments positionnés</div>
+          <p><code>z-index</code> est ignoré sur les éléments en <code>position: static</code> (valeur par défaut). Pour que <code>z-index</code> ait un effet, l'élément doit avoir <code>position: relative</code>, <code>absolute</code>, <code>fixed</code> ou <code>sticky</code>. De plus, un élément avec <code>z-index: 9999</code> peut être sous un élément avec <code>z-index: 1</code> si ce dernier est dans un contexte d'empilement plus élevé (créé par un parent avec un z-index).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 FLOAT & CLEAR ══ -->
+    <div id="s6-float">
+      <div class="section-header"><span class="section-num">08</span><h2>Float & clear — méthode historique</h2></div>
+      <p><code>float</code> était la méthode principale de mise en page avant Flexbox et Grid. Aujourd'hui, on l'utilise encore pour <strong>faire flotter du texte autour d'une image</strong> (comme dans les magazines). Pour les mises en page complètes, préférez Flexbox ou Grid.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Float : l'élément flotte à gauche ou à droite */
+.float-left  { float: left;  margin-right: 1rem; }
+.float-right { float: right; margin-left: 1rem; }
+
+/* Clear : stoppe le flottement */
+.clear-left  { clear: left; }    /* interdit le float à gauche */
+.clear-right { clear: right; }   /* interdit le float à droite */
+.clear-both  { clear: both; }    /* interdit le float des deux côtés */
+
+/* Clearfix — technique pour qu'un conteneur flotté ait une hauteur */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Usage moderne : faire flotter une image dans un article */
+.article img {
+  float: left;
+  margin: 0 1.5rem 1rem 0;
+  max-width: 40%;
+}
+
+/* ⚠️ Ne pas utiliser float pour la mise en page de sections
+   → Utiliser Flexbox (séance 7) ou Grid (séance 8) */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="max-width:400px;">
+              <div style="float:left;width:80px;height:60px;background:#3498db;margin:0 10px 10px 0;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;">Image flottée</div>
+              <p style="font-size:13px;margin:0;">Ce texte s'écoule autour de l'image flottée à gauche, comme dans un article de magazine. Le float est encore utile pour cet usage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Float — à l'époque des mises en page</div>
+          <p>Avant Flexbox (2015) et Grid (2017), on construisait des mises en page entières avec <code>float</code> et <code>clearfix</code>. C'était complexe, plein de hacks, et cassait facilement. Aujourd'hui, <strong>n'utilisez plus float pour la mise en page</strong>. Réservez-le au rôle pour lequel il a été conçu : faire couler du texte autour d'un élément. Pour tout le reste, utilisez Flexbox ou Grid.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s6-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📐 Positionnement mis en pratique</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-position.html</code> avec un conteneur parent <code>position: relative</code> (400×300px, fond gris clair).</li>
+            <li>Placez 4 carrés de 80×80px de couleurs différentes aux 4 coins du parent en utilisant <code>position: absolute</code> avec top/right/bottom/left.</li>
+            <li>Ajoutez un 5e carré centré parfaitement avec la technique <code>top: 50%; left: 50%; transform: translate(-50%, -50%)</code>.</li>
+            <li>Créez une navbar simulée avec <code>position: sticky</code> qui se colle en haut au scroll.</li>
+            <li>Ajoutez un bouton "Retour en haut" <code>position: fixed</code> en bas à droite.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📰 Article avec image flottée</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-float.html</code> avec un article contenant un titre, 3 paragraphes et une image.</li>
+            <li>Faites flotter l'image à gauche avec <code>float: left</code> et une marge appropriée.</li>
+            <li>Ajoutez une citation <code>blockquote</code> flottée à droite.</li>
+            <li>Utilisez <code>clear: both</code> sur un élément après l'image pour que le dernier paragraphe ne soit pas à côté.</li>
+            <li>Ajoutez un badge "Nouveau" avec <code>position: absolute</code> dans le coin supérieur droit de l'article.</li>
+            <li>Expérimentez avec <code>display: inline-block</code> pour aligner 3 icônes de réseaux sociaux horizontalement.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Contexte d'empilement</div>
+          <p>Créez 3 conteneurs <code>position: relative</code> imbriqués. Chacun contient un carré absolu avec un z-index différent (1, 2, 3). Donnez au parent du milieu <code>z-index: 10</code> pour créer un contexte d'empilement. Observez comment un enfant avec z-index: 999 dans le parent du milieu reste sous un enfant avec z-index: 1 dans un parent avec z-index: 20.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="06">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s6-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>display : block, inline, inline-block, none — le type de boîte de chaque élément</li>
+        <li>position static : flux normal du document (valeur par défaut)</li>
+        <li>position relative : décalé visuellement, sert d'ancrage pour absolute</li>
+        <li>position absolute : retiré du flux, positionné par rapport à l'ancêtre positionné</li>
+        <li>position fixed : retiré du flux, positionné par rapport au viewport</li>
+        <li>position sticky : alterne entre relative et fixed selon le scroll</li>
+        <li>z-index et contexte d'empilement (stacking context)</li>
+        <li>float : usage moderne pour le texte autour d'une image, clearfix</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Display</dt><dd>Type de boîte. block = toute la largeur. inline = dans le texte. inline-block = inline mais dimensionnable.</dd>
+          <dt>Position static</dt><dd>Valeur par défaut. L'élément suit le flux normal. top/left/z-index ignorés.</dd>
+          <dt>Position relative</dt><dd>L'élément reste dans le flux mais peut être décalé visuellement. Sert d'ancrage.</dd>
+          <dt>Position absolute</dt><dd>Retiré du flux. Positionné par rapport à l'ancêtre positionné le plus proche.</dd>
+          <dt>Position fixed</dt><dd>Retiré du flux. Positionné par rapport au viewport. Reste visible au scroll.</dd>
+          <dt>Position sticky</dt><dd>Relative jusqu'au seuil, puis fixed. Idéal pour les en-têtes de section.</dd>
+          <dt>z-index</dt><dd>Ordre d'empilement sur l'axe Z dans un contexte d'empilement. Valeur entière.</dd>
+          <dt>Contexte d'empilement</dt><dd>Groupe d'éléments avec un z-index de base commun. Créé par position + z-index, opacity, transform, flex.</dd>
+          <dt>Float</dt><dd>Fait flotter un élément à gauche/droite pour que le texte s'écoule autour. Usage moderne : images.</dd>
+          <dt>Clearfix</dt><dd>Technique CSS pour qu'un conteneur d'éléments flottés conserve une hauteur.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 7 — Flexbox</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">display:flex · Direction · Wrap · Justify · Align · Grow · Order</div>
+        </div>
+        <a href="seance7-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 7 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

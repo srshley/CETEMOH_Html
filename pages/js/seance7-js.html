@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 7 — Événements & Formulaires · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+    .preview-body button { background:#3B82F6;color:#fff;border:none;padding:.3rem .8rem;border-radius:4px;cursor:pointer;margin:.2rem; }
+    .preview-body input, .preview-body select { border:1px solid #ccc;padding:.3rem .5rem;border-radius:4px;margin:.2rem;font-size:14px; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html" class="active">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 7</div>
+      <a href="#s7-listener"    class="sidebar-item"><span class="sidebar-num">01</span>addEventListener</a>
+      <a href="#s7-click"       class="sidebar-item"><span class="sidebar-num">02</span>Click &amp; mouse</a>
+      <a href="#s7-input"       class="sidebar-item"><span class="sidebar-num">03</span>Input &amp; change</a>
+      <a href="#s7-submit"      class="sidebar-item"><span class="sidebar-num">04</span>Submit formulaire</a>
+      <a href="#s7-eventobj"    class="sidebar-item"><span class="sidebar-num">05</span>Event object</a>
+      <a href="#s7-deleg"       class="sidebar-item"><span class="sidebar-num">06</span>Délégation</a>
+      <a href="#s7-keyboard"    class="sidebar-item"><span class="sidebar-num">07</span>Événements clavier</a>
+      <a href="#s7-remove"      class="sidebar-item"><span class="sidebar-num">08</span>removeEventListener</a>
+      <a href="#s7-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s7-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance6-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 6</a>
+      <a href="seance8-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 8 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 07 / 10</div>
+      <h1>Événements &amp; Formulaires</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">addEventListener · Click/mouse · Input/change · Submit · Event object · Délégation · Clavier · removeEventListener</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">DOM</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 ADDEVENTLISTENER ══ -->
+    <div id="s7-listener">
+      <div class="section-header"><span class="section-num">01</span><h2>addEventListener — écouter les événements</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p><code>addEventListener</code> est la méthode moderne pour réagir aux interactions utilisateur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const btn = document.getElementById('demo-btn');
+
+// Syntaxe : element.addEventListener('event', callback)
+btn.addEventListener('click', function() {
+  alert('Bouton cliqué !');
+});
+
+// Avec fonction fléchée
+btn.addEventListener('click', () => {
+  console.log('Clic détecté');
+});
+
+// Plusieurs écouteurs sur le même élément
+btn.addEventListener('click', () => console.log('1'));
+btn.addEventListener('click', () => console.log('2'));
+// Les deux s'exécutent dans l'ordre
+
+// Options : { once: true } → une seule fois
+btn.addEventListener('click', () => {
+  console.log('Exécuté une seule fois');
+}, { once: true });</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <button id="demo-btn" onclick="alert('Bouton cliqué !')">Cliquez-moi</button>
+            <p style="font-size:.85rem;color:#888;">Ouvrez la console pour voir les logs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 CLICK & MOUSE ══ -->
+    <div id="s7-click">
+      <div class="section-header"><span class="section-num">02</span><h2>Événements click et souris</h2></div>
+      <p>Les événements de souris les plus courants.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const zone = document.getElementById('demo-mouse');
+
+// click — clic complet (mousedown + mouseup)
+zone.addEventListener('click', () => {
+  console.log('Clic');
+});
+
+// dblclick — double-clic
+zone.addEventListener('dblclick', () => {
+  console.log('Double clic');
+});
+
+// mouseenter — souris entre dans l'élément (sans bouillonnement)
+zone.addEventListener('mouseenter', () => {
+  zone.style.background = '#e0f0ff';
+});
+
+// mouseleave — souris quitte l'élément
+zone.addEventListener('mouseleave', () => {
+  zone.style.background = '';
+});
+
+// mousemove — souris bouge (coordonnées)
+zone.addEventListener('mousemove', (e) => {
+  console.log(`X: ${e.offsetX}, Y: ${e.offsetY}`);
+});
+
+// contextmenu — clic droit
+zone.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  console.log('Menu contextuel bloqué');
+});</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 03 INPUT & CHANGE ══ -->
+    <div id="s7-input">
+      <div class="section-header"><span class="section-num">03</span><h2>Événements input et change</h2></div>
+      <p>Réagir à la saisie utilisateur dans les champs de formulaire.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const input = document.getElementById('demo-input');
+const affichage = document.getElementById('demo-aff');
+
+// input — se déclenche à chaque saisie
+input.addEventListener('input', () => {
+  affichage.textContent = input.value || '(vide)';
+});
+
+// change — se déclenche quand le champ perd le focus
+input.addEventListener('change', () => {
+  console.log('Valeur finale:', input.value);
+});
+
+// focus — champ reçoit le focus
+input.addEventListener('focus', () => {
+  input.style.borderColor = '#3B82F6';
+});
+
+// blur — champ perd le focus
+input.addEventListener('blur', () => {
+  input.style.borderColor = '#ccc';
+});
+
+// select — changement de sélection (select/checkbox/radio)
+const select = document.getElementById('demo-select');
+select.addEventListener('change', () => {
+  affichage.textContent = `Vous avez choisi : ${select.value}`;
+});</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <input id="demo-input" placeholder="Tapez quelque chose..." style="width:260px">
+            <p id="demo-aff" style="font-size:.85rem;color:#555;">(vide)</p>
+            <select id="demo-select" style="margin-top:.5rem">
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+            <script>
+              document.getElementById('demo-input').addEventListener('input', function() {
+                document.getElementById('demo-aff').textContent = this.value || '(vide)';
+              });
+              document.getElementById('demo-select').addEventListener('change', function() {
+                document.getElementById('demo-aff').textContent = 'Vous avez choisi : ' + this.value;
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 SUBMIT ══ -->
+    <div id="s7-submit">
+      <div class="section-header"><span class="section-num">04</span><h2>Événement submit — formulaires</h2></div>
+      <p>Intercepter la soumission d'un formulaire pour la traiter en JS.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const form = document.getElementById('demo-form');
+const result = document.getElementById('demo-result');
+
+form.addEventListener('submit', (e) => {
+  // Empêche le rechargement de la page
+  e.preventDefault();
+
+  // Récupérer les valeurs
+  const prenom = form.prenom.value.trim();
+  const email = form.email.value.trim();
+
+  // Validation simple
+  if (!prenom || !email) {
+    result.textContent = 'Veuillez remplir tous les champs';
+    result.style.color = 'red';
+    return;
+  }
+
+  // Afficher le résultat
+  result.innerHTML = `
+    ✅ Merci <strong>${prenom}</strong> !
+    Nous vous contacterons à <em>${email}</em>.
+  `;
+  result.style.color = '#155724';
+
+  // Réinitialiser
+  form.reset();
+});</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <form id="demo-form" onsubmit="event.preventDefault();const p=this.prenom.value;const e=this.email.value;const r=document.getElementById('demo-result');if(!p||!e){r.textContent='Veuillez remplir tous les champs';r.style.color='red'}else{r.innerHTML='✅ Merci <strong>'+p+'</strong>!';r.style.color='#155724';}">
+              <input name="prenom" placeholder="Prénom" style="width:200px"><br>
+              <input name="email" type="email" placeholder="Email" style="width:200px"><br>
+              <button type="submit" style="margin-top:.3rem">Envoyer</button>
+            </form>
+            <p id="demo-result" style="font-size:.85rem;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 EVENT OBJECT ══ -->
+    <div id="s7-eventobj">
+      <div class="section-header"><span class="section-num">05</span><h2>L'objet événement</h2></div>
+      <p>Le callback reçoit un objet <strong>event</strong> avec des informations sur l'événement.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Event object</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const zone = document.getElementById('demo-event-obj');
+
+zone.addEventListener('click', (e) => {
+  // Type d'événement
+  console.log(e.type); // "click"
+
+  // Élément qui a déclenché l'événement
+  console.log(e.target);     // l'élément cliqué
+  console.log(e.currentTarget); // élément qui écoute (ici, zone)
+
+  // Coordonnées
+  console.log(`Page: ${e.pageX}, ${e.pageY}`);
+  console.log(`Client: ${e.clientX}, ${e.clientY}`);
+  console.log(`Offset: ${e.offsetX}, ${e.offsetY}`);
+
+  // Bouton de la souris
+  console.log(e.button); // 0 = gauche, 1 = molette, 2 = droit
+
+  // Touches modificateurs
+  if (e.ctrlKey) console.log('Ctrl pressé');
+  if (e.shiftKey) console.log('Shift pressé');
+  if (e.altKey) console.log('Alt pressé');
+
+  // Empêcher le comportement par défaut
+  e.preventDefault();
+
+  // Arrêter la propagation
+  e.stopPropagation();
+});</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 06 DÉLÉGATION ══ -->
+    <div id="s7-deleg">
+      <div class="section-header"><span class="section-num">06</span><h2>Délégation d'événements</h2></div>
+      <p>La <strong>délégation</strong> consiste à écouter un événement sur un parent plutôt que sur chaque enfant. Utile pour les éléments créés dynamiquement.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">JavaScript</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="javascript">const liste = document.getElementById('demo-liste');
+const ajouter = document.getElementById('demo-ajouter');
+
+// Délégation : on écoute sur le parent &lt;ul&gt;
+liste.addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li) return; // ignorer si pas un &lt;li&gt;
+
+  console.log(`Clic sur : ${li.textContent}`);
+
+  // Supprimer l'élément
+  if (e.target.classList.contains('suppr')) {
+    li.remove();
+  }
+});
+
+// Ajouter dynamiquement
+ajouter.addEventListener('click', () => {
+  const li = document.createElement('li');
+  li.innerHTML = `Item ${liste.children.length + 1} <button class="suppr" style="margin-left:.5rem;font-size:.7rem;">✕</button>`;
+  liste.appendChild(li);
+});</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <ul id="demo-liste">
+              <li>Item 1 <button class="suppr" style="margin-left:.5rem;font-size:.7rem;padding:.1rem .4rem;" onclick="this.parentElement.remove()">✕</button></li>
+              <li>Item 2 <button class="suppr" style="margin-left:.5rem;font-size:.7rem;padding:.1rem .4rem;" onclick="this.parentElement.remove()">✕</button></li>
+            </ul>
+            <button id="demo-ajouter" onclick="const l=document.getElementById('demo-liste');const li=document.createElement('li');li.innerHTML='Item '+(l.children.length+1)+' <button class=suppr style=margin-left:.5rem;font-size:.7rem;padding:.1rem .4rem; onclick=this.parentElement.remove()>✕</button>';l.appendChild(li)">+ Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 CLAVIER ══ -->
+    <div id="s7-keyboard">
+      <div class="section-header"><span class="section-num">07</span><h2>Événements clavier</h2></div>
+      <p>Détecter les touches pressées par l'utilisateur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// keydown — touche enfoncée
+document.addEventListener('keydown', (e) => {
+  console.log(`keydown: ${e.key} (code: ${e.code})`);
+
+  // Touches spéciales
+  if (e.key === 'Escape') {
+    console.log('Échap pressé — fermer la modale');
+  }
+
+  // Raccourcis clavier
+  if (e.ctrlKey && e.key === 's') {
+    e.preventDefault();
+    console.log('Sauvegarde rapide (Ctrl+S)');
+  }
+
+  // Flèches
+  if (e.key === 'ArrowUp') console.log('↑');
+  if (e.key === 'ArrowDown') console.log('↓');
+  if (e.key === 'ArrowLeft') console.log('←');
+  if (e.key === 'ArrowRight') console.log('→');
+});
+
+// keyup — touche relâchée
+document.addEventListener('keyup', (e) => {
+  console.log(`keyup: ${e.key}`);
+});
+
+// Différence key vs code :
+// key = caractère produit ('a', 'A', 'é')
+// code = touche physique ('KeyA')
+// Sur un clavier QWERTY presser 'w' → key='w', code='KeyW'
+
+// keypress — déprécié, ne pas utiliser</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 08 REMOVEEVENTLISTENER ══ -->
+    <div id="s7-remove">
+      <div class="section-header"><span class="section-num">08</span><h2>removeEventListener — retirer un écouteur</h2></div>
+      <p>On peut retirer un écouteur avec <code>removeEventListener</code>. Nécessite la même fonction référence.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const btn = document.getElementById('demo-remove-btn');
+const toggle = document.getElementById('demo-toggle');
+
+// La fonction doit être nommée (pas une fonction anonyme)
+function handleClick() {
+  console.log('Bouton cliqué !');
+}
+
+// Ajouter
+btn.addEventListener('click', handleClick);
+
+// Retirer
+toggle.addEventListener('click', () => {
+  if (btn._listening) {
+    btn.removeEventListener('click', handleClick);
+    toggle.textContent = 'Réactiver';
+    btn._listening = false;
+  } else {
+    btn.addEventListener('click', handleClick);
+    toggle.textContent = 'Désactiver';
+    btn._listening = true;
+  }
+});
+
+// Important : les fonctions fléchées anonymes
+// NE PEUVENT PAS être retirées
+// ❌ btn.addEventListener('click', () => { ... });
+// ❌ btn.removeEventListener('click', () => { ... }); // ne marche PAS
+
+// Utilisation : dé-bouncer temporairement un clic
+function clickLimite() {
+  console.log('Clic accepté');
+  btn.removeEventListener('click', clickLimite);
+  setTimeout(() => {
+    btn.addEventListener('click', clickLimite);
+  }, 1000);
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s7-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🖱️ Interactions souris</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une <code>&lt;div&gt;</code> carrée de 200×200px avec fond gris et id="zone".</li>
+            <li>Au clic : changez la couleur en bleu.</li>
+            <li>Au double-clic : remettez la couleur grise.</li>
+            <li>Au survol (mouseenter) : ajoutez une bordure.</li>
+            <li>Quand la souris quitte (mouseleave) : retirez la bordure.</li>
+            <li>Affichez les coordonnées de la souris dans la div.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📝 Formulaire avec validation</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un formulaire avec : nom (texte), email (email), âge (nombre 1-120), et un select (pays).</li>
+            <li>Ajoutez un <code>submit</code> listener avec preventDefault.</li>
+            <li>Validez que tous les champs sont remplis.</li>
+            <li>Validez que l'email contient @.</li>
+            <li>Validez que l'âge est entre 1 et 120.</li>
+            <li>Affichez un message de succès ou d'erreur.</li>
+            <li>Ajoutez un champ avec <code>input</code> événement qui affiche en temps réel le nombre de caractères saisis.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="07">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s7-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>addEventListener : syntaxe, fonctions nommées et fléchées</li>
+        <li>Événements souris : click, dblclick, mouseenter/leave, mousemove</li>
+        <li>Événements de champ : input (temps réel), change (perte focus)</li>
+        <li>submit : intercepter, preventDefault, récupérer et valider</li>
+        <li>Event object : target, currentTarget, coordonnées, touches modificateurs</li>
+        <li>Délégation d'événements avec closest() sur parent</li>
+        <li>Clavier : keydown, keyup, key vs code, raccourcis</li>
+        <li>removeEventListener : fonction nommée requise</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>addEventListener</dt><dd>Méthode pour attacher un écouteur d'événement à un élément.</dd>
+          <dt>Event object</dt><dd>Objet passé automatiquement au callback. Contient type, target, coordonnées, etc.</dd>
+          <dt>preventDefault()</dt><dd>Méthode pour annuler le comportement par défaut (ex: soumission de formulaire).</dd>
+          <dt>Délégation</dt><dd>Technique qui consiste à écouter sur un parent plutôt que sur chaque enfant, en utilisant le bouillonnement (bubbling).</dd>
+          <dt>Bouillonnement (bubbling)</dt><dd>Propagation d'un événement de l'élément cible vers les parents. Permet la délégation.</dd>
+          <dt>target vs currentTarget</dt><dd>target = élément qui a déclenché l'événement. currentTarget = élément qui écoute.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 8 — JSON &amp; Stockage</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">JSON.stringify/parse · localStorage · sessionStorage · Cookie vs Storage</div>
+        </div>
+        <a href="seance8-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 8 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 7 — Formulaires : Bases · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--teal); background:var(--teal-dim); border-color:rgba(45,212,191,.25); }
+    .section-header    { border-bottom-color:rgba(45,212,191,.2); }
+    h3                 { color:var(--teal); }
+    .sidebar-item.active { color:var(--teal); border-left-color:var(--teal); background:var(--teal-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html" class="active">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label" style="color:var(--teal);">Séance 7</div>
+      <a href="#s7-form" class="sidebar-item"><span class="sidebar-num">01</span>Form (action, method)</a>
+      <a href="#s7-input" class="sidebar-item"><span class="sidebar-num">02</span>Input text/password/email</a>
+      <a href="#s7-label" class="sidebar-item"><span class="sidebar-num">03</span>Label (for, accessibilité)</a>
+      <a href="#s7-button" class="sidebar-item"><span class="sidebar-num">04</span>Button</a>
+      <a href="#s7-select" class="sidebar-item"><span class="sidebar-num">05</span>Select &amp; Option</a>
+      <a href="#s7-textarea" class="sidebar-item"><span class="sidebar-num">06</span>Textarea</a>
+      <a href="#s7-fieldset" class="sidebar-item"><span class="sidebar-num">07</span>Fieldset &amp; Legend</a>
+      <a href="#s7-placeholder" class="sidebar-item"><span class="sidebar-num">08</span>Placeholder &amp; value</a>
+      <a href="#s7-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s7-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance6.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--blue);">← Séance 6</a>
+      <a href="seance8.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);margin-top:.5rem;">Séance 8 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s2">
+      <div class="session-badge s2">Séance 07 / 10</div>
+      <h1>Formulaires : Bases</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Form • Input • Label • Button • Select • Textarea • Fieldset • Legend</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 FORM ══ -->
+    <div id="s7-form">
+      <div class="section-header"><span class="section-num">01</span><h2>La balise &lt;form&gt; : action et method</h2></div>
+      <p><code>&lt;form&gt;</code> est le conteneur de tout formulaire. Deux attributs sont essentiels : <code>action</code> (URL de traitement) et <code>method</code> (GET ou POST).</p>
+      <div class="method-compare">
+        <div class="method-card">
+          <div class="method-badge get">GET</div>
+          <p>Les données sont visibles dans l'URL. Limité à ~3000 caractères. Pour les recherches, filtres.</p>
+          <code>?nom=Jean&amp;age=28</code>
+        </div>
+        <div class="method-card">
+          <div class="method-badge post">POST</div>
+          <p>Les données sont dans le corps de la requête (invisibles). Pas de limite de taille. Pour les formulaires avec données sensibles.</p>
+          <code>Données cachées</code>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Formulaire GET</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form action="/recherche" method="GET"&gt;
+  &lt;input type="text" name="q"&gt;
+  &lt;button type="submit"&gt;Rechercher&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <form action="#" method="GET">
+              <input type="text" name="q" placeholder="Rechercher..." style="border:1px solid #ccc;padding:.3em .5em;font-size:.9em;border-radius:4px;">
+              <button type="submit" style="padding:.3em .8em;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">Rechercher</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 INPUT ══ -->
+    <div id="s7-input">
+      <div class="section-header"><span class="section-num">02</span><h2>Input : text, password, email</h2></div>
+      <p><code>&lt;input&gt;</code> est la balise la plus polyvalente des formulaires. Son type (<code>type</code>) détermine son comportement et l'apparence sur mobile. Les types de base : <code>text</code>, <code>password</code>, <code>email</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Types input basiques</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form action="#" method="POST"&gt;
+  &lt;p&gt;
+    &lt;label&gt;Nom :&lt;/label&gt;
+    &lt;input type="text" name="nom"&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;label&gt;Email :&lt;/label&gt;
+    &lt;input type="email" name="email"&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;label&gt;Mot de passe :&lt;/label&gt;
+    &lt;input type="password" name="pass"&gt;
+  &lt;/p&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <form action="#">
+              <p><label>Nom :</label> <input type="text" name="nom" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></p>
+              <p><label>Email :</label> <input type="email" name="email" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></p>
+              <p><label>Mot de passe :</label> <input type="password" name="pass" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></p>
+              <button type="submit" style="padding:.3em .8em;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 LABEL ══ -->
+    <div id="s7-label">
+      <div class="section-header"><span class="section-num">03</span><h2>Label — accessibilité</h2></div>
+      <p><code>&lt;label&gt;</code> associe un texte à un champ de formulaire. Deux méthodes : l'attribut <code>for</code> qui pointe vers <code>id</code> du champ, ou l'imbrication du champ dans le label. Les labels sont <strong>obligatoires</strong> pour l'accessibilité.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Label</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Méthode 1 : for + id (recommandée) --&gt;
+&lt;label for="prenom"&gt;Prénom :&lt;/label&gt;
+&lt;input type="text" id="prenom" name="prenom"&gt;
+
+&lt;!-- Méthode 2 : imbrication --&gt;
+&lt;label&gt;
+  Nom :
+  &lt;input type="text" name="nom"&gt;
+&lt;/label&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label for="prenom-demo">Prénom :</label> <input type="text" id="prenom-demo" name="prenom" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></p>
+            <p><label>Nom : <input type="text" name="nom" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Chaque champ doit avoir un label</div>
+          <p>Un champ sans label est inaccessible. Les lecteurs d'écran ne peuvent pas annoncer le nom du champ. Si le design ne permet pas de label visible, utilisez <code>aria-label</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 BUTTON ══ -->
+    <div id="s7-button">
+      <div class="section-header"><span class="section-num">04</span><h2>Button : submit, reset, button</h2></div>
+      <p><code>&lt;button&gt;</code> crée un bouton cliquable. L'attribut <code>type</code> détermine son action : <code>submit</code> (envoie le formulaire), <code>reset</code> (réinitialise), <code>button</code> (action personnalisée avec JavaScript).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Types de boutons</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form action="#" method="POST"&gt;
+  &lt;input type="text" name="nom"&gt;
+
+  &lt;!-- Envoie le formulaire --&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+
+  &lt;!-- Réinitialise tous les champs --&gt;
+  &lt;button type="reset"&gt;Effacer&lt;/button&gt;
+
+  &lt;!-- Action personnalisée (JS) --&gt;
+  &lt;button type="button" onclick="alert('Bonjour !')"&gt;
+    Cliquez-moi
+  &lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <form action="#">
+              <input type="text" name="nom" placeholder="Votre nom" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;margin-bottom:.5em;"><br>
+              <button type="submit" style="padding:.3em .8em;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">Envoyer</button>
+              <button type="reset" style="padding:.3em .8em;background:#6b7280;color:#fff;border:none;border-radius:4px;cursor:pointer;">Effacer</button>
+              <button type="button" onclick="alert('Bonjour !')" style="padding:.3em .8em;background:#f59e0b;color:#fff;border:none;border-radius:4px;cursor:pointer;">Cliquez-moi</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 SELECT ══ -->
+    <div id="s7-select">
+      <div class="section-header"><span class="section-num">05</span><h2>Select &amp; Option</h2></div>
+      <p><code>&lt;select&gt;</code> crée une liste déroulante. Chaque option est définie par <code>&lt;option&gt;</code> avec <code>value</code>. On peut grouper les options avec <code>&lt;optgroup&gt;</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Select</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;label for="pays"&gt;Pays :&lt;/label&gt;
+&lt;select id="pays" name="pays"&gt;
+  &lt;option value=""&gt;— Choisir —&lt;/option&gt;
+  &lt;option value="fr"&gt;France&lt;/option&gt;
+  &lt;option value="be"&gt;Belgique&lt;/option&gt;
+  &lt;option value="ch"&gt;Suisse&lt;/option&gt;
+  &lt;option value="ca"&gt;Canada&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;!-- Avec groupes --&gt;
+&lt;label for="sujet"&gt;Sujet :&lt;/label&gt;
+&lt;select id="sujet" name="sujet"&gt;
+  &lt;optgroup label="Technique"&gt;
+    &lt;option value="html"&gt;HTML&lt;/option&gt;
+    &lt;option value="css"&gt;CSS&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Administratif"&gt;
+    &lt;option value="facture"&gt;Facture&lt;/option&gt;
+    &lt;option value="info"&gt;Information&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label for="pays-demo">Pays :</label>
+            <select id="pays-demo" name="pays" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;font-size:.9em;">
+              <option value="">— Choisir —</option>
+              <option value="fr">France</option>
+              <option value="be">Belgique</option>
+              <option value="ch">Suisse</option>
+            </select></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 TEXTAREA ══ -->
+    <div id="s7-textarea">
+      <div class="section-header"><span class="section-num">06</span><h2>Textarea — zone de texte</h2></div>
+      <p><code>&lt;textarea&gt;</code> crée une zone de texte multi-lignes. Les attributs <code>cols</code> et <code>rows</code> définissent sa taille. Contrairement à <code>&lt;input&gt;</code>, c'est une balise avec contenu (pas orpheline).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Textarea</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;label for="message"&gt;Votre message :&lt;/label&gt;
+&lt;textarea id="message" name="message"
+  rows="5" cols="40"
+  placeholder="Écrivez votre message ici..."&gt;&lt;/textarea&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label for="message-demo">Votre message :</label></p>
+            <textarea id="message-demo" name="message" rows="4" cols="40" placeholder="Écrivez votre message ici..." style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;font-size:.9em;width:100%;max-width:400px;"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 FIELDSET ══ -->
+    <div id="s7-fieldset">
+      <div class="section-header"><span class="section-num">07</span><h2>Fieldset &amp; Legend</h2></div>
+      <p><code>&lt;fieldset&gt;</code> regroupe des champs liés thématiquement. <code>&lt;legend&gt;</code> donne un titre au groupe. Essentiel pour l'accessibilité et l'organisation visuelle des formulaires longs.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Fieldset + Legend</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form action="#" method="POST"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Informations personnelles&lt;/legend&gt;
+
+    &lt;label for="nom"&gt;Nom :&lt;/label&gt;
+    &lt;input type="text" id="nom" name="nom"&gt;
+
+    &lt;label for="email"&gt;Email :&lt;/label&gt;
+    &lt;input type="email" id="email" name="email"&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Adresse&lt;/legend&gt;
+
+    &lt;label for="rue"&gt;Rue :&lt;/label&gt;
+    &lt;input type="text" id="rue" name="rue"&gt;
+
+    &lt;label for="cp"&gt;Code postal :&lt;/label&gt;
+    &lt;input type="text" id="cp" name="cp"&gt;
+  &lt;/fieldset&gt;
+
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <form action="#">
+              <fieldset style="border:1px solid #ccc;border-radius:4px;padding:.75em;margin-bottom:.75em;">
+                <legend style="font-weight:bold;">Informations personnelles</legend>
+                <p><label>Nom : <input type="text" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+                <p><label>Email : <input type="email" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+              </fieldset>
+              <button type="submit" style="padding:.3em .8em;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 PLACEHOLDER ══ -->
+    <div id="s7-placeholder">
+      <div class="section-header"><span class="section-num">08</span><h2>Placeholder &amp; value</h2></div>
+      <p><code>placeholder</code> affiche un texte indicatif dans le champ (disparaît à la saisie). <code>value</code> définit la valeur par défaut. Pour les champs pré-remplis, préférez <code>value</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Placeholder et value</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Placeholder : indicatif, disparaît à la saisie --&gt;
+&lt;input type="text" name="recherche"
+  placeholder="Rechercher un article..."&gt;
+
+&lt;!-- Value : valeur pré-remplie (modifiable) --&gt;
+&lt;input type="text" name="ville"
+  value="Paris"&gt;
+
+&lt;!-- Placeholder sur textarea --&gt;
+&lt;textarea name="bio" rows="3"
+  placeholder="Parlez-nous de vous..."&gt;&lt;/textarea&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><input type="text" placeholder="Rechercher un article..." style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;width:80%;max-width:300px;"></p>
+            <p><input type="text" value="Paris" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></p>
+          </div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Placeholder ≠ Label</div>
+          <p>Le placeholder <strong>ne remplace pas</strong> un vrai <code>&lt;label&gt;</code>. Il disparaît quand on tape, ce qui pose problème d'accessibilité. Toujours avoir un label visible ou un <code>aria-label</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s7-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Formulaire de contact</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un formulaire de contact avec : nom, email, sujet (select), message (textarea).</li>
+            <li>Utilisez <code>method="POST"</code> et <code>action="/contact"</code>.</li>
+            <li>Chaque champ a un <code>&lt;label&gt;</code> avec <code>for</code>.</li>
+            <li>Ajoutez un bouton submit "Envoyer" et un bouton reset "Effacer".</li>
+            <li>Encadrez dans un <code>&lt;fieldset&gt;</code> avec <code>&lt;legend&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✏️ Inscription</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un formulaire d'inscription : prénom, nom, email, mot de passe, confirmation.</li>
+            <li>Utilisez les types appropriés (<code>email</code>, <code>password</code>).</li>
+            <li>Ajoutez des placeholders pertinents.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Enquête</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un sondage avec 2 fieldset : "À propos de vous" et "Vos préférences".</li>
+            <li>Utilisez au moins : input text, email, select, textarea.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="07">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s7-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Form : action (URL de traitement) et method (GET/POST)</li>
+        <li>Input : text, password, email</li>
+        <li>Label : for+id pour l'accessibilité</li>
+        <li>Button : submit, reset, button</li>
+        <li>Select : liste déroulante avec options et optgroup</li>
+        <li>Textarea : zone de texte multi-lignes</li>
+        <li>Fieldset et legend pour grouper les champs</li>
+        <li>Placeholder (indicatif) vs value (valeur par défaut)</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>form</dt><dd>Conteneur du formulaire. Attributs action et method obligatoires.</dd>
+          <dt>input</dt><dd>Champ de saisie polyvalent. Le type change le comportement.</dd>
+          <dt>label</dt><dd>Étiquette associée à un champ via for+id. Essentiel pour l'accessibilité.</dd>
+          <dt>button</dt><dd>Bouton avec trois types : submit, reset, button.</dd>
+          <dt>select</dt><dd>Liste déroulante. Les options sont définies par &lt;option&gt;.</dd>
+          <dt>textarea</dt><dd>Zone de texte multi-lignes. rows et cols pour la taille.</dd>
+          <dt>fieldset</dt><dd>Groupe de champs thématiques. Legend donne le titre.</dd>
+          <dt>placeholder</dt><dd>Texte indicatif qui disparaît à la saisie.</dd>
+          <dt>value</dt><dd>Valeur par défaut d'un champ (pré-remplie).</dd>
+          <dt>method</dt><dd>GET (visible dans l'URL) ou POST (dans le corps de la requête).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 8 — Formulaires : Avancé</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Types input avancés, checkbox, radio, file, validation native, pattern</div>
+        </div>
+        <a href="seance8.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 8 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 5 — Fonctions · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html" class="active">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 5</div>
+      <a href="#s5-decl"      class="sidebar-item"><span class="sidebar-num">01</span>Déclaration function</a>
+      <a href="#s5-params"    class="sidebar-item"><span class="sidebar-num">02</span>Paramètres &amp; return</a>
+      <a href="#s5-default"   class="sidebar-item"><span class="sidebar-num">03</span>Valeurs par défaut</a>
+      <a href="#s5-hinting"   class="sidebar-item"><span class="sidebar-num">04</span>Type hinting</a>
+      <a href="#s5-scope"     class="sidebar-item"><span class="sidebar-num">05</span>Portée (global, local, static)</a>
+      <a href="#s5-closure"   class="sidebar-item"><span class="sidebar-num">06</span>Fonctions variables (closures)</a>
+      <a href="#s5-arrow"     class="sidebar-item"><span class="sidebar-num">07</span>Fonctions fléchées fn()</a>
+      <a href="#s5-include"   class="sidebar-item"><span class="sidebar-num">08</span>Include / require</a>
+      <a href="#s5-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s5-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance6-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 6 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 05 / 10</div>
+      <h1>Fonctions</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Déclaration • Paramètres • Portée • Closures • Include/require</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant+</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 DÉCLARATION ══ -->
+    <div id="s5-decl">
+      <div class="section-header"><span class="section-num">01</span><h2>Déclaration d'une fonction</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p>Une fonction est un bloc de code réutilisable auquel on donne un nom. En PHP, on utilise le mot-clé <code>function</code>.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Déclaration d'une fonction</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Déclaration
+function direBonjour() {
+    echo "Bonjour tout le monde !&lt;br&gt;";
+}
+
+// Appel
+direBonjour();   // Bonjour tout le monde !
+direBonjour();   // On peut l'appeler plusieurs fois
+
+// Règles de nommage
+function calculerMoyenne() {}   // camelCase — convention PHP
+function calculer_moyenne() {}  // snake_case — acceptable
+// Les noms sont insensibles à la casse !
+// Mais appelez-les toujours comme définies.
+
+// Une fonction peut être déclarée APRÈS son appel
+direBonjour();   // fonctionne — PHP lit tout le fichier avant d'exécuter
+function direBonjour() {
+    echo "Bonjour !";
+}
+?&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">PHP "hoiste" les fonctions</div>
+          <p>Contrairement aux variables, les fonctions déclarées avec <code>function</code> peuvent être appelées avant leur déclaration dans le fichier. PHP charge toutes les définitions avant d'exécuter le code.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ══ 02 PARAMÈTRES ══ -->
+    <div id="s5-params">
+      <div class="section-header"><span class="section-num">02</span><h2>Paramètres &amp; return</h2></div>
+      <p>Une fonction peut recevoir des données (paramètres) et en retourner (return). Dès que <code>return</code> est atteint, la fonction s'arrête.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Paramètres et return</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Fonction avec paramètres
+function addition($a, $b) {
+    return $a + $b;
+}
+
+echo addition(3, 4);  // 7
+
+// return stoppe l'exécution
+function test($n) {
+    if ($n &lt; 0) {
+        return "Nombre négatif";   // sort immédiate
+    }
+    return "Nombre positif ou nul";
+}
+
+// return peut retourner n'importe quel type
+function getUtilisateur() {
+    return ["nom" =&gt; "Alice", "age" =&gt; 30];
+}
+$user = getUtilisateur();
+
+// Valeur de retour multiple (via tableau)
+function getCoordonnees() {
+    return ["x" =&gt; 10, "y" =&gt; 20];
+}
+$coord = getCoordonnees();
+echo $coord["x"];   // 10
+
+// Fonction qui n'a pas de return → retourne null
+function rien() {}
+var_dump(rien());   // NULL
+?&gt;</pre></div>
+      </div>
+    ══ 03 VALEURS PAR DÉFAUT ══ -->
+    <div id="s5-default">
+      <div class="section-header"><span class="section-num">03</span><h2>Valeurs par défaut</h2></div>
+      <p>Un paramètre peut avoir une valeur par défaut. Si l'appel ne fournit pas ce paramètre, la valeur par défaut est utilisée.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Paramètres par défaut</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+function saluer($nom, $salutation = "Bonjour") {
+    return "$salutation, $nom !";
+}
+
+echo saluer("Alice");           // Bonjour, Alice !
+echo saluer("Bob", "Salut");    // Salut, Bob !
+echo saluer("Bob", "Bonsoir");  // Bonsoir, Bob !
+
+// Règle : les paramètres par défaut doivent être APRÈS les obligatoires
+// ❌ function mauvais($a = 1, $b)  → erreur
+// ✅ function bon($a, $b = 1)      → correct
+
+// Paramètres optionnels (null par défaut)
+function afficherProduit($nom, $prix = null) {
+    if ($prix === null) {
+        return "Produit : $nom (prix non communiqué)";
+    }
+    return "Produit : $nom — $prix €";
+}
+
+// Arguments nommés (PHP 8+)
+function creerProfil($nom, $age, $ville) {
+    return "$nom, $age ans, $ville";
+}
+
+echo creerProfil(ville: "Paris", age: 30, nom: "Alice");
+// Les arguments nommés permettent l'ordre flexible
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Arguments nommés (PHP 8+)</div>
+          <p>Les arguments nommés rendent le code plus lisible et permettent d'ignorer des paramètres optionnels au milieu.</p>
+        </div>
+      </div>
+    ══ 04 TYPE HINTING ══ -->
+    <div id="s5-hinting">
+      <div class="section-header"><span class="section-num">04</span><h2>Type hinting</h2></div>
+      <p>PHP permet d'indiquer le type attendu pour chaque paramètre et la valeur de retour. Cela rend le code plus fiable et auto-documenté.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Type hinting</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+declare(strict_types=1);  // Active le mode strict pour CE fichier
+
+// Types sur les paramètres
+function calculerPrixTTC(float $prixHT, float $tva = 0.20): float {
+    return $prixHT * (1 + $tva);
+}
+
+echo calculerPrixTTC(100.0, 0.10);  // 110
+
+// Types sur le retour
+function getNom(): string {
+    return "Alice";
+}
+
+// Union types (PHP 8+)
+function setAge(int|string $age): void {
+    echo "Âge : $age";
+}
+setAge(30);
+setAge("trente");
+
+// void — pas de retour
+function logger(string $message): void {
+    file_put_contents("log.txt", $message);
+}
+
+// Mixed — n'importe quel type
+function debug(mixed $valeur): void {
+    var_dump($valeur);
+}
+
+// ?type — peut être le type ou null
+function getPrix(): ?float {
+    return rand(0, 1) ? 19.99 : null;
+}
+
+// Types pour tableaux
+function somme(array $nombres): int|float {
+    return array_sum($nombres);
+}
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">strict_types=1</div>
+          <p>Sans <code>declare(strict_types=1)</code>, PHP convertit automatiquement les types (ex: un string "42" passé à un paramètre int sera accepté). Avec le mode strict, une erreur TypeError sera levée.</p>
+        </div>
+      </div>
+    ══ 05 PORTÉE ══ -->
+    <div id="s5-scope">
+      <div class="section-header"><span class="section-num">05</span><h2>Portée des variables</h2></div>
+      <p>Les variables en PHP ont une portée (scope) qui détermine où elles sont accessibles. Les variables définies en dehors d'une fonction ne sont pas accessibles à l'intérieur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Portée : global, local, static</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$globale = "Je suis globale";
+
+function test() {
+    // ❌ Ne peut pas accéder à $globale
+    // echo $globale;   // Notice : undefined variable
+
+    $locale = "Je suis locale";
+    echo $locale;   // OK — définie dans la fonction
+}
+
+test();
+// echo $locale;   // ❌ Erreur — $locale n'existe pas ici
+
+// Mot-clé global
+$compteur = 0;
+
+function incrementer() {
+    global $compteur;   // importe la variable globale
+    $compteur++;
+}
+incrementer();
+echo $compteur;     // 1
+
+// $GLOBALS — tableau de toutes les variables globales
+function incrementer2() {
+    $GLOBALS['compteur']++;
+}
+
+// static — variable qui persiste entre les appels
+function compteurAppels() {
+    static $count = 0;
+    $count++;
+    echo "Appel n° $count&lt;br&gt;";
+}
+
+compteurAppels();   // Appel n° 1
+compteurAppels();   // Appel n° 2
+compteurAppels();   // Appel n° 3
+?&gt;</pre></div>
+      </div>
+    ══ 06 CLOSURES ══ -->
+    <div id="s5-closure">
+      <div class="section-header"><span class="section-num">06</span><h2>Fonctions variables et closures</h2></div>
+      <p>En PHP, les fonctions peuvent être stockées dans des variables (fonctions anonymes) et utilisées comme des valeurs. Une closure est une fonction anonyme qui capture des variables de son environnement.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Closures et fonctions anonymes</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Fonction anonyme dans une variable
+$direBonjour = function($nom) {
+    return "Bonjour, $nom !";
+};
+echo $direBonjour("Alice");   // Bonjour, Alice !
+
+// Closure avec use — capture une variable externe
+$prefixe = "Msg: ";
+$afficher = function($message) use ($prefixe) {
+    echo $prefixe . $message;
+};
+$afficher("Hello");   // Msg: Hello
+
+// Les closures sont typées Closure
+$fn = function() {};
+var_dump($fn instanceof Closure);   // true
+
+// Passer une closure à array_map
+$nombres = [1, 2, 3, 4, 5];
+$carres = array_map(function($n) {
+    return $n * $n;
+}, $nombres);
+print_r($carres);   // [1, 4, 9, 16, 25]
+
+// Closure avec référence (&amp;)
+$total = 0;
+$ajouter = function($valeur) use (&amp;$total) {
+    $total += $valeur;
+};
+$ajouter(10);
+$ajouter(5);
+echo $total;   // 15
+?&gt;</pre></div>
+      </div>
+    ══ 07 FONCTIONS FLÉCHÉES ══ -->
+    <div id="s5-arrow">
+      <div class="section-header"><span class="section-num">07</span><h2>Fonctions fléchées fn()</h2></div>
+      <p>Introduites en PHP 7.4, les fonctions fléchées <code>fn() =&gt;</code> sont une syntaxe plus courte pour les closures simples. Elles captent automatiquement les variables par valeur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Fonctions fléchées</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$nombres = [1, 2, 3, 4, 5];
+
+// Version closure classique
+$carres = array_map(function($n) { return $n * $n; }, $nombres);
+
+// Version fléchée (même chose)
+$carres = array_map(fn($n) =&gt; $n * $n, $nombres);
+
+// Capture automatique — pas besoin de "use"
+$facteur = 2;
+$doubles = array_map(fn($n) =&gt; $n * $facteur, $nombres);
+// $facteur est capturé automatiquement
+
+// Limitation : une seule expression (pas de bloc)
+// fn($a, $b) =&gt; $a + $b   ✓
+// fn($a, $b) =&gt; { ... }   ✗ (pas de corps multi-lignes)
+
+// Usage avec array_filter
+$pairs = array_filter($nombres, fn($n) =&gt; $n % 2 == 0);
+print_r($pairs);   // [2, 4]
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">fn() vs function()</div>
+          <p><code>fn() =&gt;</code> est plus court, capture automatiquement les variables (par valeur), mais ne peut contenir qu'une seule expression. Utilisez <code>function()</code> pour la logique complexe.</p>
+        </div>
+      </div>
+    ══ 08 INCLUDE ══ -->
+    <div id="s5-include">
+      <div class="section-header"><span class="section-num">08</span><h2>Include / require</h2></div>
+      <p>PHP permet d'inclure le contenu d'un fichier dans un autre. Essentiel pour réutiliser du code (header, footer, fonctions).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Instruction</th><th>Comportement si fichier manquant</th></tr></thead>
+          <tbody>
+            <tr><td><code>include 'fichier.php';</code></td><td>Avertissement + continue (E_WARNING)</td></tr>
+            <tr><td><code>require 'fichier.php';</code></td><td>Erreur fatale + arrêt du script (E_COMPILE_ERROR)</td></tr>
+            <tr><td><code>include_once 'fichier.php';</code></td><td>Inclusion unique (évite les doublons)</td></tr>
+            <tr><td><code>require_once 'fichier.php';</code></td><td>Require unique — le plus utilisé</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Organisation des fichiers</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;!-- index.php --&gt;
+&lt;?php
+require_once 'config.php';
+require_once 'functions.php';
+require_once 'header.php';
+?&gt;
+
+&lt;h1&gt;Contenu de la page&lt;/h1&gt;
+
+&lt;?php require_once 'footer.php'; ?&gt;
+
+&lt;!-- config.php --&gt;
+&lt;?php
+const DB_HOST = 'localhost';
+const DB_NAME = 'site';
+
+// functions.php
+function nettoyer(string $data): string {
+    return htmlspecialchars(strip_tags(trim($data)));
+}
+
+// header.php — HTML pur (sorti de PHP)
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Mon Site&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav&gt;...&lt;/nav&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">include vs require — quand utiliser quoi ?</div>
+          <p>Utilisez <strong>require_once</strong> pour les fichiers essentiels (config, fonctions, classes). Utilisez <strong>include</strong> pour les fichiers optionnels (widgets, templates). <code>_once</code> évite les inclusions multiples qui causeraient des erreurs de redéfinition.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s5-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Bibliothèque de fonctions</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>outils.php</code> avec les fonctions suivantes :</li>
+            <li><code>calculerMoyenne(array $notes): float</code> — retourne la moyenne d'un tableau de notes.</li>
+            <li><code>afficherNote(int $note): string</code> — retourne "Excellent" (&gt;=16), "Bien" (&gt;=14), "Assez bien" (&gt;=12), "Passable" (&gt;=10), "Insuffisant".</li>
+            <li><code>formatPrix(float $montant): string</code> — retourne le montant formaté "1 234,56 €".</li>
+            <li>Créez un <code>index.php</code> qui <code>require_once</code> outils.php et teste les 3 fonctions.</li>
+            <li>Ajoutez des type hints (paramètres et retour) à toutes les fonctions.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔗 Closures et tableaux</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau de nombres <code>[4, 8, 15, 16, 23, 42]</code>.</li>
+            <li>Utilisez <code>array_map</code> avec une fonction fléchée pour mettre chaque nombre au carré.</li>
+            <li>Utilisez <code>array_filter</code> avec une closure pour garder les nombres pairs.</li>
+            <li>Utilisez <code>array_reduce</code> avec une closure pour calculer la somme.</li>
+            <li>Déclarez une variable <code>$multiplicateur = 3</code> et utilisez-la dans une fonction fléchée avec <code>array_map</code>.</li>
+            <li>Testez une variable <code>static</code> dans une fonction qui compte ses appels.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="05">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s5-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Déclaration et appel de fonctions avec <code>function</code></li>
+        <li>Paramètres, return, valeurs par défaut, arguments nommés</li>
+        <li>Type hinting avec types scalaires, array, void, mixed, union</li>
+        <li>Portée : globale, locale, static, mot-clé global</li>
+        <li>Fonctions anonymes, closures avec use, fonctions fléchées fn()</li>
+        <li>Include, require, include_once, require_once</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Fonction</dt><dd>Bloc de code réutilisable nommé. Déclaré avec <code>function</code>.</dd>
+          <dt>Paramètre</dt><dd>Variable reçue par une fonction, définie dans ses parenthèses.</dd>
+          <dt>return</dt><dd>Mot-clé qui stoppe la fonction et retourne une valeur.</dd>
+          <dt>Type hinting</dt><dd>Indication du type attendu pour un paramètre ou la valeur de retour.</dd>
+          <dt>Portée (scope)</dt><dd>Zone du code où une variable est accessible.</dd>
+          <dt>static</dt><dd>Variable qui persiste entre les appels d'une fonction.</dd>
+          <dt>Closure</dt><dd>Fonction anonyme qui capture des variables avec <code>use</code>.</dd>
+          <dt>Fonction fléchée</dt><dd><code>fn() =&gt;</code> — syntaxe courte pour une closure à une expression.</dd>
+          <dt>require_once</dt><dd>Inclusion unique et obligatoire d'un fichier PHP.</dd>
+          <dt>Argument nommé</dt><dd>PHP 8+ — passer un argument en spécifiant son nom : <code>nom: "Alice"</code>.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 6 — Formulaires &amp; $_GET/$_POST</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">GET · POST · Validation · Sécurité XSS · htmlspecialchars</div>
+        </div>
+        <a href="seance6-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 6 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

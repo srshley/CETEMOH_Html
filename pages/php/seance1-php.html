@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 1 — Introduction & Syntaxe · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html" class="active">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 1</div>
+      <a href="#s1-quoi"     class="sidebar-item"><span class="sidebar-num">01</span>C'est quoi PHP</a>
+      <a href="#s1-xampp"    class="sidebar-item"><span class="sidebar-num">02</span>XAMPP &amp; environnement</a>
+      <a href="#s1-balises"  class="sidebar-item"><span class="sidebar-num">03</span>Balises &lt;?php ?&gt;</a>
+      <a href="#s1-echo"     class="sidebar-item"><span class="sidebar-num">04</span>Echo et print</a>
+      <a href="#s1-vars"     class="sidebar-item"><span class="sidebar-num">05</span>Variables $nom</a>
+      <a href="#s1-types"    class="sidebar-item"><span class="sidebar-num">06</span>Types (string, int, float…)</a>
+      <a href="#s1-dump"     class="sidebar-item"><span class="sidebar-num">07</span>var_dump &amp; print_r</a>
+      <a href="#s1-com"      class="sidebar-item"><span class="sidebar-num">08</span>Commentaires</a>
+      <a href="#s1-exo"      class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s1-bilan"    class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 2 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 01 / 10</div>
+      <h1>Introduction &amp; Syntaxe</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Serveur • XAMPP • Balises • Variables • Types • Commentaires</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 C'EST QUOI PHP ══ -->
+    <div id="s1-quoi">
+      <div class="section-header"><span class="section-num">01</span><h2>C'est quoi PHP ?</h2></div>
+      <p><strong>PHP</strong> (Hypertext Preprocessor) est un langage de programmation <em>côté serveur</em> créé en 1994 par Rasmus Lerdorf. Contrairement au HTML/CSS/JS qui s'exécutent dans le navigateur, PHP s'exécute sur le serveur avant d'envoyer la page au client.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🍕</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la pizzeria</div>
+          <p>L'HTML/CSS/JS, c'est la pizza livrée (le client voit ça). PHP, c'est le cuisinier dans la cuisine du serveur : il prépare la pizza selon votre commande. Le client ne voit jamais le cuisinier — seulement le résultat de son travail.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">PHP dynamique vs HTML statique</div>
+          <p>Un fichier <code>.html</code> est <strong>statique</strong> : le serveur l'envoie tel quel. Un fichier <code>.php</code> est d'abord exécuté par le serveur, puis le résultat HTML est envoyé. Cela permet de générer du contenu personnalisé (heure actuelle, données d'un formulaire, contenu depuis une base de données…).</p>
+        </div>
+      </div>
+      <h3>Le voyage d'une requête PHP</h3>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <div class="http-diagram">
+        <div class="http-node">
+          <div class="http-icon browser">🌐</div>
+          <div class="http-node-name">Navigateur</div>
+          <div class="http-node-sub">Demande une page<br><code>exemple.com/index.php</code></div>
+        </div>
+        <div class="http-arrow">
+          <div class="http-arrow-label">① Requête HTTP</div>
+          <div class="http-arrow-line"></div>
+        </div>
+        <div class="http-node">
+          <div class="http-icon server">🖥️</div>
+          <div class="http-node-name">Serveur PHP</div>
+          <div class="http-node-sub">Exécute le code PHP<br>Génère du HTML pur</div>
+        </div>
+        <div class="http-arrow">
+          <div class="http-arrow-label">② Réponse HTML</div>
+          <div class="http-arrow-line back"></div>
+        </div>
+        <div class="http-node">
+          <div class="http-icon browser">🌐</div>
+          <div class="http-node-name">Navigateur</div>
+          <div class="http-node-sub">Affiche le HTML reçu<br>Le code PHP est invisible</div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">PHP ne s'exécute pas dans le navigateur</div>
+          <p>Vous ne pouvez pas ouvrir un fichier <code>.php</code> en double-cliquant comme un fichier HTML. Il a besoin d'un serveur (Apache, Nginx) avec PHP installé pour être interprété. C'est le rôle de XAMPP.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 XAMPP ══ -->
+    <div id="s1-xampp">
+      <div class="section-header"><span class="section-num">02</span><h2>XAMPP &amp; environnement</h2></div>
+      <p><strong>XAMPP</strong> est un package tout-en-un qui installe Apache (serveur web), PHP, MySQL (base de données) et phpMyAdmin. Il vous permet de développer en PHP localement sur votre machine.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">L'alternative : WAMP, MAMP, Laragon</div>
+          <p><strong>XAMPP</strong> fonctionne sur Windows, Mac et Linux. <strong>WAMP</strong> est spécifique à Windows. <strong>MAMP</strong> pour Mac. <strong>Laragon</strong> est plus moderne sous Windows. Tous fournissent le même trio Apache + PHP + MySQL.</p>
+        </div>
+      </div>
+      <h3>Installation et structure</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">Fichiers — Arborescence XAMPP</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="text">C:\xampp\
+  ├── htdocs\          ← Dossier web racine (vos projets ici)
+  │   ├── mon-site\
+  │   │   ├── index.php
+  │   │   └── contact.php
+  │   └── autre-projet\
+  ├── apache\          ← Serveur Apache
+  ├── php\             ← Interpréteur PHP
+  ├── mysql\           ← Base de données MySQL
+  └── phpMyAdmin\      ← Interface web pour MySQL</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Accéder à vos fichiers PHP</div>
+          <p>Ne double-cliquez pas sur un fichier .php. Lancez XAMPP, démarrez Apache, puis ouvrez votre navigateur sur <code>http://localhost/mon-site/index.php</code>. Le dossier <code>htdocs</code> correspond à la racine <code>http://localhost</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 BALISES ══ -->
+    <div id="s1-balises">
+      <div class="section-header"><span class="section-num">03</span><h2>Balises &lt;?php ?&gt;</h2></div>
+      <p>PHP s'insère dans un fichier HTML grâce à des balises spéciales. Tout ce qui est <strong>en dehors</strong> des balises PHP est envoyé directement au navigateur comme HTML standard. Tout ce qui est <strong>à l'intérieur</strong> est exécuté par le serveur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Balises d'ouverture et fermeture</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;title&gt;Ma première page PHP&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bonjour&lt;/h1&gt;
+
+  &lt;?php
+    // Tout ceci est du code PHP
+    echo "&lt;p&gt;Ce texte a été généré par PHP !&lt;/p&gt;";
+  ?&gt;
+
+  &lt;p&gt;Ce texte est du HTML statique normal.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Balise</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;?php ?&gt;</code></td><td>Balise standard — toujours utilisable, recommandée</td></tr>
+            <tr><td><code>&lt;?= ?&gt;</code></td><td>Raccourci pour <code>&lt;?php echo ?&gt;</code> — affiche une valeur rapidement</td></tr>
+            <tr><td><code>&lt;? ?&gt;</code></td><td>Balise courte — dépréciée, ne l'utilisez pas (désactivée sur certains serveurs)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Syntaxe courte &lt;?= ?&gt;</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;!-- Équivalents : --&gt;
+&lt;?php echo "Bonjour"; ?&gt;
+&lt;?= "Bonjour" ?&gt;  &lt;!-- même résultat, plus court --&gt;
+
+&lt;!-- Très utile dans les templates HTML : --&gt;
+&lt;h1&gt;&lt;?= $titre ?&gt;&lt;/h1&gt;
+&lt;p&gt;Bienvenue, &lt;?= $prenom ?&gt; !&lt;/p&gt;</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">PHP pur — pas besoin de fermeture</div>
+          <p>Si un fichier ne contient <strong>que</strong> du PHP (pas de HTML après), omettez la balise fermante <code>?&gt;</code> pour éviter d'envoyer des espaces ou retours à la ligne involontaires dans la sortie HTML.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 ECHO ET PRINT ══ -->
+    <div id="s1-echo">
+      <div class="section-header"><span class="section-num">04</span><h2>Echo et print</h2></div>
+      <p><code>echo</code> et <code>print</code> sont deux constructions du langage qui envoient du texte dans la sortie HTML. <code>echo</code> est légèrement plus rapide et accepte plusieurs arguments.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — echo et print</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// echo — le plus utilisé
+echo "Bonjour tout le monde !";
+echo "Bonjour", " ", "monde", " !";  // arguments multiples
+
+// print — retourne 1, utile dans une expression
+print "Bonjour !";
+
+// Les parenthèses sont optionnelles
+echo "Bonjour";
+echo("Bonjour");
+
+// Afficher du HTML
+echo "&lt;h2&gt;Titre &lt;/h2&gt;";
+echo '&lt;a href="page.php"&gt;Lien&lt;/a&gt;';
+?&gt;</pre></div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Exemple avec guillemets</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+$nom = "Marie";
+echo "Bonjour $nom !";      // guillemets doubles : $nom est interprété
+echo 'Bonjour $nom !';      // guillemets simples : $nom est littéral
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-body"></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Guillemets doubles vs simples</div>
+          <p>En PHP, les guillemets doubles <strong>interprètent</strong> les variables et les caractères d'échappement (<code>\n</code>, <code>\t</code>…). Les guillemets simples sont <strong>littéraux</strong> : tout est pris tel quel, plus rapide à analyser.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 VARIABLES ══ -->
+    <div id="s1-vars">
+      <div class="section-header"><span class="section-num">05</span><h2>Variables $nom</h2></div>
+      <p>En PHP, toute variable commence par le symbole <code>$</code>. PHP est un langage <strong>faiblement typé</strong> : vous n'avez pas besoin de déclarer le type d'une variable — il est déterminé automatiquement par la valeur que vous assignez.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Déclaration et règles des variables</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Déclaration — le $ est obligatoire
+$nom = "Jean";
+$age = 25;
+$prix = 19.99;
+$estActif = true;
+
+// Règles de nommage
+$maVariable       // camelCase — convention recommandée
+$mon_produit      // snake_case — acceptable
+$MaVariable       // PascalCase — réservé aux classes
+$_cache           // Underscore au début = "privé" (convention)
+$var1             // Peut contenir des chiffres (pas au début)
+
+// ❌ Erreurs courantes
+// $1var          → chiffre au début
+// $ma-var        → tiret interdit
+// $ma variable   → espace interdit
+
+// PHP est sensible à la casse
+$nom = "Alice";
+$Nom = "Bob";   // variable différente !
+echo $nom;      // Alice
+echo $Nom;      // Bob
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Variable non définie = notice PHP</div>
+          <p>Si vous utilisez une variable qui n'existe pas (<code>echo $inconnu;</code>), PHP génère une <strong>notice</strong> (avertissement). En développement, affichez toutes les erreurs avec <code>error_reporting(E_ALL);</code>. En production, masquez les notices.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 TYPES ══ -->
+    <div id="s1-types">
+      <div class="section-header"><span class="section-num">06</span><h2>Types : string, int, float, bool, null</h2></div>
+      <p>PHP supporte 10 types de données. Voici les 5 types de base que vous utiliserez quotidiennement.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>string</code></td><td>Chaîne de caractères</td><td><code>"Bonjour"</code>, <code>'texte'</code></td></tr>
+            <tr><td><code>int</code></td><td>Nombre entier</td><td><code>42</code>, <code>-7</code>, <code>0</code></td></tr>
+            <tr><td><code>float</code></td><td>Nombre à virgule flottante</td><td><code>3.14</code>, <code>-0.5</code></td></tr>
+            <tr><td><code>bool</code></td><td>Booléen (vrai/faux)</td><td><code>true</code>, <code>false</code></td></tr>
+            <tr><td><code>null</code></td><td>Aucune valeur</td><td><code>null</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Les types de base</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// string
+$prenom = "Alice";
+$message = 'Bonjour le monde';
+
+// int
+$age = 30;
+$annee = 2026;
+
+// float
+$prix = 19.99;
+$pi = 3.14159;
+
+// bool
+$estConnecte = true;
+$estAdmin = false;
+
+// null — variable sans valeur
+$resultat = null;
+
+// Conversion automatique
+$total = 10 + "5";     // 15 (string converti en int)
+$message = "Vous avez " . 30 . " ans";  // 30 converti en string
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">PHP fait du "type juggling"</div>
+          <p>PHP convertit automatiquement les types selon le contexte : <code>"10" + 5</code> donne <code>15</code> (int). <code>"10" . 5</code> donne <code>"105"</code> (string). Ce comportement est pratique mais peut causer des bugs — utilisez les opérateurs de comparaison stricte (<code>===</code>) pour les éviter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 VAR_DUMP ══ -->
+    <div id="s1-dump">
+      <div class="section-header"><span class="section-num">07</span><h2>var_dump &amp; print_r</h2></div>
+      <p>Ces deux fonctions sont vos meilleures amies pour le débogage. Elles affichent la structure et la valeur d'une variable, y compris son type.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — var_dump et print_r</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$nom = "Alice";
+$age = 30;
+$prix = 19.99;
+$estOK = true;
+$rien = null;
+
+// var_dump — le plus complet (type + valeur + longueur)
+var_dump($nom);    // string(5) "Alice"
+var_dump($age);    // int(30)
+var_dump($prix);   // float(19.99)
+var_dump($estOK);  // bool(true)
+var_dump($rien);   // NULL
+
+// print_r — plus lisible pour les tableaux et objets
+$fruits = ["pomme", "banane", "cerise"];
+print_r($fruits);
+// Array ( [0] => pomme [1] => banane [2] => cerise )
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Debug propre avec &lt;pre&gt;</div>
+          <p>Entourez <code>var_dump()</code> ou <code>print_r()</code> de balises <code>&lt;pre&gt;</code> pour un affichage formaté dans le navigateur : <code>echo '&lt;pre&gt;'; var_dump($var); echo '&lt;/pre&gt;';</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 COMMENTAIRES ══ -->
+    <div id="s1-com">
+      <div class="section-header"><span class="section-num">08</span><h2>Commentaires</h2></div>
+      <p>PHP supporte trois styles de commentaires. Les commentaires sont ignorés par l'interpréteur — ils sont là pour vous et votre équipe.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Les 3 styles de commentaires</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// ① Commentaire sur une ligne — style C++ (le plus courant)
+$nom = "Alice";  // Vous pouvez commenter en fin de ligne
+
+// ② Commentaire sur une ligne — style shell
+$age = 30;  # Moins fréquent, mais valide
+
+/*
+ * ③ Commentaire multi-lignes — style C
+ * Utile pour désactiver un bloc de code
+ * ou pour décrire une fonction complexe
+ */
+
+/*
+echo "Ce code est temporairement désactivé";
+$test = "Ne sera pas exécuté";
+*/
+?&gt;</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Bonnes pratiques</div>
+          <p>Commentez le <strong>pourquoi</strong>, pas le <strong>quoi</strong>. Un code bien écrit est auto-documenté. Utilisez les commentaires pour expliquer les choix d'implémentation, les cas particuliers ou les TODO.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s1-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Premier script PHP</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un dossier <code>php-seance1/</code> dans <code>htdocs</code>.</li>
+            <li>Créez un fichier <code>index.php</code> avec la structure HTML5 complète.</li>
+            <li>Dans la balise <code>&lt;body&gt;</code>, insérez du PHP pour afficher "Bonjour, je m'appelle [Votre Prénom]" en utilisant <code>echo</code>.</li>
+            <li>Créez une variable <code>$age</code>, assignez-lui votre âge, et affichez-la avec <code>echo</code>.</li>
+            <li>Utilisez <code>var_dump()</code> pour afficher les types de 3 variables différentes.</li>
+            <li>Ajoutez un commentaire expliquant chaque section de votre code.</li>
+            <li>Testez en ouvrant <code>http://localhost/php-seance1/index.php</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔍 Exploration des types</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Déclarez 5 variables de types différents : string, int, float, bool, null.</li>
+            <li>Affichez chaque variable avec <code>echo</code> et observez le rendu.</li>
+            <li>Utilisez <code>var_dump()</code> sur chaque variable pour voir son type exact.</li>
+            <li>Testez les conversions : additionnez un string et un int, concaténez un int avec un string.</li>
+            <li>Essayez <code>var_dump("10" + 5)</code> et <code>var_dump(10 . 5)</code> — observez la différence.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="01">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s1-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>PHP est un langage côté serveur qui génère du HTML dynamique</li>
+        <li>XAMPP fournit Apache + PHP + MySQL pour le développement local</li>
+        <li>Les balises <code>&lt;?php ?&gt;</code> délimitent le code PHP dans un fichier</li>
+        <li><code>echo</code> et <code>print</code> envoient du texte dans la sortie HTML</li>
+        <li>Les variables commencent par <code>$</code> et sont faiblement typées</li>
+        <li>Les 5 types de base : string, int, float, bool, null</li>
+        <li><code>var_dump()</code> affiche le type et la valeur, <code>print_r()</code> est plus lisible</li>
+        <li>3 styles de commentaires : <code>//</code>, <code>#</code>, <code>/* */</code></li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>PHP</dt><dd>Hypertext Preprocessor — langage de script côté serveur créé en 1994.</dd>
+          <dt>XAMPP</dt><dd>Package Apache + MySQL + PHP + phpMyAdmin pour développement local.</dd>
+          <dt>Apache</dt><dd>Serveur web qui écoute les requêtes HTTP et exécute PHP.</dd>
+          <dt>Balise PHP</dt><dd><code>&lt;?php … ?&gt;</code> — délimite le code PHP dans un fichier mixte HTML/PHP.</dd>
+          <dt>Variable</dt><dd>Nom précédé de <code>$</code> qui stocke une valeur. Ex : <code>$nom = "Alice";</code></dd>
+          <dt>echo</dt><dd>Construction du langage qui affiche une ou plusieurs chaînes dans la sortie.</dd>
+          <dt>var_dump</dt><dd>Fonction de débogage qui affiche le type et la valeur d'une variable.</dd>
+          <dt>Type juggling</dt><dd>Conversion automatique des types par PHP selon le contexte d'utilisation.</dd>
+          <dt>null</dt><dd>Valeur spéciale représentant l'absence de valeur.</dd>
+          <dt>Commentaire</dt><dd>Texte ignoré par l'interpréteur — sert à documenter le code.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 2 — Opérateurs &amp; Chaînes</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Arithmétiques · Comparaison · Concaténation · Fonctions chaînes</div>
+        </div>
+        <a href="seance2-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 2 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

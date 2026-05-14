@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 4 — Boucles & Tableaux · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html" class="active">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 4</div>
+      <a href="#s4-for"       class="sidebar-item"><span class="sidebar-num">01</span>for</a>
+      <a href="#s4-while"     class="sidebar-item"><span class="sidebar-num">02</span>while</a>
+      <a href="#s4-dowhile"   class="sidebar-item"><span class="sidebar-num">03</span>do-while</a>
+      <a href="#s4-foreach"   class="sidebar-item"><span class="sidebar-num">04</span>foreach (indexé)</a>
+      <a href="#s4-foreacha"  class="sidebar-item"><span class="sidebar-num">05</span>foreach (associatif)</a>
+      <a href="#s4-break"     class="sidebar-item"><span class="sidebar-num">06</span>break / continue</a>
+      <a href="#s4-array"     class="sidebar-item"><span class="sidebar-num">07</span>Tableaux indexés</a>
+      <a href="#s4-assoc"     class="sidebar-item"><span class="sidebar-num">08</span>Tableaux associatifs</a>
+      <a href="#s4-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s4-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance5-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 5 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 04 / 10</div>
+      <h1>Boucles &amp; Tableaux</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">for • while • foreach • break/continue • Tableaux indexés et associatifs</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 FOR ══ -->
+    <div id="s4-for">
+      <div class="section-header"><span class="section-num">01</span><h2>La boucle for</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p>La boucle <code>for</code> répète un bloc d'instructions un nombre déterminé de fois. Elle est idéale quand vous connaissez à l'avance le nombre d'itérations.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Boucle for</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Syntaxe : for (initialisation; condition; incrément)
+for ($i = 0; $i &lt; 5; $i++) {
+    echo "Itération n° $i&lt;br&gt;";
+}
+// Affiche : Itération n° 0, 1, 2, 3, 4
+
+// Parcourir un tableau indexé
+$fruits = ["pomme", "banane", "cerise"];
+for ($i = 0; $i &lt; count($fruits); $i++) {
+    echo $fruits[$i] . "&lt;br&gt;";
+}
+
+// Compter à rebours
+for ($i = 10; $i &gt; 0; $i--) {
+    echo "$i... ";
+}
+echo "Décollage !";
+
+// Pas de 2
+for ($i = 0; $i &lt;= 10; $i += 2) {
+    echo "$i ";   // 0 2 4 6 8 10
+}
+?&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 WHILE ══ -->
+    <div id="s4-while">
+      <div class="section-header"><span class="section-num">02</span><h2>La boucle while</h2></div>
+      <p><code>while</code> répète un bloc <strong>tant que</strong> la condition est vraie. Elle est utile quand le nombre d'itérations n'est pas connu à l'avance.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Boucle while</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$i = 0;
+while ($i &lt; 5) {
+    echo "Tour n° $i&lt;br&gt;";
+    $i++;
+}
+
+// Lecture d'un fichier ligne par ligne
+$fichier = fopen("data.txt", "r");
+while (($ligne = fgets($fichier)) !== false) {
+    echo $ligne . "&lt;br&gt;";
+}
+fclose($fichier);
+
+// Attention : boucle infinie !
+// while (true) { echo "jamais arrêt"; }
+// Utilisez break pour en sortir
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Boucle infinie</div>
+          <p>Oublier d'incrémenter la variable de condition (<code>$i++</code>) crée une boucle infinie qui fera planter votre script (timeout 30s par défaut). Si ça arrive, stoppez Apache et corrigez le code.</p>
+        </div>
+      </div>
+    ══ 03 DO-WHILE ══ -->
+    <div id="s4-dowhile">
+      <div class="section-header"><span class="section-num">03</span><h2>La boucle do-while</h2></div>
+      <p><code>do-while</code> est similaire à <code>while</code>, mais la condition est vérifiée <strong>après</strong> l'exécution du bloc. Le bloc s'exécute donc <strong>au moins une fois</strong>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Boucle do-while</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$i = 0;
+do {
+    echo "Tour n° $i&lt;br&gt;";
+    $i++;
+} while ($i &lt; 5);
+
+// Différence clé avec while :
+$i = 100;
+while ($i &lt; 5) {
+    echo "Jamais exécuté";      // condition fausse dès le départ
+}
+
+do {
+    echo "Exécuté UNE fois";    // exécuté avant la vérification
+    $i++;
+} while ($i &lt; 5);
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Quand utiliser do-while ?</div>
+          <p>Les interfaces utilisateur où vous voulez au moins une interaction avant de vérifier : validation de formulaire, menu répétitif, génération aléatoire avec vérification.</p>
+        </div>
+      </div>
+    ══ 04 FOREACH INDEXÉ ══ -->
+    <div id="s4-foreach">
+      <div class="section-header"><span class="section-num">04</span><h2>foreach — Tableaux indexés</h2></div>
+      <p><code>foreach</code> est la boucle la plus pratique pour parcourir les tableaux en PHP. Elle itère sur chaque élément sans avoir à gérer d'index manuellement.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — foreach sur tableau indexé</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$fruits = ["pomme", "banane", "cerise"];
+
+// foreach simple
+foreach ($fruits as $fruit) {
+    echo "$fruit&lt;br&gt;";
+}
+
+// foreach avec index
+foreach ($fruits as $index =&gt; $fruit) {
+    echo "$index : $fruit&lt;br&gt;";
+}
+// 0 : pomme
+// 1 : banane
+// 2 : cerise
+
+// foreach ne modifie pas le tableau original
+foreach ($fruits as $fruit) {
+    $fruit = strtoupper($fruit);
+}
+print_r($fruits);   // inchangé
+
+// Pour modifier : utilisez &amp; (référence)
+foreach ($fruits as &amp;$fruit) {
+    $fruit = strtoupper($fruit);
+}
+unset($fruit);      // détruit la référence après la boucle
+print_r($fruits);   // ["POMME", "BANANE", "CERISE"]
+?&gt;</pre></div>
+      </div>
+    ══ 05 FOREACH ASSOCIATIF ══ -->
+    <div id="s4-foreacha">
+      <div class="section-header"><span class="section-num">05</span><h2>foreach — Tableaux associatifs</h2></div>
+      <p>Avec les tableaux associatifs, <code>foreach</code> donne accès à la clé et à la valeur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — foreach sur tableau associatif</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+$personne = [
+    "nom"    =&gt; "Dupont",
+    "prenom" =&gt; "Alice",
+    "age"    =&gt; 30,
+    "ville"  =&gt; "Paris"
+];
+
+// Accès aux deux : clé et valeur
+foreach ($personne as $cle =&gt; $valeur) {
+    echo "$cle : $valeur&lt;br&gt;";
+}
+
+// Affiche :
+// nom : Dupont
+// prenom : Alice
+// age : 30
+// ville : Paris
+
+// Générer une liste HTML
+echo "&lt;ul&gt;";
+foreach ($personne as $cle =&gt; $valeur) {
+    echo "&lt;li&gt;&lt;strong&gt;" . ucfirst($cle) . "&lt;/strong&gt; : $valeur&lt;/li&gt;";
+}
+echo "&lt;/ul&gt;";
+?&gt;</pre></div>
+      </div>
+    ══ 06 BREAK / CONTINUE ══ -->
+    <div id="s4-break">
+      <div class="section-header"><span class="section-num">06</span><h2>break et continue</h2></div>
+      <p><code>break</code> stoppe la boucle immédiatement. <code>continue</code> passe à l'itération suivante sans exécuter le reste du bloc.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — break et continue</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// break — sort de la boucle
+$notes = [12, 15, 8, 19, 7];
+foreach ($notes as $note) {
+    if ($note &lt; 10) {
+        echo "Première note éliminatoire : $note";
+        break;   // on arrête tout
+    }
+    echo "Note valide : $note&lt;br&gt;";
+}
+
+// continue — saute l'itération courante
+foreach ($notes as $note) {
+    if ($note &lt; 10) {
+        continue;   // on ignore cette note
+    }
+    echo "Note &gt;= 10 : $note&lt;br&gt;";
+}
+
+// break avec niveau (boucles imbriquées)
+for ($i = 0; $i &lt; 5; $i++) {
+    for ($j = 0; $j &lt; 5; $j++) {
+        if ($i == 2 &amp;&amp; $j == 2) {
+            break 2;   // sort des DEUX boucles
+        }
+        echo "($i, $j) ";
+    }
+}
+?&gt;</pre></div>
+      </div>
+    ══ 07 TABLEAUX INDEXÉS ══ -->
+    <div id="s4-array">
+      <div class="section-header"><span class="section-num">07</span><h2>Tableaux indexés</h2></div>
+      <p>Un tableau indexé stocke des éléments accessibles par un index numérique (commençant à 0).</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Tableaux indexés</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Création
+$fruits = ["pomme", "banane", "cerise"];
+$notes = array(12, 15, 18, 10);   // syntaxe ancienne
+
+// Ajouter des éléments
+$fruits[] = "datte";          // ajoute à la fin (index 3)
+array_push($fruits, "fraise"); // idem
+$fruits[10] = "kiwi";         // crée un énorme trou !
+
+// Compter
+echo count($fruits);           // nombre d'éléments
+
+// Trier
+sort($fruits);                 // ordre alphabétique croissant
+rsort($fruits);                // ordre décroissant
+
+// Rechercher
+echo in_array("banane", $fruits);     // true
+echo array_search("banane", $fruits); // index (1)
+
+// Autres fonctions utiles
+print_r(array_reverse($fruits));
+print_r(array_slice($fruits, 1, 2));  // extrait 2 éléments à partir de l'index 1
+$fusion = array_merge($fruits, $notes);
+?&gt;</pre></div>
+      </div>
+    ══ 08 TABLEAUX ASSOCIATIFS ══ -->
+    <div id="s4-assoc">
+      <div class="section-header"><span class="section-num">08</span><h2>Tableaux associatifs</h2></div>
+      <p>Un tableau associatif utilise des <strong>clés nommées</strong> (strings) au lieu d'index numériques.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Tableaux associatifs</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Création
+$produit = [
+    "nom"     =&gt; "Casque Audio",
+    "prix"    =&gt; 79.99,
+    "stock"   =&gt; 15,
+    "couleur" =&gt; "noir"
+];
+
+// Accès
+echo $produit["nom"];      // Casque Audio
+echo $produit["prix"];     // 79.99
+
+// Clés et valeurs
+$cles = array_keys($produit);   // ["nom", "prix", "stock", "couleur"]
+$vals = array_values($produit); // ["Casque Audio", 79.99, 15, "noir"]
+
+// Vérifier si une clé existe
+var_dump(array_key_exists("stock", $produit));  // true
+
+// Fusionner (attention : les clés identiques sont écrasées)
+$infos = ["marque" =&gt; "Sony", "garantie" =&gt; "2 ans"];
+$complet = array_merge($produit, $infos);
+
+// Tableau multidimensionnel
+$catalogue = [
+    ["nom" =&gt; "Casque", "prix" =&gt; 79.99],
+    ["nom" =&gt; "Clavier", "prix" =&gt; 49.99],
+    ["nom" =&gt; "Souris", "prix" =&gt; 29.99]
+];
+
+foreach ($catalogue as $article) {
+    echo $article["nom"] . " : " . $article["prix"] . " €&lt;br&gt;";
+}
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">array_merge vs + (union)</div>
+          <p><code>array_merge()</code> réindexe les tableaux numériques et écrase les clés identiques. L'opérateur <code>+</code> conserve la première clé rencontrée et ne réindexe pas.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s4-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Table de multiplication</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>table.php</code>.</li>
+            <li>Utilisez une boucle <code>for</code> pour afficher la table de multiplication du chiffre 7 (de 1 à 10).</li>
+            <li>Affichez le résultat formaté : "7 × 3 = 21" sur chaque ligne.</li>
+            <li>Réécrivez la même logique avec <code>while</code>.</li>
+            <li>Créez un tableau de notes [12, 15, 8, 19, 7, 14]. Utilisez <code>foreach</code> pour : afficher chaque note, calculer la moyenne, trouver la note maximale.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🗂️ Catalogue produits</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau associatif <code>$catalogue</code> avec 3 produits (nom, prix, stock).</li>
+            <li>Affichez chaque produit dans une liste HTML avec foreach.</li>
+            <li>Ajoutez un nouveau produit avec <code>[]</code>.</li>
+            <li>Filtrez : utilisez <code>continue</code> pour n'afficher que les produits en stock (stock &gt; 0).</li>
+            <li>Calculez le prix total du stock (prix × stock pour chaque produit).</li>
+            <li>Utilisez <code>array_merge()</code> pour ajouter une description à chaque produit.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="04">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s4-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Les 4 types de boucles : for, while, do-while, foreach</li>
+        <li>break pour sortir d'une boucle, continue pour sauter une itération</li>
+        <li>Les tableaux indexés : création, ajout (array_push, []), tri, count</li>
+        <li>Les tableaux associatifs : clés nommées, array_keys, array_values</li>
+        <li>Les fonctions utiles : in_array, array_search, array_merge, array_slice</li>
+        <li>Les tableaux multidimensionnels</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Boucle for</dt><dd>Itération avec compteur : <code>for ($i=0; $i&lt;n; $i++)</code></dd>
+          <dt>Boucle while</dt><dd>Répétition tant qu'une condition est vraie.</dd>
+          <dt>Boucle do-while</dt><dd>Exécute le bloc au moins une fois avant de vérifier la condition.</dd>
+          <dt>foreach</dt><dd>Boucle spécialisée pour parcourir les éléments d'un tableau.</dd>
+          <dt>break</dt><dd>Mot-clé qui interrompt immédiatement la boucle courante.</dd>
+          <dt>continue</dt><dd>Mot-clé qui passe à l'itération suivante sans finir le bloc.</dd>
+          <dt>Tableau indexé</dt><dd>Collection d'éléments accessibles par index numérique (0, 1, 2…).</dd>
+          <dt>Tableau associatif</dt><dd>Collection de paires clé → valeur avec clés nommées.</dd>
+          <dt>array_merge</dt><dd>Fusionne deux ou plusieurs tableaux en un seul.</dd>
+          <dt>Tableau multidimensionnel</dt><dd>Tableau contenant d'autres tableaux (matrice, catalogue).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 5 — Fonctions</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Déclaration · Paramètres · Portée · Closures · Include/require</div>
+        </div>
+        <a href="seance5-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 5 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

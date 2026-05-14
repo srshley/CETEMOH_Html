@@ -1,0 +1,703 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 10 — POO, MVC & Projet · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html" class="active">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 10</div>
+      <a href="#s10-class"     class="sidebar-item"><span class="sidebar-num">01</span>Classes (class, new, public)</a>
+      <a href="#s10-construct" class="sidebar-item"><span class="sidebar-num">02</span>Constructeur</a>
+      <a href="#s10-ns"        class="sidebar-item"><span class="sidebar-num">03</span>Namespaces</a>
+      <a href="#s10-composer"  class="sidebar-item"><span class="sidebar-num">04</span>Composer &amp; autoload</a>
+      <a href="#s10-mvc"       class="sidebar-item"><span class="sidebar-num">05</span>Architecture MVC</a>
+      <a href="#s10-psr"       class="sidebar-item"><span class="sidebar-num">06</span>Bonnes pratiques PSR</a>
+      <a href="#s10-tests"     class="sidebar-item"><span class="sidebar-num">07</span>Tests PHPUnit</a>
+      <a href="#s10-deploy"    class="sidebar-item"><span class="sidebar-num">08</span>Déploiement</a>
+      <a href="#s10-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s10-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 10 / 10</div>
+      <h1>POO, MVC &amp; Projet</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Classes • Namespaces • Composer • MVC • PSR • PHPUnit • Déploiement</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~3h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 CLASSES ══ -->
+    <div id="s10-class">
+      <div class="section-header"><span class="section-num">01</span><h2>Classes : class, new, public</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p>La Programmation Orientée Objet (POO) organise le code en <strong>classes</strong> (plans) et <strong>objets</strong> (instances). Une classe définit des propriétés et des méthodes.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Classe et instanciation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Définition d'une classe
+class Utilisateur
+{
+    // Propriétés (avec visibility)
+    public string $nom;
+    public string $email;
+    private string $motDePasse;
+    protected int $age;
+
+    // Méthode
+    public function sePresenter(): string
+    {
+        return "Je m'appelle {$this-&gt;nom}.";
+    }
+
+    public function verifierMotDePasse(string $mdp): bool
+    {
+        return password_verify($mdp, $this-&gt;motDePasse);
+    }
+}
+
+// Instanciation (création d'un objet)
+$alice = new Utilisateur();
+$alice-&gt;nom = "Alice";
+$alice-&gt;email = "alice@exemple.com";
+echo $alice-&gt;sePresenter();   // Je m'appelle Alice.
+
+// Visibilité :
+// public    → accessible partout
+// protected → accessible dans la classe et les classes filles
+// private   → accessible uniquement dans la classe
+
+// Typage des propriétés (PHP 7.4+)
+class Produit {
+    public string $nom;
+    public float $prix;
+    public ?string $description = null;   // nullable avec valeur par défaut
+    public int $stock = 0;
+}
+?&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 CONSTRUCTEUR ══ -->
+    <div id="s10-construct">
+      <div class="section-header"><span class="section-num">02</span><h2>Constructeur (__construct)</h2></div>
+      <p>Le constructeur est une méthode spéciale appelée automatiquement lors de l'instanciation avec <code>new</code>. Il sert à initialiser l'objet.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Constructeur</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+class Article
+{
+    public function __construct(
+        public string $titre,
+        public string $contenu,
+        public ?Utilisateur $auteur = null,
+        public DateTime $createdAt = new DateTime()
+    ) {
+        // Le corps peut être vide — PHP 8+ gère l'assignation automatiquement
+    }
+
+    public function getExcerpt(int $longueur = 100): string
+    {
+        return substr($this-&gt;contenu, 0, $longueur) . '...';
+    }
+}
+
+// Utilisation — le constructeur est appelé automatiquement
+$article = new Article(
+    titre: "Introduction à PHP 8",
+    contenu: "PHP 8 a introduit de nombreuses fonctionnalités..."
+);
+
+echo $article-&gt;titre;         // Introduction à PHP 8
+echo $article-&gt;getExcerpt(); // Premiers 100 caractères...
+
+// Promotion du constructeur (PHP 8+)
+// Les propriétés sont déclarées DIRECTEMENT dans les paramètres du constructeur
+// Évite la redondance : propriété + paramètre + $this-&gt;propriete = $propriete
+?&gt;</pre></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Promotion du constructeur (PHP 8+)</div>
+          <p>Depuis PHP 8, vous pouvez déclarer et initialiser les propriétés directement dans les paramètres du constructeur. Le code <code>public string $titre</code> dans les parenthèses crée automatiquement la propriété et l'assigne. C'est la syntaxe moderne à adopter.</p>
+        </div>
+      </div>
+    ══ 03 NAMESPACES ══ -->
+    <div id="s10-ns">
+      <div class="section-header"><span class="section-num">03</span><h2>Namespaces et use</h2></div>
+      <p>Les <strong>namespaces</strong> évitent les collisions de noms entre classes. Ils organisent le code comme des dossiers virtuels.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Namespaces</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// src/Models/Utilisateur.php
+namespace App\Models;
+
+class Utilisateur {
+    public function __construct(
+        public string $nom,
+        public string $email
+    ) {}
+}
+
+// src/Controllers/UtilisateurController.php
+namespace App\Controllers;
+
+use App\Models\Utilisateur;   // Importe la classe depuis son namespace
+use PDO;                       // Les classes natives n'ont pas besoin de use
+
+class UtilisateurController
+{
+    public function __construct(
+        private PDO $pdo
+    ) {}
+
+    public function liste(): array
+    {
+        $stmt = $this-&gt;pdo-&gt;query('SELECT * FROM utilisateurs');
+        $utilisateurs = [];
+
+        while ($row = $stmt-&gt;fetch()) {
+            $utilisateurs[] = new Utilisateur($row['nom'], $row['email']);
+        }
+
+        return $utilisateurs;
+    }
+}
+
+// Alias avec "as"
+use App\Models\Utilisateur as User;
+$user = new User("Alice", "alice@exemple.com");
+
+// Espace global (classe sans namespace)
+$pdo = new \PDO(...);          // le \ force l'espace global
+?&gt;</pre></div>
+      </div>
+    ══ 04 COMPOSER ══ -->
+    <div id="s10-composer">
+      <div class="section-header"><span class="section-num">04</span><h2>Composer &amp; autoload</h2></div>
+      <p><strong>Composer</strong> est le gestionnaire de dépendances PHP. Il permet d'installer des bibliothèques et d'automatiser le chargement des classes.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JSON — composer.json</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="json">{
+    "name": "mon-projet/blog",
+    "description": "Blog en PHP",
+    "type": "project",
+    "require": {
+        "php": "&gt;=8.1",
+        "vlucas/phpdotenv": "^5.5",
+        "symfony/var-dumper": "^6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
+
+// Commandes
+// composer install       → installe les dépendances
+// composer require XXX   → ajoute une dépendance
+// composer dump-autoload → régénère l'autoload</pre></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Autoload PSR-4</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// public/index.php — Point d'entrée
+require_once __DIR__ . '/../vendor/autoload.php';
+
+// Grâce à l'autoload PSR-4, toutes les classes sont chargées automatiquement
+// selon leur namespace et leur emplacement dans src/
+
+use App\Controllers\ArticleController;
+use App\Models\Article;
+
+// Structure du projet :
+// mon-projet/
+// ├── public/
+// │   └── index.php        ← point d'entrée
+// ├── src/
+// │   ├── Controllers/
+// │   │   └── ArticleController.php   ← namespace App\Controllers
+// │   ├── Models/
+// │   │   └── Article.php             ← namespace App\Models
+// │   └── Views/
+// │       └── articles/
+// │           └── index.php
+// ├── vendor/               ← généré par Composer
+// ├── composer.json
+// └── .env                  ← configuration
+
+// Chargement de l'environnement
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv-&gt;load();
+
+// Utilisation des variables d'environnement
+$dbHost = $_ENV['DB_HOST'];
+$dbName = $_ENV['DB_NAME'];
+?&gt;</pre></div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">PSR-4 Autoloading</div>
+          <p>Le namespace <code>App\</code> correspond au dossier <code>src/</code>. Une classe <code>App\Models\Article</code> sera chargée depuis <code>src/Models/Article.php</code>. Le nom du fichier doit correspondre exactement au nom de la classe.</p>
+        </div>
+      </div>
+    ══ 05 MVC ══ -->
+    <div id="s10-mvc">
+      <div class="section-header"><span class="section-num">05</span><h2>Architecture MVC</h2></div>
+      <p><strong>MVC</strong> (Model-View-Controller) est un patron d'architecture qui sépare le code en trois couches.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🏗️</div>
+        <div class="callout-body">
+          <div class="callout-title">MVC expliqué simplement</div>
+          <p><strong>Model</strong> = les données (BDD, requêtes). <strong>View</strong> = l'affichage (HTML, templates). <strong>Controller</strong> = le chef d'orchestre qui reçoit la requête, interroge le Model, et passe les données à la View.</p>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Exemple MVC</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// --- Model : Article.php ---
+namespace App\Models;
+
+use PDO;
+
+class Article
+{
+    public function __construct(private PDO $pdo) {}
+
+    public function findAll(): array
+    {
+        $stmt = $this-&gt;pdo-&gt;query('SELECT * FROM articles ORDER BY created_at DESC');
+        return $stmt-&gt;fetchAll();
+    }
+
+    public function findById(int $id): ?array
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare('SELECT * FROM articles WHERE id = :id');
+        $stmt-&gt;execute(['id' =&gt; $id]);
+        return $stmt-&gt;fetch() ?: null;
+    }
+
+    public function create(array $data): int
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare('
+            INSERT INTO articles (titre, contenu, auteur_id)
+            VALUES (:titre, :contenu, :auteur_id)
+        ');
+        $stmt-&gt;execute($data);
+        return (int)$this-&gt;pdo-&gt;lastInsertId();
+    }
+}
+
+// --- Controller : ArticleController.php ---
+namespace App\Controllers;
+
+use App\Models\Article;
+
+class ArticleController
+{
+    public function __construct(private Article $articleModel) {}
+
+    public function index(): void
+    {
+        $articles = $this-&gt;articleModel-&gt;findAll();
+        require_once __DIR__ . '/../Views/articles/index.php';
+    }
+
+    public function show(int $id): void
+    {
+        $article = $this-&gt;articleModel-&gt;findById($id);
+        if (!$article) {
+            http_response_code(404);
+            require_once __DIR__ . '/../Views/404.php';
+            return;
+        }
+        require_once __DIR__ . '/../Views/articles/show.php';
+    }
+}
+
+// --- View : articles/index.php ---
+// $articles est disponible depuis le contrôleur
+?&gt;
+&lt;h1&gt;Blog&lt;/h1&gt;
+&lt;?php foreach ($articles as $article): ?&gt;
+    &lt;article&gt;
+        &lt;h2&gt;&lt;?= htmlspecialchars($article['titre']) ?&gt;&lt;/h2&gt;
+        &lt;p&gt;&lt;?= htmlspecialchars(substr($article['contenu'], 0, 200)) ?&gt;...&lt;/p&gt;
+    &lt;/article&gt;
+&lt;?php endforeach; ?&gt;</pre></div>
+      </div>
+    ══ 06 PSR ══ -->
+    <div id="s10-psr">
+      <div class="section-header"><span class="section-num">06</span><h2>Bonnes pratiques PSR</h2></div>
+      <p>Les <strong>PSR</strong> (PHP Standards Recommendations) sont des recommandations officielles pour standardiser le code PHP.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>PSR</th><th>Sujet</th><th>Résumé</th></tr></thead>
+          <tbody>
+            <tr><td>PSR-1</td><td>Codage de base</td><td>Balises <code>&lt;?php</code>, encodage UTF-8, namespaces, noms de classes en PascalCase</td></tr>
+            <tr><td>PSR-12</td><td>Style de codage</td><td>Indentation 4 espaces, accolades sur nouvelle ligne, espaces autour des opérateurs</td></tr>
+            <tr><td>PSR-4</td><td>Autoloading</td><td>Correspondance namespace → dossier. Standard de facto.</td></tr>
+            <tr><td>PSR-3</td><td>Logging</td><td>Interface LoggerInterface pour les logs (Monolog, etc.)</td></tr>
+            <tr><td>PSR-7</td><td>HTTP Messages</td><td>Interfaces pour requêtes/réponses HTTP</td></tr>
+            <tr><td>PSR-11</td><td>Container</td><td>Interface pour conteneur de dépendances</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Exemple PSR-12</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+use App\Models\Article;
+use RuntimeException;
+
+class ArticleService
+{
+    public function __construct(
+        private Article $article
+    ) {}
+
+    public function publish(int $id): bool
+    {
+        $article = $this-&gt;article-&gt;findById($id);
+
+        if ($article === null) {
+            throw new RuntimeException('Article not found');
+        }
+
+        return $this-&gt;article-&gt;update($id, ['status' =&gt; 'published']);
+    }
+}
+?&gt;</pre></div>
+      </div>
+    ══ 07 TESTS PHPUNIT ══ -->
+    <div id="s10-tests">
+      <div class="section-header"><span class="section-num">07</span><h2>Tests avec PHPUnit</h2></div>
+      <p><strong>PHPUnit</strong> est le framework de test standard pour PHP. Les tests sont placés dans un dossier <code>tests/</code> et suivent le namespace <code>Tests\</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Tests unitaires PHPUnit</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// tests/Models/ArticleTest.php
+namespace Tests\Models;
+
+use PHPUnit\Framework\TestCase;
+
+class ArticleTest extends TestCase
+{
+    public function testTitrePeutEtreDefini(): void
+    {
+        $article = new \App\Models\Article(
+            titre: "Mon article",
+            contenu: "Contenu de test"
+        );
+
+        $this-&gt;assertEquals("Mon article", $article-&gt;titre);
+        $this-&gt;assertNotEmpty($article-&gt;contenu);
+    }
+
+    public function testGetExcerpt(): void
+    {
+        $article = new \App\Models\Article(
+            titre: "Test",
+            contenu: "Lorem ipsum dolor sit amet consectetur adipiscing elit"
+        );
+
+        $this-&gt;assertEquals(
+            "Lorem ipsum dolor sit amet consectetur adipiscing elit",
+            $article-&gt;getExcerpt(50)
+        );
+        $this-&gt;assertStringEndsWith('...', $article-&gt;getExcerpt(10));
+    }
+
+    // Data provider — test avec plusieurs jeux de données
+    public function prixProvider(): array
+    {
+        return [
+            [100, 0.20, 120],
+            [50,  0.10, 55],
+            [200, 0.0,  200],
+        ];
+    }
+
+    /** @dataProvider prixProvider */
+    public function testCalculTTC($ht, $tva, $attendu): void
+    {
+        $resultat = $ht * (1 + $tva);
+        $this-&gt;assertEquals($attendu, $resultat);
+    }
+}
+
+// Lancer les tests :
+// vendor/bin/phpunit tests/
+// vendor/bin/phpunit tests/Models/ArticleTest.php
+// vendor/bin/phpunit --filter testGetExcerpt
+?&gt;</pre></div>
+      </div>
+    ══ 08 DÉPLOIEMENT ══ -->
+    <div id="s10-deploy">
+      <div class="section-header"><span class="section-num">08</span><h2>Déploiement (.env, hébergement)</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Déploiement et configuration</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// .env (NE JAMAIS COMMITER)
+DB_HOST=localhost
+DB_NAME=blog_prod
+DB_USER=prod_user
+DB_PASS=Mot2P@sseS3curise
+APP_ENV=production
+APP_DEBUG=false
+
+// .env.example (version sans secrets — à commiter)
+DB_HOST=localhost
+DB_NAME=blog
+DB_USER=root
+DB_PASS=
+APP_ENV=development
+APP_DEBUG=true
+
+// Chargement avec phpdotenv (vlucas/phpdotenv)
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv-&gt;load();
+$dotenv-&gt;required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS']);
+
+// Mode production
+if ($_ENV['APP_ENV'] === 'production') {
+    error_reporting(0);
+    ini_set('display_errors', '0');
+    ini_set('log_errors', '1');
+} else {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '1');
+}
+
+// Vérifications de déploiement
+$checks = [
+    'PHP &gt;= 8.1'    =&gt; version_compare(PHP_VERSION, '8.1.0', '&gt;='),
+    'Extension PDO'  =&gt; extension_loaded('pdo_mysql'),
+    'Extension GD'   =&gt; extension_loaded('gd'),
+    'Extension JSON' =&gt; extension_loaded('json'),
+    'Extension cURL' =&gt; extension_loaded('curl'),
+];
+
+foreach ($checks as $name =&gt; $ok) {
+    echo "$name : " . ($ok ? '✓' : '✗') . "\n";
+}
+
+// Hébergements PHP populaires :
+// - Platform.sh (PaaS professionnel)
+// - Alwaysdata, OVH, Infomaniak (hébergement mutualisé)
+// - AWS Elastic Beanstalk, Heroku (cloud)
+// - VPS (DigitalOcean, Linode) avec Forge/Ploi
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Sécurité en production</div>
+          <p>Ne <strong>jamais</strong> commiter le fichier <code>.env</code> (ajoutez-le à <code>.gitignore</code>). Désactivez <code>display_errors</code> en production. Utilisez HTTPS partout. Mettez régulièrement à jour vos dépendances Composer.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s10-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Mini-framework MVC</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Structurez votre blog avec l'architecture MVC : <code>public/</code>, <code>src/Controllers/</code>, <code>src/Models/</code>, <code>src/Views/</code>.</li>
+            <li>Créez la classe <code>App\Models\Article</code> avec les méthodes findAll, findById, create, update, delete.</li>
+            <li>Créez la classe <code>App\Controllers\ArticleController</code> avec index, show, create, edit, delete.</li>
+            <li>Créez un routeur simple qui analyse <code>$_GET['page']</code> ou <code>$_SERVER['REQUEST_URI']</code>.</li>
+            <li>Ajoutez <code>composer.json</code> avec l'autoload PSR-4 et installez phpdotenv.</li>
+            <li>Déplacez la config BDD dans <code>.env</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🧪 Tests et finalisation</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Installez PHPUnit avec Composer.</li>
+            <li>Créez <code>tests/Models/ArticleTest.php</code> avec des tests pour votre modèle Article.</li>
+            <li>Testez la création, la récupération et la mise à jour d'un article.</li>
+            <li>Ajoutez un test avec dataProvider pour valider différentes valeurs.</li>
+            <li>Vérifiez que tous les fichiers suivent PSR-12 (outil : <code>vendor/bin/phpcs</code>).</li>
+            <li>Préparez un fichier <code>.env.example</code> et un <code>.gitignore</code> pour le projet.</li>
+            <li>Félicitations — vous avez terminé le cours PHP ! 🎉</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="10">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s10-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire final</h2></div>
+      <h3>Ce que vous maîtrisez — le parcours complet</h3>
+      <ul class="checklist">
+        <li>Séance 1 — Introduction, syntaxe, variables, types, var_dump</li>
+        <li>Séance 2 — Opérateurs, concaténation, fonctions chaînes, constantes</li>
+        <li>Séance 3 — Conditions : if/else, switch, match, ternaire, null coalescent</li>
+        <li>Séance 4 — Boucles : for, while, do-while, foreach, tableaux</li>
+        <li>Séance 5 — Fonctions, type hinting, closures, include/require</li>
+        <li>Séance 6 — Formulaires, $_GET/$_POST, validation, XSS</li>
+        <li>Séance 7 — Sessions, cookies, login/logout, sécurité</li>
+        <li>Séance 8 — Fichiers, uploads, validation d'upload</li>
+        <li>Séance 9 — PDO, MySQL, requêtes préparées, CRUD, jointures</li>
+        <li>Séance 10 — POO, MVC, Composer, PHPUnit, déploiement</li>
+      </ul>
+      <h3>Lexique complet du développeur PHP</h3>
+      <div class="glossary">
+        <dl>
+          <dt>POO</dt><dd>Programmation Orientée Objet : organisation du code en classes et objets.</dd>
+          <dt>Classe</dt><dd>Modèle (plan) qui définit les propriétés et méthodes d'un objet.</dd>
+          <dt>Objet</dt><dd>Instance d'une classe créée avec <code>new</code>.</dd>
+          <dt>Constructeur</dt><dd>Méthode __construct appelée automatiquement lors de l'instanciation.</dd>
+          <dt>Namespace</dt><dd>Espace de nommage qui organise les classes et évite les collisions.</dd>
+          <dt>Composer</dt><dd>Gestionnaire de dépendances PHP (équivalent de npm pour Node.js).</dd>
+          <dt>Autoload</dt><dd>Chargement automatique des classes selon le namespace (PSR-4).</dd>
+          <dt>MVC</dt><dd>Model-View-Controller : architecture qui sépare données, affichage et logique.</dd>
+          <dt>PSR</dt><dd>PHP Standards Recommendation — standards de codage PHP.</dd>
+          <dt>PHPUnit</dt><dd>Framework de tests unitaires pour PHP.</dd>
+          <dt>.env</dt><dd>Fichier de configuration avec les variables d'environnement (secret → .gitignore).</dd>
+          <dt>Déploiement</dt><dd>Mise en production d'une application sur un serveur public.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-top:2.5rem;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:var(--amber);margin-bottom:.5rem;">🎉 Félicitations !</div>
+        <div style="font-size:1rem;color:var(--text2);max-width:500px;margin:0 auto;">
+          Vous avez terminé les 10 séances du cours PHP. Vous maîtrisez les bases de PHP, de la syntaxe à l'architecture MVC en passant par les bases de données, la sécurité et les tests.
+        </div>
+        <div style="margin-top:1.25rem;font-size:.875rem;color:var(--text3);">
+          Prochaines étapes : Laravel, Symfony, API REST, ou votre premier projet personnel !
+        </div>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

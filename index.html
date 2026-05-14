@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cours HTML — Apprendre le HTML</title>
+  <title>CETEMOH — Apprendre le HTML, CSS, PHP & JavaScript</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -15,15 +15,20 @@
     <header class="topbar">
       <div class="topbar-brand">
         <span class="badge">&lt;/&gt;</span>
-        Cours HTML
+        <span id="course-brand">Cours HTML</span>
       </div>
-      <nav class="topbar-nav">
+      <nav class="topbar-nav" id="topbar-nav">
         <a href="index.html" class="active">Accueil</a>
         <a href="pages/seance1.html">Séance 1</a>
         <a href="pages/seance2.html">Séance 2</a>
         <a href="pages/seance3.html">Séance 3</a>
         <a href="pages/seance4.html">Séance 4</a>
         <a href="pages/seance5.html">Séance 5</a>
+        <a href="pages/seance6.html">Séance 6</a>
+        <a href="pages/seance7.html">Séance 7</a>
+        <a href="pages/seance8.html">Séance 8</a>
+        <a href="pages/seance9.html">Séance 9</a>
+        <a href="pages/seance10.html">Séance 10</a>
       </nav>
       <button class="hamburger" aria-label="Menu">☰</button>
     </header>
@@ -32,18 +37,22 @@
     <main class="content" style="grid-column: 1/-1;">
       <div class="content-inner" style="max-width:860px;">
 
+        <!-- Course Tabs -->
+        <div class="course-tabs">
+          <button class="course-tab active" data-course="html">HTML</button>
+          <button class="course-tab" data-course="css">CSS</button>
+          <button class="course-tab" data-course="php">PHP</button>
+          <button class="course-tab" data-course="js">JavaScript</button>
+        </div>
+
         <!-- Hero -->
-        <div class="home-hero">
-          <p
-            style="font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem;">
-            Pour apprenants avec quelques bases
+        <div class="home-hero" id="course-hero">
+          <p class="hero-subtitle">Pour apprenants avec quelques bases</p>
+          <h1>Apprendre le <span id="hero-highlight">HTML</span></h1>
+          <p class="home-subtitle" id="hero-desc">
+            Un cours structuré en 10 séances progressives pour maîtriser le langage fondamental du web — de la structure à la sémantique.
           </p>
-          <h1>Apprendre le <span>HTML</span></h1>
-          <p class="home-subtitle">
-            Un cours structuré en 6 séances progressives pour maîtriser le langage fondamental du web — de la structure
-            à la sémantique.
-          </p>
-          <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+          <div id="hero-tags" style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
             <span class="tag-pill">Structure</span>
             <span class="tag-pill">Texte & Listes</span>
             <span class="tag-pill">Liens & Images</span>
@@ -53,82 +62,470 @@
           </div>
         </div>
 
-        <!-- Session cards -->
-        <h2
-          style="font-size:1rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:1.25rem;">
-          Programme du cours
-        </h2>
-        <div class="session-cards">
-
-          <a href="pages/seance1.html" class="session-card s1">
-            <div class="sc-num s1">Séance 01 — Disponible</div>
-            <h2>Les Fondations</h2>
-            <p>Comment fonctionne le web, syntaxe HTML, structure d'un document, texte, listes, liens et images.</p>
-            <div class="sc-tags">
-              <span class="sc-tag">Structure HTML5</span>
-              <span class="sc-tag">Titres &amp; paragraphes</span>
-              <span class="sc-tag">Listes ul/ol</span>
-              <span class="sc-tag">Liens &lt;a&gt;</span>
-              <span class="sc-tag">Images &lt;img&gt;</span>
-            </div>
-          </a>
-
-          <a href="pages/seance2.html" class="session-card s2">
-            <div class="sc-num s2">Séance 02 — Disponible</div>
-            <h2>Tableaux &amp; Sémantique</h2>
-            <p>Attributs globaux, listes avancées, liens et images approfondis, tableaux HTML et balises sémantiques
-              HTML5.</p>
-            <div class="sc-tags">
-              <span class="sc-tag">Attributs globaux</span>
-              <span class="sc-tag">Tableaux</span>
-              <span class="sc-tag">colspan/rowspan</span>
-              <span class="sc-tag">header/main/footer</span>
-              <span class="sc-tag">Liste &lt;dl&gt;</span>
-            </div>
-          </a>
-
-          <a href="pages/seance3.html" class="session-card" style="border-top-color:var(--amber);">
-            <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
-            <h2>Formulaires HTML5</h2>
-            <p>Champs de saisie, validation native HTML5, textarea, select, fieldset et accessibilité.</p>
-            <div class="sc-tags">
-              <span class="sc-tag">input</span><span class="sc-tag">select</span>
-              <span class="sc-tag">textarea</span><span class="sc-tag">fieldset</span>
-              <span class="sc-tag">validation</span><span class="sc-tag">label</span>
-            </div>
-          </a>
-          <a href="pages/seance4.html" class="session-card s4">
-  <div class="sc-num s4">Séance 04 — Disponible</div>
-  <h2>Multimédia &amp; HTML5 Avancé</h2>
-  <p>Vidéo, audio, canvas, web storage et APIs HTML5 modernes.</p>
-  <div class="sc-tags">
-    <span class="sc-tag">video</span>
-    <span class="sc-tag">audio</span>
-    <span class="sc-tag">canvas</span>
-    <span class="sc-tag">localStorage</span>
-    <span class="sc-tag">APIs HTML5</span>
-  </div>
-</a>
-
-<a href="pages/seance5.html" class="session-card s5">
-  <div class="sc-num s5">Séance 05 — Disponible</div>
-  <h2>SEO &amp; Accessibilité</h2>
-  <p>Bonnes pratiques, référencement, ARIA et audit d'accessibilité.</p>
-  <div class="sc-tags">
-    <span class="sc-tag">SEO</span>
-    <span class="sc-tag">meta tags</span>
-    <span class="sc-tag">ARIA</span>
-    <span class="sc-tag">accessibilité</span>
-    <span class="sc-tag">audit</span>
-  </div>
-</a>
-
-          <div class="session-card locked">
-            <div class="sc-num  locked">Séance 06 — Bientôt</div>
-            <h2>Projet Final</h2>
-            <p>Créez votre page personnelle complète, de A à Z, en appliquant tout ce que vous avez appris.</p>
+        <!-- Course: HTML -->
+        <div class="course-content active" data-course="html">
+          <h2 class="course-subtitle">Programme du cours — HTML</h2>
+          <div class="session-cards">
+            <a href="pages/seance1.html" class="session-card s1">
+              <div class="sc-num s1">Séance 01 — Disponible</div>
+              <h2>Le Web &amp; Fondations</h2>
+              <p>Client/serveur, DNS, HTTP/HTTPS, navigateur, éditeur VS Code, Live Server, premier fichier HTML.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Client/Serveur</span>
+                <span class="sc-tag">DNS</span>
+                <span class="sc-tag">HTTP</span>
+                <span class="sc-tag">VS Code</span>
+                <span class="sc-tag">Live Server</span>
+              </div>
+            </a>
+            <a href="pages/seance2.html" class="session-card s2">
+              <div class="sc-num s2">Séance 02 — Disponible</div>
+              <h2>Syntaxe &amp; Structure HTML</h2>
+              <p>Balises, éléments, attributs, structure DOCTYPE, head/body, meta, title, commentaires, entités.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Balises</span>
+                <span class="sc-tag">Attributs</span>
+                <span class="sc-tag">DOCTYPE</span>
+                <span class="sc-tag">head/body</span>
+                <span class="sc-tag">Entités</span>
+              </div>
+            </a>
+            <a href="pages/seance3.html" class="session-card" style="border-top-color:var(--amber);">
+              <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
+              <h2>Texte, Titres &amp; Paragraphes</h2>
+              <p>h1-h6, p, strong, em, br, hr, blockquote, pre, code, abbr, address, small, mark, citations.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Titres</span><span class="sc-tag">Paragraphes</span>
+                <span class="sc-tag">Mise en valeur</span><span class="sc-tag">Citations</span>
+                <span class="sc-tag">Code inline</span>
+              </div>
+            </a>
+            <a href="pages/seance4.html" class="session-card s4">
+              <div class="sc-num s4">Séance 04 — Disponible</div>
+              <h2>Listes &amp; Liens</h2>
+              <p>ul, ol, dl, imbrication, liens externes/internes/ancres, mailto, tel, target, rel, chemins relatifs.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Listes ul/ol/dl</span>
+                <span class="sc-tag">Liens &lt;a&gt;</span>
+                <span class="sc-tag">Ancres</span>
+                <span class="sc-tag">Chemins</span>
+                <span class="sc-tag">target/rel</span>
+              </div>
+            </a>
+            <a href="pages/seance5.html" class="session-card s5">
+              <div class="sc-num s5">Séance 05 — Disponible</div>
+              <h2>Images &amp; Multimédia</h2>
+              <p>img, alt, width/height, figure/figcaption, picture, srcset, video, audio, iframe, formats.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Images</span>
+                <span class="sc-tag">Figure</span>
+                <span class="sc-tag">Video/Audio</span>
+                <span class="sc-tag">srcset</span>
+                <span class="sc-tag">iframe</span>
+              </div>
+            </a>
+            <a href="pages/seance6.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 06 — Disponible</div>
+              <h2>Tableaux HTML</h2>
+              <p>table, thead, tbody, tfoot, th, td, colspan, rowspan, caption, accessibilité des tableaux.</p>
+              <div class="sc-tags" style="border-top-color:var(--purple);">
+                <span class="sc-tag">table</span><span class="sc-tag">thead/tbody</span>
+                <span class="sc-tag">colspan/rowspan</span><span class="sc-tag">caption</span>
+                <span class="sc-tag">Accessibilité</span>
+              </div>
+            </a>
+            <a href="pages/seance7.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 07 — Disponible</div>
+              <h2>Formulaires — Bases</h2>
+              <p>form, input (text, password, email), label, button, select/option, textarea, fieldset, legend.</p>
+              <div class="sc-tags" style="border-top-color:var(--green);">
+                <span class="sc-tag">form</span><span class="sc-tag">input</span>
+                <span class="sc-tag">label</span><span class="sc-tag">select</span>
+                <span class="sc-tag">fieldset</span>
+              </div>
+            </a>
+            <a href="pages/seance8.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 08 — Disponible</div>
+              <h2>Formulaires — Avancé</h2>
+              <p>Types input avancés (date, range, color, file), validation native, attributs required/pattern/min/max.</p>
+              <div class="sc-tags" style="border-top-color:var(--purple);">
+                <span class="sc-tag">Types input</span><span class="sc-tag">Validation</span>
+                <span class="sc-tag">required</span><span class="sc-tag">pattern</span>
+                <span class="sc-tag">Attributs</span>
+              </div>
+            </a>
+            <a href="pages/seance9.html" class="session-card">
+              <div class="sc-num" style="color:var(--teal);">Séance 09 — Disponible</div>
+              <h2>Sémantique HTML5</h2>
+              <p>header, nav, main, article, section, aside, footer, time, details/summary, figure, architecture.</p>
+              <div class="sc-tags" style="border-top-color:var(--teal);">
+                <span class="sc-tag">header/nav</span><span class="sc-tag">main</span>
+                <span class="sc-tag">article/section</span><span class="sc-tag">aside/footer</span>
+                <span class="sc-tag">details/time</span>
+              </div>
+            </a>
+            <a href="pages/seance10.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 10 — Disponible</div>
+              <h2>SEO &amp; Accessibilité</h2>
+              <p>Meta tags SEO, Open Graph, JSON-LD, ARIA roles, WCAG, contrastes, lecteurs d'écran, audits.</p>
+              <div class="sc-tags" style="border-top-color:var(--green);">
+                <span class="sc-tag">Meta SEO</span><span class="sc-tag">Open Graph</span>
+                <span class="sc-tag">JSON-LD</span><span class="sc-tag">ARIA</span>
+                <span class="sc-tag">WCAG</span>
+              </div>
+            </a>
           </div>
+        </div>
 
+        <!-- Course: CSS -->
+        <div class="course-content" data-course="css">
+          <h2 class="course-subtitle">Programme du cours — CSS</h2>
+          <div class="session-cards">
+            <a href="pages/css/seance1-css.html" class="session-card s1">
+              <div class="sc-num s1">Séance 01 — Disponible</div>
+              <h2>Introduction &amp; Syntaxe CSS</h2>
+              <p>Rôle du CSS, syntaxe règle, sélecteur/déclaration, intégration (inline/interne/externe), cascade.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Syntaxe</span>
+                <span class="sc-tag">Cascade</span>
+                <span class="sc-tag">Spécificité</span>
+                <span class="sc-tag">Intégration</span>
+                <span class="sc-tag">Règle CSS</span>
+              </div>
+            </a>
+            <a href="pages/css/seance2-css.html" class="session-card s2">
+              <div class="sc-num s2">Séance 02 — Disponible</div>
+              <h2>Sélecteurs CSS</h2>
+              <p>Sélecteurs de balise, classe, id, universel, attribut, combinatoires (descendant, enfant, adjacent, frère).</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Balise/Classe/ID</span>
+                <span class="sc-tag">Attribut</span>
+                <span class="sc-tag">Combinatoires</span>
+                <span class="sc-tag">Pseudo-classes</span>
+                <span class="sc-tag">Pseudo-éléments</span>
+              </div>
+            </a>
+            <a href="pages/css/seance3-css.html" class="session-card" style="border-top-color:var(--amber);">
+              <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
+              <h2>Couleurs, Unités &amp; Typographie</h2>
+              <p>Couleurs (hex, rgb, hsl), unités (px, em, rem, %, vw/vh), font-family, font-size, text-align.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Couleurs</span>
+                <span class="sc-tag">Unités</span>
+                <span class="sc-tag">Typographie</span>
+                <span class="sc-tag">Google Fonts</span>
+                <span class="sc-tag">Espacement</span>
+              </div>
+            </a>
+            <a href="pages/css/seance4-css.html" class="session-card s4">
+              <div class="sc-num s4">Séance 04 — Disponible</div>
+              <h2>Box Model</h2>
+              <p>Content, padding, border, margin, box-sizing, width/height, min/max, overflow, display block/inline.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Box Model</span>
+                <span class="sc-tag">Padding/Margin</span>
+                <span class="sc-tag">Border</span>
+                <span class="sc-tag">box-sizing</span>
+                <span class="sc-tag">Overflow</span>
+              </div>
+            </a>
+            <a href="pages/css/seance5-css.html" class="session-card s5">
+              <div class="sc-num s5">Séance 05 — Disponible</div>
+              <h2>Backgrounds &amp; Dégradés</h2>
+              <p>background-color/image/gradient, background-size/position/repeat, linear/radial gradients, box-shadow.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Background</span>
+                <span class="sc-tag">Dégradés</span>
+                <span class="sc-tag">box-shadow</span>
+                <span class="sc-tag">Images</span>
+                <span class="sc-tag">Position</span>
+              </div>
+            </a>
+            <a href="pages/css/seance6-css.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 06 — Disponible</div>
+              <h2>Positionnement &amp; Display</h2>
+              <p>position (static, relative, absolute, fixed, sticky), z-index, float, clear, display avancé.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Position</span><span class="sc-tag">z-index</span>
+                <span class="sc-tag">Float</span><span class="sc-tag">Display</span>
+                <span class="sc-tag">Sticky</span>
+              </div>
+            </a>
+            <a href="pages/css/seance7-css.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 07 — Disponible</div>
+              <h2>Flexbox</h2>
+              <p>display:flex, flex-direction, wrap, justify-content, align-items, flex-grow/shrink, order, gap.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Flexbox</span><span class="sc-tag">justify-content</span>
+                <span class="sc-tag">align-items</span><span class="sc-tag">flex-grow</span>
+                <span class="sc-tag">Gap</span>
+              </div>
+            </a>
+            <a href="pages/css/seance8-css.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 08 — Disponible</div>
+              <h2>CSS Grid</h2>
+              <p>display:grid, grid-template-columns/rows, gap, grid-area, auto-fit/minmax, placement explicite.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">CSS Grid</span><span class="sc-tag">Templates</span>
+                <span class="sc-tag">Grid Area</span><span class="sc-tag">auto-fit</span>
+                <span class="sc-tag">minmax</span>
+              </div>
+            </a>
+            <a href="pages/css/seance9-css.html" class="session-card">
+              <div class="sc-num" style="color:var(--teal);">Séance 09 — Disponible</div>
+              <h2>Responsive Design</h2>
+              <p>Media queries, breakpoints, mobile-first, unités responsives (vw/vh/clamp), images responsives.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Media Queries</span><span class="sc-tag">Mobile-first</span>
+                <span class="sc-tag">clamp()</span><span class="sc-tag">vw/vh</span>
+                <span class="sc-tag">Breakpoints</span>
+              </div>
+            </a>
+            <a href="pages/css/seance10-css.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 10 — Disponible</div>
+              <h2>Animations &amp; CSS Moderne</h2>
+              <p>Transitions, @keyframes, animation, transform, variables CSS, calc, min/max, filters, BEM.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Transitions</span><span class="sc-tag">Animations</span>
+                <span class="sc-tag">Variables CSS</span><span class="sc-tag">Transform</span>
+                <span class="sc-tag">Filters</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Course: PHP -->
+        <div class="course-content" data-course="php">
+          <h2 class="course-subtitle">Programme du cours — PHP</h2>
+          <div class="session-cards">
+            <a href="pages/php/seance1-php.html" class="session-card s1">
+              <div class="sc-num s1">Séance 01 — Disponible</div>
+              <h2>Introduction &amp; Syntaxe</h2>
+              <p>Balises PHP, echo, variables $, types (string/int/float/bool/null), var_dump, commentaires.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">&lt;?php ?&gt;</span>
+                <span class="sc-tag">Variables</span>
+                <span class="sc-tag">Types</span>
+                <span class="sc-tag">Echo</span>
+                <span class="sc-tag">var_dump</span>
+              </div>
+            </a>
+            <a href="pages/php/seance2-php.html" class="session-card s2">
+              <div class="sc-num s2">Séance 02 — Disponible</div>
+              <h2>Opérateurs &amp; Chaînes</h2>
+              <p>Opérateurs arithmétiques, comparaison, logiques, concaténation (.), fonctions de chaînes (strlen, str_replace).</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Opérateurs</span>
+                <span class="sc-tag">Concaténation</span>
+                <span class="sc-tag">Fonctions chaînes</span>
+                <span class="sc-tag">Op. logiques</span>
+                <span class="sc-tag">Op. comparaison</span>
+              </div>
+            </a>
+            <a href="pages/php/seance3-php.html" class="session-card" style="border-top-color:var(--amber);">
+              <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
+              <h2>Conditions</h2>
+              <p>if/else, elseif, switch, match, ternaire, null coalescent ??, isset, empty, comparaisons strictes.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">if/else</span>
+                <span class="sc-tag">Switch</span>
+                <span class="sc-tag">Ternaire</span>
+                <span class="sc-tag">Null coalescent</span>
+                <span class="sc-tag">isset/empty</span>
+              </div>
+            </a>
+            <a href="pages/php/seance4-php.html" class="session-card s4">
+              <div class="sc-num s4">Séance 04 — Disponible</div>
+              <h2>Boucles &amp; Tableaux</h2>
+              <p>for, while, foreach, break/continue, tableaux indexés/associatifs, array_push, count, tri.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Boucles</span>
+                <span class="sc-tag">Tableaux</span>
+                <span class="sc-tag">foreach</span>
+                <span class="sc-tag">count</span>
+                <span class="sc-tag">Tri</span>
+              </div>
+            </a>
+            <a href="pages/php/seance5-php.html" class="session-card s5">
+              <div class="sc-num s5">Séance 05 — Disponible</div>
+              <h2>Fonctions</h2>
+              <p>function, paramètres, return, portée (global/static), type hinting, valeurs par défaut, closures.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Fonctions</span>
+                <span class="sc-tag">Paramètres</span>
+                <span class="sc-tag">Portée</span>
+                <span class="sc-tag">Type hinting</span>
+                <span class="sc-tag">Return</span>
+              </div>
+            </a>
+            <a href="pages/php/seance6-php.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 06 — Disponible</div>
+              <h2>Formulaires &amp; $_GET/$_POST</h2>
+              <p>Méthodes GET/POST, $_GET/$_POST/$_REQUEST, validation, filter_input, htmlspecialchars, sécurité XSS.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">$_GET/$_POST</span><span class="sc-tag">Validation</span>
+                <span class="sc-tag">filter_input</span><span class="sc-tag">XSS</span>
+                <span class="sc-tag">htmlspecialchars</span>
+              </div>
+            </a>
+            <a href="pages/php/seance7-php.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 07 — Disponible</div>
+              <h2>Sessions &amp; Cookies</h2>
+              <p>session_start, $_SESSION, setcookie, login/logout, flash messages, sécurité des sessions.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">$_SESSION</span><span class="sc-tag">Cookies</span>
+                <span class="sc-tag">Login/Logout</span><span class="sc-tag">Flash</span>
+                <span class="sc-tag">Sécurité</span>
+              </div>
+            </a>
+            <a href="pages/php/seance8-php.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 08 — Disponible</div>
+              <h2>Fichiers &amp; Uploads</h2>
+              <p>fopen/fwrite/fgets/fclose, file_get_contents, $_FILES, move_uploaded_file, validation fichiers.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Fichiers</span><span class="sc-tag">Upload</span>
+                <span class="sc-tag">$_FILES</span><span class="sc-tag">Validation</span>
+                <span class="sc-tag">Manipulation</span>
+              </div>
+            </a>
+            <a href="pages/php/seance9-php.html" class="session-card">
+              <div class="sc-num" style="color:var(--teal);">Séance 09 — Disponible</div>
+              <h2>PDO &amp; MySQL</h2>
+              <p>Connexion PDO, query/prepare/execute, fetch/fetchAll, requêtes préparées, CRUD, jointures.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">PDO</span><span class="sc-tag">MySQL</span>
+                <span class="sc-tag">Requêtes préparées</span><span class="sc-tag">CRUD</span>
+                <span class="sc-tag">Jointures</span>
+              </div>
+            </a>
+            <a href="pages/php/seance10-php.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 10 — Disponible</div>
+              <h2>POO, MVC &amp; Projet</h2>
+              <p>Classes, namespace, use, autoloading Composer, architecture MVC, bonnes pratiques PSR, déploiement.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">POO</span><span class="sc-tag">Namespace</span>
+                <span class="sc-tag">Composer</span><span class="sc-tag">MVC</span>
+                <span class="sc-tag">PSR</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Course: JavaScript -->
+        <div class="course-content" data-course="js">
+          <h2 class="course-subtitle">Programme du cours — JavaScript</h2>
+          <div class="session-cards">
+            <a href="pages/js/seance1-js.html" class="session-card s1">
+              <div class="sc-num s1">Séance 01 — Disponible</div>
+              <h2>Introduction &amp; Variables</h2>
+              <p>Rôle de JS, console, script tag, let/const/var, types (string/number/boolean/null/undefined), typeof.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">let/const</span>
+                <span class="sc-tag">Types</span>
+                <span class="sc-tag">Console</span>
+                <span class="sc-tag">typeof</span>
+                <span class="sc-tag">Script</span>
+              </div>
+            </a>
+            <a href="pages/js/seance2-js.html" class="session-card s2">
+              <div class="sc-num s2">Séance 02 — Disponible</div>
+              <h2>Opérateurs &amp; Conditions</h2>
+              <p>Opérateurs arithmétiques, comparaison (===/!==), logiques, if/else, switch, ternaire, truthy/falsy.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Opérateurs</span>
+                <span class="sc-tag">Comparaison</span>
+                <span class="sc-tag">if/else</span>
+                <span class="sc-tag">Switch</span>
+                <span class="sc-tag">Truthy/Falsy</span>
+              </div>
+            </a>
+            <a href="pages/js/seance3-js.html" class="session-card" style="border-top-color:var(--amber);">
+              <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
+              <h2>Boucles &amp; Fonctions</h2>
+              <p>for, while, for...of, for...in, function, flèchées, paramètres, return, portée, callback.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Boucles</span>
+                <span class="sc-tag">Fonctions</span>
+                <span class="sc-tag">Fonctions fléchées</span>
+                <span class="sc-tag">Callback</span>
+                <span class="sc-tag">Portée</span>
+              </div>
+            </a>
+            <a href="pages/js/seance4-js.html" class="session-card s4">
+              <div class="sc-num s4">Séance 04 — Disponible</div>
+              <h2>Objets &amp; This</h2>
+              <p>Objets littéraux, propriétés/méthodes, this, factory functions, Object.keys/values, boucle for...in.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Objets</span>
+                <span class="sc-tag">this</span>
+                <span class="sc-tag">Propriétés</span>
+                <span class="sc-tag">Méthodes</span>
+                <span class="sc-tag">Object.keys</span>
+              </div>
+            </a>
+            <a href="pages/js/seance5-js.html" class="session-card s5">
+              <div class="sc-num s5">Séance 05 — Disponible</div>
+              <h2>Tableaux &amp; Méthodes</h2>
+              <p>Tableaux, push/pop/shift/unshift, forEach, map, filter, reduce, find, some, sort, spread.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Tableaux</span>
+                <span class="sc-tag">forEach/map</span>
+                <span class="sc-tag">filter/reduce</span>
+                <span class="sc-tag">Spread</span>
+                <span class="sc-tag">find/some</span>
+              </div>
+            </a>
+            <a href="pages/js/seance6-js.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 06 — Disponible</div>
+              <h2>DOM — Sélection &amp; Manipulation</h2>
+              <p>querySelector/All, textContent, innerHTML, createElement, appendChild, classList, style, dataset.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">querySelector</span><span class="sc-tag">innerHTML</span>
+                <span class="sc-tag">createElement</span><span class="sc-tag">classList</span>
+                <span class="sc-tag">Dataset</span>
+              </div>
+            </a>
+            <a href="pages/js/seance7-js.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 07 — Disponible</div>
+              <h2>Événements &amp; Formulaires</h2>
+              <p>addEventListener, click/submit/input/keydown, event object, preventDefault, délégation, formulaires.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">addEventListener</span><span class="sc-tag">Événements</span>
+                <span class="sc-tag">Event Object</span><span class="sc-tag">Délégation</span>
+                <span class="sc-tag">Formulaires</span>
+              </div>
+            </a>
+            <a href="pages/js/seance8-js.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 08 — Disponible</div>
+              <h2>JSON &amp; Stockage Local</h2>
+              <p>JSON.stringify/parse, localStorage, sessionStorage, stockage de tableaux/objets, Cookie vs Storage.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">JSON</span><span class="sc-tag">localStorage</span>
+                <span class="sc-tag">sessionStorage</span><span class="sc-tag">Stockage</span>
+                <span class="sc-tag">Données</span>
+              </div>
+            </a>
+            <a href="pages/js/seance9-js.html" class="session-card">
+              <div class="sc-num" style="color:var(--teal);">Séance 09 — Disponible</div>
+              <h2>Async &amp; Fetch API</h2>
+              <p>Callbacks, Promises, async/await, fetch GET/POST, try/catch, appel API REST, JSONPlaceholder.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Promises</span><span class="sc-tag">async/await</span>
+                <span class="sc-tag">Fetch API</span><span class="sc-tag">REST API</span>
+                <span class="sc-tag">try/catch</span>
+              </div>
+            </a>
+            <a href="pages/js/seance10-js.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 10 — Disponible</div>
+              <h2>Modules, Classes &amp; Projet</h2>
+              <p>export/import, class/constructor, extends/super, localStorage CRUD, mini-projet Todo List.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Modules ES6</span><span class="sc-tag">Classes</span>
+                <span class="sc-tag">extends</span><span class="sc-tag">localStorage</span>
+                <span class="sc-tag">Todo List</span>
+              </div>
+            </a>
+          </div>
         </div>
 
         <!-- How to use -->

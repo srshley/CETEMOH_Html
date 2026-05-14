@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 7 — Flexbox · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html" class="active">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s7">Séance 7</div>
+      <a href="#s7-flex"      class="sidebar-item"><span class="sidebar-num">01</span>display: flex</a>
+      <a href="#s7-direction" class="sidebar-item"><span class="sidebar-num">02</span>flex-direction</a>
+      <a href="#s7-wrap"      class="sidebar-item"><span class="sidebar-num">03</span>flex-wrap & gap</a>
+      <a href="#s7-justify"   class="sidebar-item"><span class="sidebar-num">04</span>justify-content</a>
+      <a href="#s7-align"     class="sidebar-item"><span class="sidebar-num">05</span>align-items</a>
+      <a href="#s7-grow"      class="sidebar-item"><span class="sidebar-num">06</span>flex-grow & shrink</a>
+      <a href="#s7-basis"     class="sidebar-item"><span class="sidebar-num">07</span>flex-basis & shorthand</a>
+      <a href="#s7-order"     class="sidebar-item"><span class="sidebar-num">08</span>order & align-self</a>
+      <a href="#s7-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s7-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance8-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 8 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 07 / 10</div>
+      <h1>Flexbox</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">display:flex · Direction · Wrap · Alignement · Flex-grow · Order</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 DISPLAY FLEX ══ -->
+    <div id="s7-flex">
+      <div class="section-header"><span class="section-num">01</span><h2>display: flex — le conteneur flexible</h2></div>
+      <p>Flexbox est un modèle de mise en page <strong>unidimensionnel</strong> (une ligne ou une colonne). En déclarant <code>display: flex</code> sur un conteneur, ses enfants deviennent des <strong>éléments flexibles</strong> qui s'alignent automatiquement.</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Le conteneur flex — une simple déclaration suffit */
+.container {
+  display: flex;
+  /* Par défaut : les enfants s'alignent horizontalement */
+  /* Pas de retour à la ligne automatique */
+  /* Les enfants s'étirent pour remplir la hauteur */
+}
+
+/* Les enfants deviennent flexibles */
+.child {
+  /* Ils peuvent être redimensionnés, déplacés, réordonnés */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;background:#e8f4f8;border-radius:4px;padding:8px;gap:8px;">
+              <div style="background:#3498db;color:white;padding:12px 24px;border-radius:4px;">1</div>
+              <div style="background:#e74c3c;color:white;padding:12px 36px;border-radius:4px;">2</div>
+              <div style="background:#2ecc71;color:white;padding:12px 18px;border-radius:4px;">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Flexbox résout les problèmes historiques</div>
+          <p>Avant Flexbox, aligner verticalement un élément était un cauchemar (padding, line-height, table-cell…). Avoir des colonnes de hauteur égale demandait des hacks CSS. Centrer parfaitement un élément dans son parent nécessitait des calculs. Flexbox résout <strong>tous ces problèmes</strong> avec des propriétés simples et intuitives.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 FLEX-DIRECTION ══ -->
+    <div id="s7-direction">
+      <div class="section-header"><span class="section-num">02</span><h2>flex-direction — l'axe principal</h2></div>
+      <p><code>flex-direction</code> définit la direction de l'<strong>axe principal</strong> (main axis). L'axe secondaire (cross axis) est perpendiculaire.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* DIRECTION PAR DÉFAUT : ligne horizontale */
+.row        { flex-direction: row; }            /* de gauche à droite (défaut) */
+.row-reverse{ flex-direction: row-reverse; }    /* de droite à gauche */
+
+/* COLONNE : axe vertical */
+.column         { flex-direction: column; }         /* de haut en bas */
+.column-reverse { flex-direction: column-reverse; } /* de bas en haut */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;flex-direction:row;gap:8px;margin-bottom:8px;background:#e8f4f8;padding:8px;border-radius:4px;">
+              <span style="background:#3498db;color:white;padding:6px 12px;border-radius:3px;">row</span>
+              <span style="background:#e74c3c;color:white;padding:6px 12px;border-radius:3px;">row</span>
+              <span style="background:#2ecc71;color:white;padding:6px 12px;border-radius:3px;">row</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;background:#f8f9fa;padding:8px;border-radius:4px;max-width:200px;">
+              <span style="background:#9b59b6;color:white;padding:6px;border-radius:3px;">column</span>
+              <span style="background:#e67e22;color:white;padding:6px;border-radius:3px;">column</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 FLEX-WRAP & GAP ══ -->
+    <div id="s7-wrap">
+      <div class="section-header"><span class="section-num">03</span><h2>flex-wrap & gap</h2></div>
+      <p><code>flex-wrap</code> permet aux éléments de passer à la ligne quand ils ne tiennent plus. <code>gap</code> ajoute un espacement uniforme entre les éléments flexibles.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* flex-wrap : passage à la ligne */
+.nowrap  { flex-wrap: nowrap; }   /* défaut — les éléments rétrécissent pour tenir */
+.wrap    { flex-wrap: wrap; }     /* passage à la ligne si nécessaire */
+.wrap-rev{ flex-wrap: wrap-reverse; } /* wrap mais en ordre inverse */
+
+/* gap : espacement entre les éléments (pas aux bords) */
+.gap-8   { gap: 8px; }           /* 8px entre chaque élément */
+.gap-row { row-gap: 16px; }      /* espacement vertical uniquement */
+.gap-col { column-gap: 24px; }   /* espacement horizontal uniquement */
+
+/* flex-flow = flex-direction + flex-wrap (shorthand) */
+.flow    { flex-flow: row wrap; }  /* ligne horizontale avec retour à la ligne */
+.flow2   { flex-flow: column nowrap; } /* colonne sans retour */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;background:#e8f4f8;padding:8px;border-radius:4px;max-width:300px;">
+              <div style="background:#3498db;color:white;padding:8px 16px;border-radius:4px;">wrap</div>
+              <div style="background:#e74c3c;color:white;padding:8px 16px;border-radius:4px;">wrap</div>
+              <div style="background:#2ecc71;color:white;padding:8px 16px;border-radius:4px;">wrap</div>
+              <div style="background:#f39c12;color:white;padding:8px 16px;border-radius:4px;">wrap</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">gap remplace les margins sur les enfants</div>
+          <p>Avant <code>gap</code> (arrivé en 2021 pour Flexbox), on devait utiliser <code>margin</code> sur les enfants avec des sélecteurs :first-child/:last-child pour éviter les marges aux bords. Avec <code>gap</code>, c'est <strong>beaucoup plus simple</strong> : une seule déclaration sur le conteneur, pas de marge aux extrémités. Supporté partout aujourd'hui (Edge 84+, Chrome 84+, Firefox 63+).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 JUSTIFY-CONTENT ══ -->
+    <div id="s7-justify">
+      <div class="section-header"><span class="section-num">04</span><h2>justify-content — alignement sur l'axe principal</h2></div>
+      <p><code>justify-content</code> distribue l'espace <strong>entre et autour</strong> des éléments flexibles sur l'axe principal (horizontal par défaut).</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Valeurs principales */
+.flex-start    { justify-content: flex-start; }    /* groupés au début (défaut) */
+.flex-end      { justify-content: flex-end; }      /* groupés à la fin */
+.center        { justify-content: center; }         /* groupés au centre */
+.space-between { justify-content: space-between; }  /* espace égal entre, collés aux bords */
+.space-around  { justify-content: space-around; }   /* espace autour de chaque élément */
+.space-evenly  { justify-content: space-evenly; }   /* espace parfaitement égal */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;justify-content:space-between;gap:4px;background:#e8f4f8;padding:8px;border-radius:4px;">
+              <span style="background:#3498db;color:white;padding:6px 12px;border-radius:3px;">space-between</span>
+              <span style="background:#e74c3c;color:white;padding:6px 12px;border-radius:3px;">space-between</span>
+              <span style="background:#2ecc71;color:white;padding:6px 12px;border-radius:3px;">space-between</span>
+            </div>
+            <div style="display:flex;justify-content:center;gap:4px;background:#f8f9fa;padding:8px;border-radius:4px;margin-top:6px;">
+              <span style="background:#9b59b6;color:white;padding:6px 12px;border-radius:3px;">center</span>
+              <span style="background:#e67e22;color:white;padding:6px 12px;border-radius:3px;">center</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Raccourci : centrer parfaitement avec Flexbox</div>
+          <p>Une des utilisations les plus fréquentes de Flexbox : <code>display: flex; justify-content: center; align-items: center;</code> dans un conteneur — son contenu est centré parfaitement, horizontalement ET verticalement. C'est la solution moderne à un problème qui a hanté les développeurs pendant 20 ans.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 ALIGN-ITEMS ══ -->
+    <div id="s7-align">
+      <div class="section-header"><span class="section-num">05</span><h2>align-items & align-content</h2></div>
+      <p><code>align-items</code> aligne les éléments sur l'<strong>axe secondaire</strong> (perpendiculaire à l'axe principal). <code>align-content</code> distribue l'espace entre les lignes (quand il y a plusieurs lignes, avec flex-wrap).</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ALIGN-ITEMS — alignement sur l'axe secondaire */
+.stretch   { align-items: stretch; }   /* étire les enfants pour remplir (défaut) */
+.flex-start{align-items: flex-start; } /* alignés en haut */
+.flex-end  { align-items: flex-end; }  /* alignés en bas */
+.center    { align-items: center; }    /* centrés verticalement */
+.baseline  { align-items: baseline; }  /* alignés sur la ligne de base du texte */
+
+/* ALIGN-CONTENT — espacement entre les lignes (avec wrap) */
+.content-center  { align-content: center; }
+.content-between { align-content: space-between; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;align-items:center;background:#e8f4f8;padding:8px;border-radius:4px;height:60px;gap:8px;">
+              <span style="background:#3498db;color:white;padding:4px 12px;border-radius:3px;">center</span>
+              <span style="background:#e74c3c;color:white;padding:12px 16px;border-radius:3px;">center</span>
+              <span style="background:#2ecc71;color:white;padding:8px 14px;border-radius:3px;">center</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;background:#f8f9fa;padding:8px;border-radius:4px;height:50px;gap:8px;margin-top:6px;">
+              <span style="background:#9b59b6;color:white;padding:4px 12px;border-radius:3px;">flex-start</span>
+              <span style="background:#e67e22;color:white;padding:12px 16px;border-radius:3px;">flex-start</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Récapitulatif visuel des axes Flexbox</div>
+          <p>En <code>flex-direction: row</code> (défaut) : <strong>main axis</strong> = horizontal (→), <strong>cross axis</strong> = vertical (↓). <code>justify-content</code> gère le main axis, <code>align-items</code> gère le cross axis. En <code>flex-direction: column</code> : c'est l'inverse — justify-content gère la verticale, align-items gère l'horizontale.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 FLEX-GROW & FLEX-SHRINK ══ -->
+    <div id="s7-grow">
+      <div class="section-header"><span class="section-num">06</span><h2>flex-grow & flex-shrink</h2></div>
+      <p><code>flex-grow</code> contrôle la capacité d'un élément à <strong>s'agrandir</strong> pour occuper l'espace disponible. <code>flex-shrink</code> contrôle sa capacité à <strong>rétrécir</strong> quand l'espace manque.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* flex-grow : proportion d'agrandissement */
+.grow-0 { flex-grow: 0; }  /* ne s'agrandit pas (défaut) */
+.grow-1 { flex-grow: 1; }  /* prend 1 part de l'espace libre */
+.grow-2 { flex-grow: 2; }  /* prend 2 parts → 2× plus large que grow-1 */
+.grow-3 { flex-grow: 3; }  /* prend 3 parts */
+
+/* Exemple : 3 éléments, grow: 1 chacun → largeurs égales */
+/* 2 éléments, grow: 1 et grow: 2 → le second est 2× plus large */
+
+/* flex-shrink : capacité à rétrécir */
+.shrink-0 { flex-shrink: 0; }  /* ne rétrécit pas (garde sa taille même si ça dépasse) */
+.shrink-1 { flex-shrink: 1; }  /* peut rétrécir (défaut) */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;gap:8px;background:#e8f4f8;padding:8px;border-radius:4px;">
+              <div style="flex-grow:1;background:#3498db;color:white;padding:8px;border-radius:3px;text-align:center;">grow:1</div>
+              <div style="flex-grow:2;background:#e74c3c;color:white;padding:8px;border-radius:3px;text-align:center;">grow:2</div>
+              <div style="flex-grow:1;background:#2ecc71;color:white;padding:8px;border-radius:3px;text-align:center;">grow:1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">La recette des colonnes de hauteur égale</div>
+          <p><code>flex-grow: 1</code> sur tous les enfants d'un conteneur flex with <code>align-items: stretch</code> (valeur par défaut) donne des colonnes de hauteur égale automatiquement. C'est une des forces majeures de Flexbox. Pas besoin de hauteur fixe, pas de JavaScript, pas de hack — ça marche nativement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 FLEX-BASIS & SHORTHAND ══ -->
+    <div id="s7-basis">
+      <div class="section-header"><span class="section-num">07</span><h2>flex-basis & le shorthand flex</h2></div>
+      <p><code>flex-basis</code> définit la <strong>taille initiale</strong> d'un élément avant que l'espace libre soit distribué (par flex-grow) ou retiré (par flex-shrink). C'est comme un <code>width</code> pour flex-direction: row, ou un <code>height</code> pour flex-direction: column.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* flex-basis — taille initiale */
+.basis-200 { flex-basis: 200px; }  /* commence à 200px avant grow/shrink */
+.basis-auto { flex-basis: auto; }  /* selon le contenu (défaut) */
+.basis-30  { flex-basis: 30%; }   /* 30% du conteneur */
+
+/* ═══ SHORTHAND flex: grow shrink basis ═══ */
+.flex-1   { flex: 1; }          /* flex: 1 1 0% — s'agrandit, peut rétrécir, taille 0 */
+.flex-auto { flex: auto; }       /* flex: 1 1 auto — comme flex:1 mais taille selon contenu */
+.flex-none { flex: none; }       /* flex: 0 0 auto — taille fixe, ne change pas */
+
+/* Usage courant pour une sidebar + contenu principal */
+.sidebar     { flex: 0 0 250px; }  /* sidebar fixe à 250px, ne s'agrandit ni rétrécit */
+.main-content { flex: 1; }         /* prend tout l'espace restant */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;gap:8px;background:#e8f4f8;padding:8px;border-radius:4px;">
+              <div style="flex:0 0 100px;background:#3498db;color:white;padding:8px;border-radius:3px;text-align:center;">100px fixe</div>
+              <div style="flex:1;background:#e74c3c;color:white;padding:8px;border-radius:3px;text-align:center;">flex:1 (reste)</div>
+              <div style="flex:0 0 80px;background:#2ecc71;color:white;padding:8px;border-radius:3px;text-align:center;">80px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Les valeurs du shorthand flex à connaître</div>
+          <p><code>flex: 1</code> → <code>flex-grow: 1; flex-shrink: 1; flex-basis: 0%</code> = l'élément occupe tout l'espace disponible, partage également entre les flex:1. <code>flex: auto</code> → <code>1 1 auto</code> = comme flex:1 mais la taille de base est celle du contenu. <code>flex: none</code> → <code>0 0 auto</code> = taille fixe, ne s'adapte pas. Utilisez <code>flex: 1</code> pour les mises en page responsive.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ORDER & ALIGN-SELF ══ -->
+    <div id="s7-order">
+      <div class="section-header"><span class="section-num">08</span><h2>order & align-self</h2></div>
+      <p><code>order</code> modifie l'ordre d'affichage des éléments flexibles sans changer l'ordre dans le HTML. <code>align-self</code> permet à un élément individuel de se positionner différemment des autres sur l'axe secondaire.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ORDER — réordonne visuellement (pas dans le DOM) */
+.item-1 { order: 3; }  /* apparaît en 3e position */
+.item-2 { order: 1; }  /* apparaît en 1er */
+.item-3 { order: 2; }  /* apparaît en 2e */
+/* Valeur par défaut : order: 0 */
+
+/* ALIGN-SELF — surcharge align-items pour un seul élément */
+.self-start   { align-self: flex-start; }  /* en haut */
+.self-end     { align-self: flex-end; }    /* en bas */
+.self-center  { align-self: center; }      /* centré */
+.self-stretch { align-self: stretch; }     /* étiré */
+.self-baseline{ align-self: baseline; }    /* ligne de base */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;align-items:center;gap:8px;background:#e8f4f8;padding:8px;border-radius:4px;height:70px;">
+              <div style="background:#3498db;color:white;padding:6px 12px;border-radius:3px;">1 (order:3)</div>
+              <div style="background:#e74c3c;color:white;padding:6px 12px;border-radius:3px;align-self:flex-start;">2 align-self:start</div>
+              <div style="background:#2ecc71;color:white;padding:6px 12px;border-radius:3px;">3 (order:2)</div>
+              <div style="background:#f39c12;color:white;padding:6px 12px;border-radius:3px;align-self:flex-end;">4 align-self:end</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">order et l'accessibilité</div>
+          <p><code>order</code> modifie l'ordre <strong>visuel</strong> mais pas l'ordre <strong>dans le DOM</strong>. Les lecteurs d'écran et la navigation au clavier (Tab) suivent l'ordre du HTML, pas l'ordre CSS. N'utilisez jamais <code>order</code> pour changer l'ordre logique du contenu — uniquement pour du réordonnancement visuel (ex : déplacer un élément spécifique en dernier sur mobile).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s7-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🧩 Mise en page avec Flexbox</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-flex-layout.html</code> avec un conteneur flex horizontal de 4 cartes.</li>
+            <li>Chaque carte a 25% de largeur initiale (<code>flex: 1</code> ou <code>flex-basis: 25%</code>).</li>
+            <li>Ajoutez <code>flex-wrap: wrap</code> pour que les cartes passent à la ligne sur écran étroit.</li>
+            <li>Dans chaque carte : image (placeholder), titre, description, bouton.</li>
+            <li>Utilisez <code>gap: 20px</code> pour espacer les cartes.</li>
+            <li>Centrez le titre des cartes avec <code>text-align: center</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📐 Layout complexe avec Flexbox</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-flex-complex.html</code> avec : header, nav horizontal, contenu principal avec sidebar, footer.</li>
+            <li>Le header utilise <code>justify-content: space-between</code> (logo à gauche, menu à droite).</li>
+            <li>Le nav utilise <code>display: flex</code> avec <code>gap</code> pour les liens.</li>
+            <li>La section principale a <code>display: flex</code> avec sidebar <code>flex: 0 0 250px</code> et contenu <code>flex: 1</code>.</li>
+            <li>Dans la sidebar, utilisez <code>flex-direction: column</code> et <code>gap</code> pour les liens.</li>
+            <li>Utilisez <code>align-self</code> sur un élément pour le placer en bas du footer.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Centrage parfait</div>
+          <p>Créez un carré de 300×300px avec un fond coloré. À l'intérieur, placez un texte de 3 lignes parfaitement centré horizontalement ET verticalement en utilisant <code>display: flex; justify-content: center; align-items: center;</code>. Ajoutez un sous-texte avec <code>text-align: center</code>. C'est la méthode la plus simple et la plus fiable pour centrer n'importe quoi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="07">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s7-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>display: flex sur le conteneur et le comportement des enfants flexibles</li>
+        <li>flex-direction : row (défaut), row-reverse, column, column-reverse</li>
+        <li>flex-wrap : nowrap, wrap, wrap-reverse et gap pour l'espacement</li>
+        <li>justify-content : flex-start, flex-end, center, space-between, space-around, space-evenly</li>
+        <li>align-items : stretch, flex-start, flex-end, center, baseline</li>
+        <li>flex-grow, flex-shrink, flex-basis et le shorthand flex</li>
+        <li>order pour le réordonnancement visuel</li>
+        <li>align-self pour le positionnement individuel sur l'axe secondaire</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Flexbox</dt><dd>Modèle de mise en page unidimensionnel (ligne ou colonne). Les enfants s'adaptent automatiquement.</dd>
+          <dt>Axe principal</dt><dd>Axe défini par flex-direction. Pour row : horizontal. Pour column : vertical.</dd>
+          <dt>Axe secondaire</dt><dd>Axe perpendiculaire à l'axe principal. Pour row : vertical. Pour column : horizontal.</dd>
+          <dt>justify-content</dt><dd>Alignement sur l'axe principal. Distribue l'espace entre les éléments.</dd>
+          <dt>align-items</dt><dd>Alignement sur l'axe secondaire. Appliqué à tous les enfants du conteneur.</dd>
+          <dt>flex-grow</dt><dd>Capacité d'un élément à s'agrandir pour occuper l'espace libre. Valeur par défaut : 0.</dd>
+          <dt>flex-shrink</dt><dd>Capacité d'un élément à rétrécir si l'espace manque. Valeur par défaut : 1.</dd>
+          <dt>flex-basis</dt><dd>Taille initiale d'un élément avant distribution de l'espace. Alternative à width/height.</dd>
+          <dt>flex: 1</dt><dd>Shorthand pour flex-grow: 1; flex-shrink: 1; flex-basis: 0%. Occupe l'espace disponible.</dd>
+          <dt>order</dt><dd>Réordonnancement visuel (pas dans le DOM). Valeur par défaut : 0.</dd>
+          <dt>align-self</dt><dd>Surcharge align-items pour un seul enfant. Valeurs : start, end, center, stretch.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 8 — CSS Grid</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Grille · Template · Gap · Span · Area · auto-fit · minmax</div>
+        </div>
+        <a href="seance8-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 8 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

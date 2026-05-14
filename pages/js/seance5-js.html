@@ -1,0 +1,549 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 5 — Tableaux & Méthodes · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html">Séance 4</a>
+      <a href="seance5-js.html" class="active">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 5</div>
+      <a href="#s5-mutations"   class="sidebar-item"><span class="sidebar-num">01</span>push/pop/shift/unshift</a>
+      <a href="#s5-recherche"   class="sidebar-item"><span class="sidebar-num">02</span>length/indexOf/includes</a>
+      <a href="#s5-foreach"     class="sidebar-item"><span class="sidebar-num">03</span>forEach</a>
+      <a href="#s5-map"         class="sidebar-item"><span class="sidebar-num">04</span>map</a>
+      <a href="#s5-filter"      class="sidebar-item"><span class="sidebar-num">05</span>filter</a>
+      <a href="#s5-reduce"      class="sidebar-item"><span class="sidebar-num">06</span>reduce</a>
+      <a href="#s5-find"        class="sidebar-item"><span class="sidebar-num">07</span>find &amp; some/every</a>
+      <a href="#s5-sort"        class="sidebar-item"><span class="sidebar-num">08</span>sort &amp; spread</a>
+      <a href="#s5-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s5-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance4-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 4</a>
+      <a href="seance6-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 6 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 05 / 10</div>
+      <h1>Tableaux &amp; Méthodes</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">push/pop · length/indexOf/includes · forEach · map · filter · reduce · find/some/every · sort/spread</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 PUSH/POP/SHIFT/UNSHIFT ══ -->
+    <div id="s5-mutations">
+      <div class="section-header"><span class="section-num">01</span><h2>Méthodes de mutation : push, pop, shift, unshift</h2></div>
+      <p>Ces méthodes modifient le tableau directement (elles <strong>mutent</strong> l'original).</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Mutations de tableau</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const fruits = ['pomme', 'banane'];
+
+// push() — ajoute à la fin (retourne la nouvelle longueur)
+fruits.push('cerise');
+console.log(fruits); // ["pomme", "banane", "cerise"]
+
+// pop() — retire le dernier (retourne l'élément retiré)
+const dernier = fruits.pop();
+console.log(dernier); // "cerise"
+console.log(fruits);  // ["pomme", "banane"]
+
+// unshift() — ajoute au début
+fruits.unshift('abricot');
+console.log(fruits); // ["abricot", "pomme", "banane"]
+
+// shift() — retire le premier
+const premier = fruits.shift();
+console.log(premier); // "abricot"
+console.log(fruits);  // ["pomme", "banane"]
+
+// splice() — ajoute/supprime à une position
+fruits.splice(1, 0, 'kiwi'); // à l'index 1, supprime 0, ajoute kiwi
+console.log(fruits); // ["pomme", "kiwi", "banane"]
+
+fruits.splice(1, 1); // supprime 1 élément à l'index 1
+console.log(fruits); // ["pomme", "banane"]</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 LENGTH / INDEXOF / INCLUDES ══ -->
+    <div id="s5-recherche">
+      <div class="section-header"><span class="section-num">02</span><h2>length, indexOf, includes</h2></div>
+      <p>Propriétés et méthodes pour interroger un tableau.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Interroger un tableau</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const notes = [12, 15, 8, 19, 10];
+
+// length — nombre d'éléments
+console.log(notes.length); // 5
+
+// indexOf() — position d'un élément (-1 si absent)
+console.log(notes.indexOf(15)); // 1
+console.log(notes.indexOf(20)); // -1
+
+// includes() — true/false si élément présent
+console.log(notes.includes(19)); // true
+console.log(notes.includes(7));  // false
+
+// lastIndexOf() — dernière occurrence
+const nombres = [1, 2, 3, 2, 1];
+console.log(nombres.lastIndexOf(2)); // 3
+
+// join() — concatène en chaîne
+console.log(notes.join(' - ')); // "12 - 15 - 8 - 19 - 10"
+
+// concat() — fusionne des tableaux (ne mute pas)
+const a = [1, 2];
+const b = [3, 4];
+const c = a.concat(b);
+console.log(c); // [1, 2, 3, 4]
+console.log(a); // [1, 2] (inchangé)</pre></div>
+      </div>
+    ══ 03 FOREACH ══ -->
+    <div id="s5-foreach">
+      <div class="section-header"><span class="section-num">03</span><h2>forEach</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p><code>forEach</code> exécute une fonction pour chaque élément du tableau. C'est une boucle fonctionnelle.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — forEach</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const fruits = ['pomme', 'banane', 'cerise'];
+
+// Syntaxe de base
+fruits.forEach(function(fruit) {
+  console.log(fruit);
+});
+
+// Avec fonction fléchée
+fruits.forEach(fruit => console.log(fruit));
+
+// Avec index
+fruits.forEach((fruit, index) => {
+  console.log(`${index}: ${fruit}`);
+});
+// → 0: pomme, 1: banane, 2: cerise
+
+// Avec le tableau complet en 3e paramètre
+fruits.forEach((fruit, i, arr) => {
+  console.log(`${fruit} / ${arr.length} éléments`);
+});
+
+// forEach ne retourne rien (undefined)
+// Il ne peut pas être chaîné comme map/filter
+// On ne peut pas break/continue dans forEach
+
+// Comparaison avec for...of
+for (const fruit of fruits) {
+  console.log(fruit);
+}
+// for...of supporte break, continue, await</pre></div>
+      </div>
+    ══ 04 MAP ══ -->
+    <div id="s5-map">
+      <div class="section-header"><span class="section-num">04</span><h2>map — transformer chaque élément</h2></div>
+      <p><code>map</code> crée un <strong>nouveau</strong> tableau avec le résultat de l'appel de fonction sur chaque élément. Ne mute pas l'original.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — map</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const nombres = [1, 2, 3, 4, 5];
+
+// Doubler chaque nombre
+const doubles = nombres.map(n => n * 2);
+console.log(doubles); // [2, 4, 6, 8, 10]
+console.log(nombres); // [1, 2, 3, 4, 5] (inchangé)
+
+// Convertir en chaînes
+const enChaines = nombres.map(n => `Nombre: ${n}`);
+console.log(enChaines);
+// → ["Nombre: 1", "Nombre: 2", "Nombre: 3", "Nombre: 4", "Nombre: 5"]
+
+// Transformer des objets
+const produits = [
+  { nom: 'Clavier', prix: 50 },
+  { nom: 'Souris', prix: 30 },
+  { nom: 'Écran', prix: 200 }
+];
+
+const nomsProduits = produits.map(p => p.nom);
+console.log(nomsProduits); // ["Clavier", "Souris", "Écran"]
+
+// Ajouter une propriété
+const avecTva = produits.map(p => ({
+  ...p,
+  prixTTC: p.prix * 1.2
+}));
+console.log(avecTva);
+// → [{ nom: "Clavier", prix: 50, prixTTC: 60 }, ...]
+
+// map avec index
+const fruits = ['pomme', 'banane', 'cerise'];
+const prefixes = fruits.map((f, i) => `${i + 1}. ${f}`);
+console.log(prefixes);
+// → ["1. pomme", "2. banane", "3. cerise"]</pre></div>
+      </div>
+    ══ 05 FILTER ══ -->
+    <div id="s5-filter">
+      <div class="section-header"><span class="section-num">05</span><h2>filter — sélectionner des éléments</h2></div>
+      <p><code>filter</code> crée un <strong>nouveau</strong> tableau avec les éléments qui passent un test.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — filter</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const notes = [12, 15, 8, 19, 10, 6, 14];
+
+// Garder les notes >= 10
+const admis = notes.filter(n => n >= 10);
+console.log(admis);  // [12, 15, 19, 10, 14]
+console.log(notes);  // [12, 15, 8, 19, 10, 6, 14] (inchangé)
+
+// Garder les nombres pairs
+const pairs = notes.filter(n => n % 2 === 0);
+console.log(pairs);  // [12, 8, 10, 6, 14]
+
+// Filtrer des objets
+const produits = [
+  { nom: 'Clavier', prix: 50, stock: true },
+  { nom: 'Souris', prix: 30, stock: false },
+  { nom: 'Écran', prix: 200, stock: true },
+  { nom: 'Casque', prix: 80, stock: false }
+];
+
+// Produits en stock
+const enStock = produits.filter(p => p.stock);
+console.log(enStock);
+// → [{ nom: "Clavier", prix: 50, stock: true }, { nom: "Écran", prix: 200, stock: true }]
+
+// Produits à moins de 100€ ET en stock
+const promos = produits.filter(p => p.prix < 100 && p.stock);
+console.log(promos);
+// → [{ nom: "Clavier", prix: 50, stock: true }]
+
+// Filter avec index
+const everyOther = notes.filter((_, i) => i % 2 === 0);
+console.log(everyOther); // [12, 8, 10, 14]</pre></div>
+      </div>
+    ══ 06 REDUCE ══ -->
+    <div id="s5-reduce">
+      <div class="section-header"><span class="section-num">06</span><h2>reduce — réduire à une valeur</h2></div>
+      <p><code>reduce</code> exécute un accumulateur sur chaque élément pour réduire le tableau à une seule valeur.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — reduce</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const nombres = [10, 20, 30, 40];
+
+// Somme (accumulateur commence à 0)
+const somme = nombres.reduce((acc, n) => acc + n, 0);
+console.log(somme); // 100
+
+// Accumulateur par défaut = premier élément si non fourni
+const somme2 = nombres.reduce((acc, n) => acc + n);
+console.log(somme2); // 100 (identique ici)
+
+// Produit
+const produit = nombres.reduce((acc, n) => acc * n, 1);
+console.log(produit); // 240000
+
+// Maximum
+const max = nombres.reduce((acc, n) => Math.max(acc, n), -Infinity);
+console.log(max); // 40
+
+// Compter les occurrences
+const votes = ['oui', 'non', 'oui', 'oui', 'non', 'abstention'];
+const compteur = votes.reduce((acc, v) => {
+  acc[v] = (acc[v] || 0) + 1;
+  return acc;
+}, {});
+console.log(compteur);
+// → { oui: 3, non: 2, abstention: 1 }
+
+// Grouper par catégorie
+const produits = [
+  { nom: 'Clavier', categorie: 'informatique', prix: 50 },
+  { nom: 'Chaise', categorie: 'mobilier', prix: 150 },
+  { nom: 'Souris', categorie: 'informatique', prix: 30 }
+];
+
+const groupes = produits.reduce((acc, p) => {
+  (acc[p.categorie] = acc[p.categorie] || []).push(p);
+  return acc;
+}, {});
+console.log(groupes);
+// → { informatique: [...], mobilier: [...] }</pre></div>
+      </div>
+    ══ 07 FIND & SOME/EVERY ══ -->
+    <div id="s5-find">
+      <div class="section-header"><span class="section-num">07</span><h2>find, findIndex, some, every</h2></div>
+      <p>Ces méthodes testent ou recherchent des éléments dans le tableau.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — find / some / every</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const personnes = [
+  { nom: 'Alice', age: 25 },
+  { nom: 'Bob', age: 17 },
+  { nom: 'Charlie', age: 30 }
+];
+
+// find() — premier élément qui correspond (ou undefined)
+const majeur = personnes.find(p => p.age >= 18);
+console.log(majeur); // { nom: "Alice", age: 25 }
+
+// findIndex() — index du premier élément trouvé (-1 si absent)
+const indexBob = personnes.findIndex(p => p.nom === 'Bob');
+console.log(indexBob); // 1
+
+// some() — au moins un élément correspond ?
+const aDesMineurs = personnes.some(p => p.age < 18);
+console.log(aDesMineurs); // true (Bob a 17 ans)
+
+// every() — tous les éléments correspondent ?
+const tousMajeurs = personnes.every(p => p.age >= 18);
+console.log(tousMajeurs); // false
+
+// Avec nombres
+const notes = [12, 15, 8, 19, 10];
+console.log(notes.some(n => n > 18)); // true (19)
+console.log(notes.every(n => n >= 10)); // false (8)
+
+// includes() — existe-t-il ?
+console.log(notes.includes(15));  // true
+console.log(notes.includes(20));  // false</pre></div>
+      </div>
+    ══ 08 SORT & SPREAD ══ -->
+    <div id="s5-sort">
+      <div class="section-header"><span class="section-num">08</span><h2>sort et spread operator</h2></div>
+      <p><code>sort</code> trie le tableau <strong>sur place</strong>. Le spread <code>...</code> copie ou combine des tableaux.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — sort et spread</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// ── sort ──
+const nombres = [30, 1, 100, 5, 20];
+
+// Attention : sort trie par défaut en chaîne de caractères !
+const mauvaisTri = [...nombres].sort();
+console.log(mauvaisTri); // [1, 100, 20, 30, 5] ← pas ce qu'on veut
+
+// Tri numérique croissant
+const croissant = [...nombres].sort((a, b) => a - b);
+console.log(croissant); // [1, 5, 20, 30, 100]
+
+// Tri décroissant
+const decroissant = [...nombres].sort((a, b) => b - a);
+console.log(decroissant); // [100, 30, 20, 5, 1]
+
+// Trier des objets
+const personnes = [
+  { nom: 'Alice', age: 25 },
+  { nom: 'Bob', age: 17 },
+  { nom: 'Charlie', age: 30 }
+];
+const parAge = [...personnes].sort((a, b) => a.age - b.age);
+console.log(parAge);
+
+// ── Spread operator ... ──
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+// Copie (ne mute pas l'original)
+const copie = [...arr1];
+console.log(copie); // [1, 2, 3]
+console.log(arr1 === copie); // false
+
+// Fusion
+const fusion = [...arr1, ...arr2];
+console.log(fusion); // [1, 2, 3, 4, 5, 6]
+
+// Ajout au milieu
+const avecMilieu = [0, ...arr1, 10];
+console.log(avecMilieu); // [0, 1, 2, 3, 10]
+
+// Spread sur chaîne
+const lettres = [...'Hello'];
+console.log(lettres); // ["H", "e", "l", "l", "o"]
+
+// Spread sur objet (copie + extension)
+const base = { x: 1, y: 2 };
+const etendu = { ...base, z: 3 };
+console.log(etendu); // { x: 1, y: 2, z: 3 }</pre></div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s5-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📊 Manipulations de tableau</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>const nombres = [4, 9, 2, 7, 5, 1, 8, 3, 6]</code>.</li>
+            <li>Utilisez <code>push</code> pour ajouter 10, puis <code>pop</code> pour le retirer.</li>
+            <li>Utilisez <code>filter</code> pour garder les nombres pairs.</li>
+            <li>Utilisez <code>map</code> pour créer un tableau des carrés.</li>
+            <li>Calculez la somme avec <code>reduce</code>.</li>
+            <li>Trouvez le premier nombre > 5 avec <code>find</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">👥 Gestion d'étudiants</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau <code>etudiants</code> de 4 objets <code>{ nom, note }</code>.</li>
+            <li>Utilisez <code>forEach</code> pour afficher chaque étudiant.</li>
+            <li>Utilisez <code>map</code> pour obtenir un tableau des noms seuls.</li>
+            <li>Utilisez <code>filter</code> pour les étudiants ayant ≥ 10.</li>
+            <li>Calculez la moyenne de la classe avec <code>reduce</code>.</li>
+            <li>Utilisez <code>some</code> pour voir si un étudiant a 20/20.</li>
+            <li>Triez les étudiants par note avec <code>sort</code> (sans muter l'original).</li>
+            <li>Créez une copie de l'étudiant avec la meilleure note en utilisant <code>find</code> et le spread.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="05">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s5-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Mutation : push, pop, shift, unshift, splice</li>
+        <li>Interrogation : length, indexOf, includes, join, concat</li>
+        <li>forEach : boucle fonctionnelle (pas de retour)</li>
+        <li>map : transformation 1→1, retourne un nouveau tableau</li>
+        <li>filter : sélection, retourne un sous-ensemble</li>
+        <li>reduce : accumulation à une valeur unique</li>
+        <li>find, findIndex, some, every : recherche et tests</li>
+        <li>sort (avec fonction comparateur) et spread operator</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Mutation</dt><dd>Modification directe du tableau original (push, pop, splice, sort). À manipuler avec précaution.</dd>
+          <dt>map</dt><dd>Méthode qui crée un nouveau tableau en appliquant une fonction à chaque élément.</dd>
+          <dt>filter</dt><dd>Méthode qui crée un nouveau tableau avec les éléments passant un test booléen.</dd>
+          <dt>reduce</dt><dd>Méthode qui réduit un tableau à une valeur unique via un accumulateur.</dd>
+          <dt>Spread (...)</dt><dd>Opérateur qui "déplie" un itérable en éléments individuels. Copie superficielle.</dd>
+          <dt>Fonction de comparaison</dt><dd>Fonction passée à sort : <code>(a, b) => a - b</code> pour tri croissant.</dd>
+          <dt>Chaînage (chaining)</dt><dd>Enchaîner plusieurs méthodes : <code>arr.filter(...).map(...).reduce(...)</code>.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 6 — DOM : Sélection &amp; Manipulation</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">querySelector · textContent · createElement · classList · style · dataset</div>
+        </div>
+        <a href="seance6-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 6 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

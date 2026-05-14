@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 8 — Fichiers & Uploads · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-php.html">Séance 1</a>
+      <a href="seance2-php.html">Séance 2</a>
+      <a href="seance3-php.html">Séance 3</a>
+      <a href="seance4-php.html">Séance 4</a>
+      <a href="seance5-php.html">Séance 5</a>
+      <a href="seance6-php.html">Séance 6</a>
+      <a href="seance7-php.html">Séance 7</a>
+      <a href="seance8-php.html" class="active">Séance 8</a>
+      <a href="seance9-php.html">Séance 9</a>
+      <a href="seance10-php.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 8</div>
+      <a href="#s8-fopen"      class="sidebar-item"><span class="sidebar-num">01</span>fopen / fclose</a>
+      <a href="#s8-fwrite"     class="sidebar-item"><span class="sidebar-num">02</span>fwrite (écrire)</a>
+      <a href="#s8-fgets"      class="sidebar-item"><span class="sidebar-num">03</span>fgets / file (lire)</a>
+      <a href="#s8-global"     class="sidebar-item"><span class="sidebar-num">04</span>file_get_contents</a>
+      <a href="#s8-files"      class="sidebar-item"><span class="sidebar-num">05</span>$_FILES (upload)</a>
+      <a href="#s8-move"       class="sidebar-item"><span class="sidebar-num">06</span>move_uploaded_file</a>
+      <a href="#s8-valup"      class="sidebar-item"><span class="sidebar-num">07</span>Validation upload</a>
+      <a href="#s8-err"        class="sidebar-item"><span class="sidebar-num">08</span>Gestion des erreurs</a>
+      <a href="#s8-exo"        class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s8-bilan"      class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance9-php.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">Séance 9 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 08 / 10</div>
+      <h1>Fichiers &amp; Uploads</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">fopen/fclose • fwrite • fgets • $_FILES • Upload validation</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 FOPEN / FCLOSE ══ -->
+    <div id="s8-fopen">
+      <div class="section-header"><span class="section-num">01</span><h2>fopen / fclose</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📨 Formulaire POST</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📨 Formulaire POST</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ PHP ($_POST)</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📄 Réponse HTML</span>
+        </div>
+      </div>
+      <p><code>fopen()</code> ouvre un fichier et retourne un pointeur (resource). <code>fclose()</code> ferme ce pointeur. Toujours fermer un fichier après utilisation.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mode</th><th>Nom</th><th>Comportement</th></tr></thead>
+          <tbody>
+            <tr><td><code>r</code></td><td>Lecture</td><td>Ouvre en lecture. Pointeur au début. Fichier doit exister.</td></tr>
+            <tr><td><code>w</code></td><td>Écriture</td><td>Ouvre en écriture. Efface le contenu existant. Crée le fichier s'il n'existe pas.</td></tr>
+            <tr><td><code>a</code></td><td>Ajout</td><td>Ouvre en écriture. Pointeur à la fin. Ajoute sans effacer. Crée le fichier s'il n'existe pas.</td></tr>
+            <tr><td><code>r+</code></td><td>Lecture/Écriture</td><td>Lecture et écriture. Pointeur au début.</td></tr>
+            <tr><td><code>w+</code></td><td>Lecture/Écriture</td><td>Lecture et écriture. Efface le contenu. Crée si inexistant.</td></tr>
+            <tr><td><code>a+</code></td><td>Lecture/Ajout</td><td>Lecture et ajout. Pointeur à la fin. Crée si inexistant.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Ouvrir et fermer un fichier</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Ouvrir en lecture
+$f = fopen('fichier.txt', 'r');
+if ($f === false) {
+    die("Impossible d'ouvrir le fichier");
+}
+// ... opérations ...
+fclose($f);
+
+// Ouvrir en écriture (efface le contenu)
+$f = fopen('nouveau.txt', 'w');
+fwrite($f, "Contenu");
+fclose($f);
+
+// Ouvrir en ajout
+$f = fopen('log.txt', 'a');
+fwrite($f, "Nouvelle ligne\n");
+fclose($f);
+
+// Toujours vérifier si fopen a réussi
+$f = @fopen('inexistant.txt', 'r');
+if ($f === false) {
+    echo "Le fichier n'existe pas.";
+} else {
+    fclose($f);
+}
+?&gt;</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 FWRITE ══ -->
+    <div id="s8-fwrite">
+      <div class="section-header"><span class="section-num">02</span><h2>fwrite — écrire dans un fichier</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Écrire dans un fichier</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// fwrite(ressource, chaîne, longueur_max_optionnelle)
+$f = fopen('journal.txt', 'a');
+
+$ligne = date('Y-m-d H:i:s') . " - Action effectuée\n";
+fwrite($f, $ligne);
+
+fclose($f);
+
+// Créer un fichier CSV
+$f = fopen('utilisateurs.csv', 'w');
+fwrite($f, "nom,prenom,email\n");
+fwrite($f, "Dupont,Alice,alice@exemple.com\n");
+fwrite($f, "Martin,Bob,bob@exemple.com\n");
+fclose($f);
+
+// fputs() est un alias de fwrite()
+// Alternative moderne : file_put_contents (section 04)
+?&gt;</pre></div>
+      </div>
+    ══ 03 FGETS / FILE ══ -->
+    <div id="s8-fgets">
+      <div class="section-header"><span class="section-num">03</span><h2>fgets / file — lire un fichier</h2></div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Lire un fichier</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// fgets — lit une ligne à la fois
+$f = fopen('journal.txt', 'r');
+while (($ligne = fgets($f)) !== false) {
+    echo htmlspecialchars($ligne) . "&lt;br&gt;";
+}
+fclose($f);
+
+// file — lit tout le fichier dans un tableau (une ligne par élément)
+$lignes = file('journal.txt');
+if ($lignes !== false) {
+    foreach ($lignes as $num =&gt; $ligne) {
+        echo "Ligne " . ($num + 1) . " : " . htmlspecialchars($ligne) . "&lt;br&gt;";
+    }
+}
+
+// fgetcsv — lit un fichier CSV ligne par ligne
+$f = fopen('utilisateurs.csv', 'r');
+while (($data = fgetcsv($f)) !== false) {
+    print_r($data);   // tableau contenant les champs
+}
+fclose($f);
+
+// fread — lit un nombre d'octets précis
+$f = fopen('fichier.txt', 'r');
+$contenu = fread($f, 1024);   // lit 1024 octets
+fclose($f);
+?&gt;</pre></div>
+      </div>
+    ══ 04 FILE_GET_CONTENTS ══ -->
+    <div id="s8-global">
+      <div class="section-header"><span class="section-num">04</span><h2>file_get_contents / file_put_contents</h2></div>
+      <p>Ces deux fonctions sont des raccourcis pratiques qui évitent de gérer fopen/fclose. Elles sont idéales pour les opérations simples.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Raccourcis de lecture/écriture</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Lire tout le fichier dans une chaîne
+$contenu = file_get_contents('fichier.txt');
+echo nl2br(htmlspecialchars($contenu));
+
+// Lire une URL distante
+$json = file_get_contents('https://api.exemple.com/data');
+$data = json_decode($json, true);
+
+// Écrire tout le fichier d'un coup
+$texte = "Nouveau contenu du fichier\nLigne 2\nLigne 3";
+file_put_contents('nouveau.txt', $texte);
+
+// Ajouter au lieu d'écraser (FILE_APPEND)
+file_put_contents('log.txt', "Nouvelle entrée\n", FILE_APPEND);
+
+// Verrouiller le fichier (LOCK_EX) pour éviter les écritures concurrentes
+file_put_contents('compteur.txt', '42', LOCK_EX);
+
+// file_get_contents avec contexte HTTP
+$options = [
+    'http' =&gt; [
+        'header' =&gt; "User-Agent: MonApp/1.0\r\n",
+        'method' =&gt; 'GET',
+    ]
+];
+$context = stream_context_create($options);
+$resultat = file_get_contents('https://api.exemple.com', false, $context);
+?&gt;</pre></div>
+      </div>
+    ══ 05 $_FILES ══ -->
+    <div id="s8-files">
+      <div class="section-header"><span class="section-num">05</span><h2>$_FILES — upload de fichier</h2></div>
+      <p>PHP met à disposition le tableau superglobal <code>$_FILES</code> quand un formulaire contient un champ <code>&lt;input type="file"&gt;</code> avec l'attribut <code>enctype="multipart/form-data"</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Formulaire d'upload</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;!-- Formulaire HTML — L'enctype est OBLIGATOIRE pour les fichiers --&gt;
+&lt;form action="upload.php" method="POST" enctype="multipart/form-data"&gt;
+    &lt;label&gt;Photo : &lt;input type="file" name="photo"&gt;&lt;/label&gt;
+    &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;?php
+// Structure de $_FILES['photo'] :
+// [
+//     'name'     =&gt; 'photo.jpg',        // Nom original du fichier
+//     'type'     =&gt; 'image/jpeg',       // Type MIME déclaré
+//     'tmp_name' =&gt; 'C:\xampp\tmp\php...', // Chemin temporaire
+//     'error'    =&gt; 0,                  // Code d'erreur (0 = OK)
+//     'size'     =&gt; 123456              // Taille en octets
+// ]
+
+// $_FILES pour plusieurs fichiers :
+// &lt;input type="file" name="photos[]" multiple&gt;
+// $_FILES['photos']['name'][0], $_FILES['photos']['name'][1]...
+?&gt;</pre></div>
+      </div>
+    ══ 06 MOVE_UPLOADED_FILE ══ -->
+    <div id="s8-move">
+      <div class="section-header"><span class="section-num">06</span><h2>move_uploaded_file</h2></div>
+      <p>Le fichier uploadé est stocké temporairement. Pour le conserver, il faut le déplacer avec <code>move_uploaded_file()</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Déplacer un fichier uploadé</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $dossier = 'uploads/';
+
+    // Créer le dossier s'il n'existe pas
+    if (!is_dir($dossier)) {
+        mkdir($dossier, 0755, true);
+    }
+
+    // Chemin de destination
+    $nomFichier = basename($_FILES['photo']['name']);
+    $destination = $dossier . $nomFichier;
+
+    // Déplacer le fichier
+    if (move_uploaded_file($_FILES['photo']['tmp_name'], $destination)) {
+        echo "Fichier uploadé avec succès : $destination";
+    } else {
+        echo "Erreur lors de l'upload.";
+    }
+}
+
+// Toujours utiliser basename() pour éviter les attaques de type
+// path traversal : ../../../etc/passwd
+// Générer un nom unique pour éviter les collisions
+$extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+$nouveauNom = uniqid() . '.' . $extension;
+$destination = $dossier . $nouveauNom;
+?&gt;</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Sécurité : path traversal</div>
+          <p>Ne faites <strong>jamais</strong> confiance au nom de fichier fourni par l'utilisateur. Utilisez <code>basename()</code> et générez un nom unique avec <code>uniqid()</code> ou <code>md5(uniqid())</code> pour éviter les collisions et les attaques.</p>
+        </div>
+      </div>
+    ══ 07 VALIDATION UPLOAD ══ -->
+    <div id="s8-valup">
+      <div class="section-header"><span class="section-num">07</span><h2>Validation de l'upload</h2></div>
+      <p>Valider le type, la taille et les dimensions des fichiers uploadés est essentiel pour la sécurité.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Validation complète d'un upload</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fichier = $_FILES['photo'] ?? null;
+    $erreurs = [];
+
+    if (!$fichier || $fichier['error'] !== UPLOAD_ERR_OK) {
+        $erreurs[] = "Erreur lors de l'upload.";
+    } else {
+        // 1. Vérifier la taille (max 5 Mo)
+        $maxSize = 5 * 1024 * 1024;  // 5 Mo
+        if ($fichier['size'] &gt; $maxSize) {
+            $erreurs[] = "Le fichier dépasse la taille maximale de 5 Mo.";
+        }
+
+        // 2. Vérifier le type MIME réel (pas celui déclaré par le client)
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $fichier['tmp_name']);
+        finfo_close($finfo);
+
+        $typesAutorises = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!in_array($mime, $typesAutorises)) {
+            $erreurs[] = "Type de fichier non autorisé. Formats : JPG, PNG, GIF, WebP.";
+        }
+
+        // 3. Vérifier l'extension
+        $extension = strtolower(pathinfo($fichier['name'], PATHINFO_EXTENSION));
+        $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $extensions)) {
+            $erreurs[] = "Extension non autorisée.";
+        }
+
+        // 4. Vérifier les dimensions (pour les images)
+        if (in_array($mime, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+            $dimensions = getimagesize($fichier['tmp_name']);
+            if ($dimensions[0] &gt; 4000 || $dimensions[1] &gt; 4000) {
+                $erreurs[] = "L'image est trop grande (max 4000×4000 px).";
+            }
+        }
+
+        // Si tout est OK, déplacer le fichier
+        if (empty($erreurs)) {
+            $nouveauNom = uniqid('img_') . '.' . $extension;
+            $destination = 'uploads/' . $nouveauNom;
+            if (move_uploaded_file($fichier['tmp_name'], $destination)) {
+                $succes = "Fichier uploadé : " . htmlspecialchars($nouveauNom);
+            } else {
+                $erreurs[] = "Erreur lors de la sauvegarde.";
+            }
+        }
+    }
+}
+?&gt;</pre></div>
+      </div>
+    ══ 08 GESTION ERREURS ══ -->
+    <div id="s8-err">
+      <div class="section-header"><span class="section-num">08</span><h2>Gestion des erreurs fichiers</h2></div>
+      <p>PHP fournit des codes d'erreur standard pour les opérations sur les fichiers. Les voici pour <code>$_FILES['photo']['error']</code>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Code</th><th>Constante</th><th>Signification</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td><code>UPLOAD_ERR_OK</code></td><td>Succès</td></tr>
+            <tr><td>1</td><td><code>UPLOAD_ERR_INI_SIZE</code></td><td>Fichier dépasse upload_max_filesize (php.ini)</td></tr>
+            <tr><td>2</td><td><code>UPLOAD_ERR_FORM_SIZE</code></td><td>Fichier dépasse MAX_FILE_SIZE (formulaire HTML)</td></tr>
+            <tr><td>3</td><td><code>UPLOAD_ERR_PARTIAL</code></td><td>Fichier partiellement reçu</td></tr>
+            <tr><td>4</td><td><code>UPLOAD_ERR_NO_FILE</code></td><td>Aucun fichier sélectionné</td></tr>
+            <tr><td>6</td><td><code>UPLOAD_ERR_NO_TMP_DIR</code></td><td>Dossier temporaire manquant</td></tr>
+            <tr><td>7</td><td><code>UPLOAD_ERR_CANT_WRITE</code></td><td>Impossible d'écrire sur le disque</td></tr>
+            <tr><td>8</td><td><code>UPLOAD_ERR_EXTENSION</code></td><td>Extension PHP a bloqué l'upload</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">PHP — Gestion des erreurs systèmes</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="php">&lt;?php
+// Gestion des erreurs fopen
+$f = @fopen('config.php', 'r');
+if ($f === false) {
+    $erreur = error_get_last();
+    echo "Erreur : " . $erreur['message'];
+} else {
+    fclose($f);
+}
+
+// Vérifier les permissions
+$fichier = 'donnees.txt';
+if (!file_exists($fichier)) {
+    touch($fichier);   // crée le fichier vide
+}
+if (!is_writable($fichier)) {
+    chmod($fichier, 0644);   // tenter de donner les droits
+}
+
+// Exceptions avec try/catch (PHP 7+)
+try {
+    $contenu = file_get_contents('fichier.txt');
+    if ($contenu === false) {
+        throw new Exception("Impossible de lire le fichier");
+    }
+} catch (Exception $e) {
+    echo "Erreur : " . $e-&gt;getMessage();
+}
+?&gt;</pre></div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s8-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Journal de bord</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>journal.php</code> avec un formulaire (texte + bouton "Ajouter").</li>
+            <li>Chaque soumission ajoute une ligne au fichier <code>journal.txt</code> avec la date et le message.</li>
+            <li>Format : <code>[2024-01-15 14:30] Message de l'utilisateur</code></li>
+            <li>Affichez le contenu du journal sous le formulaire en utilisant <code>file()</code>.</li>
+            <li>Ajoutez un bouton "Vider le journal" qui efface le fichier (avec confirmation).</li>
+            <li>Utilisez <code>file_put_contents</code> avec <code>FILE_APPEND</code> pour l'écriture.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🖼️ Galerie d'images</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>galerie.php</code> avec un formulaire d'upload (images uniquement).</li>
+            <li>Validez : type MIME (JPEG/PNG/GIF), taille max 2 Mo, dimensions max 2000×2000.</li>
+            <li>Générez un nom unique avec <code>uniqid()</code> et conservez l'extension.</li>
+            <li>Affichez toutes les images du dossier <code>uploads/</code> dans une grille.</li>
+            <li>Ajoutez une gestion d'erreur : fichiers trop grands, mauvais type, etc.</li>
+            <li>Affichez chaque image avec sa taille (en Ko) et son nom.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="08">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s8-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>fopen/fclose avec les 6 modes (r, w, a, r+, w+, a+)</li>
+        <li>fwrite pour écrire, fgets pour lire ligne par ligne</li>
+        <li>file() pour lire tout le fichier dans un tableau</li>
+        <li>file_get_contents / file_put_contents pour les opérations simples</li>
+        <li>$_FILES et la structure d'un upload</li>
+        <li>move_uploaded_file pour déplacer un fichier uploadé</li>
+        <li>Validation : type MIME réel, taille, extension, dimensions</li>
+        <li>Gestion des codes d'erreur d'upload</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>fopen</dt><dd>Ouvre un fichier et retourne un pointeur de ressource.</dd>
+          <dt>fclose</dt><dd>Ferme un pointeur de fichier ouvert par fopen.</dd>
+          <dt>fwrite</dt><dd>Écrit une chaîne dans un fichier ouvert.</dd>
+          <dt>fgets</dt><dd>Lit une ligne depuis un fichier ouvert.</dd>
+          <dt>file_get_contents</dt><dd>Lit tout un fichier dans une chaîne (alternative moderne à fopen/fgets).</dd>
+          <dt>file_put_contents</dt><dd>Écrit une chaîne dans un fichier (alternative moderne à fopen/fwrite).</dd>
+          <dt>$_FILES</dt><dd>Tableau superglobal contenant les fichiers uploadés.</dd>
+          <dt>move_uploaded_file</dt><dd>Déplace un fichier uploadé depuis le dossier temporaire.</dd>
+          <dt>MIME type</dt><dd>Type de fichier réel détecté par finfo (ex: image/jpeg).</dd>
+          <dt>path traversal</dt><dd>Attaque utilisant ../ pour accéder à des fichiers hors du dossier autorisé.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 9 — PDO &amp; MySQL</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">MySQL · PDO · Requêtes préparées · CRUD · Jointures</div>
+        </div>
+        <a href="seance9-php.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 9 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

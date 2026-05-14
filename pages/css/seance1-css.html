@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 1 — Introduction & Syntaxe CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html" class="active">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s1">Séance 1</div>
+      <a href="#s1-role"     class="sidebar-item"><span class="sidebar-num">01</span>Rôle du CSS</a>
+      <a href="#s1-syntax"   class="sidebar-item"><span class="sidebar-num">02</span>Syntaxe CSS</a>
+      <a href="#s1-methods"  class="sidebar-item"><span class="sidebar-num">03</span>Trois méthodes</a>
+      <a href="#s1-cascade"  class="sidebar-item"><span class="sidebar-num">04</span>La cascade</a>
+      <a href="#s1-specific" class="sidebar-item"><span class="sidebar-num">05</span>Spécificité</a>
+      <a href="#s1-important" class="sidebar-item"><span class="sidebar-num">06</span>!important & héritage</a>
+      <a href="#s1-inspect"  class="sidebar-item"><span class="sidebar-num">07</span>Inspecter le CSS</a>
+      <a href="#s1-normalize" class="sidebar-item"><span class="sidebar-num">08</span>Normalize & Reset</a>
+      <a href="#s1-exo"      class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s1-bilan"    class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 2 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 01 / 10</div>
+      <h1>Introduction & Syntaxe CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Rôle • Syntaxe • Cascade • Spécificité • Héritage • DevTools</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 RÔLE DU CSS ══ -->
+    <div id="s1-role">
+      <div class="section-header"><span class="section-num">01</span><h2>Le rôle du CSS — habiller le HTML</h2></div>
+      <p>Le <strong>CSS</strong> (Cascading Style Sheets, feuilles de style en cascade) est le langage qui contrôle <em>l'apparence visuelle</em> des pages web. Si le HTML est le squelette, le CSS est la peau, les vêtements et le maquillage.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🎨</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la maison</div>
+          <p>Le <strong>HTML</strong> construit les murs, les pièces, la charpente. Le <strong>CSS</strong> choisit la couleur des murs, le style des fenêtres, le carrelage, l'éclairage. Sans CSS, la page est fonctionnelle mais sans style — comme un chantier brut. Avec CSS, elle devient un intérieur décoré et agréable à vivre.</p>
+        </div>
+      </div>
+
+      <h3>Ce que CSS peut faire</h3>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🎨 Couleurs & arrière-plans</h3>
+          <p style="font-size:.9rem;">Teinter le texte, les fonds, les bordures. Ajouter des dégradés, des images de fond, des motifs répétés.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">📐 Mise en page</h3>
+          <p style="font-size:.9rem;">Positionner les éléments exactement où vous le souhaitez : en colonnes, en grille, centrés, collés en haut ou en bas.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🔤 Typographie</h3>
+          <p style="font-size:.9rem;">Polices, tailles, graisses, interlignage, espacement, alignement — tout ce qui rend le texte lisible et beau.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">✨ Animations & transitions</h3>
+          <p style="font-size:.9rem;">Faire bouger, apparaître, disparaître, tourner, grossir des éléments — sans une ligne de JavaScript.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">📱 Adaptation mobile</h3>
+          <p style="font-size:.9rem;">Un même HTML s'affiche parfaitement sur mobile, tablette et desktop grâce aux <em>media queries</em>.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">♿ Accessibilité</h3>
+          <p style="font-size:.9rem;">Agrandir la taille du texte, augmenter les contrastes, gérer le focus clavier pour les utilisateurs malvoyants.</p>
+        </div>
+      </div>
+
+      <h3>CSS ne peut PAS faire</h3>
+      <ul>
+        <li>Ajouter ou modifier du contenu textuel (sauf quelques pseudo-éléments)</li>
+        <li>Faire des calculs complexes ou interagir avec une base de données</li>
+        <li>Réagir à un clic utilisateur (survol oui, clic non — c'est le rôle de JavaScript)</li>
+      </ul>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">CSS s'améliore chaque année</div>
+          <p>Le CSS n'est pas un langage "figé". Chaque année, de nouvelles propriétés arrivent : les <em>subgrid</em>, <em>container queries</em>, <em>has()</em>, <em>layers</em>. La version actuelle est CSS3, mais on parle désormais de "CSS moderne" avec des spécifications évolutives.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 SYNTAXE ══ -->
+    <div id="s1-syntax">
+      <div class="section-header"><span class="section-num">02</span><h2>Syntaxe CSS : règle, sélecteur, déclaration</h2></div>
+      <p>Une feuille de style CSS est une série de <strong>règles</strong>. Chaque règle comporte un <strong>sélecteur</strong> (qui cible les éléments HTML) et un bloc de <strong>déclarations</strong> (propriété : valeur).</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <h3>Anatomie d'une règle CSS</h3>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Une règle CSS complète */
+p {
+  color: blue;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Explication :
+   p       → sélecteur (cible tous les &lt;p&gt;)
+   color   → propriété
+   blue    → valeur
+   color: blue; → déclaration */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="color:blue;font-size:18px;line-height:1.6;">Ce paragraphe est bleu, taille 18px.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Les trois éléments d'une règle</h3>
+      <div class="grid-3">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🎯 Sélecteur</h3>
+          <p style="font-size:.9rem;">Indique <strong>quel(s) élément(s) HTML</strong> sont ciblés. Peut être un nom de balise (<code>p</code>), une classe (<code>.ma-classe</code>), un id (<code>#mon-id</code>) ou une combinaison complexe.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">📋 Déclaration</h3>
+          <p style="font-size:.9rem;">Couple <code>propriété: valeur;</code>. Chaque déclaration se termine <strong>obligatoirement par un point-virgule</strong> <code>;</code>. Sans lui, la règle entière peut être ignorée.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">📦 Bloc de déclarations</h3>
+          <p style="font-size:.9rem;">Ensemble de déclarations entre <code>{ }</code>. Les accolades sont obligatoires, même pour une seule déclaration.</p>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreur fréquente — Point-virgule oublié</div>
+          <p>Si vous oubliez le <code>;</code> après une déclaration, la <strong>déclaration suivante</strong> sera ignorée (pas la courante). Le navigateur essaie de "réparer" mais le résultat est imprévisible. Le dernier point-virgule avant la fermeture est optionnel mais conseillé par convention.</p>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Plusieurs sélecteurs : on les sépare par une virgule */
+h1, h2, h3 {
+  font-family: 'Arial', sans-serif;
+  color: #222;
+}
+
+/* Commentaires : entre /* et */. Ne pas hésiter à documenter */
+
+/* Une propriété peut prendre plusieurs valeurs */
+.bouton {
+  border: 2px solid #e63946;
+  padding: 8px 16px;
+  border-radius: 4px;
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <h3 style="font-family:Arial,sans-serif;color:#222;margin:0 0 .3rem;">Titre h3 en Arial</h3>
+            <div style="border:2px solid #e63946;padding:8px 16px;border-radius:4px;display:inline-block;">Bouton stylisé</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 TROIS MÉTHODES ══ -->
+    <div id="s1-methods">
+      <div class="section-header"><span class="section-num">03</span><h2>Trois méthodes pour appliquer du CSS</h2></div>
+      <p>Il existe trois façons de lier du CSS à un document HTML. Chacune a ses usages, ses avantages et ses inconvénients. En pratique, on utilise la <strong>troisième</strong> (fichier externe) dans la quasi-totalité des projets professionnels.</p>
+
+      <div class="grid-3">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">① CSS Inline</h3>
+          <p style="font-size:.9rem;">Dans l'attribut <code>style</code> de la balise HTML. Utile pour un test rapide. <strong>À éviter</strong> : mélange HTML/CSS, pas réutilisable, priorité maximale.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">② CSS Interne</h3>
+          <p style="font-size:.9rem;">Dans une balise <code>&lt;style&gt;</code> dans le <code>&lt;head&gt;</code>. Pratique pour un fichier unique ou un prototype. Pas réutilisable entre pages.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">③ CSS Externe ✅</h3>
+          <p style="font-size:.9rem;">Fichier <code>.css</code> séparé, lié via <code>&lt;link rel="stylesheet" href="style.css"&gt;</code>. Standard professionnel : séparation totale, cache navigateur, réutilisable.</p>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Trois méthodes</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- ① INLINE — dans l'attribut style de la balise --&gt;
+&lt;p style="color: red; font-weight: bold;"&gt;
+  Ce texte est rouge et gras.
+&lt;/p&gt;
+
+&lt;!-- ② INTERNE — dans &lt;head&gt; via &lt;style&gt; --&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    p { color: blue; }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;!-- ③ EXTERNE — fichier .css séparé (recommandé) --&gt;
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="color:red;font-weight:bold;">CSS inline : rouge et gras.</p>
+            <p style="color:blue;">CSS via la balise &lt;style&gt; : bleu.</p>
+            <p style="color:#2d6a4f;font-style:italic;">CSS externe : vert italique.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi le fichier externe est le meilleur choix</div>
+          <p>① <strong>Séparation des préoccupations</strong> : HTML = structure, CSS = style. ② <strong>Cache navigateur</strong> : le fichier CSS est téléchargé une fois puis mis en cache — les pages suivantes chargent plus vite. ③ <strong>Maintenabilité</strong> : changer une couleur dans un fichier modifie tout le site. ④ <strong>Minification</strong> : un fichier CSS peut être compressé pour accélérer le chargement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 LA CASCADE ══ -->
+    <div id="s1-cascade">
+      <div class="section-header"><span class="section-num">04</span><h2>La cascade : origine et ordre</h2></div>
+      <p>Le "C" de CSS signifie <strong>Cascading</strong> (en cascade). Quand plusieurs règles ciblent le même élément, le navigateur suit un ordre précis pour déterminer quelle règle gagne. La cascade tient compte de <strong>trois critères</strong> : l'origine, l'ordre et la spécificité.</p>
+
+      <h3>Les trois origines du CSS</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Origine</th><th>Explication</th><th>Priorité</th></tr></thead>
+          <tbody>
+            <tr><td>① Agent utilisateur</td><td>Style par défaut du navigateur (ex : Chrome donne <code>font-size: 16px</code> aux paragraphes)</td><td>Faible</td></tr>
+            <tr><td>② Auteur (vous)</td><td>Le CSS que vous écrivez dans vos fichiers</td><td>Moyenne</td></tr>
+            <tr><td>③ Utilisateur</td><td>Style défini par le visiteur (ex : zoom, CSS custom dans les paramètres)</td><td>Haute</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Ordre d'apparition : le dernier gagne</h3>
+      <p>Parmi les règles de <strong>même spécificité</strong>, c'est la <strong>dernière déclarée</strong> dans le code qui l'emporte. C'est pourquoi l'ordre de vos fichiers CSS et de vos règles est important.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Ces deux règles ont la même spécificité (une balise) */
+/* La dernière déclaration gagne */
+
+p { color: red; }
+p { color: blue; }
+/* => Tous les &lt;p&gt; seront bleus car blue est déclaré après red */
+
+/* Ordre d'importation des fichiers */
+/* style.css */
+p { color: green; }
+
+/* custom.css (chargé après) */
+p { color: orange; }
+/* => Si custom.css est chargé après style.css, orange gagne */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="color:blue;">Ce paragraphe est bleu (dernière déclaration gagne).</p>
+            <p style="color:blue;">Celui-ci aussi — même sélecteur, dernier style appliqué.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Cascade = algorithme en trois étapes</div>
+          <p>Le navigateur applique cet ordre pour chaque propriété de chaque élément : ① <strong>Origine</strong> (CSS auteur > agent utilisateur) → ② <strong>Spécificité</strong> (plus précis gagne) → ③ <strong>Ordre</strong> (dernier dans le code gagne). Si une règle gagne à l'étape 1, on ne passe pas à l'étape 2.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 SPÉCIFICITÉ ══ -->
+    <div id="s1-specific">
+      <div class="section-header"><span class="section-num">05</span><h2>La spécificité : calcul du score</h2></div>
+      <p>Quand deux sélecteurs de <strong>même origine</strong> ciblent le même élément, celui qui a la <strong>spécificité la plus élevée</strong> gagne. La spécificité se calcule comme un score à quatre chiffres (a, b, c, d).</p>
+
+      <h3>Le système de notation</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sélecteur</th><th>a (inline)</th><th>b (id)</th><th>c (classe, att, pseudo)</th><th>d (balise, pseudo-élém)</th></tr></thead>
+          <tbody>
+            <tr><td><code>style="..."</code></td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td><code>#contenu</code></td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td><code>.classe</code></td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td><code>[type="text"]</code></td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td><code>:hover</code></td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+            <tr><td><code>p</code></td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+            <tr><td><code>::before</code></td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+            <tr><td><code>*</code> (universel)</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Calcul du score — chaque ligne a une spécificité différente */
+p { color: red; }                    /* 0,0,0,1 = 1 */
+p.important { color: orange; }       /* 0,0,1,1 = 11 */
+#contenu p { color: green; }         /* 0,1,0,1 = 101 */
+p.important#contenu { color: blue; } /* 0,1,1,1 = 111 */
+/* style="color: purple" (inline)    /* 1,0,0,0 = 1000 */
+
+/* Règles pratiques :
+   - 1 id bat 100 classes
+   - 1 classe bat 100 balises
+   - L'inline bat tout (sauf !important) */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="color:blue;">Spécificité 0,1,1,1 → bleu gagne.</p>
+            <p style="color:orange;">Spécificité 0,0,1,1 → orange.</p>
+            <p style="color:red;">Spécificité 0,0,0,1 → rouge.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Astuce pour éviter les conflits de spécificité</div>
+          <p>Travaillez avec des classes plutôt que des id pour le style. Les id créent une spécificité très haute qui est difficile à surcharger. Les classes (spécificité 0,0,1,0) sont plus flexibles et réutilisables. Une bonne pratique : réservez les id pour le JavaScript et les ancres, utilisez les classes pour le CSS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 !IMPORTANT ET HÉRITAGE ══ -->
+    <div id="s1-important">
+      <div class="section-header"><span class="section-num">06</span><h2>!important et l'héritage</h2></div>
+      <p>Deux mécanismes peuvent court-circuiter la cascade normale : <code>!important</code> (force une règle) et l'<strong>héritage</strong> (transmission automatique de certaines propriétés aux éléments enfants).</p>
+
+      <h3>!important — le marteau-pilon</h3>
+      <p>Ajouter <code>!important</code> après une valeur donne à cette déclaration la <strong>plus haute priorité possible</strong>, surpassant même l'inline. Attention : c'est un outil puissant mais dangereux — il casse la cascade naturelle et rend le code difficile à maintenir.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* !important force la règle quoi qu'il arrive */
+p { color: red !important; }
+
+/* Même l'inline ne peut pas la surcharger */
+/* &lt;p style="color: blue"&gt; → sera ROUGE à cause de !important */
+
+/* ⚠️ À éviter dans la plupart des cas !
+   !important rend le débogage très difficile.
+   Préférez augmenter la spécificité. */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <p style="color:red;font-weight:bold;">!important force le rouge (même si inline dit bleu).</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>L'héritage — les enfants héritent des parents</h3>
+      <p>Certaines propriétés CSS sont <strong>héritées</strong> automatiquement des parents vers les enfants. D'autres non. C'est logique : la couleur du texte se transmet aux enfants, mais la bordure ou la marge ne se transmettent pas.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriétés héritées</th><th>Propriétés NON héritées</th></tr></thead>
+          <tbody>
+            <tr><td><code>color</code></td><td><code>margin</code></td></tr>
+            <tr><td><code>font-family</code></td><td><code>padding</code></td></tr>
+            <tr><td><code>font-size</code></td><td><code>border</code></td></tr>
+            <tr><td><code>line-height</code></td><td><code>background</code></td></tr>
+            <tr><td><code>text-align</code></td><td><code>width / height</code></td></tr>
+            <tr><td><code>visibility</code></td><td><code>display</code></td></tr>
+            <tr><td><code>cursor</code></td><td><code>position</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Héritage en action */
+article {
+  color: #333;
+  font-family: 'Georgia', serif;
+  line-height: 1.8;
+}
+
+/* span et p vont hériter de color, font-family et line-height */
+/* Sauf si on les surcharge explicitement */
+article p {
+  color: #1a5276; /* surcharge la couleur héritée */
+}
+
+/* Les mots-clés d'héritage */
+.force-heritage {
+  color: initial;    /* revient à la valeur par défaut du navigateur */
+  color: inherit;    /* force l'héritage même si normalement non hérité */
+  color: unset;      /* se comporte comme inherit si hérité, initial sinon */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="color:#333;font-family:Georgia,serif;line-height:1.8;">
+              <span style="font-size:14px;">Héritage : ce span a la couleur #333 du parent.</span>
+              <p style="color:#1a5276;font-size:14px;">Ce paragraphe surcharge en #1a5276.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne pas abuser de !important</div>
+          <p>Un code avec beaucoup de <code>!important</code> est un code qui devient rapidement ingérable. Si vous devez utiliser <code>!important</code> fréquemment, c'est souvent le signe que votre sélecteur manque de spécificité ou que votre structure CSS a besoin d'être repensée. La plupart des frameworks CSS l'utilisent avec parcimonie pour les utilitaires (ex : classes .hidden, .text-center).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 INSPECTER LE CSS ══ -->
+    <div id="s1-inspect">
+      <div class="section-header"><span class="section-num">07</span><h2>Inspecter le CSS avec les DevTools</h2></div>
+      <p>Les outils de développement (DevTools) de votre navigateur sont <strong>indispensables</strong> pour travailler avec le CSS. Ils permettent de visualiser, tester et déboguer les styles en temps réel — sans modifier vos fichiers.</p>
+
+      <h3>Comment ouvrir les DevTools</h3>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">⌨️ Raccourcis clavier</h3>
+          <p style="font-size:.9rem;"><kbd>F12</kbd> sur Chrome, Firefox, Edge<br><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>I</kbd> (Windows/Linux)<br><kbd>Cmd</kbd>+<kbd>Opt</kbd>+<kbd>I</kbd> (Mac)</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🖱️ Clic droit</h3>
+          <p style="font-size:.9rem;">Faites un clic droit sur n'importe quel élément de la page → <strong>"Inspecter"</strong>. C'est le moyen le plus rapide pour cibler un élément précis.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Onglet Styles — votre meilleur ami</div>
+          <p>Dans l'onglet "Styles" (ou "Styles" en français), vous voyez : ① toutes les règles CSS appliquées à l'élément sélectionné, ② la spécificité et la provenance de chaque règle, ③ les propriétés barrées par des règles plus fortes, ④ la zone de calcul du box model en bas. Vous pouvez décocher/ cocher des propriétés pour tester, modifier les valeurs en direct, et ajouter de nouvelles règles.</p>
+        </div>
+      </div>
+
+      <h3>Fonctionnalités clés des DevTools pour le CSS</h3>
+      <ul>
+        <li><strong>Inspecter un élément</strong> : cliquez sur l'icône 🖱️ en haut à gauche, puis sur l'élément dans la page</li>
+        <li><strong>Modifier une valeur</strong> : double-cliquez sur n'importe quelle propriété ou valeur dans l'onglet Styles</li>
+        <li><strong>Ajouter une règle</strong> : cliquez sur le <code>+</code> dans l'onglet Styles pour créer une nouvelle règle</li>
+        <li><strong>État de survol</strong> : cliquez sur <code>:hov</code> pour activer :hover, :focus, :active sur l'élément</li>
+        <li><strong>Box model visuel</strong> : l'onglet "Computed" (ou "Calculé") montre le diagramme du box model</li>
+        <li><strong>Onglet "Computed"</strong> : affiche la valeur finale calculée de chaque propriété après la cascade</li>
+      </ul>
+
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice pratique avec les DevTools</div>
+          <p>Ouvrez n'importe quel site (ex : wikipedia.org). Faites clic droit → Inspecter sur le titre principal. Dans l'onglet Styles, cochez/décochez des propriétés CSS pour voir le changement en direct. Modifiez la couleur du texte. Changez la taille de la police. Cela n'affecte que <strong>votre</strong> affichage — les modifications disparaissent au rechargement de la page.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 NORMALIZE & RESET ══ -->
+    <div id="s1-normalize">
+      <div class="section-header"><span class="section-num">08</span><h2>Normalize.css & Reset CSS</h2></div>
+      <p>Chaque navigateur a ses propres styles par défaut (les "user-agent styles") : marges différentes sur <code>&lt;body&gt;</code>, tailles de police différentes sur les titres, etc. Pour partir d'une base cohérente, on utilise une feuille de style de <strong>normalisation</strong> ou de <strong>réinitialisation</strong>.</p>
+
+      <h3>Reset CSS — tout remettre à zéro</h3>
+      <p>Le <strong>Reset CSS</strong> (popularisé par Eric Meyer) supprime <strong>tous</strong> les styles par défaut des navigateurs. Marges, paddings, list-style, tout revient à 0. Vous reconstruisez ensuite entièrement le style.</p>
+
+      <h3>Normalize.css — harmoniser sans tout casser</h3>
+      <p><strong>Normalize.css</strong> (créé par Nicolas Gallagher et Jonathan Neal) est plus moderne : il conserve les styles utiles par défaut, corrige les incohérences entre navigateurs et normalise les comportements. C'est l'approche recommandée aujourd'hui.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Exemple Reset vs Normalize</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ═══ RESET CSS (extrait — Eric Meyer) ═══ */
+html, body, div, span, h1, h2, h3, h4, h5, h6,
+p, a, ul, ol, li, figure, figcaption, blockquote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+ol, ul { list-style: none; }
+a { text-decoration: none; color: inherit; }
+
+/* ═══ NORMALIZE.CSS (extraits) ═══ */
+/* Les marges du body sont normalisées */
+body { margin: 0; }
+
+/* Les titres conservent leur importance visuelle */
+h1 { font-size: 2em; margin: 0.67em 0; }
+
+/* Les listes gardent leur style mais normalisé */
+ul { list-style: disc; padding-left: 2em; }
+
+/* Les liens restent soulignés et bleus */
+a { color: inherit; text-decoration: underline; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="margin:0;padding:0;">
+              <p style="margin:0;padding:0;">Reset : aucune marge ni padding.</p>
+              <h4 style="margin:0;padding:0;font-size:100%;font-weight:normal;">Titre sans style après reset.</h4>
+            </div>
+            <hr style="margin:.5rem 0;border-color:#ccc;">
+            <div>
+              <p style="margin:1em 0;">Normalize : styles cohérents entre navigateurs.</p>
+              <h4 style="font-size:1em;margin:1.33em 0;font-weight:bold;">Titre normalisé.</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Recommandation pour vos projets</div>
+          <p>Utilisez <strong>Normalize.css</strong> (téléchargeable sur <a href="https://necolas.github.io/normalize.css/" target="_blank" rel="noopener">necolas.github.io/normalize.css</a>) comme base pour tous vos projets. Liez-le en premier dans le <code>&lt;head&gt;</code>, avant votre fichier CSS personnel. Si vous utilisez un framework comme Bootstrap, Tailwind ou Foundation, ils incluent déjà leur propre normalisation. Évitez le Reset CSS complet qui vous oblige à redéfinir manuellement des styles de base.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s1-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🔤 Les trois méthodes CSS</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>exo1-css-methodes.html</code> avec la structure HTML5 de base.</li>
+            <li>Ajoutez un titre <code>&lt;h1&gt;</code> "Les trois méthodes CSS" et trois paragraphes <code>&lt;p&gt;</code>.</li>
+            <li>Appliquez une couleur différente à chaque paragraphe en utilisant les trois méthodes : inline sur le premier, interne (<code>&lt;style&gt;</code>) sur le deuxième, externe (fichier <code>style-exo1.css</code>) sur le troisième.</li>
+            <li>Dans le fichier externe, ajoutez une règle qui change la police de toute la page avec <code>font-family</code> et une règle pour les titres.</li>
+            <li>Ajoutez dans le CSS externe un commentaire expliquant la cascade.</li>
+            <li>Ouvrez le fichier dans Chrome, inspectez avec F12 et observez l'onglet Styles pour voir la provenance de chaque règle.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🎯 Spécificité & cascade</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo2-specificite.html</code> avec la structure HTML5.</li>
+            <li>Dans le <code>&lt;body&gt;</code>, créez un <code>&lt;div id="conteneur"&gt;</code> contenant un <code>&lt;p class="texte"&gt;</code> avec du texte.</li>
+            <li>Dans <code>&lt;style&gt;</code>, créez 4 règles qui ciblent ce paragraphe avec des spécificités croissantes : <code>p { }</code>, <code>.texte { }</code>, <code>#conteneur p { }</code>, <code>#conteneur .texte { }</code>. Donnez une couleur de texte différente à chacune.</li>
+            <li>Ajoutez une règle <code>!important</code> sur l'une d'elles et observez le changement.</li>
+            <li>Dans les DevTools (F12), sélectionnez le paragraphe et observez l'ordre des règles dans l'onglet Styles. Notez lesquelles sont barrées.</li>
+            <li>Modifiez l'ordre de vos règles dans le code et constatez l'effet de la cascade.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Calcul de spécificité</div>
+          <p>Calculez manuellement la spécificité de ces sélecteurs : <code>ul li a.nav-link</code> → ? / <code>#header .menu ul li a</code> → ? / <code>style="color:red"</code> → ? / <code>div p:first-child</code> → ? Vérifiez vos réponses avec un calculateur en ligne comme <a href="https://specificity.keegan.st/" target="_blank" rel="noopener">specificity.keegan.st</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="01">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s1-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Le rôle du CSS : mise en forme, mise en page, adaptation mobile, animations</li>
+        <li>Syntaxe d'une règle CSS : sélecteur { propriété: valeur; }</li>
+        <li>Les trois méthodes : inline, interne (&lt;style&gt;), externe (&lt;link&gt;)</li>
+        <li>La cascade : origine (agent, auteur, utilisateur) et ordre d'apparition</li>
+        <li>Le calcul de spécificité (a,b,c,d) et pourquoi les classes sont préférables aux id</li>
+        <li>!important et l'héritage des propriétés parent → enfant</li>
+        <li>Les DevTools : inspecter, modifier en direct, comprendre les règles appliquées</li>
+        <li>Normalize.css vs Reset CSS : quand et pourquoi les utiliser</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>CSS</dt><dd>Cascading Style Sheets — langage de style qui contrôle l'apparence des éléments HTML.</dd>
+          <dt>Règle CSS</dt><dd>Ensemble sélecteur + { déclarations }. Ex : <code>p { color: red; }</code>.</dd>
+          <dt>Sélecteur</dt><dd>Partie de la règle qui cible les éléments HTML. Peut être une balise, classe, id, attribut, etc.</dd>
+          <dt>Déclaration</dt><dd>Couple propriété : valeur terminé par un point-virgule. Ex : <code>font-size: 16px;</code></dd>
+          <dt>Cascade</dt><dd>Algorithme qui détermine quelle règle s'applique en cas de conflit : origine → spécificité → ordre.</dd>
+          <dt>Spécificité</dt><dd>Score calculé selon la précision du sélecteur (inline > id > classe > balise).</dd>
+          <dt>!important</dt><dd>Mot-clé qui force une déclaration au-dessus de toutes les autres. À utiliser avec modération.</dd>
+          <dt>Héritage</dt><dd>Transmission automatique de certaines propriétés CSS des parents aux enfants (couleur, police…).</dd>
+          <dt>Reset CSS</dt><dd>Feuille de style qui supprime tous les styles par défaut des navigateurs pour partir d'une base neutre.</dd>
+          <dt>Normalize.css</dt><dd>Feuille de style qui harmonise les styles entre navigateurs sans supprimer les styles utiles par défaut.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 2 — Sélecteurs CSS</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Balise · Classe · Id · Attribut · Combinateurs · Pseudo-classes</div>
+        </div>
+        <a href="seance2-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 2 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

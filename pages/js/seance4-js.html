@@ -1,0 +1,555 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 4 — Objets & This · Cours JavaScript</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--amber) !important; }
+    .sidebar-item.active { color: var(--amber) !important; border-left-color: var(--amber) !important; background: var(--amber-dim) !important; }
+    .section-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.25) !important; }
+    .session-badge { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--amber) !important; background: var(--amber-dim) !important; border-color: rgba(245,158,11,.3) !important; }
+    .topbar-brand .badge { background: var(--amber) !important; }
+    .glossary dt { color: var(--amber) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours JavaScript</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-js.html">Séance 1</a>
+      <a href="seance2-js.html">Séance 2</a>
+      <a href="seance3-js.html">Séance 3</a>
+      <a href="seance4-js.html" class="active">Séance 4</a>
+      <a href="seance5-js.html">Séance 5</a>
+      <a href="seance6-js.html">Séance 6</a>
+      <a href="seance7-js.html">Séance 7</a>
+      <a href="seance8-js.html">Séance 8</a>
+      <a href="seance9-js.html">Séance 9</a>
+      <a href="seance10-js.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label js">Séance 4</div>
+      <a href="#s4-objets"      class="sidebar-item"><span class="sidebar-num">01</span>Objets {}</a>
+      <a href="#s4-props"       class="sidebar-item"><span class="sidebar-num">02</span>Propriétés</a>
+      <a href="#s4-methodes"    class="sidebar-item"><span class="sidebar-num">03</span>Méthodes</a>
+      <a href="#s4-this"        class="sidebar-item"><span class="sidebar-num">04</span>this</a>
+      <a href="#s4-factory"     class="sidebar-item"><span class="sidebar-num">05</span>Factory functions</a>
+      <a href="#s4-keys"        class="sidebar-item"><span class="sidebar-num">06</span>Object.keys/values/entries</a>
+      <a href="#s4-forin"       class="sidebar-item"><span class="sidebar-num">07</span>for...in objets</a>
+      <a href="#s4-optional"    class="sidebar-item"><span class="sidebar-num">08</span>Optional chaining ?.</a>
+      <a href="#s4-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s4-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance3-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 3</a>
+      <a href="seance5-js.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 5 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="session-hero">
+      <div class="session-badge">Séance 04 / 10</div>
+      <h1>Objets &amp; This</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Objets · Propriétés (dot/bracket) · Méthodes · this · Factory functions · Object.keys/values/entries · Optional chaining</p>
+      <div class="session-meta">
+        <span class="meta-tag">JavaScript</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    ══ 01 OBJETS ══ -->
+    <div id="s4-objets">
+      <div class="section-header"><span class="section-num">01</span><h2>Objets littéraux {}</h2></div>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🖱️ Clic utilisateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Événement DOM</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Événement DOM</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">⚡ addEventListener</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">⚡ addEventListener</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Fonction callback</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Fonction callback</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ DOM mis à jour</span>
+        </div>
+      </div>
+      <p>Un objet est une collection de <strong>propriétés</strong> clé/valeur. C'est le type de données le plus important en JavaScript.</p>
+      <div class="code-preview-split">
+
+<div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Créer des objets</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// Syntaxe littérale (recommandée)
+const personne = {
+  nom: 'Alice',
+  age: 25,
+  ville: 'Paris'
+};
+
+console.log(personne);
+// → { nom: "Alice", age: 25, ville: "Paris" }
+
+// Clés sans guillemets (sauf si caractères spéciaux)
+const etudiant = {
+  nom: 'Bob',
+  'nom-complet': 'Bob Martin',  // guillemets nécessaires
+  age: 22
+};
+
+// Objet vide puis ajout
+const voiture = {};
+voiture.marque = 'Tesla';
+voiture.modele = 'Model 3';
+voiture['annee'] = 2024;
+
+console.log(voiture);
+// → { marque: "Tesla", modele: "Model 3", annee: 2024 }
+
+// Clés dynamiques avec crochets
+const propriete = 'couleur';
+voiture[propriete] = 'rouge';
+console.log(voiture.couleur); // rouge
+
+// Shorthand property (ES6)
+const x = 10, y = 20;
+const point = { x, y }; // équivaut à { x: x, y: y }
+console.log(point); // { x: 10, y: 20 }</pre></div>
+      </div>
+
+      <div class="preview-panel">
+
+        <div class="preview-body"></div>
+
+</div>
+
+</div>
+
+    </div>
+
+
+
+<!-- ══ 02 PROPRIÉTÉS ══ -->
+    <div id="s4-props">
+      <div class="section-header"><span class="section-num">02</span><h2>Accès aux propriétés : dot vs bracket</h2></div>
+      <p>Deux façons d'accéder aux propriétés d'un objet.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Dot notation vs bracket notation</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const personne = {
+  nom: 'Alice',
+  age: 25,
+  'adresse.ville': 'Paris'  // clé avec point
+};
+
+// Dot notation (point) — privilégiée
+console.log(personne.nom);    // Alice
+console.log(personne.age);    // 25
+
+// Bracket notation (crochets) — pour cas particuliers
+console.log(personne['nom']); // Alice
+console.log(personne['adresse.ville']); // Paris
+
+// Quand utiliser les crochets ? 
+// 1. Clé dynamique (variable)
+const cle = 'age';
+console.log(personne[cle]); // 25
+
+// 2. Clé avec caractères spéciaux
+// personne.adresse.ville  // ERREUR
+console.log(personne['adresse.ville']); // OK
+
+// 3. Clé qui n'existe pas → undefined
+console.log(personne.taille); // undefined</pre></div>
+      </div>
+    ══ 03 MÉTHODES ══ -->
+    <div id="s4-methodes">
+      <div class="section-header"><span class="section-num">03</span><h2>Méthodes d'objet</h2></div>
+      <p>Une <strong>méthode</strong> est une fonction attachée à un objet.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Méthodes d'objet</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const personne = {
+  nom: 'Alice',
+  age: 25,
+
+  // Méthode classique (ES5)
+  presentation: function() {
+    return `Je m'appelle ${this.nom}`;
+  },
+
+  // Méthode concise (ES6) — recommandée
+  saluer() {
+    return `Salut, je suis ${this.nom}`;
+  },
+
+  // Méthode fléchée — attention à this !
+  // direAge: () => `${this.age}` // NE PAS UTILISER
+};
+
+console.log(personne.presentation()); // Je m'appelle Alice
+console.log(personne.saluer());       // Salut, je suis Alice
+
+// Ajouter une méthode après coup
+personne.ageDansUnAn = function() {
+  return this.age + 1;
+};
+console.log(personne.ageDansUnAn()); // 26</pre></div>
+      </div>
+    ══ 04 THIS ══ -->
+    <div id="s4-this">
+      <div class="section-header"><span class="section-num">04</span><h2>Le mot-clé this</h2></div>
+      <p><code>this</code> fait référence au contexte d'exécution. Sa valeur change selon comment la fonction est appelée.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Les règles de this</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">// 1. Contexte global
+console.log(this); // window (navigateur) ou global (Node.js)
+
+// 2. Dans une méthode d'objet → l'objet lui-même
+const voiture = {
+  marque: 'Tesla',
+  demarrer() {
+    console.log(`${this.marque} démarre`);
+  }
+};
+voiture.demarrer(); // Tesla démarre
+
+// 3. Fonction classique → global (ou undefined en strict)
+function test() {
+  'use strict';
+  console.log(this); // undefined
+}
+test();
+
+// 4. Fonction fléchée → this du contexte parent
+const personne = {
+  nom: 'Alice',
+  saluer: function() {
+    const dire = () => `Bonjour ${this.nom}`;
+    return dire();
+  }
+};
+console.log(personne.saluer()); // Bonjour Alice
+
+// 5. Problème classique : this perdu dans un callback
+const utilisateur = {
+  prenom: 'Bob',
+  amis: ['Alice', 'Charlie'],
+  listerAmis() {
+    this.amis.forEach(function(ami) {
+      // ICI this n'est PLUS utilisateur !
+      // console.log(this.prenom); // ERREUR
+    });
+
+    // Solution 1 : fonction fléchée
+    this.amis.forEach(ami => {
+      console.log(`${this.prenom} est ami avec ${ami}`);
+    });
+
+    // Solution 2 : .bind(this)
+    this.amis.forEach(function(ami) {
+      console.log(`${this.prenom} est ami avec ${ami}`);
+    }.bind(this));
+  }
+};
+utilisateur.listerAmis();</pre></div>
+      </div>
+    ══ 05 FACTORY FUNCTIONS ══ -->
+    <div id="s4-factory">
+      <div class="section-header"><span class="section-num">05</span><h2>Factory functions</h2></div>
+      <p>Une <strong>factory function</strong> est une fonction qui crée et retourne un objet. Alternative simple aux classes.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Factory functions</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">function creerPersonne(nom, age, ville) {
+  return {
+    nom,
+    age,
+    ville,
+    presentation() {
+      return `${this.nom}, ${this.age} ans, ${this.ville}`;
+    },
+    estMajeur() {
+      return this.age >= 18;
+    }
+  };
+}
+
+const alice = creerPersonne('Alice', 25, 'Paris');
+const bob = creerPersonne('Bob', 16, 'Lyon');
+
+console.log(alice.presentation()); // Alice, 25 ans, Paris
+console.log(bob.estMajeur());      // false
+
+// Factory avec validation
+function creerVoiture(marque, modele) {
+  if (!marque || !modele) {
+    throw new Error('Marque et modèle requis');
+  }
+  return {
+    marque,
+    modele,
+    description() {
+      return `${this.marque} ${this.modele}`;
+    }
+  };
+}
+
+const tesla = creerVoiture('Tesla', 'Model 3');
+console.log(tesla.description()); // Tesla Model 3</pre></div>
+      </div>
+    ══ 06 OBJECT.KEYS/VALUES/ENTRIES ══ -->
+    <div id="s4-keys">
+      <div class="section-header"><span class="section-num">06</span><h2>Object.keys / values / entries</h2></div>
+      <p>Ces méthodes statiques permettent de manipuler les propriétés d'un objet sous forme de tableau.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Object.keys/values/entries</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const etudiant = {
+  nom: 'Alice',
+  age: 22,
+  filiere: 'Informatique',
+  moyenne: 15.5
+};
+
+// Object.keys() → tableau des clés
+console.log(Object.keys(etudiant));
+// → ["nom", "age", "filiere", "moyenne"]
+
+// Object.values() → tableau des valeurs
+console.log(Object.values(etudiant));
+// → ["Alice", 22, "Informatique", 15.5]
+
+// Object.entries() → tableau de paires [clé, valeur]
+console.log(Object.entries(etudiant));
+// → [["nom","Alice"], ["age",22], ["filiere","Informatique"], ["moyenne",15.5]]
+
+// Utile pour parcourir avec for...of
+for (const [cle, valeur] of Object.entries(etudiant)) {
+  console.log(`${cle}: ${valeur}`);
+}
+
+// Calculer la somme des valeurs numériques
+const notes = { maths: 15, français: 12, anglais: 18 };
+const somme = Object.values(notes).reduce((acc, v) => acc + v, 0);
+console.log(somme); // 45</pre></div>
+      </div>
+    ══ 07 FOR...IN OBJETS ══ -->
+    <div id="s4-forin">
+      <div class="section-header"><span class="section-num">07</span><h2>Boucle for...in sur les objets</h2></div>
+      <p><code>for...in</code> parcourt les clés énumérables d'un objet.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — for...in sur objets</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const produit = {
+  id: 101,
+  nom: 'Casque audio',
+  prix: 79.99,
+  stock: true
+};
+
+for (const cle in produit) {
+  console.log(`${cle}: ${produit[cle]}`);
+}
+// → id: 101, nom: Casque audio, prix: 79.99, stock: true
+
+// Filtrer les propriétés héritées
+for (const cle in produit) {
+  if (produit.hasOwnProperty(cle)) {
+    console.log(`Propre: ${cle}`);
+  }
+}
+
+// Alternative moderne : Object.keys() + for...of
+for (const cle of Object.keys(produit)) {
+  console.log(produit[cle]);
+}
+
+// Vérifier si une propriété existe
+console.log('nom' in produit);      // true
+console.log('couleur' in produit);  // false
+console.log(produit.hasOwnProperty('nom')); // true</pre></div>
+      </div>
+    ══ 08 OPTIONAL CHAINING ══ -->
+    <div id="s4-optional">
+      <div class="section-header"><span class="section-num">08</span><h2>Optional chaining ?. (ES2020)</h2></div>
+      <p>L'opérateur <code>?.</code> permet d'accéder à une propriété sans erreur si l'objet intermédiaire est <code>null</code> ou <code>undefined</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript — Optional chaining</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const utilisateur = {
+  nom: 'Alice',
+  adresse: {
+    rue: '12 rue des Fleurs',
+    codePostal: '75001'
+  },
+  preferences: null
+};
+
+// Sans optional chaining (vieux style)
+const ville1 = utilisateur.adresse ? utilisateur.adresse.ville : undefined;
+console.log(ville1); // undefined
+
+// Avec optional chaining (moderne)
+const ville2 = utilisateur.adresse?.ville;
+console.log(ville2); // undefined
+
+// Chaînage multiple
+const rue = utilisateur.adresse?.rue;
+console.log(rue); // "12 rue des Fleurs"
+
+// Avec propriété inexistante
+const cp = utilisateur.adresse?.codePostal;
+console.log(cp); // "75001"
+
+// Avec null
+const theme = utilisateur.preferences?.theme;
+console.log(theme); // undefined (pas d'erreur)
+
+// Appel de méthode optionnel
+const resultat = utilisateur.calculer?.() ?? 'Méthode inexistante';
+console.log(resultat); // "Méthode inexistante"
+
+// Accès à un élément de tableau
+const premierAmi = utilisateur.amis?.[0];
+console.log(premierAmi); // undefined (pas d'erreur)
+
+// Combinaison avec ?? (nullish coalescing)
+const couleur = utilisateur.preferences?.couleur ?? 'bleu';
+console.log(couleur); // bleu</pre></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne pas abuser du ?.</div>
+          <p>Utilisez <code>?.</code> quand vous attendez vraiment que la valeur puisse être null/undefined. Ne l'utilisez pas pour masquer des bugs — si une propriété doit exister, laissez-la générer une erreur pour mieux déboguer.</p>
+        </div>
+      </div>
+    ══ 09 EXERCICES ══ -->
+    <div id="s4-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🏗️ Créer et manipuler des objets</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un objet <code>livre</code> avec : <code>titre</code>, <code>auteur</code>, <code>annee</code>, <code>pages</code>.</li>
+            <li>Ajoutez une méthode <code>resume()</code> qui retourne "Titre par Auteur (année)".</li>
+            <li>Accédez à chaque propriété avec la dot notation.</li>
+            <li>Utilisez la bracket notation pour accéder à <code>titre</code> via une variable.</li>
+            <li>Utilisez <code>Object.keys()</code>, <code>Object.values()</code> et <code>Object.entries()</code> sur l'objet.</li>
+            <li>Parcourez l'objet avec <code>for...in</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🏭 Factory &amp; this</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez une factory <code>creerCompte(nom, solde)</code> qui retourne un objet avec <code>nom</code>, <code>solde</code>, <code>deposer(montant)</code>, <code>retirer(montant)</code>, <code>afficher()</code>.</li>
+            <li>La méthode <code>retirer</code> ne doit pas permettre un solde négatif.</li>
+            <li>Créez deux comptes et testez les dépôts/retraits.</li>
+            <li>Utilisez <code>?.</code> pour accéder à <code>compte.adresse?.rue</code> sans erreur.</li>
+            <li>Utilisez <code>Object.entries()</code> pour afficher toutes les propriétés d'un compte.</li>
+            <li>Ajoutez une méthode fléchée dans un callback d'une méthode pour observer le comportement de <code>this</code>.</li>
+          </ol>
+        </div>
+      </div>
+    09b — Quiz -->
+    <div class="quiz" data-session="04">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    ══ 10 BILAN ══ -->
+    <div id="s4-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Objets littéraux, syntaxe { clé: valeur }</li>
+        <li>Dot notation vs bracket notation</li>
+        <li>Méthodes d'objet (ES5 et ES6 concise)</li>
+        <li>this : règles selon le contexte d'appel</li>
+        <li>Factory functions pour créer des objets</li>
+        <li>Object.keys/values/entries</li>
+        <li>for...in pour parcourir les propriétés</li>
+        <li>Optional chaining ?. et nullish coalescing ??</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Objet littéral</dt><dd>Collection de propriétés clé/valeur notée <code>{}</code>. Le type de données le plus fondamental en JS.</dd>
+          <dt>Dot notation</dt><dd>Accès aux propriétés avec un point : <code>objet.propriete</code>. Syntaxe préférée.</dd>
+          <dt>Bracket notation</dt><dd>Accès aux propriétés avec des crochets : <code>objet['propriete']</code>. Pour clés dynamiques ou spéciales.</dd>
+          <dt>this</dt><dd>Mot-clé qui référence le contexte d'exécution. Sa valeur change selon l'appel (méthode, globale, fléchée).</dd>
+          <dt>Factory function</dt><dd>Fonction qui crée et retourne un nouvel objet. Alternative simple aux constructeurs/classes.</dd>
+          <dt>Optional chaining (?.)</dt><dd>Opérateur qui court-circuite l'accès à une propriété si la valeur est null/undefined, évitant les erreurs.</dd>
+          <dt>Nullish coalescing (??)</dt><dd>Opérateur qui renvoie l'opérande droit seulement si l'opérande gauche est null/undefined (pas falsy).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 5 — Tableaux &amp; Méthodes</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">push/pop · forEach · map · filter · reduce · find · sort · spread</div>
+        </div>
+        <a href="seance5-js.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 5 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 9 — Sémantique HTML5 · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(167,139,250,.25); }
+    .section-header    { border-bottom-color:rgba(167,139,250,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html" class="active">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label" style="color:var(--purple);">Séance 9</div>
+      <a href="#s9-header" class="sidebar-item"><span class="sidebar-num">01</span>Header</a>
+      <a href="#s9-nav" class="sidebar-item"><span class="sidebar-num">02</span>Nav</a>
+      <a href="#s9-main" class="sidebar-item"><span class="sidebar-num">03</span>Main</a>
+      <a href="#s9-article" class="sidebar-item"><span class="sidebar-num">04</span>Article</a>
+      <a href="#s9-section" class="sidebar-item"><span class="sidebar-num">05</span>Section</a>
+      <a href="#s9-aside" class="sidebar-item"><span class="sidebar-num">06</span>Aside</a>
+      <a href="#s9-footer" class="sidebar-item"><span class="sidebar-num">07</span>Footer</a>
+      <a href="#s9-time" class="sidebar-item"><span class="sidebar-num">08</span>Time, Details, Summary</a>
+      <a href="#s9-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s9-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance8.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 8</a>
+      <a href="seance10.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);margin-top:.5rem;">Séance 10 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s3">
+      <div class="session-badge s3">Séance 09 / 10</div>
+      <h1>Sémantique HTML5</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Header • Nav • Main • Article • Section • Aside • Footer • Time • Details • Summary</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 HEADER ══ -->
+    <div id="s9-header">
+      <div class="section-header"><span class="section-num">01</span><h2>&lt;header&gt; — En-tête</h2></div>
+      <p><code>&lt;header&gt;</code> représente l'en-tête d'un document ou d'une section. Il contient généralement le logo, le titre, la navigation. Il peut y avoir <strong>plusieurs</strong> headers dans une page (un pour la page, un pour chaque article).</p>
+      <div class="sem-layout">
+        <div class="sem-zone sz-header">
+          <span class="sem-zone-tag">&lt;header&gt;</span>
+          <span class="sem-zone-desc">Logo, titre principal, navigation</span>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Header</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;header&gt;
+  &lt;img src="logo.png" alt="Mon Site"&gt;
+  &lt;h1&gt;Mon Site Web&lt;/h1&gt;
+  &lt;nav&gt;
+    &lt;a href="/"&gt;Accueil&lt;/a&gt;
+    &lt;a href="/blog"&gt;Blog&lt;/a&gt;
+    &lt;a href="/contact"&gt;Contact&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <header style="border:2px solid #3b82f6;border-radius:6px;padding:.75em;background:rgba(59,130,246,.05);">
+              <div style="font-weight:bold;font-size:1.2em;font-family:Arial,sans-serif;">Mon Site Web</div>
+              <nav style="margin-top:.3em;"><a href="#" style="margin-right:.5em;">Accueil</a><a href="#" style="margin-right:.5em;">Blog</a><a href="#">Contact</a></nav>
+            </header>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 NAV ══ -->
+    <div id="s9-nav">
+      <div class="section-header"><span class="section-num">02</span><h2>&lt;nav&gt; — Navigation</h2></div>
+      <p><code>&lt;nav&gt;</code> regroupe les liens de navigation principaux. On l'utilise pour le menu principal, le plan du site, la pagination. Un lecteur d'écran peut "sauter" directement à la navigation.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Nav</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;nav aria-label="Navigation principale"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="/"&gt;Accueil&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/produits"&gt;Produits&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/services"&gt;Services&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <nav style="border:2px dashed rgba(59,130,246,.4);border-radius:6px;padding:.5em .75em;">
+              <ul style="list-style:none;display:flex;gap:1em;padding:0;margin:0;">
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Produits</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Plusieurs nav par page</div>
+          <p>Vous pouvez avoir plusieurs <code>&lt;nav&gt;</code> (menu principal + pied de page). Distinguez-les avec <code>aria-label</code> : <code>&lt;nav aria-label="Navigation principale"&gt;</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 MAIN ══ -->
+    <div id="s9-main">
+      <div class="section-header"><span class="section-num">03</span><h2>&lt;main&gt; — Contenu principal</h2></div>
+      <p><code>&lt;main&gt;</code> contient le contenu <strong>unique</strong> de la page. Il ne doit y en avoir qu'<strong>un seul</strong> par page. Exclut les éléments répétés (header, nav, footer, aside).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Main</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;main&gt;
+  &lt;article&gt;
+    &lt;h1&gt;Titre de l'article&lt;/h1&gt;
+    &lt;p&gt;Contenu principal de la page.&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/main&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <main style="border:2px solid #34d399;border-radius:6px;padding:.75em;background:rgba(52,211,153,.05);">
+              <h1 style="font-size:1.3em;margin:0 0 .3em;">Titre de l'article</h1>
+              <p style="margin:0;">Contenu principal de la page.</p>
+            </main>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Un seul &lt;main&gt; par page</div>
+          <p>Contrairement à header, nav, article, section, aside et footer, la balise <code>&lt;main&gt;</code> ne doit apparaître qu'une seule fois. C'est le contenu principal unique de la page.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 ARTICLE ══ -->
+    <div id="s9-article">
+      <div class="section-header"><span class="section-num">04</span><h2>&lt;article&gt; — Contenu autonome</h2></div>
+      <p><code>&lt;article&gt;</code> représente un contenu <strong>autonome</strong> : article de blog, commentaire, produit, widget. Il doit pouvoir être compris sans le reste de la page. Chaque article a son propre header, section, footer.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Article</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;article&gt;
+  &lt;header&gt;
+    &lt;h2&gt;Comment apprendre le HTML&lt;/h2&gt;
+    &lt;time datetime="2024-03-15"&gt;15 mars 2024&lt;/time&gt;
+  &lt;/header&gt;
+  &lt;p&gt;Le HTML est le langage de base du web...&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;a href="#"&gt;Lire la suite&lt;/a&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;
+
+&lt;article&gt;
+  &lt;header&gt;
+    &lt;h2&gt;Les bases du CSS&lt;/h2&gt;
+    &lt;time datetime="2024-03-20"&gt;20 mars 2024&lt;/time&gt;
+  &lt;/header&gt;
+  &lt;p&gt;Le CSS permet de styliser le HTML...&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;a href="#"&gt;Lire la suite&lt;/a&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <article style="border:2px dashed rgba(52,211,153,.4);border-radius:6px;padding:.75em;margin-bottom:.5em;">
+              <h2 style="font-size:1.1em;margin:0 0 .2em;">Comment apprendre le HTML</h2>
+              <p style="font-size:.85em;color:#555;">15 mars 2024</p>
+              <p>Le HTML est le langage de base du web...</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 SECTION ══ -->
+    <div id="s9-section">
+      <div class="section-header"><span class="section-num">05</span><h2>&lt;section&gt; — Section générique</h2></div>
+      <p><code>&lt;section&gt;</code> regroupe un contenu thématiquement cohérent. Contrairement à <code>&lt;article&gt;</code>, elle n'est pas autonome. Chaque section devrait avoir un titre (<code>&lt;h1&gt;</code> à <code>&lt;h6&gt;</code>).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Section</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;section&gt;
+  &lt;h2&gt;Nos services&lt;/h2&gt;
+  &lt;p&gt;Nous proposons des formations...&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section&gt;
+  &lt;h2&gt;Nos tarifs&lt;/h2&gt;
+  &lt;p&gt;Consultez notre grille tarifaire...&lt;/p&gt;
+  &lt;table&gt;
+    &lt;!-- tableau des prix --&gt;
+  &lt;/table&gt;
+&lt;/section&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <section style="border:2px dashed rgba(45,212,191,.35);border-radius:6px;padding:.75em;margin-bottom:.5em;">
+              <h2 style="font-size:1.1em;margin:0 0 .3em;">Nos services</h2>
+              <p style="margin:0;">Nous proposons des formations...</p>
+            </section>
+          </div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Article dans Section ou Section dans Article ?</div>
+          <p>Si le contenu est autonome → <code>&lt;article&gt;</code>. Sinon → <code>&lt;section&gt;</code>. Un article peut contenir plusieurs sections. Une section peut contenir plusieurs articles (ex: une section "Actualités" contenant des articles).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 ASIDE ══ -->
+    <div id="s9-aside">
+      <div class="section-header"><span class="section-num">06</span><h2>&lt;aside&gt; — Contenu complémentaire</h2></div>
+      <p><code>&lt;aside&gt;</code> contient des informations <strong>complémentaires</strong> : barre latérale, encart publicitaire, liens connexes, biographie de l'auteur. Il est séparé du contenu principal mais lié contextuellement.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Aside</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;aside&gt;
+  &lt;h3&gt;À propos de l'auteur&lt;/h3&gt;
+  &lt;img src="auteur.jpg" alt="Photo de Jean"&gt;
+  &lt;p&gt;Jean est développeur web depuis 10 ans...&lt;/p&gt;
+
+  &lt;h3&gt;Articles connexes&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#"&gt;CSS Grid&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Flexbox&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/aside&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <aside style="border:2px solid #a78bfa;border-radius:6px;padding:.75em;background:rgba(167,139,250,.05);">
+              <h3 style="font-size:1em;margin:0 0 .3em;">À propos de l'auteur</h3>
+              <p style="font-size:.85em;color:#555;">Jean est développeur web depuis 10 ans...</p>
+              <h3 style="font-size:1em;margin:.5em 0 .3em;">Articles connexes</h3>
+              <ul style="margin:0;font-size:.85em;"><li><a href="#">CSS Grid</a></li><li><a href="#">Flexbox</a></li></ul>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 FOOTER ══ -->
+    <div id="s9-footer">
+      <div class="section-header"><span class="section-num">07</span><h2>&lt;footer&gt; — Pied de page</h2></div>
+      <p><code>&lt;footer&gt;</code> contient les informations de pied pour son parent : copyright, liens légaux, contact, plan du site. Comme <code>&lt;header&gt;</code>, il peut y en avoir plusieurs (un pour la page, un pour chaque article).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Footer</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;footer&gt;
+  &lt;p&gt;&amp;copy; 2024 Mon Site. Tous droits réservés.&lt;/p&gt;
+  &lt;nav&gt;
+    &lt;a href="/mentions"&gt;Mentions légales&lt;/a&gt;
+    &lt;a href="/confidentialite"&gt;Confidentialité&lt;/a&gt;
+    &lt;a href="/contact"&gt;Contact&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/footer&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <footer style="border:2px solid #f59e0b;border-radius:6px;padding:.75em;background:rgba(245,158,11,.05);">
+              <p style="margin:0 0 .3em;">© 2024 Mon Site. Tous droits réservés.</p>
+              <nav><a href="#" style="margin-right:.5em;">Mentions légales</a><a href="#" style="margin-right:.5em;">Confidentialité</a><a href="#">Contact</a></nav>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 TIME, DETAILS ══ -->
+    <div id="s9-time">
+      <div class="section-header"><span class="section-num">08</span><h2>&lt;time&gt;, &lt;details&gt;, &lt;summary&gt;</h2></div>
+      <p><code>&lt;time&gt;</code> représente une date/heure lisible par machine (attribut <code>datetime</code>). <code>&lt;details&gt;</code> crée un widget pliable/dépliable, avec <code>&lt;summary&gt;</code> comme titre visible.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Time et Details</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Time : date lisible par machine --&gt;
+&lt;p&gt;Publié le &lt;time datetime="2024-03-15"&gt;
+  15 mars 2024&lt;/time&gt; à
+  &lt;time datetime="14:30"&gt;14h30&lt;/time&gt;.&lt;/p&gt;
+
+&lt;p&gt;Mise à jour :
+  &lt;time datetime="2024-06-01"&gt;
+  1er juin 2024&lt;/time&gt;
+&lt;/p&gt;
+
+&lt;!-- Details / Summary : accordéon --&gt;
+&lt;details&gt;
+  &lt;summary&gt;Comment installer VS Code ?&lt;/summary&gt;
+  &lt;p&gt;Téléchargez VS Code sur code.visualstudio.com,
+  puis installez l'extension Live Server.&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;Qu'est-ce que Live Server ?&lt;/summary&gt;
+  &lt;p&gt;Un serveur local qui recharge automatiquement
+  votre page à chaque sauvegarde.&lt;/p&gt;
+&lt;/details&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Publié le <time datetime="2024-03-15">15 mars 2024</time>.</p>
+            <details style="border:1px solid #ccc;border-radius:4px;padding:.3em .5em;margin:.3em 0;">
+              <summary style="font-weight:bold;cursor:pointer;">Comment installer VS Code ?</summary>
+              <p style="margin:.3em 0 0;font-size:.85em;">Téléchargez VS Code sur code.visualstudio.com.</p>
+            </details>
+            <details style="border:1px solid #ccc;border-radius:4px;padding:.3em .5em;margin:.3em 0;">
+              <summary style="font-weight:bold;cursor:pointer;">Qu'est-ce que Live Server ?</summary>
+              <p style="margin:.3em 0 0;font-size:.85em;">Un serveur local avec rechargement automatique.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Format ISO 8601 pour datetime</div>
+          <p>Le format standard est YYYY-MM-DD pour les dates et HH:MM pour les heures. Exemples : <code>2024-12-25</code>, <code>2024-03-15T14:30:00+01:00</code>. Les moteurs de recherche utilisent cette donnée pour afficher la date dans les résultats.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s9-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Page sémantique complète</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page avec la structure sémantique complète : header, nav, main, footer.</li>
+            <li>Dans main : 2 articles avec leurs propres header et footer.</li>
+            <li>Chaque article a une date avec <code>&lt;time&gt;</code>.</li>
+            <li>Ajoutez une section "Commentaires" avec un aside pour le profil de l'auteur.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✏️ FAQ avec Details</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page FAQ avec 5 questions/réponses.</li>
+            <li>Utilisez <code>&lt;details&gt;</code> et <code>&lt;summary&gt;</code> pour chaque question.</li>
+            <li>Encadrez le tout dans un <code>&lt;main&gt;</code> avec <code>&lt;h1&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Analyse d'un site existant</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ouvrez un site d'actualités (Le Monde, 20 Minutes).</li>
+            <li>Inspectez avec F12 → onglet Éléments.</li>
+            <li>Repérez : header, nav, main, article, section, aside, footer.</li>
+            <li>Notez comment ils sont organisés et imbriqués.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="09">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s9-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Header : en-tête de la page ou d'une section</li>
+        <li>Nav : navigation principale (plusieurs autorisées)</li>
+        <li>Main : contenu unique (un seul par page)</li>
+        <li>Article : contenu autonome et réutilisable</li>
+        <li>Section : groupe thématique avec titre</li>
+        <li>Aside : contenu complémentaire</li>
+        <li>Footer : pied de page ou de section</li>
+        <li>Time : date/heure avec format ISO 8601</li>
+        <li>Details/Summary : accordéon pliable</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>header</dt><dd>En-tête. Contient introduction, logo, navigation. Peut être multiple.</dd>
+          <dt>nav</dt><dd>Navigation principale. Liens vers les sections du site.</dd>
+          <dt>main</dt><dd>Contenu principal unique. Un seul par page.</dd>
+          <dt>article</dt><dd>Contenu autonome (article de blog, commentaire, produit).</dd>
+          <dt>section</dt><dd>Groupe thématique avec son propre titre.</dd>
+          <dt>aside</dt><dd>Contenu complémentaire (barre latérale, biographie, pubs).</dd>
+          <dt>footer</dt><dd>Pied de page. Copyright, liens légaux, contact.</dd>
+          <dt>time</dt><dd>Date/heure lisible par machine. Attribut datetime obligatoire.</dd>
+          <dt>details</dt><dd>Widget pliable/dépliable. Summary pour le titre visible.</dd>
+          <dt>Sémantique HTML5</dt><dd>Utiliser les balises selon leur signification, pas leur apparence.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 10 — SEO &amp; Accessibilité</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Meta SEO, Open Graph, Twitter Cards, JSON-LD, ARIA, WCAG, Lighthouse</div>
+        </div>
+        <a href="seance10.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 10 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>
