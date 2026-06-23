@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: #8b5cf6 !important; }
+    .sidebar-item.active { color: #8b5cf6 !important; border-left-color: #8b5cf6 !important; background: rgba(139,92,246,.1) !important; }
+    .section-num { color: #8b5cf6 !important; background: rgba(139,92,246,.1) !important; border-color: rgba(139,92,246,.25) !important; }
+    .session-badge { color: #8b5cf6 !important; background: rgba(139,92,246,.1) !important; border-color: rgba(139,92,246,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%) !important; }
+    .exercise-num { color: #8b5cf6 !important; background: rgba(139,92,246,.1) !important; border-color: rgba(139,92,246,.3) !important; }
+    .topbar-brand .badge { background: #8b5cf6 !important; }
+    .glossary dt { color: #8b5cf6 !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html" class="active">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Design CSS</div>
+      <a href="#s5-color"     class="sidebar-item"><span class="sidebar-num">01</span>background-color</a>
+      <a href="#s5-image"     class="sidebar-item"><span class="sidebar-num">02</span>background-image</a>
+      <a href="#s5-repeat"    class="sidebar-item"><span class="sidebar-num">03</span>background-repeat &amp; size</a>
+      <a href="#s5-pos"       class="sidebar-item"><span class="sidebar-num">04</span>background-position</a>
+      <a href="#s5-linear"    class="sidebar-item"><span class="sidebar-num">05</span>Dégradés linéaires</a>
+      <a href="#s5-radial"    class="sidebar-item"><span class="sidebar-num">06</span>Dégradés radiaux</a>
+      <a href="#s5-shadow"    class="sidebar-item"><span class="sidebar-num">07</span>box-shadow</a>
+      <a href="#s5-multi"     class="sidebar-item"><span class="sidebar-num">08</span>Multiple backgrounds</a>
+      <a href="#s5-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s5-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="units.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:#8b5cf6;">Unités CSS →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Design CSS</div>
+      <h1>Design CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Couleurs de fond · Images · Dégradés · Ombres · Effets visuels</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 BACKGROUND-COLOR ══ -->
+    <div id="s5-color">
+      <div class="section-header"><span class="section-num">01</span><h2>background-color — Colorer le fond</h2></div>
+
+      <p>La propriété <code>background-color</code> définit la couleur d'arrière-plan d'un élément. Elle couvre la zone comprenant le contenu et le padding, mais s'arrête à la bordure — la marge (margin) reste toujours transparente. Cette propriété constitue la base de tout design CSS : elle établit le fond sur lequel viennent se superposer les images, dégradés et autres effets visuels.</p>
+
+      <p>La couleur de fond peut être exprimée dans tous les formats de couleur CSS : noms, hexadécimal, RGB/RGBA, HSL/HSLA. La valeur <code>transparent</code> est la valeur initiale, ce qui signifie que par défaut, les éléments n'ont pas de fond visible. L'usage de l'alpha (transparence) dans <code>rgba()</code> ou <code>hsla()</code> permet de créer des effets de superposition subtils, particulièrement utiles pour les overlays et les cartes.</p>
+
+      <p>Il est important de noter que <code>background-color</code> fait partie de la propriété raccourcie <code>background</code>. Lorsqu'on utilise le shorthand, si aucune couleur n'est spécifiée, la valeur par défaut <code>transparent</code> est appliquée. En pratique, il est recommandé de déclarer explicitement <code>background-color</code> avant toute image de fond, afin de fournir une couleur de secours (fallback) en cas de non-chargement de l'image.</p>
+
+      <h3>Référence complète de <code>background-color</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;color&gt;</code></td><td>Toute couleur CSS valide</td><td><code>#e74c3c</code>, <code>rgb(231,76,60)</code></td></tr>
+            <tr><td><code>transparent</code></td><td>Aucune couleur (valeur initiale)</td><td><code>background-color: transparent</code></td></tr>
+            <tr><td><code>currentColor</code></td><td>Utilise la couleur de texte calculée</td><td><code>background-color: currentColor</code></td></tr>
+            <tr><td><code>rgba()</code></td><td>Couleur avec canal alpha (transparence)</td><td><code>rgba(0,0,0,.5)</code></td></tr>
+            <tr><td><code>hsla()</code></td><td>Teinte, saturation, luminosité, alpha</td><td><code>hsla(0,100%,50%,.3)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — background-color</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.card     { background-color: #ffffff; }
+.alert    { background-color: rgba(231, 76, 60, .1); }
+.badge    { background-color: currentColor; }
+.overlay  { background-color: rgba(0, 0, 0, .6); }</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Zone couverte par background-color</div>
+          <p>La couleur de fond s'applique jusqu'à la bordure, excluant la zone de <strong>margin</strong> qui demeure toujours transparente. Pour colorer l'intégralité de la zone visible jusqu'à la bordure, assurez-vous d'inclure le padding dans les dimensions de l'élément.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <div class="callout-title">Pour aller plus loin — background-color et accessibilité</div>
+          <p>Le contraste entre la couleur de fond et la couleur du texte est un critère fondamental d'accessibilité (WCAG). Le ratio de contraste doit être d'au moins 4.5:1 pour le texte normal et 3:1 pour le texte large. Les outils comme le vérificateur de contraste de Chrome DevTools permettent de valider ces ratios. Les couleurs avec alpha réduisent le contraste perçu : utilisez-les avec précaution pour les fonds texturés.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 BACKGROUND-IMAGE ══ -->
+    <div id="s5-image">
+      <div class="section-header"><span class="section-num">02</span><h2>background-image — Images de fond</h2></div>
+
+      <p>La propriété <code>background-image</code> insère une ou plusieurs images en arrière-plan via la fonction <code>url()</code>. Contrairement à la balise <code>&lt;img&gt;</code>, les images de fond sont purement décoratives : elles sont ignorées par les lecteurs d'écran et les moteurs de recherche, ce qui en fait le choix approprié pour les éléments visuels non porteurs de sens.</p>
+
+      <p>Par défaut, l'image se répète en mosaïque (motif) pour remplir intégralement la boîte de l'élément. Ce comportement peut être modifié avec la propriété <code>background-repeat</code>. Une image de fond peut également être un dégradé CSS (voir sections suivantes), car les dégradés sont traités comme des images par le moteur de rendu.</p>
+
+      <p>Il est possible de déclarer plusieurs images de fond en les séparant par des virgules. La première image déclarée apparaît au premier plan (au-dessus des suivantes). Cette technique permet des compositions complexes : superposition d'un motif par-dessus un dégradé, ou d'un dégradé de transparence par-dessus une image photographique pour améliorer la lisibilité du texte.</p>
+
+      <h3>Référence complète de <code>background-image</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Aucune image de fond (valeur initiale)</td><td><code>background-image: none</code></td></tr>
+            <tr><td><code>url('chemin')</code></td><td>Chemin relatif ou absolu vers un fichier image</td><td><code>url('images/fond.jpg')</code></td></tr>
+            <tr><td><code>url('url_absolue')</code></td><td>URL complète (interne ou externe)</td><td><code>url('https://example.com/bg.png')</code></td></tr>
+            <tr><td><code>linear-gradient(...)</code></td><td>Dégradé linéaire (traité comme une image)</td><td><code>linear-gradient(red, blue)</code></td></tr>
+            <tr><td><code>radial-gradient(...)</code></td><td>Dégradé radial</td><td><code>radial-gradient(circle, red, blue)</code></td></tr>
+            <tr><td><code>conic-gradient(...)</code></td><td>Dégradé conique (disque de couleurs)</td><td><code>conic-gradient(red, yellow, lime, aqua, blue, magenta, red)</code></td></tr>
+            <tr><td><code>repeating-linear-gradient(...)</code></td><td>Dégradé linéaire répété</td><td>Pour motifs rayés</td></tr>
+            <tr><td><code>repeating-radial-gradient(...)</code></td><td>Dégradé radial répété</td><td>Pour motifs concentriques</td></tr>
+            <tr><td><code>image-set()</code></td><td>Ensemble d'images pour différentes résolutions</td><td><code>image-set(url('img.png') 1x, url('img@2x.png') 2x)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — background-image</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.hero {
+  background-image: url('../../images/hero.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.card {
+  background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url('photo.jpg');
+}</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Distinction entre background-image et &lt;img&gt;</div>
+          <p>Une image de fond possède un caractère <strong>décoratif</strong>. Elle est ignorée par les lecteurs d'écran (accessibilité) et par les moteurs de recherche (SEO). Utilisez <code>background-image</code> pour les éléments décoratifs et <code>&lt;img&gt;</code> pour les images porteuses de sens.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 BACKGROUND-REPEAT & SIZE ══ -->
+    <div id="s5-repeat">
+      <div class="section-header"><span class="section-num">03</span><h2>background-repeat &amp; background-size</h2></div>
+
+      <p>Par défaut, une image de fond se répète en mosaïque pour remplir intégralement la boîte de l'élément. Ce comportement historique, hérité des premiers navigateurs, est rarement souhaité dans les designs modernes. Les propriétés <code>background-repeat</code> et <code>background-size</code> offrent un contrôle précis sur la répétition et le dimensionnement de l'image de fond.</p>
+
+      <p>La propriété <code>background-size</code> est particulièrement importante dans le responsive design. Les valeurs <code>cover</code> et <code>contain</code> permettent d'adapter automatiquement l'image à la taille du conteneur : <code>cover</code> remplit intégralement le conteneur en rognant l'image si nécessaire, tandis que <code>contain</code> affiche l'image en entier en laissant éventuellement des bandes vides. Le choix entre ces deux valeurs dépend de l'effet recherché et du format de l'image.</p>
+
+      <h3>Référence complète de <code>background-repeat</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Comportement</th></tr></thead>
+          <tbody>
+            <tr><td><code>repeat</code></td><td>Répète l'image horizontalement et verticalement (défaut)</td><td>Mosaïque complète</td></tr>
+            <tr><td><code>repeat-x</code></td><td>Répète uniquement horizontalement</td><td>Bande horizontale</td></tr>
+            <tr><td><code>repeat-y</code></td><td>Répète uniquement verticalement</td><td>Bande verticale</td></tr>
+            <tr><td><code>no-repeat</code></td><td>Aucune répétition — une seule occurrence</td><td>Image unique</td></tr>
+            <tr><td><code>space</code></td><td>Répète avec espacement égal entre les occurrences</td><td>Sans rognage ni débordement</td></tr>
+            <tr><td><code>round</code></td><td>Répète en ajustant la taille pour éviter le rognage</td><td>Redimensionnement pour s'adapter</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète de <code>background-size</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>auto</code></td><td>Taille originale de l'image (défaut)</td><td><code>background-size: auto</code></td></tr>
+            <tr><td><code>cover</code></td><td>Remplit le conteneur, rogne si nécessaire</td><td>Idéal pour hero sections</td></tr>
+            <tr><td><code>contain</code></td><td>Image entière visible, bandes possibles</td><td>Pour logos, icônes</td></tr>
+            <tr><td><code>&lt;width&gt; &lt;height&gt;</code></td><td>Dimensions exactes (px, %, em, etc.)</td><td><code>200px 150px</code>, <code>50% auto</code></td></tr>
+            <tr><td><code>auto &lt;height&gt;</code></td><td>Largeur proportionnelle, hauteur fixée</td><td><code>auto 100%</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Répétition et dimensionnement</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.hero {
+  background-image: url('../../images/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.pattern {
+  background-image: url('motif.png');
+  background-repeat: repeat;
+}
+
+.logo { background-size: contain; background-repeat: no-repeat; }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Comparaison cover / contain</div>
+          <p><code>cover</code> : l'image remplit l'intégralité du conteneur, avec un rognage éventuel. Convient aux sections hero. <code>contain</code> : l'image entière est visible, ce qui peut laisser des bandes vides. Utile pour les logos ou icônes en arrière-plan.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 BACKGROUND-POSITION ══ -->
+    <div id="s5-pos">
+      <div class="section-header"><span class="section-num">04</span><h2>background-position</h2></div>
+
+      <p>La propriété <code>background-position</code> détermine la position de départ de l'image de fond à l'intérieur de la boîte de l'élément. Elle est particulièrement utile lorsque l'image est plus grande que le conteneur (notamment avec <code>background-size: cover</code>) ou lorsqu'elle n'est pas répétée. La position par défaut est le coin supérieur gauche <code>(0% 0%)</code>.</p>
+
+      <p>Les valeurs peuvent être exprimées par des mots-clés (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>, <code>center</code>), en pourcentages (<code>0% 0%</code> à <code>100% 100%</code>), ou en unités de mesure absolues. Depuis CSS3, il est possible de spécifier une position relative aux bords avec la syntaxe <code>right 20px bottom 10px</code>, ce qui permet un positionnement précis sans calcul mental.</p>
+
+      <h3>Référence complète de <code>background-position</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>center</code></td><td>Centré horizontalement et verticalement</td><td><code>background-position: center</code></td></tr>
+            <tr><td><code>top / bottom / left / right</code></td><td>Mot-clé simple pour un côté</td><td><code>background-position: top</code></td></tr>
+            <tr><td><code>&lt;x&gt; &lt;y&gt;</code></td><td>Deux valeurs (mots-clés, %, px)</td><td><code>top right</code>, <code>25% 75%</code></td></tr>
+            <tr><td><code>&lt;x%&gt; &lt;y%&gt;</code></td><td>Pourcentage : 0%=début, 100%=fin</td><td><code>50% 50%</code> (équivaut à center)</td></tr>
+            <tr><td><code>&lt;x&gt; &lt;y&gt; (px)</code></td><td>Décalage en pixels depuis le coin supérieur gauche</td><td><code>20px 40px</code></td></tr>
+            <tr><td><code>right &lt;x&gt; bottom &lt;y&gt;</code></td><td>Position depuis les bords (CSS3)</td><td><code>right 20px bottom 10px</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — background-position</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.hero     { background-position: center; }
+.portrait { background-position: top center; }  /* évite de couper le visage */
+.decale   { background-position: right 20px bottom 15px; }</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">background-position avec cover</div>
+          <p>Avec <code>background-size: cover</code>, la position détermine quelle partie de l'image est visible. <code>center</code> est le plus sûr. Pour un portrait, <code>top center</code> évite de couper le visage.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 DÉGRADÉS LINÉAIRES ══ -->
+    <div id="s5-linear">
+      <div class="section-header"><span class="section-num">05</span><h2>Dégradés linéaires (linear-gradient)</h2></div>
+
+      <p>Les dégradés CSS produisent des transitions progressives entre plusieurs couleurs, sans recourir à des fichiers image. Ils sont assimilés à des <strong>images</strong> par le moteur de rendu et s'utilisent donc via la propriété <code>background-image</code> (ou la propriété raccourcie <code>background</code>). Les dégradés linéaires suivent une direction rectiligne spécifiée par un angle ou un mot-clé.</p>
+
+      <p>La fonction <code>linear-gradient()</code> accepte un ou plusieurs <strong>points d'arrêt</strong> (color-stops) qui définissent les positions où les couleurs doivent atteindre leur pleine intensité. Entre deux points d'arrêt, le navigateur calcule automatiquement la transition. La direction par défaut est <code>to bottom</code> (du haut vers le bas), mais elle peut être spécifiée avec les mots-clés <code>to top</code>, <code>to right</code>, <code>to left</code>, <code>to bottom right</code>, etc., ou avec un angle en degrés (<code>45deg</code>).</p>
+
+      <p>Les dégradés linéaires sont extrêmement versatiles : ils permettent de créer des fonds de page, des boutons, des overlays, des motifs rayés (avec <code>repeating-linear-gradient</code>), des séparateurs et bien plus encore. La combinaison d'un dégradé avec une image réelle (en arrière-plan) est une technique standard pour améliorer la lisibilité du texte sur les photos.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Tapez votre CSS pour le dégradé — voyez le rendu */
+.ma-boite {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100px;
+  width: 100%;
+  border-radius: 8px;
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <iframe class="code-preview-iframe" srcdoc="<!DOCTYPE html><html><head><style>.ma-boite { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100px; width: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-family: sans-serif; font-weight: bold; }</style></head><body><div class='ma-boite'>Dégradé 135°</div></body></html>"></iframe>
+        </div>
+      </div>
+
+      <h3>Référence complète de <code>linear-gradient()</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Paramètre</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>to bottom</code></td><td>Direction par défaut (haut → bas)</td><td><code>linear-gradient(to bottom, red, blue)</code></td></tr>
+            <tr><td><code>to top</code></td><td>Direction bas → haut</td><td></td></tr>
+            <tr><td><code>to right</code></td><td>Direction gauche → droite</td><td></td></tr>
+            <tr><td><code>to left</code></td><td>Direction droite → gauche</td><td></td></tr>
+            <tr><td><code>to bottom right</code></td><td>Direction diagonale</td><td></td></tr>
+            <tr><td><code>&lt;angle&gt;</code></td><td>Angle en degrés (0deg = haut, 90deg = droite)</td><td><code>45deg</code>, <code>120deg</code></td></tr>
+            <tr><td><code>&lt;color&gt; &lt;pos&gt;</code></td><td>Couleur avec position en % ou px (color-stop)</td><td><code>red 0%</code>, <code>blue 50%</code>, <code>green 100%</code></td></tr>
+            <tr><td><code>rgba(...)</code></td><td>Couleur avec transparence</td><td><code>rgba(0,0,0,.5)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — linear-gradient</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.btn     { background: linear-gradient(to right, #e74c3c, #c0392b); }
+.hero    { background: linear-gradient(135deg, #667eea, #764ba2); }
+.overlay { background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent); }
+.stripes { background: repeating-linear-gradient(45deg, #eee 0, #eee 10px, #ccc 10px, #ccc 20px); }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Superposition d'un dégradé et d'une image</div>
+          <p>Un dégradé étant une image CSS, il peut être superposé à une image réelle : <code>background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('photo.jpg') center / cover;</code>. Cette technique standard permet d'assombrir un fond pour améliorer la lisibilité du texte.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <div class="callout-title">Pour aller plus loin — Dégradés coniques et motifs complexes</div>
+          <p>Au-delà de <code>linear-gradient</code> et <code>radial-gradient</code>, la fonction <code>conic-gradient()</code> crée des dégradés qui tournent autour d'un point central (effet de roue chromatique). Combinée avec <code>repeating-</code>, elle produit des motifs géométriques complexes sans aucune image. Les dégradés CSS sont également animables via la propriété <code>transition</code> : vous pouvez créer des transitions fluides entre deux dégradés, bien que cette technique nécessite des tailles de background identiques.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 DÉGRADÉS RADIAUX ══ -->
+    <div id="s5-radial">
+      <div class="section-header"><span class="section-num">06</span><h2>Dégradés radiaux (radial-gradient)</h2></div>
+
+      <p>Les dégradés radiaux rayonnent à partir d'un <strong>point d'origine</strong> et se déploient en cercles ou ellipses concentriques. Cette forme de dégradé est idéale pour simuler un éclairage ponctuel (effet spotlight), créer des halos lumineux, des reflets ou des ombres internes. Le point d'origine peut être centré ou décentré.</p>
+
+      <p>La fonction <code>radial-gradient()</code> accepte des paramètres de forme (<code>circle</code> ou <code>ellipse</code>), de taille (<code>closest-side</code>, <code>farthest-side</code>, <code>closest-corner</code>, <code>farthest-corner</code>), et de position (mêmes valeurs que <code>background-position</code>). Par défaut, le dégradé est une ellipse centrée qui s'étend jusqu'au coin le plus éloigné (<code>farthest-corner</code>).</p>
+
+      <h3>Référence complète de <code>radial-gradient()</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Paramètre</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>circle</code></td><td>Forme circulaire</td><td><code>radial-gradient(circle, red, blue)</code></td></tr>
+            <tr><td><code>ellipse</code></td><td>Forme elliptique (défaut)</td><td><code>radial-gradient(red, blue)</code></td></tr>
+            <tr><td><code>closest-side</code></td><td>S'étend jusqu'au côté le plus proche</td><td></td></tr>
+            <tr><td><code>farthest-side</code></td><td>S'étend jusqu'au côté le plus éloigné</td><td></td></tr>
+            <tr><td><code>closest-corner</code></td><td>S'étend jusqu'au coin le plus proche</td><td></td></tr>
+            <tr><td><code>farthest-corner</code></td><td>S'étend jusqu'au coin le plus éloigné (défaut)</td><td></td></tr>
+            <tr><td><code>at &lt;pos&gt;</code></td><td>Position du centre du dégradé</td><td><code>circle at top left</code>, <code>circle at 30% 70%</code></td></tr>
+            <tr><td><code>&lt;color&gt; &lt;pos&gt;</code></td><td>Point d'arrêt avec position</td><td><code>red 0%</code>, <code>blue 50%</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — radial-gradient</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.spotlight { background: radial-gradient(circle at 50% 30%, #ff6b6b, #c0392b); }
+.glow     { background: radial-gradient(circle, rgba(255,255,255,.8), transparent 60%); }
+.multi    { background: radial-gradient(circle, #ff6b6b 0%, #feca57 50%, #48dbfb 100%); }
+.darken   { background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.6)); }</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Cas d'usage des dégradés radiaux</div>
+          <p>Les dégradés radiaux sont adaptés pour simuler un éclairage ponctuel (spotlight), créer des effets de profondeur ou mettre en valeur le centre d'un élément. Il convient de les utiliser avec modération — un dégradé radial trop prononcé peut nuire à la lisibilité.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 BOX-SHADOW ══ -->
+    <div id="s5-shadow">
+      <div class="section-header"><span class="section-num">07</span><h2>box-shadow — Ombres portées</h2></div>
+
+      <p>La propriété <code>box-shadow</code> ajoute une ou plusieurs ombres autour de la boîte d'un élément. Cet effet, appliqué avec mesure, confère une sensation de <strong>profondeur</strong> et de <strong>relief</strong> à l'interface. La syntaxe de <code>box-shadow</code> est l'une des plus riches du CSS : elle permet de contrôler le décalage horizontal et vertical, le flou, l'étalement, la couleur, et même de placer l'ombre à l'intérieur de la boîte (inset).</p>
+
+      <p>Le principe de conception connu sous le nom de <strong>Material Design</strong> a popularisé l'utilisation d'ombres multiples pour suggérer différentes hauteurs (élévation). Une carte située "plus haut" dans la hiérarchie visuelle reçoit une ombre plus grande et plus floue. Cette métaphore de l'élévation aide les utilisateurs à comprendre la structure hiérarchique de l'interface.</p>
+
+      <p>Il est important de noter que <code>box-shadow</code> suit la forme de la boîte, y compris les coins arrondis définis par <code>border-radius</code>. Les ombres multiples sont séparées par des virgules et s'empilent de l'avant vers l'arrière (la première ombre déclarée est la plus haute).</p>
+
+      <h3>Référence complète de <code>box-shadow</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Composant</th><th>Description</th><th>Valeurs</th></tr></thead>
+          <tbody>
+            <tr><td><code>offset-x</code></td><td>Décalage horizontal (+ = droite, - = gauche)</td><td><code>2px</code>, <code>-4px</code>, <code>0</code></td></tr>
+            <tr><td><code>offset-y</code></td><td>Décalage vertical (+ = bas, - = haut)</td><td><code>2px</code>, <code>-4px</code>, <code>0</code></td></tr>
+            <tr><td><code>blur-radius</code></td><td>Flou gaussien (0 = ombre nette)</td><td><code>4px</code>, <code>8px</code>, <code>24px</code></td></tr>
+            <tr><td><code>spread-radius</code></td><td>Étalement (+ = agrandit, - = rétrécit)</td><td><code>2px</code>, <code>-4px</code>, <code>0</code></td></tr>
+            <tr><td><code>&lt;color&gt;</code></td><td>Couleur de l'ombre</td><td><code>rgba(0,0,0,.1)</code>, <code>#333</code></td></tr>
+            <tr><td><code>inset</code></td><td>Ombre intérieure (optionnel)</td><td><code>inset</code> ou absent</td></tr>
+            <tr><td><code>multiples</code></td><td>Plusieurs ombres séparées par des virgules</td><td><code>0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.08)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — box-shadow</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.card     { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.card-lg  { box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.06); }
+.inset    { box-shadow: inset 0 2px 4px rgba(0,0,0,.1); }
+.colorful { box-shadow: 0 4px 12px rgba(139,92,246,.3); }
+.elevated { box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04); }
+.hover:hover { box-shadow: 0 8px 32px rgba(0,0,0,.15); }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Configuration standard pour les cartes</div>
+          <p>La combinaison d'ombres la plus répandue : <code>box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04);</code>. Au survol : <code>0 4px 12px rgba(0,0,0,.12), 0 12px 32px rgba(0,0,0,.08);</code>.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <div class="callout-title">Pour aller plus loin — box-shadow et performance</div>
+          <p>La propriété <code>box-shadow</code> est relativement coûteuse en termes de performance de rendu. Pour les animations, privilégiez l'animation de <code>transform</code> et <code>opacity</code> plutôt que <code>box-shadow</code>. Une alternative performante pour les ombres consiste à utiliser un pseudo-élément <code>::after</code> avec un dégradé radial. Depuis l'avènement du GPU compositing, les ombres simples restent néanmoins acceptables dans la plupart des contextes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 MULTIPLE BACKGROUNDS ══ -->
+    <div id="s5-multi">
+      <div class="section-header"><span class="section-num">08</span><h2>Multiple backgrounds</h2></div>
+
+      <p>CSS autorise la superposition de plusieurs images de fond sur un même élément. La première image dans la déclaration occupe le plan le plus <strong>élevé</strong> (premier plan, au-dessus des autres), tandis que la dernière constitue le plan le plus <strong>bas</strong> (fond lointain). Cette fonctionnalité est extrêmement puissante pour créer des effets visuels complexes sans multiplier les éléments HTML.</p>
+
+      <p>Chaque couche de fond peut posséder ses propres valeurs pour <code>background-repeat</code>, <code>background-size</code>, <code>background-position</code> et les autres propriétés du groupe <code>background</code>. Les valeurs de ces propriétés sont également séparées par des virgules, dans le même ordre que les images. La propriété raccourcie <code>background</code> permet de déclarer l'ensemble en une seule ligne, bien que la lisibilité en pâtisse souvent.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Backgrounds multiples</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.hero {
+  background:
+    linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)),
+    url('../../images/hero.jpg') center / cover no-repeat;
+}
+
+.card-accent {
+  background:
+    linear-gradient(#e74c3c, #e74c3c) no-repeat left / 4px 100%,
+    #f8f9fa;
+  /* Barre latérale rouge + fond gris */
+}
+
+.complex {
+  background:
+    url('stars.png') repeat,
+    radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+}</pre></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Shorthand complet</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Syntaxe : image repeat attachment position / size */
+.element {
+  background:
+    url('pattern.png') repeat-x center top / 50px auto,
+    linear-gradient(180deg, #fff 0%, #f0f0f0 100%) no-repeat center / 100% 100%;
+}
+
+/* Exemple : dégradé + image + couleur de secours */
+.exemple {
+  background:
+    linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)),
+    url('photo.jpg') center / cover no-repeat,
+    #333; /* fallback si l'image ne charge pas */
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Principe d'empilement</div>
+          <p>Les arrière-plans sont empilés de gauche à droite (la première couche est la plus haute, la dernière la plus basse). Chaque couche peut posséder ses propres valeurs pour les propriétés <code>background-repeat</code>, <code>background-size</code> et <code>background-position</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s5-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🌈 Dégradés créatifs</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-gradients.html</code> avec 6 blocs carrés de 150×150px.</li>
+            <li>Chaque bloc a un dégradé différent : linéaire horizontal, linéaire diagonal, linéaire 4 couleurs, radial circulaire, radial décentré, radial 3 couleurs.</li>
+            <li>Ajoutez un dégradé de transparence sur le dernier (rgba → transparent).</li>
+            <li>Ajoutez une ombre portée à chaque bloc.</li>
+            <li>Créez une hero section avec un dégradé + image par-dessus.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🖼️ Mise en page avec backgrounds</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une galerie de 4 cartes avec images de fond en <code>background-size: cover</code>.</li>
+            <li>Ajoutez un overlay semi-transparent (dégradé) sur chaque carte.</li>
+            <li>Chaque carte a un titre et sous-titre en blanc.</li>
+            <li>Utilisez <code>background-size: contain</code> pour un bloc avec un logo.</li>
+            <li>Ajoutez un motif répété pour un bloc décoratif.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Système d'ombres cohérent</div>
+          <p>Créez 4 niveaux d'ombre : <code>shadow-sm</code> (0 1px 3px), <code>shadow-md</code> (0 4px 12px), <code>shadow-lg</code> (0 8px 24px), <code>shadow-xl</code> (0 16px 48px). Appliquez-les à des cartes et observez la profondeur perçue.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet fil rouge -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel. Voici comment mettre en pratique les notions abordées :</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Créez une section d'en-tête (hero) utilisant un dégradé linéaire comme fond, avec une ombre portée subtile sur le titre principal.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Produire un effet visuel d'accueil immédiat et professionnel pour le portfolio.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="design">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s5-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>background-color : couleur unie, transparent, alpha</li>
+        <li>background-image : url(), dégradés, superposition, image-set()</li>
+        <li>background-repeat : repeat, no-repeat, repeat-x/y, space, round</li>
+        <li>background-size : cover, contain, dimensions explicites</li>
+        <li>background-position : mots-clés, pourcentages, pixels, bords</li>
+        <li>Linear-gradient : directions, angles, color-stops, transparence</li>
+        <li>Radial-gradient : cercle, ellipse, position, formes, taille</li>
+        <li>box-shadow : offset, blur, spread, couleur, multiples, inset</li>
+        <li>Multiple backgrounds : superposition, ordre, shorthand complet</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>background-image</dt><dd>Image de fond. Accepte url(), dégradés, ou plusieurs valeurs séparées par des virgules.</dd>
+          <dt>background-size: cover</dt><dd>L'image remplit tout le conteneur, rognée si nécessaire pour couvrir.</dd>
+          <dt>background-size: contain</dt><dd>L'image entière est visible, peut laisser des bandes vides.</dd>
+          <dt>linear-gradient</dt><dd>Dégradé en ligne droite. Direction : to right, 45deg, to bottom.</dd>
+          <dt>radial-gradient</dt><dd>Dégradé radial en cercle ou ellipse. Position : circle at top left.</dd>
+          <dt>color-stop</dt><dd>Point d'arrêt d'une couleur dans un dégradé. Ex : <code>red 50%</code>.</dd>
+          <dt>box-shadow</dt><dd>Ombre portée. Syntaxe : offset-x offset-y blur spread color.</dd>
+          <dt>inset</dt><dd>Mot-clé optionnel de box-shadow qui place l'ombre à l'intérieur.</dd>
+          <dt>overlay</dt><dd>Superposition semi-transparente pour améliorer la lisibilité du texte.</dd>
+          <dt>shorthand background</dt><dd>Propriété raccourcie : <code>background: color image repeat attachment position / size</code>.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#8b5cf6;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochain sujet</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Unités Absolues et Relatives</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">px · em · rem · vw · vh · % · calc · clamp</div>
+        </div>
+        <a href="units.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#8b5cf6;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Unités CSS →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

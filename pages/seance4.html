@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 4 — Listes &amp; Liens · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(167,139,250,.25); }
+    .section-header    { border-bottom-color:rgba(167,139,250,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html" class="active">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s4">Séance 4</div>
+      <a href="#s4-ul" class="sidebar-item"><span class="sidebar-num">01</span>Listes non ordonnées</a>
+      <a href="#s4-ol" class="sidebar-item"><span class="sidebar-num">02</span>Listes ordonnées</a>
+      <a href="#s4-imbric" class="sidebar-item"><span class="sidebar-num">03</span>Imbrication de listes</a>
+      <a href="#s4-dl" class="sidebar-item"><span class="sidebar-num">04</span>Listes de définition</a>
+      <a href="#s4-externes" class="sidebar-item"><span class="sidebar-num">05</span>Liens externes</a>
+      <a href="#s4-internes" class="sidebar-item"><span class="sidebar-num">06</span>Liens internes</a>
+      <a href="#s4-ancres" class="sidebar-item"><span class="sidebar-num">07</span>Ancres #id</a>
+      <a href="#s4-attributs" class="sidebar-item"><span class="sidebar-num">08</span>Attributs target/rel</a>
+      <a href="#s4-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s4-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance3.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);">← Séance 3</a>
+      <a href="seance5.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);margin-top:.5rem;">Séance 5 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s3">
+      <div class="session-badge s3">Séance 04 / 10</div>
+      <h1>Listes &amp; Liens</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">ul • ol • dl • Imbrication • Liens externes/internes • Ancres • target • rel</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 UL ══ -->
+    <div id="s4-ul">
+      <div class="section-header"><span class="section-num">01</span><h2>Listes non ordonnées &lt;ul&gt;</h2></div>
+      <p>La liste non ordonnée (<code>&lt;ul&gt;</code>) affiche des éléments précédés de puces. Utilisez-la quand <strong>l'ordre n'a pas d'importance</strong> : liste de courses, menu de navigation, caractéristiques d'un produit.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Liste non ordonnée</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;h2&gt;Liste de courses&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Pain&lt;/li&gt;
+  &lt;li&gt;Lait&lt;/li&gt;
+  &lt;li&gt;Œufs&lt;/li&gt;
+  &lt;li&gt;Beurre&lt;/li&gt;
+  &lt;li&gt;Fromage&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h2>Liste de courses</h2>
+            <ul><li>Pain</li><li>Lait</li><li>Œufs</li><li>Beurre</li><li>Fromage</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Accessibilité</div>
+          <p>Les lecteurs d'écran annoncent "liste de N éléments" pour une vraie <code>&lt;ul&gt;</code>. N'utilisez pas des tirets simulés <code>&lt;p&gt;- Pain&lt;/p&gt;</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 OL ══ -->
+    <div id="s4-ol">
+      <div class="section-header"><span class="section-num">02</span><h2>Listes ordonnées &lt;ol&gt;</h2></div>
+      <p>La liste ordonnée (<code>&lt;ol&gt;</code>) numérote automatiquement ses éléments. Utilisez-la quand <strong>l'ordre est important</strong> : recette de cuisine, top 10, marche à suivre.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Liste ordonnée</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;h2&gt;Préparation&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Préchauffer le four à 180°C&lt;/li&gt;
+  &lt;li&gt;Mélanger farine, sucre et beurre&lt;/li&gt;
+  &lt;li&gt;Ajouter les œufs un par un&lt;/li&gt;
+  &lt;li&gt;Verser dans un moule&lt;/li&gt;
+  &lt;li&gt;Enfourner 25 minutes&lt;/li&gt;
+&lt;/ol&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h2>Préparation</h2>
+            <ol><li>Préchauffer le four à 180°C</li><li>Mélanger farine, sucre et beurre</li><li>Ajouter les œufs un par un</li><li>Verser dans un moule</li><li>Enfourner 25 minutes</li></ol>
+          </div>
+        </div>
+      </div>
+      <h3>Attributs avancés de &lt;ol&gt;</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Exemple</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><code>type</code></td><td><code>type="A"</code></td><td>A, B, C… (1, a, A, i, I)</td></tr>
+            <tr><td><code>start</code></td><td><code>start="5"</code></td><td>Commence à 5</td></tr>
+            <tr><td><code>reversed</code></td><td><code>reversed</code></td><td>Ordre décroissant</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Attributs de ol</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Type A (majuscules) --&gt;
+&lt;ol type="A"&gt;
+  &lt;li&gt;Premier&lt;/li&gt;
+  &lt;li&gt;Deuxième&lt;/li&gt;
+  &lt;li&gt;Troisième&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Start à 5 --&gt;
+&lt;ol start="5"&gt;
+  &lt;li&gt;Cinq&lt;/li&gt;
+  &lt;li&gt;Six&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Ordre inverse --&gt;
+&lt;ol reversed&gt;
+  &lt;li&gt;Dernier&lt;/li&gt;
+  &lt;li&gt;Avant-dernier&lt;/li&gt;
+&lt;/ol&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <ol type="A"><li>Premier</li><li>Deuxième</li><li>Troisième</li></ol>
+            <ol start="5"><li>Cinq</li><li>Six</li></ol>
+            <ol reversed><li>Dernier</li><li>Avant-dernier</li></ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 IMBRICATION ══ -->
+    <div id="s4-imbric">
+      <div class="section-header"><span class="section-num">03</span><h2>Imbrication de listes</h2></div>
+      <p>Un élément <code>&lt;li&gt;</code> peut lui-même contenir une liste. Cela permet de créer des hiérarchies comme un plan de cours, un arbre de catégories, ou un menu déroulant.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Listes imbriquées</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;ul&gt;
+  &lt;li&gt;Fruits
+    &lt;ul&gt;
+      &lt;li&gt;Pomme&lt;/li&gt;
+      &lt;li&gt;Banane&lt;/li&gt;
+      &lt;li&gt;Orange&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Légumes
+    &lt;ul&gt;
+      &lt;li&gt;Carotte&lt;/li&gt;
+      &lt;li&gt;Brocoli&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <ul><li>Fruits<ul><li>Pomme</li><li>Banane</li><li>Orange</li></ul></li><li>Légumes<ul><li>Carotte</li><li>Brocoli</li></ul></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 DL ══ -->
+    <div id="s4-dl">
+      <div class="section-header"><span class="section-num">04</span><h2>Listes de définition &lt;dl&gt;</h2></div>
+      <p><code>&lt;dl&gt;</code> (description list) associe des termes (<code>&lt;dt&gt;</code>) à leurs définitions (<code>&lt;dd&gt;</code>). Parfaite pour les glossaires, les métadonnées, ou les paires clé/valeur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Liste de définition</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Langage de balisage pour structurer le contenu web.&lt;/dd&gt;
+
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Langage de style pour mettre en forme les pages.&lt;/dd&gt;
+
+  &lt;dt&gt;JavaScript&lt;/dt&gt;
+  &lt;dd&gt;Langage de programmation pour les interactions.&lt;/dd&gt;
+&lt;/dl&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <dl><dt>HTML</dt><dd>Langage de balisage pour structurer le contenu web.</dd><dt>CSS</dt><dd>Langage de style pour mettre en forme les pages.</dd><dt>JavaScript</dt><dd>Langage de programmation pour les interactions.</dd></dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 LIENS EXTERNES ══ -->
+    <div id="s4-externes">
+      <div class="section-header"><span class="section-num">05</span><h2>Liens externes</h2></div>
+      <p>La balise <code>&lt;a&gt;</code> (anchor) crée un lien hypertexte. Pour un lien vers un autre site, l'attribut <code>href</code> doit contenir l'URL complète avec <code>https://</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Liens externes</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Lien externe vers un autre site --&gt;
+&lt;a href="https://www.wikipedia.org"&gt;
+  Aller sur Wikipedia
+&lt;/a&gt;
+
+&lt;!-- Lien avec target _blank (nouvel onglet) --&gt;
+&lt;a href="https://exemple.com"
+   target="_blank"
+   rel="noopener noreferrer"&gt;
+  Ouvrir dans un nouvel onglet
+&lt;/a&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><a href="#">Aller sur Wikipedia</a></p>
+            <p><a href="#" target="_blank">Ouvrir dans un nouvel onglet</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Sécurité — rel="noopener noreferrer"</div>
+          <p>Sans <code>rel="noopener"</code>, la page ouverte peut rediriger votre page vers un site malveillant (attaque <em>tabnapping</em>). Ajoutez toujours ces deux attributs avec <code>target="_blank"</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 LIENS INTERNES ══ -->
+    <div id="s4-internes">
+      <div class="section-header"><span class="section-num">06</span><h2>Liens internes &amp; chemins relatifs</h2></div>
+      <p>Un lien interne pointe vers une autre page du même site. On utilise des <strong>chemins relatifs</strong> calculés depuis le fichier courant.</p>
+      <div class="path-diagram">
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--text2);margin:0 0 .75rem;">Structure d'un site typique :</p>
+        <div class="pd-tree">
+          <div class="pd-row"><span class="pd-folder">📁</span><span class="pd-name">mon-site/</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-file">📄</span><span class="pd-name current">index.html</span><span class="pd-path">← fichier courant</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-file">📄</span><span class="pd-name">contact.html</span><span class="pd-path">href="contact.html"</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-folder">📁</span><span class="pd-name">blog/</span></div>
+          <div class="pd-row" style="margin-left:2.8rem;"><span class="pd-file">📄</span><span class="pd-name">article.html</span><span class="pd-path">href="blog/article.html"</span></div>
+          <div class="pd-row" style="margin-left:1.4rem;"><span class="pd-folder">📁</span><span class="pd-name">images/</span></div>
+          <div class="pd-row" style="margin-left:2.8rem;"><span class="pd-file">🖼️</span><span class="pd-name">logo.png</span><span class="pd-path">src="images/logo.png"</span></div>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Chemins relatifs</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Même dossier --&gt;
+&lt;a href="contact.html"&gt;Contact&lt;/a&gt;
+
+&lt;!-- Sous-dossier --&gt;
+&lt;a href="blog/article.html"&gt;Article&lt;/a&gt;
+
+&lt;!-- Dossier parent (../) --&gt;
+&lt;a href="../index.html"&gt;Retour à l'accueil&lt;/a&gt;
+
+&lt;!-- Racine du site --&gt;
+&lt;a href="/index.html"&gt;Accueil absolu&lt;/a&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><a href="#">Contact</a> · <a href="#">Article</a> · <a href="#">Retour à l'accueil</a> · <a href="#">Accueil absolu</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 ANCRES ══ -->
+    <div id="s4-ancres">
+      <div class="section-header"><span class="section-num">07</span><h2>Ancres #id</h2></div>
+      <p>Un lien peut pointer vers une section spécifique de la même page en utilisant le <code>#</code> suivi de l'attribut <code>id</code> de la cible. Le navigateur scroll automatiquement jusqu'à l'élément.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Ancres</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Menu de navigation avec ancres --&gt;
+&lt;nav&gt;
+  &lt;a href="#presentation"&gt;Présentation&lt;/a&gt;
+  &lt;a href="#competences"&gt;Compétences&lt;/a&gt;
+  &lt;a href="#contact"&gt;Contact&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;!-- Sections cibles avec id --&gt;
+&lt;h2 id="presentation"&gt;Présentation&lt;/h2&gt;
+&lt;p&gt;Contenu de la présentation...&lt;/p&gt;
+
+&lt;h2 id="competences"&gt;Compétences&lt;/h2&gt;
+&lt;p&gt;Liste des compétences...&lt;/p&gt;
+
+&lt;h2 id="contact"&gt;Contact&lt;/h2&gt;
+&lt;p&gt;Formulaire de contact...&lt;/p&gt;
+
+&lt;!-- Retour en haut --&gt;
+&lt;a href="#"&gt;↑ Retour en haut de page&lt;/a&gt;
+
+&lt;!-- Ancre sur une autre page --&gt;
+&lt;a href="contact.html#formulaire"&gt;
+  Aller au formulaire sur la page contact
+&lt;/a&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <nav style="margin-bottom:.5rem;"><a href="#" style="margin-right:.5rem;">Présentation</a><a href="#" style="margin-right:.5rem;">Compétences</a><a href="#">Contact</a></nav>
+            <p><a href="#">↑ Retour en haut de page</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ATTRIBUTS ══ -->
+    <div id="s4-attributs">
+      <div class="section-header"><span class="section-num">08</span><h2>Attributs target, rel, download, mailto, tel</h2></div>
+      <p>La balise <code>&lt;a&gt;</code> accepte plusieurs attributs qui modifient le comportement du lien.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Tous les types de liens</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Nouvel onglet sécurisé --&gt;
+&lt;a href="https://exemple.com"
+   target="_blank"
+   rel="noopener noreferrer"&gt;
+  Ouvrir dans un nouvel onglet
+&lt;/a&gt;
+
+&lt;!-- Email --&gt;
+&lt;a href="mailto:contact@exemple.com"&gt;
+  Nous écrire
+&lt;/a&gt;
+&lt;a href="mailto:contact@exemple.com?
+  subject=Demande&amp;body=Bonjour"&gt;
+  Email avec sujet
+&lt;/a&gt;
+
+&lt;!-- Téléphone (mobile) --&gt;
+&lt;a href="tel:+33600000000"&gt;
+  +33 6 00 00 00 00
+&lt;/a&gt;
+
+&lt;!-- Téléchargement --&gt;
+&lt;a href="guide.pdf" download="Guide_HTML.pdf"&gt;
+  Télécharger le guide
+&lt;/a&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><a href="#">Ouvrir dans un nouvel onglet</a></p>
+            <p><a href="#">Nous écrire</a> · <a href="#">Email avec sujet</a></p>
+            <p><a href="#">+33 6 00 00 00 00</a> · <a href="#">Télécharger le guide</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Valeurs</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>target</code></td><td><code>_blank</code>, <code>_self</code>, <code>_parent</code>, <code>_top</code></td><td>Où ouvrir le lien</td></tr>
+            <tr><td><code>rel</code></td><td><code>noopener</code>, <code>noreferrer</code>, <code>nofollow</code></td><td>Relation entre pages</td></tr>
+            <tr><td><code>download</code></td><td>Nom de fichier</td><td>Force le téléchargement</td></tr>
+            <tr><td><code>mailto:</code></td><td>Adresse email</td><td>Ouvre le client mail</td></tr>
+            <tr><td><code>tel:</code></td><td>Numéro international</td><td>Compose sur mobile</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s4-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Page avec listes</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page "Mes recettes préférées".</li>
+            <li>Utilisez une <code>&lt;ul&gt;</code> pour lister 5 recettes.</li>
+            <li>Dans chaque item, ajoutez une <code>&lt;ol&gt;</code> pour les étapes.</li>
+            <li>Ajoutez une <code>&lt;dl&gt;</code> pour définir les termes de cuisine.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔗 Navigation complète</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez 3 fichiers HTML liés entre eux : <code>index.html</code>, <code>about.html</code>, <code>contact.html</code>.</li>
+            <li>Chaque page a un menu de navigation vers les 2 autres.</li>
+            <li>Ajoutez un lien externe vers Google avec <code>target="_blank"</code> et <code>rel="noopener"</code>.</li>
+            <li>Ajoutez un <code>mailto:</code> et un <code>tel:</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">⚓ Ancres</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page "FAQ" avec 5 questions-réponses.</li>
+            <li>En haut, un menu avec des ancres vers chaque question.</li>
+            <li>À côté de chaque réponse, un lien "↑ Retour" pointant vers le menu.</li>
+            <li>Ajoutez <code>scroll-behavior: smooth</code> en CSS pour l'animation.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="04">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s4-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Listes non ordonnées ul avec puces</li>
+        <li>Listes ordonnées ol : type (1, A, a, I, i), start, reversed</li>
+        <li>Imbrication de listes (ul dans ul, ol dans li)</li>
+        <li>Listes de définition dl, dt, dd</li>
+        <li>Liens externes avec https:// et target="_blank" sécurisé</li>
+        <li>Liens internes et chemins relatifs (./ ../ /)</li>
+        <li>Ancres #id pour la navigation intra-page</li>
+        <li>Attributs : target, rel, download, mailto:, tel:</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>ul</dt><dd>Liste non ordonnée — puces. Ordre non important.</dd>
+          <dt>ol</dt><dd>Liste ordonnée — numérotation. Ordre important.</dd>
+          <dt>li</dt><dd>Élément de liste. Peut contenir une sous-liste.</dd>
+          <dt>dl / dt / dd</dt><dd>Liste de définition : terme (dt) et définition (dd).</dd>
+          <dt>&lt;a&gt;</dt><dd>Balise ancre pour les liens hypertextes.</dd>
+          <dt>href</dt><dd>Attribut de destination du lien. URL, #id, mailto:, tel:.</dd>
+          <dt>Chemin relatif</dt><dd>Calculé depuis le fichier courant. Ex: "pages/contact.html".</dd>
+          <target>target="_blank"</target><dd>Ouvre le lien dans un nouvel onglet. Toujours avec rel="noopener".</dd>
+          <dt>Ancre</dt><dd>Lien interne vers une section via #id. Scroll automatique.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 5 — Images &amp; Multimédia</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Img, figure, srcset, picture, video, audio, iframe</div>
+        </div>
+        <a href="seance5.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 5 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

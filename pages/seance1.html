@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 1 — Le Web &amp; Fondations · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--blue); background:var(--blue-dim); border-color:rgba(59,130,246,.25); }
+    .section-header    { border-bottom-color:rgba(59,130,246,.2); }
+    h3                 { color:var(--blue); }
+    .sidebar-item.active { color:var(--blue); border-left-color:var(--blue); background:var(--blue-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html" class="active">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s1">Séance 1</div>
+      <a href="#s1-client" class="sidebar-item"><span class="sidebar-num">01</span>Client/Serveur</a>
+      <a href="#s1-navig"  class="sidebar-item"><span class="sidebar-num">02</span>Navigateur &amp; Éditeur</a>
+      <a href="#s1-premier" class="sidebar-item"><span class="sidebar-num">03</span>Premier fichier HTML</a>
+      <a href="#s1-doctype" class="sidebar-item"><span class="sidebar-num">04</span>Doctype &amp; Structure</a>
+      <a href="#s1-langue" class="sidebar-item"><span class="sidebar-num">05</span>Langue &amp; Encodage</a>
+      <a href="#s1-meta" class="sidebar-item"><span class="sidebar-num">06</span>Meta tags essentiels</a>
+      <a href="#s1-tools" class="sidebar-item"><span class="sidebar-num">07</span>Outils Dev</a>
+      <a href="#s1-bonnes" class="sidebar-item"><span class="sidebar-num">08</span>Bonnes pratiques</a>
+      <a href="#s1-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s1-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Séance 2 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 01 / 10</div>
+      <h1>Le Web &amp; Fondations</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Client/Serveur • DNS • HTTP/HTTPS • Structure HTML5 • Encodage • Meta • DevTools</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 CLIENT/SERVEUR ══ -->
+    <div id="s1-client">
+      <div class="section-header"><span class="section-num">01</span><h2>Modèle Client / Serveur &amp; le protocole HTTP</h2></div>
+      <p>Avant d'écrire une seule ligne de HTML, il faut comprendre ce qui se passe <em>sous le capot</em> quand vous tapez une adresse dans votre navigateur. Ce mécanisme s'appelle le modèle <strong>client / serveur</strong>.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🍕</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la pizzeria</div>
+          <p>Votre <strong>navigateur</strong> (Chrome, Firefox) est le <em>client</em> qui passe commande. Le <strong>serveur</strong> est la pizzeria qui prépare et envoie. Le fichier <strong>HTML</strong> est la pizza livrée que le navigateur assemble et affiche.</p>
+        </div>
+      </div>
+      <h3>Le voyage d'une requête HTTP</h3>
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🌍 Navigateur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📡 Requête HTTP</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📡 Requête HTTP</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🖥️ Serveur Web</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ Serveur Web</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🗄️ Base de données</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🗄️ Base de données</span>
+          <span class="diagram-arrow">←</span>
+          <span class="diagram-label">🖥️ Réponse</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🖥️ Réponse</span>
+          <span class="diagram-arrow">←</span>
+          <span class="diagram-label">🌍 Navigateur</span>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">HTTP vs HTTPS</div>
+          <p><strong>HTTP</strong> = données en clair. <strong>HTTPS</strong> = données chiffrées (cadenas vert). Aujourd'hui tous les sites sérieux utilisent HTTPS. En local avec vos fichiers <code>.html</code>, vous utilisez HTTP — c'est normal.</p>
+        </div>
+      </div>
+      <h3>Le trio fondamental du web</h3>
+      <div class="trio">
+        <div class="trio-card active">
+          <span class="trio-emoji">🦴</span>
+          <div class="trio-name">HTML</div>
+          <div class="trio-desc">Le squelette — structure, contenu, sens</div>
+        </div>
+        <div class="trio-card">
+          <span class="trio-emoji">🎨</span>
+          <div class="trio-name">CSS</div>
+          <div class="trio-desc">Les vêtements — couleurs, mise en page</div>
+        </div>
+        <div class="trio-card">
+          <span class="trio-emoji">⚡</span>
+          <div class="trio-name">JavaScript</div>
+          <div class="trio-desc">Les muscles — interactions, logique</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 NAVIGATEUR & ÉDITEUR ══ -->
+    <div id="s1-navig">
+      <div class="section-header"><span class="section-num">02</span><h2>Navigateur &amp; Éditeur de code</h2></div>
+      <p>Pour développeur web, deux outils sont indispensables : un <strong>navigateur moderne</strong> (Chrome, Firefox, Edge) et un <strong>éditeur de code</strong> (VS Code).</p>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">🌐 Navigateur</h3>
+          <p style="font-size:.9rem;">Chrome est le plus utilisé par les développeurs grâce à ses <strong>DevTools</strong> (F12). Firefox est excellent aussi. Évitez Internet Explorer.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">✏️ VS Code</h3>
+          <p style="font-size:.9rem;">Éditeur gratuit et puissant. Installez l'extension <strong>Live Server</strong> pour voir vos modifications en temps réel sans recharger la page.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Extension Live Server</div>
+          <p>Une fois installée, faites un clic droit sur votre fichier <code>.html</code> dans VS Code, choisissez "Open with Live Server". Le navigateur s'ouvre et se rafraîchit automatiquement à chaque sauvegarde.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 PREMIER FICHIER HTML ══ -->
+    <div id="s1-premier">
+      <div class="section-header"><span class="section-num">03</span><h2>Votre premier fichier HTML</h2></div>
+      <p>Créez un dossier <code>mon-site/</code> et un fichier <code>index.html</code> à l'intérieur. Ouvrez-le dans VS Code, puis collez ce contenu :</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Premier fichier</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;h1&gt;Bonjour le monde !&lt;/h1&gt;
+&lt;p&gt;Je viens de créer ma première page web.&lt;/p&gt;
+&lt;p&gt;Ceci est un paragraphe avec un &lt;strong&gt;mot important&lt;/strong&gt;.&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h1>Bonjour le monde !</h1>
+            <p>Je viens de créer ma première page web.</p>
+            <p>Ceci est un paragraphe avec un <strong>mot important</strong>.</p>
+          </div>
+        </div>
+      </div>
+      <p>Sauvegardez (Ctrl+S) puis ouvrez le fichier dans Chrome. Félicitations — vous venez de créer votre première page web !</p>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Live reload</div>
+          <p>Avec Live Server, pas besoin de recharger manuellement. VS Code le fait pour vous. Pour le désactiver, stoppez le serveur depuis la barre d'état.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 DOCTYPE & STRUCTURE ══ -->
+    <div id="s1-doctype">
+      <div class="section-header"><span class="section-num">04</span><h2>Doctype &amp; Structure obligatoire</h2></div>
+      <p>Chaque fichier HTML valide respecte une structure fixe. Ces éléments ne sont pas optionnels :</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Structure obligatoire</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Titre de la page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Titre principal&lt;/h1&gt;
+    &lt;p&gt;Mon premier paragraphe.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h1>Titre principal</h1>
+            <p>Mon premier paragraphe.</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Élément</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Déclare HTML5 — évite le mode "quirks" qui cause des bugs d'affichage.</td></tr>
+            <tr><td><code>&lt;html lang="fr"&gt;</code></td><td>Racine du document. <code>lang="fr"</code> est crucial pour l'accessibilité et le SEO.</td></tr>
+            <tr><td><code>&lt;head&gt;</code></td><td>En-tête invisible : métadonnées, CSS, scripts. Rien affiché ici.</td></tr>
+            <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Encodage universel. Sans ça : les accents deviennent des caractères bizarres (é → Ã©).</td></tr>
+            <tr><td><code>&lt;meta name="viewport"&gt;</code></td><td>Responsive mobile. Sans elle, le smartphone zoome très en arrière.</td></tr>
+            <tr><td><code>&lt;title&gt;</code></td><td>Texte de l'onglet + titre Google (50-60 caractères max).</td></tr>
+            <tr><td><code>&lt;body&gt;</code></td><td>Tout le contenu visible par l'utilisateur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 05 LANGUE & ENCODAGE ══ -->
+    <div id="s1-langue">
+      <div class="section-header"><span class="section-num">05</span><h2>Langue &amp; Encodage</h2></div>
+      <p>Deux attributs sont essentiels dans tout document HTML : <strong>l'encodage</strong> et la <strong>langue</strong>. Sans eux, votre page peut s'afficher de travers.</p>
+      <h3>Pourquoi UTF-8 est obligatoire</h3>
+      <p>UTF-8 est l'encodage universel d'Internet. Il supporte les accents français (é, è, à, ô), les emojis 🎉, le cyrillique (Привет), l'arabe (مرحبا) et le chinois (你好). Sans la balise <code>&lt;meta charset="UTF-8"&gt;</code>, le navigateur peut interpréter vos caractères avec un autre encodage (ISO-8859-1 par défaut sur certains serveurs), transformant <code>é</code> en <code>Ã©</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Encodage et langue</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Démonstration des accents&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Les accents français : é è ê ë à â ä ù û ü ô ö î ï ç.&lt;/p&gt;
+  &lt;p&gt;Les emojis : 🎉 🚀 💻 🌍 ✅&lt;/p&gt;
+  &lt;p&gt;Un peu d'anglais : &lt;span lang="en"&gt;Hello World!&lt;/span&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Les accents français : é è ê ë à â ä ù û ü ô ö î ï ç.</p>
+            <p>Les emojis : 🎉 🚀 💻 🌍 ✅</p>
+            <p>Un peu d'anglais : <span lang="en">Hello World!</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 META TAGS ══ -->
+    <div id="s1-meta">
+      <div class="section-header"><span class="section-num">06</span><h2>Meta tags essentiels</h2></div>
+      <p>Les balises <code>&lt;meta&gt;</code> fournissent des informations aux moteurs de recherche, navigateurs et réseaux sociaux. Voici les plus utiles :</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Meta tags</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;meta name="description" content="Cours complet HTML5 pour débutants."&gt;
+  &lt;meta name="keywords" content="HTML, cours, débutant, balises"&gt;
+  &lt;meta name="author" content="Votre Nom"&gt;
+  &lt;meta name="robots" content="index, follow"&gt;
+  &lt;title>Mon site - Cours HTML&lt;/title&gt;
+&lt;/head&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p style="font-family:Arial,sans-serif;font-weight:700;margin:0 0 .5rem;font-size:.85rem;">Les meta sont invisibles, mais cruciales pour le SEO.</p>
+            <p style="font-family:Arial,sans-serif;font-size:.8rem;color:#555;">Google affiche <code>name="description"</code> sous le titre dans les résultats de recherche.</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>name="description"</code></td><td>Description affichée sous le titre dans Google (150-160 caractères max).</td></tr>
+            <tr><td><code>name="keywords"</code></td><td>Mots-clés (moins important aujourd'hui, mais encore utilisé par certains moteurs).</td></tr>
+            <tr><td><code>name="robots"</code></td><td><code>index</code> = autoriser l'indexation, <code>nofollow</code> = ne pas suivre les liens.</td></tr>
+            <tr><td><code>name="author"</code></td><td>Nom de l'auteur de la page.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 07 OUTILS DEV ══ -->
+    <div id="s1-tools">
+      <div class="section-header"><span class="section-num">07</span><h2>Outils de développement</h2></div>
+      <p>Les <strong>DevTools</strong> sont le meilleur ami du développeur web. Accessibles avec la touche <kbd>F12</kbd> (Chrome/Edge/Firefox).</p>
+      <h3>Les onglets essentiels</h3>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">📝 Éléments</h3>
+          <p style="font-size:.9rem;">Affiche le code HTML de la page. Vous pouvez double-cliquer pour modifier en direct — pratique pour tester des changements sans toucher au fichier source.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">🎨 Styles</h3>
+          <p style="font-size:.9rem;">Montre le CSS appliqué à chaque élément. Vous pouvez désactiver ou modifier des règles en temps réel pour voir le résultat immédiatement.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">📡 Console</h3>
+          <p style="font-size:.9rem;">Affiche les erreurs, les logs JavaScript. Permet d'exécuter du code JS directement. Indispensable pour le débogage.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">🌐 Réseau</h3>
+          <p style="font-size:.9rem;">Montre toutes les requêtes HTTP : fichiers chargés, temps de réponse, statut (200/404/500). Essentiel pour la performance.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Inspecter un élément</div>
+          <p>Faites un clic droit sur n'importe quelle partie d'une page → "Inspecter". Les DevTools s'ouvrent directement sur l'élément sélectionné. Essayez-le sur ce cours !</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 BONNES PRATIQUES ══ -->
+    <div id="s1-bonnes">
+      <div class="section-header"><span class="section-num">08</span><h2>Bonnes pratiques de fichiers</h2></div>
+      <p>Adopter les bonnes habitudes dès le début vous évitera bien des problèmes par la suite.</p>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">✅ Noms de fichiers</h3>
+          <p style="font-size:.9rem;">Uniquement des lettres minuscules, chiffres, tirets <code>-</code> et underscores <code>_</code>. Pas d'espaces, pas d'accents, pas de majuscules.<br><code>mon-fichier.html</code> ✓<br><code>Mon Fichier.html</code> ✗</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">✅ Indentation</h3>
+          <p style="font-size:.9rem;">Indentez chaque niveau d'imbrication avec 2 espaces. VS Code le fait automatiquement avec <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>. Un code bien indenté = un code maintenable.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">✅ Toujours fermer les balises</h3>
+          <p style="font-size:.9rem;">Ne comptez pas sur le navigateur pour "réparer". Chaque balise ouvrante doit avoir sa fermante (sauf les orphelines : <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code>).</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">✅ Organisation des dossiers</h3>
+          <p style="font-size:.9rem;">Un dossier <code>css/</code> pour les styles, <code>js/</code> pour les scripts, <code>images/</code> pour les images. Gardez vos fichiers HTML à la racine ou dans <code>pages/</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s1-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Votre première page personnelle</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un dossier <code>Seance1/</code> et un fichier <code>index.html</code>.</li>
+            <li>Copiez la structure complète HTML5 (DOCTYPE, html, head, body).</li>
+            <li>Personnalisez le <code>&lt;title&gt;</code> avec votre prénom.</li>
+            <li>Ajoutez un <code>&lt;h1&gt;</code> avec votre nom complet.</li>
+            <li>Ajoutez un paragraphe vous décrivant avec <code>&lt;strong&gt;</code> et <code>&lt;em&gt;</code>.</li>
+            <li>Ajoutez <code>&lt;meta name="description"&gt;</code> et <code>&lt;meta name="author"&gt;</code>.</li>
+            <li>Ouvrez le fichier dans Chrome. Inspectez avec F12.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔧 Live Server</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Installez l'extension Live Server dans VS Code.</li>
+            <li>Faites un clic droit sur votre fichier → "Open with Live Server".</li>
+            <li>Modifiez le <code>&lt;h1&gt;</code> et sauvegardez — le navigateur se rafraîchit automatiquement.</li>
+            <li>Essayez de modifier le <code>&lt;title&gt;</code> et vérifiez l'onglet.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Exploration DevTools</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ouvrez Wikipedia dans Chrome. Appuyez sur F12.</li>
+            <li>Dans l'onglet Éléments, repérez <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>.</li>
+            <li>Double-cliquez sur le titre principal et modifiez-le.</li>
+            <li>Dans l'onglet Console, tapez <code>console.log("Hello !");</code></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="01">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s1-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Modèle client/serveur : DNS, requête HTTP, codes de statut</li>
+        <li>Différence HTTP vs HTTPS</li>
+        <li>Structure obligatoire HTML5 : DOCTYPE, html, head, body</li>
+        <li>Encodage UTF-8 et attribut lang pour l'accessibilité</li>
+        <li>Meta tags essentiels : description, keywords, robots, author</li>
+        <li>DevTools : Éléments, Styles, Console, Réseau</li>
+        <li>Bonnes pratiques : noms de fichiers, indentation, organisation</li>
+        <li>Live Server pour le rafraîchissement automatique</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Client/Serveur</dt><dd>Modèle où le navigateur (client) demande des ressources et le serveur les fournit. Le web fonctionne uniquement sur requête.</dd>
+          <dt>DNS</dt><dd>Domain Name System — annuaire qui traduit un nom de domaine (google.fr) en adresse IP (216.58.213.227).</dd>
+          <dt>HTTP / HTTPS</dt><dd>HyperText Transfer Protocol — protocole d'échange. HTTPS = version sécurisée par chiffrement SSL/TLS.</dd>
+          <dt>DOCTYPE</dt><dd>Déclaration HTML5. Obligatoire en première ligne. Évite le mode "quirks" des navigateurs.</dd>
+          <dt>UTF-8</dt><dd>Encodage universel des caractères. Supporte toutes les langues et les emojis.</dd>
+          <dt>Meta tag</dt><dd>Balise orpheline dans &lt;head&gt; qui fournit des métadonnées sur la page (description, mots-clés, etc.).</dd>
+          <dt>DevTools</dt><dd>Outils de développement intégrés au navigateur. Accessibles via F12. Permettent d'inspecter, modifier et déboguer une page.</dd>
+          <dt>Live Server</dt><dd>Extension VS Code qui lance un serveur local et recharge automatiquement la page à chaque sauvegarde.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 2 — Syntaxe &amp; Structure HTML</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Balises, attributs, commentaires, entités HTML, validation W3C</div>
+        </div>
+        <a href="seance2.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 2 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

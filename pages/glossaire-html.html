@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossaire — Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .gloss-letter-index { display:flex; flex-wrap:wrap; gap:.4rem; margin:2rem 0 2.5rem; padding:1.25rem; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); justify-content:center; }
+    .gloss-letter-index a { display:flex; align-items:center; justify-content:center; width:36px; height:36px; font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; color:var(--text2); background:var(--bg3); border:1px solid var(--border); border-radius:6px; text-decoration:none; transition:all .15s; }
+    .gloss-letter-index a:hover { color:var(--blue); border-color:var(--blue); background:var(--blue-dim); }
+    .gloss-letter-group { margin-bottom:2.5rem; }
+    .gloss-letter-header { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--blue); margin:0 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--blue); display:flex; align-items:center; gap:.75rem; }
+    .gloss-letter-header small { font-size:.8rem; font-weight:400; color:var(--text3); }
+    .gloss-item { display:flex; align-items:center; gap:.75rem; padding:.65rem .9rem; margin-bottom:.5rem; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); transition:border-color .15s; }
+    .gloss-item:hover { border-color:var(--border2); }
+    .gloss-term { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; color:var(--text); white-space:nowrap; flex-shrink:0; }
+    .gloss-def { font-size:.85rem; color:var(--text2); flex:1; line-height:1.5; }
+    .gloss-def code { font-size:.78rem; }
+    .gloss-link { font-family:'JetBrains Mono',monospace; font-size:.65rem; font-weight:700; color:var(--blue); background:var(--blue-dim); border:1px solid rgba(59,130,246,.25); padding:.2rem .6rem; border-radius:4px; text-decoration:none; white-space:nowrap; flex-shrink:0; transition:all .15s; }
+    .gloss-link:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
+    .glossary-hero { margin-bottom:3rem; padding:2.5rem; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); position:relative; overflow:hidden; }
+    .glossary-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at top left, var(--blue-glow), transparent 60%); pointer-events:none; }
+    .glossary-hero h1 { margin-bottom:.5rem; position:relative; }
+    .glossary-hero p { color:var(--text2); margin:0; font-size:1.05rem; position:relative; }
+    .glossary-meta { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem; position:relative; }
+    .glossary-meta .meta-tag { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text2); background:var(--bg3); border:1px solid var(--border); padding:.2rem .6rem; border-radius:4px; }
+    .glossary-count { font-family:'Syne',sans-serif; font-weight:700; font-size:.85rem; color:var(--blue); margin:1.5rem 0 1rem; }
+    @media (max-width:640px) { .gloss-item { flex-wrap:wrap; } .gloss-term { white-space:normal; } }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label" style="color:var(--blue);">Glossaire</div>
+      <a href="#gloss-A" class="sidebar-item"><span class="sidebar-num">A</span>A →</a>
+      <a href="#gloss-B" class="sidebar-item"><span class="sidebar-num">B</span>B →</a>
+      <a href="#gloss-C" class="sidebar-item"><span class="sidebar-num">C</span>C →</a>
+      <a href="#gloss-D" class="sidebar-item"><span class="sidebar-num">D</span>D →</a>
+      <a href="#gloss-E" class="sidebar-item"><span class="sidebar-num">E</span>E →</a>
+      <a href="#gloss-F" class="sidebar-item"><span class="sidebar-num">F</span>F →</a>
+      <a href="#gloss-H" class="sidebar-item"><span class="sidebar-num">H</span>H →</a>
+      <a href="#gloss-I" class="sidebar-item"><span class="sidebar-num">I</span>I →</a>
+      <a href="#gloss-J" class="sidebar-item"><span class="sidebar-num">J</span>J →</a>
+      <a href="#gloss-L" class="sidebar-item"><span class="sidebar-num">L</span>L →</a>
+      <a href="#gloss-M" class="sidebar-item"><span class="sidebar-num">M</span>M →</a>
+      <a href="#gloss-N" class="sidebar-item"><span class="sidebar-num">N</span>N →</a>
+      <a href="#gloss-O" class="sidebar-item"><span class="sidebar-num">O</span>O →</a>
+      <a href="#gloss-P" class="sidebar-item"><span class="sidebar-num">P</span>P →</a>
+      <a href="#gloss-R" class="sidebar-item"><span class="sidebar-num">R</span>R →</a>
+      <a href="#gloss-S" class="sidebar-item"><span class="sidebar-num">S</span>S →</a>
+      <a href="#gloss-T" class="sidebar-item"><span class="sidebar-num">T</span>T →</a>
+      <a href="#gloss-V" class="sidebar-item"><span class="sidebar-num">V</span>V →</a>
+      <a href="#gloss-W" class="sidebar-item"><span class="sidebar-num">W</span>W →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <div class="glossary-hero">
+      <div style="display:inline-flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(59,130,246,.3);padding:.3rem .75rem;border-radius:100px;margin-bottom:1rem;position:relative;">📖 Glossaire</div>
+      <h1>Glossaire — Cours HTML</h1>
+      <p>80 définitions essentielles couvrant les 10 séances du cours HTML.</p>
+      <div class="glossary-meta">
+        <span class="meta-tag">80 entrées</span>
+        <span class="meta-tag">10 séances</span>
+        <span class="meta-tag">A → Z</span>
+      </div>
+    </div>
+
+    <p class="glossary-count">Trouvez rapidement un terme grâce à l'index alphabétique ci-dessous.</p>
+
+    <div class="gloss-letter-index">
+      <a href="#gloss-A">A</a>
+      <a href="#gloss-B">B</a>
+      <a href="#gloss-C">C</a>
+      <a href="#gloss-D">D</a>
+      <a href="#gloss-E">E</a>
+      <a href="#gloss-F">F</a>
+      <a href="#gloss-H">H</a>
+      <a href="#gloss-I">I</a>
+      <a href="#gloss-J">J</a>
+      <a href="#gloss-L">L</a>
+      <a href="#gloss-M">M</a>
+      <a href="#gloss-N">N</a>
+      <a href="#gloss-O">O</a>
+      <a href="#gloss-P">P</a>
+      <a href="#gloss-R">R</a>
+      <a href="#gloss-S">S</a>
+      <a href="#gloss-T">T</a>
+      <a href="#gloss-V">V</a>
+      <a href="#gloss-W">W</a>
+    </div>
+
+    <!-- A -->
+    <div id="gloss-A" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">A <small>9 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;abbr&gt;</span>
+        <span class="gloss-def">Balise d'abréviation avec attribut <code>title</code> pour le développement.</span>
+        <a href="seance3.html#s3-abrev" class="gloss-link">Séance 3 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Accessibilité des tableaux</span>
+        <span class="gloss-def">Attribut <code>scope</code> et structure adaptée aux lecteurs d'écran.</span>
+        <a href="seance6.html#s6-a11y" class="gloss-link">Séance 6 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Ancre <code>#id</code></span>
+        <span class="gloss-def">Lien interne vers une section de la page via son identifiant.</span>
+        <a href="seance4.html#s4-ancres" class="gloss-link">Séance 4 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">ARIA</span>
+        <span class="gloss-def">Attributs d'accessibilité pour améliorer la compatibilité avec les lecteurs d'écran.</span>
+        <a href="seance10.html#s10-aria" class="gloss-link">Séance 10 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;article&gt;</span>
+        <span class="gloss-def">Contenu autonome et réutilisable (article de blog, actualité).</span>
+        <a href="seance9.html#s9-article" class="gloss-link">Séance 9 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;aside&gt;</span>
+        <span class="gloss-def">Contenu complémentaire (sidebar, encadré, note).</span>
+        <a href="seance9.html#s9-aside" class="gloss-link">Séance 9 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Attribut HTML</span>
+        <span class="gloss-def">Information complémentaire dans une balise ouvrante (ex. <code>src</code>, <code>href</code>).</span>
+        <a href="seance2.html#s2-attributs" class="gloss-link">Séance 2 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Attributs avancés</span>
+        <span class="gloss-def"><code>autocomplete</code>, <code>autofocus</code>, <code>readonly</code>, <code>disabled</code> pour les formulaires.</span>
+        <a href="seance8.html#s8-attributs" class="gloss-link">Séance 8 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;audio&gt;</span>
+        <span class="gloss-def">Balise d'intégration audio HTML5 avec attributs <code>controls</code>, <code>autoplay</code>.</span>
+        <a href="seance5.html#s5-audio" class="gloss-link">Séance 5 · 07</a>
+      </div>
+    </div>
+
+    <!-- B -->
+    <div id="gloss-B" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">B <small>4 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Balise orpheline</span>
+        <span class="gloss-def">Balise auto-fermante sans contenu ni balise fermante (<code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;img&gt;</code>).</span>
+        <a href="seance2.html#s2-orphelins" class="gloss-link">Séance 2 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Balise ouvrante</span>
+        <span class="gloss-def">Marqueur de début d'un élément HTML (ex. <code>&lt;p&gt;</code>).</span>
+        <a href="seance2.html#s2-balises" class="gloss-link">Séance 2 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;blockquote&gt;</span>
+        <span class="gloss-def">Citation longue affichée en bloc avec retrait.</span>
+        <a href="seance3.html#s3-citations" class="gloss-link">Séance 3 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;button&gt;</span>
+        <span class="gloss-def">Bouton cliquable pouvant soumettre (<code>submit</code>), réinitialiser (<code>reset</code>) ou déclencher une action.</span>
+        <a href="seance7.html#s7-button" class="gloss-link">Séance 7 · 04</a>
+      </div>
+    </div>
+
+    <!-- C -->
+    <div id="gloss-C" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">C <small>7 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;caption&gt;</span>
+        <span class="gloss-def">Titre ou légende d'un tableau HTML.</span>
+        <a href="seance6.html#s6-caption" class="gloss-link">Séance 6 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Checkbox / Radio</span>
+        <span class="gloss-def">Cases à cocher (<code>checkbox</code>) et boutons radio (<code>radio</code>) pour la sélection d'options.</span>
+        <a href="seance8.html#s8-check" class="gloss-link">Séance 8 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Chemin relatif</span>
+        <span class="gloss-def">Lien basé sur l'arborescence du site (ex. <code>../images/photo.jpg</code>).</span>
+        <a href="seance4.html#s4-internes" class="gloss-link">Séance 4 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Client / Serveur</span>
+        <span class="gloss-def">Modèle d'échange où le navigateur (client) envoie une requête et le serveur répond.</span>
+        <a href="seance1.html#s1-client" class="gloss-link">Séance 1 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;code&gt;</span>
+        <span class="gloss-def">Affichage de code informatique en ligne, typiquement en police monospace.</span>
+        <a href="seance3.html#s3-code" class="gloss-link">Séance 3 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Colspan</span>
+        <span class="gloss-def">Attribut fusionnant plusieurs colonnes adjacentes en une seule cellule.</span>
+        <a href="seance6.html#s6-colspan" class="gloss-link">Séance 6 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Commentaire HTML</span>
+        <span class="gloss-def">Texte ignoré par le navigateur, écrit entre <code>&lt;!--</code> et <code>--&gt;</code>.</span>
+        <a href="seance2.html#s2-comment" class="gloss-link">Séance 2 · 04</a>
+      </div>
+    </div>
+
+    <!-- D -->
+    <div id="gloss-D" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">D <small>2 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">DevTools</span>
+        <span class="gloss-def">Outils de développement intégrés au navigateur (F12) pour inspecter, modifier et déboguer.</span>
+        <a href="seance1.html#s1-tools" class="gloss-link">Séance 1 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">DOCTYPE</span>
+        <span class="gloss-def">Déclaration obligatoire du type HTML5 en première ligne du document.</span>
+        <a href="seance1.html#s1-doctype" class="gloss-link">Séance 1 · 04</a>
+      </div>
+    </div>
+
+    <!-- E -->
+    <div id="gloss-E" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">E <small>3 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Élément HTML</span>
+        <span class="gloss-def">Ensemble complet : balise ouvrante + contenu + balise fermante.</span>
+        <a href="seance2.html#s2-elements" class="gloss-link">Séance 2 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Encodage UTF-8</span>
+        <span class="gloss-def">Jeu de caractères universel supportant toutes les langues et les emojis.</span>
+        <a href="seance1.html#s1-langue" class="gloss-link">Séance 1 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Entité HTML</span>
+        <span class="gloss-def">Code spécial (ex. <code>&amp;amp;</code>) pour afficher des caractères réservés.</span>
+        <a href="seance2.html#s2-entites" class="gloss-link">Séance 2 · 05</a>
+      </div>
+    </div>
+
+    <!-- F -->
+    <div id="gloss-F" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">F <small>5 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;fieldset&gt; / &lt;legend&gt;</span>
+        <span class="gloss-def">Groupe de champs connexes avec titre (<code>&lt;legend&gt;</code>) pour structurer un formulaire.</span>
+        <a href="seance7.html#s7-fieldset" class="gloss-link">Séance 7 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Fichier HTML</span>
+        <span class="gloss-def">Document structuré avec des balises, interprété par le navigateur.</span>
+        <a href="seance1.html#s1-premier" class="gloss-link">Séance 1 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;figure&gt; / &lt;figcaption&gt;</span>
+        <span class="gloss-def">Image ou média avec légende associée.</span>
+        <a href="seance5.html#s5-figure" class="gloss-link">Séance 5 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;footer&gt;</span>
+        <span class="gloss-def">Pied de page d'un document ou d'une section.</span>
+        <a href="seance9.html#s9-footer" class="gloss-link">Séance 9 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;form&gt;</span>
+        <span class="gloss-def">Balise de formulaire avec attributs <code>action</code> (URL cible) et <code>method</code> (GET/POST).</span>
+        <a href="seance7.html#s7-form" class="gloss-link">Séance 7 · 01</a>
+      </div>
+    </div>
+
+    <!-- H -->
+    <div id="gloss-H" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">H <small>3 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;header&gt;</span>
+        <span class="gloss-def">En-tête d'une page ou d'une section, contenant titres et navigation.</span>
+        <a href="seance9.html#s9-header" class="gloss-link">Séance 9 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Hiérarchie des titres</span>
+        <span class="gloss-def">Balises <code>&lt;h1&gt;</code> à <code>&lt;h6&gt;</code> structurant le contenu par niveaux d'importance.</span>
+        <a href="seance3.html#s3-hierarchie" class="gloss-link">Séance 3 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;hr&gt;</span>
+        <span class="gloss-def">Séparateur thématique horizontal (horizontal rule).</span>
+        <a href="seance3.html#s3-hr" class="gloss-link">Séance 3 · 08</a>
+      </div>
+    </div>
+
+    <!-- I -->
+    <div id="gloss-I" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">I <small>7 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;iframe&gt;</span>
+        <span class="gloss-def">Intégration d'une page externe dans une page (fenêtre incorporée).</span>
+        <a href="seance5.html#s5-iframe" class="gloss-link">Séance 5 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;img&gt;</span>
+        <span class="gloss-def">Balise d'image avec attributs obligatoires <code>src</code> et <code>alt</code>.</span>
+        <a href="seance5.html#s5-img" class="gloss-link">Séance 5 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Imbrication de listes</span>
+        <span class="gloss-def">Liste placée à l'intérieur d'une autre liste, créant des sous-niveaux.</span>
+        <a href="seance4.html#s4-imbric" class="gloss-link">Séance 4 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Indentation</span>
+        <span class="gloss-def">Convention de formatage avec des espaces pour améliorer la lisibilité du code.</span>
+        <a href="seance2.html#s2-indent" class="gloss-link">Séance 2 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Input date / color / range</span>
+        <span class="gloss-def">Types d'input avancés HTML5 pour la date, la couleur et le curseur numérique.</span>
+        <a href="seance8.html#s8-types" class="gloss-link">Séance 8 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Input file</span>
+        <span class="gloss-def">Champ permettant à l'utilisateur d'uploader un fichier.</span>
+        <a href="seance8.html#s8-file" class="gloss-link">Séance 8 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;ins&gt; / &lt;del&gt;</span>
+        <span class="gloss-def">Balises de contenu inséré (souligné) et supprimé (barré).</span>
+        <a href="seance3.html#s3-modif" class="gloss-link">Séance 3 · 07</a>
+      </div>
+    </div>
+
+    <!-- J -->
+    <div id="gloss-J" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">J <small>2 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">JPEG / PNG / WebP</span>
+        <span class="gloss-def">Formats d'images web : JPEG (photos), PNG (transparence), WebP (moderne compressé).</span>
+        <a href="seance5.html#s5-formats" class="gloss-link">Séance 5 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">JSON-LD</span>
+        <span class="gloss-def">Données structurées intégrées dans le <code>&lt;head&gt;</code> pour améliorer le référencement.</span>
+        <a href="seance10.html#s10-jsonld" class="gloss-link">Séance 10 · 04</a>
+      </div>
+    </div>
+
+    <!-- L -->
+    <div id="gloss-L" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">L <small>8 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;label&gt;</span>
+        <span class="gloss-def">Étiquette associée à un champ de formulaire, essentielle pour l'accessibilité.</span>
+        <a href="seance7.html#s7-label" class="gloss-link">Séance 7 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Lecteur d'écran</span>
+        <span class="gloss-def">Logiciel de lecture vocale pour utilisateurs non-voyants (NVDA, JAWS, VoiceOver).</span>
+        <a href="seance10.html#s10-screen" class="gloss-link">Séance 10 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Lien externe</span>
+        <span class="gloss-def">Hyperlien pointant vers une page web différente via <code>&lt;a href="URL"&gt;</code>.</span>
+        <a href="seance4.html#s4-externes" class="gloss-link">Séance 4 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Lighthouse</span>
+        <span class="gloss-def">Outil d'audit intégré à Chrome pour mesurer performance, accessibilité et SEO.</span>
+        <a href="seance10.html#s10-lighthouse" class="gloss-link">Séance 10 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Liste de définition <code>&lt;dl&gt;</code></span>
+        <span class="gloss-def">Liste associant des termes (<code>&lt;dt&gt;</code>) à leurs descriptions (<code>&lt;dd&gt;</code>).</span>
+        <a href="seance4.html#s4-dl" class="gloss-link">Séance 4 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Liste non ordonnée <code>&lt;ul&gt;</code></span>
+        <span class="gloss-def">Liste à puces sans ordre particulier.</span>
+        <a href="seance4.html#s4-ul" class="gloss-link">Séance 4 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Liste ordonnée <code>&lt;ol&gt;</code></span>
+        <span class="gloss-def">Liste numérotée avec un ordre séquentiel.</span>
+        <a href="seance4.html#s4-ol" class="gloss-link">Séance 4 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Live Server</span>
+        <span class="gloss-def">Extension VS Code qui recharge automatiquement la page dans le navigateur à chaque sauvegarde.</span>
+        <a href="seance1.html#s1-bonnes" class="gloss-link">Séance 1 · 08</a>
+      </div>
+    </div>
+
+    <!-- M -->
+    <div id="gloss-M" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">M <small>3 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;main&gt;</span>
+        <span class="gloss-def">Contenu principal unique de la page, un seul par document.</span>
+        <a href="seance9.html#s9-main" class="gloss-link">Séance 9 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Meta tag</span>
+        <span class="gloss-def">Balise d'en-tête fournissant des métadonnées (description, mots-clés, robots).</span>
+        <a href="seance1.html#s1-meta" class="gloss-link">Séance 1 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Min / Max / Step</span>
+        <span class="gloss-def">Attributs définissant les bornes numériques et le pas d'incrémentation.</span>
+        <a href="seance8.html#s8-minmax" class="gloss-link">Séance 8 · 06</a>
+      </div>
+    </div>
+
+    <!-- N -->
+    <div id="gloss-N" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">N <small>2 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;nav&gt;</span>
+        <span class="gloss-def">Navigation principale d'un site ou d'une section.</span>
+        <a href="seance9.html#s9-nav" class="gloss-link">Séance 9 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Navigateur</span>
+        <span class="gloss-def">Logiciel client (Chrome, Firefox, Edge) qui affiche les pages web.</span>
+        <a href="seance1.html#s1-navig" class="gloss-link">Séance 1 · 02</a>
+      </div>
+    </div>
+
+    <!-- O -->
+    <div id="gloss-O" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">O <small>2 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Open Graph</span>
+        <span class="gloss-def">Métadonnées (<code>og:title</code>, <code>og:image</code>) contrôlant l'aperçu sur les réseaux sociaux.</span>
+        <a href="seance10.html#s10-og" class="gloss-link">Séance 10 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Organisation des formulaires</span>
+        <span class="gloss-def">Structure et accessibilité : ordre logique, regroupement, labels explicites.</span>
+        <a href="seance8.html#s8-orga" class="gloss-link">Séance 8 · 08</a>
+      </div>
+    </div>
+
+    <!-- P -->
+    <div id="gloss-P" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">P <small>4 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Paragraphe <code>&lt;p&gt;</code></span>
+        <span class="gloss-def">Bloc de texte représentant un paragraphe.</span>
+        <a href="seance3.html#s3-paragraphes" class="gloss-link">Séance 3 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Pattern</span>
+        <span class="gloss-def">Validation d'un champ par expression régulière via l'attribut <code>pattern</code>.</span>
+        <a href="seance8.html#s8-pattern" class="gloss-link">Séance 8 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;picture&gt;</span>
+        <span class="gloss-def">Balise de sélection d'image par contexte (résolution, format, viewport).</span>
+        <a href="seance5.html#s5-picture" class="gloss-link">Séance 5 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Placeholder</span>
+        <span class="gloss-def">Texte indicatif affiché dans un champ avant la saisie utilisateur.</span>
+        <a href="seance7.html#s7-placeholder" class="gloss-link">Séance 7 · 08</a>
+      </div>
+    </div>
+
+    <!-- R -->
+    <div id="gloss-R" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">R <small>1 entrée</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Rowspan</span>
+        <span class="gloss-def">Attribut fusionnant plusieurs lignes adjacentes en une seule cellule.</span>
+        <a href="seance6.html#s6-rowspan" class="gloss-link">Séance 6 · 05</a>
+      </div>
+    </div>
+
+    <!-- S -->
+    <div id="gloss-S" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">S <small>6 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;section&gt;</span>
+        <span class="gloss-def">Section thématique générique regroupant du contenu cohérent.</span>
+        <a href="seance9.html#s9-section" class="gloss-link">Séance 9 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;select&gt; / &lt;option&gt;</span>
+        <span class="gloss-def">Liste déroulante permettant de choisir une ou plusieurs options.</span>
+        <a href="seance7.html#s7-select" class="gloss-link">Séance 7 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">SEO</span>
+        <span class="gloss-def">Optimisation pour les moteurs de recherche : balises, contenu, performance.</span>
+        <a href="seance10.html#s10-meta" class="gloss-link">Séance 10 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Srcset</span>
+        <span class="gloss-def">Attribut d'images responsives permettant de charger différentes résolutions selon l'écran.</span>
+        <a href="seance5.html#s5-srcset" class="gloss-link">Séance 5 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;strong&gt;</span>
+        <span class="gloss-def">Balise de mise en valeur forte, généralement affichée en gras.</span>
+        <a href="seance3.html#s3-valeur" class="gloss-link">Séance 3 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Styler un tableau</span>
+        <span class="gloss-def">Application de CSS aux tableaux : bordures, couleurs, espacement, alternance de lignes.</span>
+        <a href="seance6.html#s6-styler" class="gloss-link">Séance 6 · 07</a>
+      </div>
+    </div>
+
+    <!-- T -->
+    <div id="gloss-T" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">T <small>7 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Tableau HTML <code>&lt;table&gt;</code></span>
+        <span class="gloss-def">Structure de données organisée en lignes (<code>&lt;tr&gt;</code>) et colonnes.</span>
+        <a href="seance6.html#s6-basique" class="gloss-link">Séance 6 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term"><code>target="_blank"</code></span>
+        <span class="gloss-def">Attribut ouvrant un lien dans un nouvel onglet.</span>
+        <a href="seance4.html#s4-attributs" class="gloss-link">Séance 4 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;textarea&gt;</span>
+        <span class="gloss-def">Zone de texte multiligne pour la saisie de contenu long.</span>
+        <a href="seance7.html#s7-textarea" class="gloss-link">Séance 7 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;th&gt;</span>
+        <span class="gloss-def">Cellule d'en-tête de tableau (<code>table header</code>), généralement en gras.</span>
+        <a href="seance6.html#s6-th" class="gloss-link">Séance 6 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;thead&gt; / &lt;tbody&gt; / &lt;tfoot&gt;</span>
+        <span class="gloss-def">Sections structurant un tableau : en-tête, corps et pied.</span>
+        <a href="seance6.html#s6-thead" class="gloss-link">Séance 6 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;time&gt; / &lt;details&gt; / &lt;summary&gt;</span>
+        <span class="gloss-def">Balises de date/heure, contenu pliable avec titre visible.</span>
+        <a href="seance9.html#s9-time" class="gloss-link">Séance 9 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Twitter Cards</span>
+        <span class="gloss-def">Métadonnées pour la prévisualisation des liens partagés sur Twitter.</span>
+        <a href="seance10.html#s10-twitter" class="gloss-link">Séance 10 · 03</a>
+      </div>
+    </div>
+
+    <!-- V -->
+    <div id="gloss-V" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">V <small>3 entrées</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Validation HTML5</span>
+        <span class="gloss-def">Contrôle des champs de formulaire avec les attributs <code>required</code>, <code>minlength</code>, etc.</span>
+        <a href="seance8.html#s8-required" class="gloss-link">Séance 8 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Validation W3C</span>
+        <span class="gloss-def">Outil officiel de vérification de la conformité du code HTML aux standards.</span>
+        <a href="seance2.html#s2-w3c" class="gloss-link">Séance 2 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">&lt;video&gt;</span>
+        <span class="gloss-def">Balise d'intégration vidéo HTML5 avec attributs <code>controls</code>, <code>autoplay</code>, <code>loop</code>.</span>
+        <a href="seance5.html#s5-video" class="gloss-link">Séance 5 · 06</a>
+      </div>
+    </div>
+
+    <!-- W -->
+    <div id="gloss-W" class="gloss-letter-group">
+      <h2 class="gloss-letter-header">W <small>1 entrée</small></h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">WCAG</span>
+        <span class="gloss-def">Règles pour l'accessibilité du contenu web (Web Content Accessibility Guidelines).</span>
+        <a href="seance10.html#s10-wcag" class="gloss-link">Séance 10 · 06</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

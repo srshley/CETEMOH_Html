@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pseudo-classes et Pseudo-éléments · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: #ec4899 !important; }
+    .sidebar-item.active { color: #ec4899 !important; border-left-color: #ec4899 !important; background: rgba(236,72,153,.1) !important; }
+    .section-num { color: #ec4899 !important; background: rgba(236,72,153,.1) !important; border-color: rgba(236,72,153,.25) !important; }
+    .session-badge { color: #ec4899 !important; background: rgba(236,72,153,.1) !important; border-color: rgba(236,72,153,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(236,72,153,.12), transparent 60%) !important; }
+    .exercise-num { color: #ec4899 !important; background: rgba(236,72,153,.1) !important; border-color: rgba(236,72,153,.3) !important; }
+    .topbar-brand .badge { background: #ec4899 !important; }
+    .glossary dt { color: #ec4899 !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html" class="active">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Pseudo-classes</div>
+      <a href="#s2-what"       class="sidebar-item"><span class="sidebar-num">01</span>Qu'est-ce qu'une pseudo-classe</a>
+      <a href="#s2-link"       class="sidebar-item"><span class="sidebar-num">02</span>Pseudo-classes de lien</a>
+      <a href="#s2-form"       class="sidebar-item"><span class="sidebar-num">03</span>Pseudo-classes de formulaire</a>
+      <a href="#s2-struct"     class="sidebar-item"><span class="sidebar-num">04</span>Pseudo-classes structurelles</a>
+      <a href="#s2-not"        class="sidebar-item"><span class="sidebar-num">05</span>:not() la négation</a>
+      <a href="#s2-before"     class="sidebar-item"><span class="sidebar-num">06</span>::before & ::after</a>
+      <a href="#s2-text"       class="sidebar-item"><span class="sidebar-num">07</span>::first-line & ::first-letter</a>
+      <a href="#s2-adv"        class="sidebar-item"><span class="sidebar-num">08</span>Combinaisons avancées</a>
+      <a href="#s2-exo"        class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s2-bilan"      class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="colors.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:#ec4899;">Couleurs →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Pseudo-classes & Pseudo-éléments</div>
+      <h1>Pseudo-classes et Pseudo-éléments</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">:hover · :focus · :nth-child · :not() · ::before · ::after</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 QU'EST-CE QU'UNE PSEUDO-CLASSE ══ -->
+    <div id="s2-what">
+      <div class="section-header"><span class="section-num">01</span><h2>Qu'est-ce qu'une pseudo-classe ?</h2></div>
+
+      <p>Une <strong>pseudo-classe</strong> est un mot-clé qui s'adjoint à un sélecteur pour cibler un élément en fonction de son <strong>état</strong> ou de sa <strong>position</strong> dans l'arborescence du document. Elle se caractérise par l'usage d'un unique <strong>deux-points</strong> <code>:</code> en préfixe. Les pseudo-classes permettent d'appliquer des styles conditionnellement, sans avoir à modifier le HTML ou à recourir à JavaScript.</p>
+
+      <p>Les <strong>pseudo-éléments</strong> (notés <code>::</code>) ciblent une <strong>partie spécifique</strong> d'un élément (première lettre, première ligne) ou permettent de générer du contenu virtuel (avant/après). La double notation <code>::</code> a été introduite par CSS3 pour distinguer clairement les pseudo-éléments des pseudo-classes, bien que la simple notation <code>:</code> reste acceptée par les navigateurs pour la rétrocompatibilité.</p>
+
+      <p>Ces deux concepts sont fondamentaux pour la création d'interfaces riches et accessibles. Les pseudo-classes de lien (<code>:hover</code>, <code>:focus</code>) fournissent le retour visuel indispensable à l'interaction utilisateur. Les pseudo-classes structurelles (<code>:nth-child</code>, <code>:first-child</code>) permettent des mises en page sophistiquées sans classes additionnelles dans le HTML. Les pseudo-éléments (<code>::before</code>, <code>::after</code>) ouvrent la voie au contenu généré et aux décorations purement CSS.</p>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Distinction : simple vs double notation</div>
+          <p>Historiquement, pseudo-classes et pseudo-éléments utilisaient tous la simple notation <code>:</code>. CSS3 a introduit la double notation <code>::</code> pour les pseudo-éléments afin de les distinguer clairement. Les navigateurs modernes acceptent les deux formes, mais la convention préconise <code>:</code> pour les pseudo-classes et <code>::</code> pour les pseudo-éléments.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 PSEUDO-CLASSES DE LIEN ══ -->
+    <div id="s2-link">
+      <div class="section-header"><span class="section-num">02</span><h2>Pseudo-classes de lien : :link, :visited, :hover, :active</h2></div>
+
+      <p>Ces pseudo-classes s'appliquent aux éléments <code>&lt;a&gt;</code> et autres éléments interactifs, en fonction de l'état de la navigation. Leur ordre de déclaration est impératif pour un fonctionnement correct : l'ordre recommandé est <code>:link</code> → <code>:visited</code> → <code>:hover</code> → <code>:active</code>, dont le mnémonique est « LoVe HAte » (Love-Hate).</p>
+
+      <p>La pseudo-classe <code>:link</code> cible les liens non visités, tandis que <code>:visited</code> cible ceux que l'utilisateur a déjà consultés. Pour des raisons de protection de la vie privée, les styles applicables à <code>:visited</code> sont limités : seules les propriétés <code>color</code>, <code>background-color</code>, <code>border-color</code> et leurs équivalents par côté ou par direction sont autorisés. <code>:hover</code> s'active au passage de la souris, et <code>:active</code> au moment du clic.</p>
+
+      <h3>Référence complète des pseudo-classes de lien</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pseudo-classe</th><th>État</th><th>Ordre (LVHA)</th><th>Limitations</th></tr></thead>
+          <tbody>
+            <tr><td><code>:link</code></td><td>Lien non visité</td><td>1er</td><td>Uniquement sur les éléments &lt;a&gt; avec href</td></tr>
+            <tr><td><code>:visited</code></td><td>Lien déjà visité</td><td>2e</td><td>Propriétés limitées (color, background-color, border-color)</td></tr>
+            <tr><td><code>:hover</code></td><td>Survol par la souris</td><td>3e</td><td>Non disponible sur les écrans tactiles</td></tr>
+            <tr><td><code>:active</code></td><td>Au moment du clic</td><td>4e</td><td>Moment très fugace</td></tr>
+            <tr><td><code>:any-link</code></td><td>Union de :link et :visited</td><td>—</td><td>Équivaut à a[href] mais plus sémantique</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Pseudo-classes de lien</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Ordre LVHA impératif : LoVe HAte */
+a:link    { color: #3498db; text-decoration: none; }
+a:visited { color: #8e44ad; }
+a:hover   { color: #e74c3c; text-decoration: underline; }
+a:active  { color: #c0392b; }
+
+/* Accessibilité : focus clavier */
+a:focus-visible { outline: 2px solid #3498db; outline-offset: 2px; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ordre LVHA impératif</div>
+          <p>L'ordre <code>:link → :visited → :hover → :active</code> (mnémonique LoVe HAte) doit être impérativement respecté, faute de quoi certaines pseudo-classes risquent de ne pas s'appliquer. Si <code>:hover</code> précède <code>:link</code>, le survol ne fonctionnera pas car <code>:link</code> possède la même spécificité et survient après.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <div class="callout-title">Pour aller plus loin — :focus-visible et accessibilité</div>
+          <p>La pseudo-classe <code>:focus-visible</code> affiche le contour de focus uniquement lorsque l'utilisateur navigue au clavier (pas lors d'un clic). Elle offre un équilibre optimal entre esthétique et accessibilité. Utilisez <code>:focus-visible</code> pour les contours de focus et <code>:focus</code> uniquement si vous souhaitez un style identique pour les deux modes. Depuis 2022, tous les navigateurs modernes supportent <code>:focus-visible</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 PSEUDO-CLASSES DE FORMULAIRE ══ -->
+    <div id="s2-form">
+      <div class="section-header"><span class="section-num">03</span><h2>Pseudo-classes de formulaire : :focus, :disabled, :checked</h2></div>
+
+      <p>Les formulaires web disposent de pseudo-classes dédiées qui reflètent l'état des champs : focus, désactivé, coché, requis, valide ou invalide. Ces sélecteurs permettent de fournir un retour visuel immédiat à l'utilisateur, améliorant ainsi l'expérience de remplissage des formulaires.</p>
+
+      <p>La pseudo-classe <code>:focus</code> s'applique lorsque l'élément reçoit le focus (clic, tabulation ou touche). Elle est essentielle pour l'accessibilité, car elle indique clairement quel champ est actif. Les pseudo-classes <code>:valid</code> et <code>:invalid</code> exploitent les attributs de validation HTML5 (<code>required</code>, <code>pattern</code>, <code>type</code>) pour styliser automatiquement les champs valides ou invalides, sans JavaScript.</p>
+
+      <h3>Référence complète des pseudo-classes de formulaire</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pseudo-classe</th><th>État</th><th>Application</th></tr></thead>
+          <tbody>
+            <tr><td><code>:focus</code></td><td>Élément recevant le focus (clic ou clavier)</td><td>input, select, textarea, a, button</td></tr>
+            <tr><td><code>:focus-visible</code></td><td>Focus clavier uniquement</td><td>Éléments interactifs</td></tr>
+            <tr><td><code>:focus-within</code></td><td>Élément contenant un élément focus</td><td>Conteneurs (form, fieldset, div)</td></tr>
+            <tr><td><code>:disabled</code></td><td>Champ désactivé (attribut disabled)</td><td>input, select, textarea, button</td></tr>
+            <tr><td><code>:enabled</code></td><td>Champ activé (valeur par défaut)</td><td>Complément de :disabled</td></tr>
+            <tr><td><code>:checked</code></td><td>Case cochée ou radio sélectionnée</td><td>input[type="checkbox"], input[type="radio"]</td></tr>
+            <tr><td><code>:required</code></td><td>Champ obligatoire (attribut required)</td><td>input, select, textarea</td></tr>
+            <tr><td><code>:optional</code></td><td>Champ optionnel (pas de required)</td><td>Complément de :required</td></tr>
+            <tr><td><code>:valid</code></td><td>Champ valide (validation native)</td><td>input, textarea</td></tr>
+            <tr><td><code>:invalid</code></td><td>Champ invalide (validation native)</td><td>input, textarea</td></tr>
+            <tr><td><code>:in-range</code></td><td>Valeur dans l'intervalle (min/max)</td><td>input[type="number"], input[type="range"]</td></tr>
+            <tr><td><code>:out-of-range</code></td><td>Valeur hors intervalle</td><td>Complément de :in-range</td></tr>
+            <tr><td><code>:placeholder-shown</code></td><td>Placeholder visible (champ vide)</td><td>input, textarea avec placeholder</td></tr>
+            <tr><td><code>:default</code></td><td>Élément par défaut dans un groupe</td><td>input[type="submit"] par défaut, radio par défaut</td></tr>
+            <tr><td><code>:read-only</code></td><td>Champ en lecture seule (attribut readonly)</td><td>input, textarea</td></tr>
+            <tr><td><code>:read-write</code></td><td>Champ éditable</td><td>Complément de :read-only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Pseudo-classes de formulaire</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52,152,219,.2);
+  outline: none;
+}
+
+input:disabled { opacity: .5; cursor: not-allowed; background: #f0f0f0; }
+
+input:checked + label { font-weight: bold; color: #3498db; }
+
+input:required { border-left: 3px solid #e74c3c; }
+input:valid   { border-color: #2ecc71; }
+input:invalid { border-color: #e74c3c; }
+
+input:placeholder-shown { font-style: italic; color: #999; }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">:focus-within pour les conteneurs</div>
+          <p>La pseudo-classe <code>:focus-within</code> cible un élément qui contient un champ recevant le focus. Elle est idéale pour styliser un groupe de champs (<code>&lt;fieldset&gt;</code>) ou un formulaire lorsque l'un de ses enfants est actif. Par exemple, <code>form:focus-within { box-shadow: ... }</code> met en valeur l'ensemble du formulaire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 PSEUDO-CLASSES STRUCTURELLES ══ -->
+    <div id="s2-struct">
+      <div class="section-header"><span class="section-num">04</span><h2>Pseudo-classes structurelles : :first-child, :last-child, :nth-child</h2></div>
+
+      <p>Ces pseudo-classes ciblent un élément en fonction de sa <strong>position</strong> relative parmi les éléments frères au sein du même parent. Elles sont particulièrement utiles pour la mise en forme de listes, de tableaux, de grilles et de galeries, où elles évitent de recourir à des classes CSS superflues.</p>
+
+      <p>La formule <code>an+b</code> utilisée par <code>:nth-child()</code> mérite une attention particulière. Le paramètre <code>n</code> commence à 0 et s'incrémente à chaque élément. Ainsi, <code>2n</code> (pair), <code>2n+1</code> (impair), <code>3n+1</code> (1er, 4e, 7e...) ou <code>-n+3</code> (trois premiers) permettent un ciblage extrêmement précis. Les mots-clés <code>odd</code> (impair) et <code>even</code> (pair) sont équivalents à <code>2n+1</code> et <code>2n</code>.</p>
+
+      <h3>Référence complète des pseudo-classes structurelles</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pseudo-classe</th><th>Cible</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>:first-child</code></td><td>Premier enfant d'un parent</td><td><code>li:first-child { font-weight: bold; }</code></td></tr>
+            <tr><td><code>:last-child</code></td><td>Dernier enfant d'un parent</td><td><code>li:last-child { border: none; }</code></td></tr>
+            <tr><td><code>:first-of-type</code></td><td>Premier élément d'un type parmi les frères</td><td><code>p:first-of-type { font-size: 1.1em; }</code></td></tr>
+            <tr><td><code>:last-of-type</code></td><td>Dernier élément d'un type parmi les frères</td><td><code>p:last-of-type { margin-bottom: 0; }</code></td></tr>
+            <tr><td><code>:nth-child(n)</code></td><td>Élément à la position n (formule an+b)</td><td><code>li:nth-child(odd)</code>, <code>li:nth-child(3n+1)</code></td></tr>
+            <tr><td><code>:nth-last-child(n)</code></td><td>Position comptée depuis la fin</td><td><code>li:nth-last-child(2)</code> (avant-dernier)</td></tr>
+            <tr><td><code>:nth-of-type(n)</code></td><td>Position parmi les éléments du même type</td><td><code>p:nth-of-type(2)</code> (2e paragraphe)</td></tr>
+            <tr><td><code>:nth-last-of-type(n)</code></td><td>Type-position depuis la fin</td><td><code>p:nth-last-of-type(1)</code> (dernier paragraphe)</td></tr>
+            <tr><td><code>:only-child</code></td><td>Enfant unique d'un parent</td><td><code>.only:only-child { background: gold; }</code></td></tr>
+            <tr><td><code>:only-of-type</code></td><td>Seul élément de son type parmi les frères</td><td><code>img:only-of-type { float: left; }</code></td></tr>
+            <tr><td><code>:empty</code></td><td>Élément sans enfant (ni texte, ni balise)</td><td><code>div:empty { display: none; }</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Pseudo-classes structurelles</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">li:first-child { font-weight: bold; }
+li:last-child  { border-bottom: none; }
+li:nth-child(odd)  { background: #f8f9fa; }
+li:nth-child(even) { background: #e9ecef; }
+li:nth-child(3n+1) { border-left: 3px solid #3498db; }  /* 1er, 4e, 7e... */
+
+/* Différence nth-child vs nth-of-type */
+section p:nth-child(2) { }    /* 2e enfant TOUT TYPE — si c'est un p */
+section p:nth-of-type(2) { }  /* 2e ÉLÉMENT P — même si d'autres types précèdent */</pre></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Formule an+b</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* n commence à 0 et s'incrémente */
+li:nth-child(3n+1) { }  /* 1, 4, 7, 10... */
+li:nth-child(3n+2) { }  /* 2, 5, 8, 11... */
+li:nth-child(3n+3) { }  /* 3, 6, 9, 12... (= 3n) */
+
+li:nth-child(n+4) { }   /* à partir du 4e */
+li:nth-child(-n+3) { }  /* les 3 premiers */
+li:nth-child(n) { }     /* tous (sélectionne tout) */</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Différence entre :nth-child et :nth-of-type</div>
+          <p><code>:nth-child()</code> dénombre <strong>tous</strong> les enfants du parent, indépendamment de leur type. <code>:nth-of-type()</code> ne compte que les enfants du <strong>même type</strong> (même balise). Exemple : <code>p:nth-of-type(2)</code> cible le deuxième paragraphe, même s'il est précédé d'éléments d'autres types (div, img…).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 :NOT() ══ -->
+    <div id="s2-not">
+      <div class="section-header"><span class="section-num">05</span><h2>:not() — la pseudo-classe de négation</h2></div>
+
+      <p>La pseudo-classe <code>:not()</code> cible les éléments qui <strong>ne correspondent pas</strong> au sélecteur fourni en argument. C'est un outil puissant pour gérer les exceptions sans avoir à surcharger des styles ou à ajouter des classes spécifiques. Depuis CSS Selectors Level 4, <code>:not()</code> accepte une liste de sélecteurs séparés par des virgules, ce qui étend considérablement ses possibilités.</p>
+
+      <p>L'usage le plus fréquent de <code>:not()</code> est l'ajout d'un séparateur entre des éléments : <code>li:not(:last-child) { border-bottom: 1px solid #eee; }</code>. Cette technique évite d'avoir une bordure superflue sur le dernier élément, sans nécessiter de classe <code>.last</code> ou de sélecteur supplémentaire. <code>:not()</code> est également utile pour exclure certains types d'éléments d'une règle générale.</p>
+
+      <h3>Référence complète de <code>:not()</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>:not(sélecteur)</code></td><td>Cible les éléments ne correspondant pas au sélecteur</td><td><code>p:not(.intro)</code></td></tr>
+            <tr><td><code>:not(s1, s2, ...)</code></td><td>Liste de sélecteurs (CSS4)</td><td><code>p:not(.intro, .excerpt)</code></td></tr>
+            <tr><td><code>:not(:pseudo)</code></td><td>Négation d'une pseudo-classe</td><td><code>li:not(:last-child)</code></td></tr>
+            <tr><td><code>:not([attr])</code></td><td>Négation d'un attribut</td><td><code>input:not([type="submit"])</code></td></tr>
+            <tr><td><code>:not(:disabled)</code></td><td>Éléments activés uniquement</td><td><code>button:not(:disabled)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — :not()</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Séparateur entre éléments (sauf le dernier) */
+li:not(:last-child) { border-bottom: 1px solid #eee; }
+
+/* Exclure une classe */
+p:not(.intro) { color: #555; }
+
+/* Exclure un type d'input */
+input:not([type="submit"]) { border: 1px solid #ccc; }
+
+/* Chaînage (CSS3) */
+input:not(:disabled):not([type="hidden"]) { background: white; }
+
+/* Liste de sélecteurs (CSS4) */
+p:not(.intro, .excerpt) { color: #333; }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Usages courants de :not()</div>
+          <p>L'usage le plus fréquent : <code>li:not(:last-child) { border-bottom: ... }</code> pour ajouter un séparateur entre tous les éléments à l'exception du dernier. Cette approche évite d'avoir à recourir à une classe <code>.last</code> ou à un sélecteur <code>:last-child</code> distinct. Également utile pour exclure certains types de champs dans les formulaires.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 ::BEFORE & ::AFTER ══ -->
+    <div id="s2-before">
+      <div class="section-header"><span class="section-num">06</span><h2>Pseudo-éléments ::before et ::after</h2></div>
+
+      <p><code>::before</code> et <code>::after</code> génèrent un <strong>enfant virtuel</strong> respectivement au début ou à la fin de l'élément ciblé. Ils sont <strong>essentiels</strong> pour insérer du contenu décoratif sans modification du code HTML. Leur présence est conditionnée par la propriété <code>content</code>, qui doit être déclarée même si sa valeur est vide (<code>content: "";</code>).</p>
+
+      <p>Ces pseudo-éléments ouvrent un champ d'applications extrêmement vaste : icônes décoratives, badges, guillemets de citation, séparateurs visuels, tooltips purement CSS, compteurs automatiques, overlays, et bien plus encore. Par défaut, <code>::before</code> et <code>::after</code> sont de type <code>inline</code>. Pour leur attribuer des dimensions, il convient de définir <code>display: block</code> ou <code>display: inline-block</code>.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Tapez votre CSS pour ::before et ::after */
+.blockquote-demo::before {
+  content: "«";
+  font-size: 2em;
+  color: #ec4899;
+  margin-right: .3em;
+  vertical-align: middle;
+}
+.blockquote-demo::after {
+  content: "»";
+  font-size: 2em;
+  color: #ec4899;
+  margin-left: .3em;
+  vertical-align: bottom;
+}
+.badge-demo::after {
+  content: "Nouveau";
+  font-size: .7rem;
+  background: #e74c3c;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: .5rem;
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <iframe class="code-preview-iframe" srcdoc="<!DOCTYPE html><html><head><style>.blockquote-demo { font-size: 1.2rem; font-style: italic; color: #555; } .blockquote-demo::before { content: '«'; font-size: 2em; color: #ec4899; margin-right: .3em; vertical-align: middle; } .blockquote-demo::after { content: '»'; font-size: 2em; color: #ec4899; margin-left: .3em; vertical-align: bottom; } .badge-demo::after { content: 'Nouveau'; font-size: .7rem; background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; margin-left: .5rem; }</style></head><body><div class='blockquote-demo'>Une citation avec guillemets CSS</div><div style='margin-top: 1rem;'>Article <span class='badge-demo'>avec badge</span></div></body></html>"></iframe>
+        </div>
+      </div>
+
+      <h3>Référence complète de <code>::before</code> et <code>::after</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aspect</th><th>Description</th><th>Détail</th></tr></thead>
+          <tbody>
+            <tr><td>Propriété obligatoire</td><td><code>content</code></td><td>Doit être déclarée, même vide (<code>""</code>)</td></tr>
+            <tr><td>Type par défaut</td><td><code>inline</code></td><td>Pour les dimensions, passer en block ou inline-block</td></tr>
+            <tr><td>Position</td><td>Enfant du début (::before) ou de la fin (::after)</td><td>À l'intérieur de l'élément ciblé</td></tr>
+            <tr><td>Contenu textuel</td><td><code>content: "texte"</code></td><td>Chaîne de caractères entre guillemets</td></tr>
+            <tr><td>Contenu vide</td><td><code>content: ""</code></td><td>Pour éléments purement visuels (barres, lignes)</td></tr>
+            <tr><td>Attribut HTML</td><td><code>content: attr(data-x)</code></td><td>Récupère la valeur d'un attribut</td></tr>
+            <tr><td>Image</td><td><code>content: url('img.png')</code></td><td>Image comme contenu généré (rare)</td></tr>
+            <tr><td>Compteurs</td><td><code>counter(nom)</code></td><td>Numérotation automatique</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — ::before et ::after</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Icône décorative avant un lien */
+a[href^="https"]::before { content: "🔗 "; }
+
+/* Badge après un élément */
+.nouveau::after {
+  content: "Nouveau";
+  font-size: .7rem;
+  background: #e74c3c;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: .5rem;
+}
+
+/* Effet visuel (content vide) */
+.separator::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #3498db;
+  margin-top: .5rem;
+}
+
+/* Guillemets */
+blockquote::before { content: "«"; }
+blockquote::after  { content: "»"; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Obligation de la propriété content</div>
+          <p>Les pseudo-éléments <code>::before</code> et <code>::after</code> ne sont visibles que si la propriété <code>content</code> est déclarée, fût-elle vide (<code>content: "";</code>). En l'absence de la propriété <code>content</code>, le pseudo-élément n'est pas généré.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <div class="callout-title">Pour aller plus loin — Tooltip CSS avec ::after et attr()</div>
+          <p>La fonction <code>attr()</code> dans la propriété <code>content</code> permet de récupérer la valeur d'un attribut HTML. Combinée avec <code>::after</code> et <code>:hover</code>, elle crée des tooltips purement CSS : <code>[data-tooltip]::after { content: attr(data-tooltip); }</code>. Cette technique évite tout JavaScript pour les infobulles simples, améliorant la performance et la maintenabilité.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 ::FIRST-LINE & ::FIRST-LETTER ══ -->
+    <div id="s2-text">
+      <div class="section-header"><span class="section-num">07</span><h2>Pseudo-éléments textuels : ::first-line, ::first-letter</h2></div>
+
+      <p>Ces pseudo-éléments ciblent des parties spécifiques du texte d'un élément : la première ligne ou la première lettre. Ils sont particulièrement adaptés à la réalisation d'effets typographiques dans la tradition éditoriale — lettrines, première ligne en petites capitales, ou première lettre agrandie et colorée.</p>
+
+      <p><code>::first-letter</code> cible la première lettre d'un bloc de texte à condition qu'elle ne soit pas précédée d'un autre contenu (comme une image). L'effet lettrine, classique dans l'imprimerie, s'obtient en combinant <code>float: left</code>, une <code>font-size</code> plus élevée et <code>line-height: 1</code>. <code>::first-line</code> cible la première ligne d'un bloc, dont la longueur varie avec la largeur du conteneur — ce qui rend son rendu dynamique et imprévisible.</p>
+
+      <h3>Référence complète des pseudo-éléments textuels</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pseudo-élément</th><th>Cible</th><th>Propriétés autorisées</th></tr></thead>
+          <tbody>
+            <tr><td><code>::first-letter</code></td><td>Première lettre du texte</td><td>font*, color, background, margin, padding, border, float, line-height</td></tr>
+            <tr><td><code>::first-line</code></td><td>Première ligne de texte</td><td>font*, color, background, word-spacing, letter-spacing, text-decoration, line-height</td></tr>
+            <tr><td><code>::selection</code></td><td>Texte sélectionné par l'utilisateur</td><td>background, color, text-shadow, cursor</td></tr>
+            <tr><td><code>::placeholder</code></td><td>Texte indicatif d'un champ</td><td>font*, color, background, text-decoration, opacity</td></tr>
+            <tr><td><code>::marker</code></td><td>Puce d'élément de liste</td><td>color, font-size, content</td></tr>
+            <tr><td><code>::backdrop</code></td><td>Fond d'un élément plein écran (dialog, fullscreen)</td><td>background, backdrop-filter</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Pseudo-éléments textuels</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* ::first-letter — lettrine */
+p.lettrine::first-letter {
+  font-size: 3em;
+  font-weight: bold;
+  color: #e74c3c;
+  float: left;
+  margin-right: .2em;
+  line-height: 1;
+}
+
+/* ::first-line — première ligne en gras */
+p.lead::first-line {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #2c3e50;
+}
+
+/* ::selection — personnalisation de la sélection */
+::selection { background: #3498db; color: white; }
+
+/* ::placeholder — texte indicatif */
+input::placeholder { color: #999; font-style: italic; }
+
+/* ::marker — puces colorées */
+li::marker { color: #3498db; font-weight: bold; }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Réalisation d'une lettrine avec ::first-letter</div>
+          <p>L'effet lettrine (première lettre agrandie) est un procédé classique de la typographie éditoriale. Combinez <code>float: left</code>, une <code>font-size</code> plus élevée et <code>line-height: 1</code> pour un alignement optimal. N'omettez pas <code>margin-right</code> pour espacer la lettre du reste du texte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 COMBINAISONS AVANCÉES ══ -->
+    <div id="s2-adv">
+      <div class="section-header"><span class="section-num">08</span><h2>Combinaisons avancées</h2></div>
+
+      <p>Les pseudo-classes et pseudo-éléments peuvent être <strong>combinés</strong> entre eux ainsi qu'avec des sélecteurs classiques pour obtenir un ciblage d'une grande précision. Le chaînage de pseudo-classes (<code>input:focus:not(:disabled)</code>), la combinaison attribut + pseudo-classe + pseudo-élément (<code>a[href^="https"]:hover::after</code>), et les sélecteurs de liste <code>:is()</code> et <code>:where()</code> illustrent la puissance expressive du CSS moderne.</p>
+
+      <p>Les compteurs CSS (<code>counter-reset</code>, <code>counter-increment</code>, <code>counter()</code>) permettent une numérotation automatique des sections, titres ou éléments. Combinés avec <code>::before</code>, ils produisent une table des matières ou une numérotation de chapitres entièrement gérée en CSS. Les sélecteurs <code>:is()</code> et <code>:where()</code> simplifient les sélecteurs longs tout en offrant un contrôle précis sur la spécificité.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Combinaisons avancées</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Pseudo-classe + pseudo-élément */
+p:first-child::first-letter { font-size: 2em; }
+
+/* Pseudo-classes chaînées */
+input:focus:not(:disabled) { border-color: #3498db; }
+
+/* Combinatoire + pseudo-classe */
+ul > li:first-child { font-weight: bold; }
+section:not(.intro) p:first-of-type { margin-top: 0; }
+
+/* Attribut + pseudo-classe + pseudo-élément */
+a[href^="https"]:hover::after { content: " ↗"; }
+
+/* nth-child + :not() */
+li:nth-child(3n+1):not(:last-child) { border-bottom: 2px solid #3498db; }
+
+/* Compteurs automatiques */
+body { counter-reset: section; }
+h2::before {
+  counter-increment: section;
+  content: "Section " counter(section) " : ";
+  color: #ec4899;
+  font-size: .8rem;
+}
+
+/* Tooltip CSS */
+[data-tooltip] { position: relative; cursor: pointer; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%; left: 50%; transform: translateX(-50%);
+  background: #333; color: white; padding: 4px 8px;
+  border-radius: 4px; font-size: .75rem; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s;
+}
+[data-tooltip]:hover::after { opacity: 1; }
+
+/* :is() et :where() */
+:is(section, article) :is(h2, h3) { margin-top: 1.5em; }
+:where(.card, .panel) p { font-size: .9rem; }
+/* :where() a 0 spécificité contrairement à :is() */</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Différence de spécificité entre :is() et :where()</div>
+          <p><code>:is()</code> hérite de la spécificité du sélecteur le plus spécifique présent dans sa liste. <code>:where()</code> possède toujours une spécificité nulle, quel que soit son contenu. Il est conseillé d'utiliser <code>:where()</code> lorsque l'on souhaite pouvoir surcharger facilement les règles.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <div class="callout-title">Pour aller plus loin — :has() le sélecteur parent</div>
+          <p>La pseudo-classe <code>:has()</code>, parfois appelée « sélecteur parent », permet de cibler un élément en fonction de ses descendants ou de sa position relative. Par exemple, <code>section:has(h2)</code> cible les sections contenant un titre h2, et <code>figure:has(figcaption)</code> cible les figures avec légende. Supporté par tous les navigateurs modernes depuis 2024, <code>:has()</code> ouvre des possibilités de sélection contextualisée qui relevaient auparavant du JavaScript.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s2-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎯 Pseudo-classes & interactions</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une liste de 10 éléments. Utilisez <code>:nth-child</code> pour colorer une ligne sur deux.</li>
+            <li>Le premier élément est en gras avec <code>:first-child</code>.</li>
+            <li>Le dernier n'a pas de bordure avec <code>:last-child</code>.</li>
+            <li>Ajoutez un champ input avec <code>:focus</code> qui change la bordure en bleu.</li>
+            <li>Utilisez <code>:not(:last-child)</code> pour ajouter un séparateur entre les éléments.</li>
+            <li>Créez un lien avec les 4 états LVHA.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🧩 Pseudo-éléments créatifs</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez des cartes avec un badge "Nouveau" utilisant <code>::after</code>.</li>
+            <li>Ajoutez une icône devant chaque lien externe avec <code>::before</code>.</li>
+            <li>Créez une lettrine sur le premier paragraphe avec <code>::first-letter</code>.</li>
+            <li>Ajoutez un séparateur décoratif (ligne colorée) avec <code>::after</code> et <code>content: ""</code>.</li>
+            <li>Utilisez <code>::selection</code> pour personnaliser la couleur de sélection.</li>
+            <li>Créez un tooltip purement CSS avec <code>::after</code> et <code>attr()</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Galerie avec pseudo-classes</div>
+          <p>Créez une galerie de 9 images en grille 3×3. Utilisez <code>:nth-child</code> pour mettre une bordure colorée sur les images des coins (1, 3, 7, 9) et un effet de survol différent pour l'image centrale (5). Ajoutez une légende avec <code>::after</code> au survol. Utilisez <code>:not(:hover)</code> pour estomper les autres images.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet fil rouge -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel. Voici comment mettre en pratique les notions abordées :</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Appliquez des styles :hover et :focus sur les liens de navigation et les cartes de projet. Utilisez ::before et ::after pour des indicateurs décoratifs.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Rendre la navigation et les interactions du portfolio plus expressives et accessibles au clavier.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="pseudo">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s2-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Pseudo-classes de lien : :link, :visited, :hover, :active (ordre LVHA)</li>
+        <li>Pseudo-classes de formulaire : :focus, :disabled, :checked, :valid, :invalid</li>
+        <li>Pseudo-classes structurelles : :first-child, :last-child, :nth-child(an+b)</li>
+        <li>:not() — négation pour les exceptions</li>
+        <li>::before et ::after — contenu généré, icônes, badges, tooltips</li>
+        <li>::first-letter et ::first-line — effets typographiques</li>
+        <li>::selection, ::placeholder, ::marker — détails d'interface</li>
+        <li>Combinaisons avancées : chaînage, attr(), compteurs CSS</li>
+        <li>:is() et :where() pour gérer la spécificité</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Pseudo-classe</dt><dd>Mot-clé après <code>:</code> qui cible un état (:hover, :focus) ou une position (:nth-child).</dd>
+          <dt>Pseudo-élément</dt><dd>Mot-clé après <code>::</code> qui cible une partie spécifique ou du contenu généré.</dd>
+          <dt>LVHA</dt><dd>Ordre obligatoire des pseudo-classes de lien : Link → Visited → Hover → Active.</dd>
+          <dt>nth-child</dt><dd>Pseudo-classe basée sur la position. Formule an+b (odd, even, 3n+1…).</dd>
+          <dt>:not()</dt><dd>Pseudo-classe de négation. Exclut les éléments correspondant au sélecteur argument.</dd>
+          <dt>::before / ::after</dt><dd>Pseudo-éléments de contenu généré. Nécessitent la propriété <code>content</code>.</dd>
+          <dt>::first-letter</dt><dd>Cible la première lettre d'un bloc de texte. Effet lettrine possible.</dd>
+          <dt>::first-line</dt><dd>Cible la première ligne d'un bloc de texte (longueur variable selon la largeur).</dd>
+          <dt>::selection</dt><dd>Cible le texte sélectionné par l'utilisateur. Couleur de surbrillance personnalisable.</dd>
+          <dt>:is() / :where()</dt><dd>Sélecteurs de liste. :is() prend la spécificité max, :where() a 0 spécificité.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#ec4899;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Continuer le cours</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Couleurs CSS</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Systèmes colorimétriques · Harmonies · Accessibilité</div>
+        </div>
+        <a href="colors.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#ec4899;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Couleurs →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

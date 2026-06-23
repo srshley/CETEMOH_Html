@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 8 — Formulaires : Avancé · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--amber); background:var(--amber-dim); border-color:rgba(245,158,11,.25); }
+    .section-header    { border-bottom-color:rgba(245,158,11,.2); }
+    h3                 { color:var(--amber); }
+    .sidebar-item.active { color:var(--amber); border-left-color:var(--amber); background:var(--amber-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html" class="active">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label" style="color:var(--amber);">Séance 8</div>
+      <a href="#s8-types" class="sidebar-item"><span class="sidebar-num">01</span>Types input avancés</a>
+      <a href="#s8-check" class="sidebar-item"><span class="sidebar-num">02</span>Checkbox &amp; Radio</a>
+      <a href="#s8-file" class="sidebar-item"><span class="sidebar-num">03</span>File input</a>
+      <a href="#s8-required" class="sidebar-item"><span class="sidebar-num">04</span>Validation native</a>
+      <a href="#s8-pattern" class="sidebar-item"><span class="sidebar-num">05</span>Pattern (regex)</a>
+      <a href="#s8-minmax" class="sidebar-item"><span class="sidebar-num">06</span>Min, max, step</a>
+      <a href="#s8-attributs" class="sidebar-item"><span class="sidebar-num">07</span>Attributs avancés</a>
+      <a href="#s8-orga" class="sidebar-item"><span class="sidebar-num">08</span>Organisation avancée</a>
+      <a href="#s8-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s8-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance7.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">← Séance 7</a>
+      <a href="seance9.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 9 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s3">
+      <div class="session-badge s3">Séance 08 / 10</div>
+      <h1>Formulaires : Avancé</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Types avancés • Checkbox • Radio • File • Validation • Pattern • Organisation</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire+</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 TYPES AVANCÉS ══ -->
+    <div id="s8-types">
+      <div class="section-header"><span class="section-num">01</span><h2>Types input avancés</h2></div>
+      <p>HTML5 a introduit de nouveaux types d'<code>&lt;input&gt;</code> qui améliorent l'expérience utilisateur et la validation côté navigateur : <code>number</code>, <code>date</code>, <code>url</code>, <code>tel</code>, <code>color</code>, <code>range</code>.</p>
+      <div class="input-gallery">
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">number</span><span class="input-card-desc">— Nombres</span></div>
+          <div class="input-card-preview"><input type="number" min="0" max="100" value="50"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">date</span><span class="input-card-desc">— Date</span></div>
+          <div class="input-card-preview"><input type="date"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">url</span><span class="input-card-desc">— URL</span></div>
+          <div class="input-card-preview"><input type="url" placeholder="https://exemple.com"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">tel</span><span class="input-card-desc">— Téléphone</span></div>
+          <div class="input-card-preview"><input type="tel" placeholder="+33 6 00 00 00 00"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">color</span><span class="input-card-desc">— Couleur</span></div>
+          <div class="input-card-preview"><input type="color" value="#3b82f6"></div>
+        </div>
+        <div class="input-card">
+          <div class="input-card-header"><span class="input-card-type">range</span><span class="input-card-desc">— Curseur</span></div>
+          <div class="input-card-preview"><input type="range" min="0" max="100" value="50"></div>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Types avancés</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;label&gt;Âge :&amp;nbsp;
+  &lt;input type="number" min="0" max="120" value="25"&gt;
+&lt;/label&gt;
+
+&lt;label&gt;Date de naissance :&amp;nbsp;
+  &lt;input type="date"&gt;
+&lt;/label&gt;
+
+&lt;label&gt;Site web :&amp;nbsp;
+  &lt;input type="url" placeholder="https://"&gt;
+&lt;/label&gt;
+
+&lt;label&gt;Téléphone :&amp;nbsp;
+  &lt;input type="tel" placeholder="+33600000000"&gt;
+&lt;/label&gt;
+
+&lt;label&gt;Couleur préférée :&amp;nbsp;
+  &lt;input type="color" value="#3b82f6"&gt;
+&lt;/label&gt;
+
+&lt;label&gt;Volume :&amp;nbsp;
+  &lt;input type="range" min="0" max="100" value="50"&gt;
+&lt;/label&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label>Âge : <input type="number" min="0" max="100" value="25" style="border:1px solid #ccc;padding:.2em .4em;border-radius:4px;width:80px;"></label></p>
+            <p><label>Date : <input type="date" style="border:1px solid #ccc;padding:.2em .4em;border-radius:4px;"></label></p>
+            <p><label>Couleur : <input type="color" value="#3b82f6" style="border:none;width:40px;height:30px;"></label></p>
+            <p><label>Volume : <input type="range" min="0" max="100" value="50"></label></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 CHECKBOX & RADIO ══ -->
+    <div id="s8-check">
+      <div class="section-header"><span class="section-num">02</span><h2>Checkbox &amp; Radio</h2></div>
+      <p>Les <strong>checkboxes</strong> permettent de sélectionner plusieurs options. Les <strong>radio buttons</strong> imposent un choix unique dans un groupe (même attribut <code>name</code>).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Checkbox et Radio</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Checkbox : choix multiples --&gt;
+&lt;fieldset&gt;
+  &lt;legend&gt;Centres d'intérêt&lt;/legend&gt;
+  &lt;label&gt;
+    &lt;input type="checkbox" name="interets" value="html"&gt;
+    HTML
+  &lt;/label&gt;
+  &lt;label&gt;
+    &lt;input type="checkbox" name="interets" value="css"&gt;
+    CSS
+  &lt;/label&gt;
+  &lt;label&gt;
+    &lt;input type="checkbox" name="interets" value="js"&gt;
+    JavaScript
+  &lt;/label&gt;
+&lt;/fieldset&gt;
+
+&lt;!-- Radio : choix unique --&gt;
+&lt;fieldset&gt;
+  &lt;legend&gt;Niveau&lt;/legend&gt;
+  &lt;label&gt;
+    &lt;input type="radio" name="niveau" value="debutant"&gt;
+    Débutant
+  &lt;/label&gt;
+  &lt;label&gt;
+    &lt;input type="radio" name="niveau" value="intermediaire"&gt;
+    Intermédiaire
+  &lt;/label&gt;
+  &lt;label&gt;
+    &lt;input type="radio" name="niveau" value="avance"&gt;
+    Avancé
+  &lt;/label&gt;
+&lt;/fieldset&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <fieldset style="border:1px solid #ccc;border-radius:4px;padding:.75em;margin-bottom:.75em;">
+              <legend style="font-weight:bold;">Centres d'intérêt</legend>
+              <label><input type="checkbox"> HTML</label><br>
+              <label><input type="checkbox"> CSS</label><br>
+              <label><input type="checkbox"> JavaScript</label>
+            </fieldset>
+            <fieldset style="border:1px solid #ccc;border-radius:4px;padding:.75em;">
+              <legend style="font-weight:bold;">Niveau</legend>
+              <label><input type="radio" name="niveau-demo"> Débutant</label><br>
+              <label><input type="radio" name="niveau-demo"> Intermédiaire</label><br>
+              <label><input type="radio" name="niveau-demo"> Avancé</label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 FILE ══ -->
+    <div id="s8-file">
+      <div class="section-header"><span class="section-num">03</span><h2>Input file — upload de fichier</h2></div>
+      <p><code>&lt;input type="file"&gt;</code> permet à l'utilisateur de sélectionner un fichier. L'attribut <code>accept</code> filtre les types autorisés. <code>multiple</code> permet de sélectionner plusieurs fichiers.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — File input</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Fichier unique --&gt;
+&lt;label for="cv"&gt;CV (PDF) :&lt;/label&gt;
+&lt;input type="file" id="cv" name="cv"
+  accept=".pdf,.doc,.docx"&gt;
+
+&lt;!-- Plusieurs fichiers --&gt;
+&lt;label for="photos"&gt;Photos :&lt;/label&gt;
+&lt;input type="file" id="photos" name="photos[]"
+  accept="image/*" multiple&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label>CV (PDF) : <input type="file" accept=".pdf" style="border:1px solid #ccc;padding:.2em .4em;border-radius:4px;font-size:.85em;"></label></p>
+            <p><label>Photos : <input type="file" accept="image/*" multiple style="border:1px solid #ccc;padding:.2em .4em;border-radius:4px;font-size:.85em;"></label></p>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Formulaire avec fichier : method="POST" et enctype</div>
+          <p>Pour envoyer un fichier, le formulaire doit avoir <code>method="POST"</code> ET <code>enctype="multipart/form-data"</code>. Sans cet attribut, le fichier n'est pas transmis.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 VALIDATION NATIVE ══ -->
+    <div id="s8-required">
+      <div class="section-header"><span class="section-num">04</span><h2>Validation native HTML5</h2></div>
+      <p>HTML5 propose une validation côté navigateur sans JavaScript. Les attributs clés : <code>required</code> (champ obligatoire), <code>minlength</code>/<code>maxlength</code> (longueur du texte), <code>type</code> (email, url, number, etc.).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Validation native</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form&gt;
+  &lt;!-- Champ obligatoire --&gt;
+  &lt;label&gt;Nom (obligatoire) :&lt;/label&gt;
+  &lt;input type="text" name="nom" required&gt;
+
+  &lt;!-- Longueur minimale et maximale --&gt;
+  &lt;label&gt;Mot de passe (6-20 car.) :&lt;/label&gt;
+  &lt;input type="password" name="pass"
+    minlength="6" maxlength="20" required&gt;
+
+  &lt;!-- Email avec validation du format --&gt;
+  &lt;label&gt;Email :&lt;/label&gt;
+  &lt;input type="email" name="email" required&gt;
+
+  &lt;button type="submit"&gt;Valider&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <form action="#">
+              <p><label>Nom (obligatoire) : <input type="text" required style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+              <p><label>Email : <input type="email" required style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+              <p><button type="submit" style="padding:.3em .8em;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">Valider</button></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 PATTERN ══ -->
+    <div id="s8-pattern">
+      <div class="section-header"><span class="section-num">05</span><h2>Pattern — validation par regex</h2></div>
+      <p>L'attribut <code>pattern</code> valide le champ avec une expression régulière (regex). Utile pour les formats spécifiques : code postal, téléphone, date personnalisée, etc.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Pattern</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Code postal français (5 chiffres) --&gt;
+&lt;label&gt;Code postal :&lt;/label&gt;
+&lt;input type="text" name="cp"
+  pattern="[0-9]{5}"
+  title="5 chiffres, ex: 75001"
+  required&gt;
+
+&lt;!-- Téléphone français --&gt;
+&lt;label&gt;Téléphone :&lt;/label&gt;
+&lt;input type="tel" name="tel"
+  pattern="0[1-9][0-9]{8}"
+  title="10 chiffres, ex: 0612345678"
+  required&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label>Code postal : <input type="text" pattern="[0-9]{5}" placeholder="75001" title="5 chiffres" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+            <p><label>Téléphone : <input type="tel" pattern="0[1-9][0-9]{8}" placeholder="0612345678" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">L'attribut title avec pattern</div>
+          <p>Toujours ajouter un <code>title</code> décrivant le format attendu. Le navigateur l'affiche dans le message d'erreur quand la validation échoue. Sans title, le message est "Format non valide" — peu utile.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 MIN, MAX, STEP ══ -->
+    <div id="s8-minmax">
+      <div class="section-header"><span class="section-num">06</span><h2>Min, max, step</h2></div>
+      <p>Ces attributs contrôlent les valeurs autorisées pour les champs numériques (<code>number</code>, <code>range</code>, <code>date</code>, etc.) : <code>min</code> (valeur minimum), <code>max</code> (maximum), <code>step</code> (pas d'incrément).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Min, max, step</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Age : 18 à 120 ans --&gt;
+&lt;input type="number" name="age"
+  min="18" max="120" value="25"&gt;
+
+&lt;!-- Note sur 20, pas de 0.5 --&gt;
+&lt;input type="number" name="note"
+  min="0" max="20" step="0.5" value="10"&gt;
+
+&lt;!-- Curseur de 0 à 100, pas de 10 --&gt;
+&lt;input type="range" name="volume"
+  min="0" max="100" step="10" value="50"&gt;
+
+&lt;!-- Date de naissance : pas avant 1900 --&gt;
+&lt;input type="date" name="naissance"
+  min="1900-01-01" max="2024-12-31"&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><label>Âge (18-120) : <input type="number" min="18" max="120" value="25" style="border:1px solid #ccc;padding:.2em .4em;border-radius:4px;width:80px;"></label></p>
+            <p><label>Note (0-20, step 0.5) : <input type="number" min="0" max="20" step="0.5" value="10" style="border:1px solid #ccc;padding:.2em .4em;border-radius:4px;width:80px;"></label></p>
+            <p><label>Volume : <input type="range" min="0" max="100" step="10" value="50"></label></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 ATTRIBUTS AVANCÉS ══ -->
+    <div id="s8-attributs">
+      <div class="section-header"><span class="section-num">07</span><h2>Attributs avancés</h2></div>
+      <p>Hormis la validation, plusieurs attributs modifient le comportement des champs : <code>autofocus</code> (focus automatique), <code>disabled</code> (désactivé), <code>readonly</code> (lecture seule), <code>multiple</code> (sélection multiple).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Attributs avancés</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Focus automatique au chargement --&gt;
+&lt;input type="text" name="recherche"
+  autofocus placeholder="Rechercher..."&gt;
+
+&lt;!-- Champ désactivé (non envoyé) --&gt;
+&lt;input type="text" name="promo"
+  value="CODE10" disabled&gt;
+
+&lt;!-- Lecture seule (envoyé mais non modifiable) --&gt;
+&lt;input type="text" name="email"
+  value="user@exemple.com" readonly&gt;
+
+&lt;!-- Sélection multiple (select) --&gt;
+&lt;select name="couleurs[]" multiple size="4"&gt;
+  &lt;option value="rouge"&gt;Rouge&lt;/option&gt;
+  &lt;option value="bleu"&gt;Bleu&lt;/option&gt;
+  &lt;option value="vert"&gt;Vert&lt;/option&gt;
+&lt;/select&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p><input type="text" value="CODE10" disabled style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;background:#eee;"> (disabled)</p>
+            <p><input type="text" value="user@exemple.com" readonly style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;background:#f9f9f9;"> (readonly)</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><code>autofocus</code></td><td>Place le curseur dans le champ au chargement de la page.</td></tr>
+            <tr><td><code>disabled</code></td><td>Désactive le champ. Non soumis avec le formulaire. Grisé.</td></tr>
+            <tr><td><code>readonly</code></td><td>Lecture seule. Visible et soumis, mais non modifiable.</td></tr>
+            <tr><td><code>multiple</code></td><td>Autorise la sélection de plusieurs valeurs (file, select).</td></tr>
+            <tr><td><code>placeholder</code></td><td>Texte indicatif dans le champ (disparaît à la saisie).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 08 ORGANISATION ══ -->
+    <div id="s8-orga">
+      <div class="section-header"><span class="section-num">08</span><h2>Organisation avancée des formulaires</h2></div>
+      <p>Combinez les techniques apprises : fieldset/legend pour les groupes, label pour l'accessibilité, validation native pour l'expérience utilisateur, et attributs avancés pour le comportement.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Formulaire complet</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form action="/inscription" method="POST"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Identité&lt;/legend&gt;
+
+    &lt;label for="prenom"&gt;Prénom :&lt;/label&gt;
+    &lt;input type="text" id="prenom" name="prenom"
+      required autofocus&gt;
+
+    &lt;label for="nom"&gt;Nom :&lt;/label&gt;
+    &lt;input type="text" id="nom" name="nom" required&gt;
+
+    &lt;label for="naissance"&gt;Date naissance :&lt;/label&gt;
+    &lt;input type="date" id="naissance"
+      name="naissance"
+      min="1900-01-01" max="2010-12-31"&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Compte&lt;/legend&gt;
+
+    &lt;label for="email"&gt;Email :&lt;/label&gt;
+    &lt;input type="email" id="email"
+      name="email" required&gt;
+
+    &lt;label for="pass"&gt;Mot de passe :&lt;/label&gt;
+    &lt;input type="password" id="pass"
+      name="pass" minlength="8" required&gt;
+  &lt;/fieldset&gt;
+
+  &lt;button type="submit"&gt;Créer mon compte&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <form action="#">
+              <fieldset style="border:1px solid #ccc;border-radius:4px;padding:.75em;margin-bottom:.75em;">
+                <legend style="font-weight:bold;">Identité</legend>
+                <p><label>Prénom : <input type="text" required style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+                <p><label>Nom : <input type="text" required style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+                <p><label>Date naissance : <input type="date" style="border:1px solid #ccc;padding:.3em .5em;border-radius:4px;"></label></p>
+              </fieldset>
+              <button type="submit" style="padding:.3em .8em;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">Créer mon compte</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s8-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Formulaire d'inscription complet</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un formulaire d'inscription avec : prénom, nom, email, téléphone, date naissance, mot de passe, confirmation.</li>
+            <li>Utilisez <code>required</code>, <code>minlength</code>, <code>pattern</code> pour le téléphone.</li>
+            <li>Ajoutez <code>autofocus</code> sur le prénom.</li>
+            <li>Groupez avec fieldset : "Identité" et "Sécurité".</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✏️ Sondage</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un sondage avec : nom, email, âge (number), couleur préférée (color).</li>
+            <li>Une question checkbox : "Langages maîtrisés" (HTML, CSS, JS, PHP).</li>
+            <li>Une question radio : "Niveau d'expérience".</li>
+            <li>Un curseur range : "Satisfaction générale" de 0 à 10.</li>
+            <li>Un file input pour uploader une image de profil.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔧 Validation avancée</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un champ code postal avec <code>pattern="[0-9]{5}"</code>.</li>
+            <li>Créez un champ téléphone avec <code>pattern="0[1-9][0-9]{8}"</code>.</li>
+            <li>Ajoutez <code>title</code> à chaque pattern pour le message d'erreur.</li>
+            <li>Testez la validation en cliquant sur submit sans remplir.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="08">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s8-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Types input avancés : number, date, url, tel, color, range</li>
+        <li>Checkbox (choix multiples) et Radio (choix unique)</li>
+        <li>File input avec accept et multiple</li>
+        <li>Validation native : required, minlength, maxlength</li>
+        <li>Pattern : validation par regex avec title informatif</li>
+        <li>Min, max, step pour les champs numériques</li>
+        <li>Attributs : autofocus, disabled, readonly, multiple</li>
+        <li>Organisation avancée avec fieldset/legend</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>required</dt><dd>Rend un champ obligatoire. Le formulaire ne peut pas être soumis sans.</dd>
+          <dt>pattern</dt><dd>Expression régulière pour valider le format du champ.</dd>
+          <dt>min / max</dt><dd>Bornes minimale et maximale pour les champs numériques et dates.</dd>
+          <dt>step</dt><dd>Pas d'incrément pour number et range (ex: 0.5, 10).</dd>
+          <dt>disabled</dt><dd>Champ désactivé, non soumis, grisé.</dd>
+          <dt>readonly</dt><dd>Champ en lecture seule, soumis mais non modifiable.</dd>
+          <dt>autofocus</dt><dd>Focus automatique sur le champ au chargement de la page.</dd>
+          <dt>multiple</dt><dd>Autoriser la sélection de plusieurs fichiers ou options.</dd>
+          <dt>accept</dt><dd>Filtre les types de fichiers autorisés pour file input.</dd>
+          <dt>enctype</dt><dd>Type d'encodage du formulaire. <code>multipart/form-data</code> pour les fichiers.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 9 — Sémantique HTML5</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Header, Nav, Main, Article, Section, Aside, Footer, Time, Details</div>
+        </div>
+        <a href="seance9.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 9 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

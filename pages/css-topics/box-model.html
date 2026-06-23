@@ -1,0 +1,649 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Box Model · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html" class="active">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Box Model</div>
+      <a href="#bm-concept"   class="sidebar-item"><span class="sidebar-num">01</span>Le concept</a>
+      <a href="#bm-content"   class="sidebar-item"><span class="sidebar-num">02</span>Content</a>
+      <a href="#bm-padding"   class="sidebar-item"><span class="sidebar-num">03</span>Padding</a>
+      <a href="#bm-border"    class="sidebar-item"><span class="sidebar-num">04</span>Border</a>
+      <a href="#bm-radius"    class="sidebar-item"><span class="sidebar-num">05</span>Border-radius</a>
+      <a href="#bm-margin"    class="sidebar-item"><span class="sidebar-num">06</span>Margin</a>
+      <a href="#bm-boxsize"   class="sidebar-item"><span class="sidebar-num">07</span>box-sizing</a>
+      <a href="#bm-minmax"    class="sidebar-item"><span class="sidebar-num">08</span>min/max width/height</a>
+      <a href="#bm-overflow"  class="sidebar-item"><span class="sidebar-num">09</span>Overflow</a>
+      <a href="#bm-exo"       class="sidebar-item"><span class="sidebar-num">10</span>Exercices</a>
+      <a href="#bm-bilan"     class="sidebar-item"><span class="sidebar-num">11</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="flexbox.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Flexbox →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Le Box Model</div>
+      <h1>Le Box Model</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Content · Padding · Border · Margin · Box-sizing · Overflow</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Fondamental</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">11 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 LE CONCEPT ══ -->
+    <div id="bm-concept">
+      <div class="section-header"><span class="section-num">01</span><h2>Le concept du Box Model</h2></div>
+      <p>Le <strong>Box Model</strong> (modèle de boîte) constitue le concept le plus fondamental du langage CSS. Chaque élément HTML est représenté comme une <strong>boîte rectangulaire</strong> composée de quatre couches concentriques : le contenu (content), l'espacement interne (padding), la bordure (border) et l'espacement externe (margin). La compréhension du Box Model est indispensable pour maîtriser les dimensions, l'espacement et la disposition des éléments sur une page web. Sans cette maîtrise, les développeurs se heurtent à des comportements de débordement, d'alignement et de dimensionnement qui semblent imprévisibles.</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">📦 Content</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🧊 Padding</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🧊 Padding</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📏 Border</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📏 Border</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">💨 Margin</span>
+        </div>
+      </div>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🏠</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : un tableau encadré au mur</div>
+          <p>Le <strong>content</strong> correspond au tableau lui-même. Le <strong>padding</strong> est le passe-partout (espace entre le tableau et le cadre). Le <strong>border</strong> représente le cadre. La <strong>margin</strong> est l'espace entre le cadre et les autres tableaux accrochés au mur.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+        <div class="grid-card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:.3rem;">📦</div>
+          <h3 style="margin:0;color:var(--teal);font-size:.95rem;">Content</h3>
+          <p style="font-size:.8rem;">Le contenu réel (texte, image, etc.)</p>
+        </div>
+        <div class="grid-card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:.3rem;">🧊</div>
+          <h3 style="margin:0;color:var(--teal);font-size:.95rem;">Padding</h3>
+          <p style="font-size:.8rem;">Espace interne, visible (fond)</p>
+        </div>
+        <div class="grid-card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:.3rem;">📏</div>
+          <h3 style="margin:0;color:var(--teal);font-size:.95rem;">Border</h3>
+          <p style="font-size:.8rem;">Bordure visible ou invisible</p>
+        </div>
+        <div class="grid-card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:.3rem;">💨</div>
+          <h3 style="margin:0;color:var(--teal);font-size:.95rem;">Margin</h3>
+          <p style="font-size:.8rem;">Espace externe, invisible</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 CONTENT ══ -->
+    <div id="bm-content">
+      <div class="section-header"><span class="section-num">02</span><h2>Content — width & height</h2></div>
+      <p>La zone de <strong>contenu</strong> correspond à l'espace dans lequel s'affiche le contenu réel de l'élément. Les propriétés <code>width</code> et <code>height</code> contrôlent ses dimensions. <code>width: auto</code> (valeur par défaut) permet à l'élément d'occuper l'espace disponible tout en respectant le padding, la bordure et la marge. <code>width: 100%</code> force la largeur à 100% du parent, ce qui peut entraîner un débordement horizontal si l'élément possède du padding ou une bordure (sauf avec <code>box-sizing: border-box</code>). Il est recommandé de privilégier <code>width: auto</code> pour les conteneurs.</p>
+
+      <h3>Référence complète — <code>width</code> et <code>height</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>auto</code></td><td>Valeur par défaut. Le navigateur calcule la largeur/hauteur en fonction du contenu et du contexte.</td><td>Comportement standard pour la plupart des éléments bloc.</td></tr>
+            <tr><td><code>length</code></td><td>Valeur fixe en px, em, rem, etc.</td><td>Dimensions précises : boîtes, cartes, colonnes de layout.</td></tr>
+            <tr><td><code>percentage</code></td><td>Pourcentage de la largeur/hauteur du conteneur parent.</td><td>Mises en page fluides et responsives.</td></tr>
+            <tr><td><code>max-content</code></td><td>Largeur minimale nécessaire pour contenir tout le contenu sans retour à la ligne.</td><td>Ajustement automatique à la taille du contenu.</td></tr>
+            <tr><td><code>min-content</code></td><td>Largeur minimale possible basée sur le plus long mot ou élément inline.</td><td>Conteneurs qui doivent s'adapter au contenu le plus large.</td></tr>
+            <tr><td><code>fit-content</code></td><td>Utilise max-content si l'espace est suffisant, sinon s'adapte à l'espace disponible.</td><td>Équilibre entre contenu et espace disponible.</td></tr>
+            <tr><td><code>vw</code> / <code>vh</code></td><td>Pourcentage de la largeur/hauteur du viewport.</td><td>Sections pleine hauteur, hero, overlays plein écran.</td></tr>
+            <tr><td><code>ch</code></td><td>Largeur basée sur le caractère "0" de la police.</td><td>Limiter la largeur de lecture (60-80ch pour un texte) pour améliorer la lisibilité.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Content</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.box {
+  width: 300px;
+  height: 200px;
+  background: #e8f4f8;
+}
+
+.width-auto  { width: auto; }
+.width-100   { width: 100%; }
+.width-vw    { width: 50vw; }
+.width-ch    { width: 60ch; }
+
+.block  { display: block; width: 100%; }
+.inline { display: inline; }</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 PADDING ══ -->
+    <div id="bm-padding">
+      <div class="section-header"><span class="section-num">03</span><h2>Padding — l'espace intérieur</h2></div>
+      <p>Le <strong>padding</strong> correspond à l'espace situé entre le contenu et la bordure. Il se trouve à l'intérieur de la boîte et adopte la couleur de fond de l'élément. Le padding est exprimé via la propriété raccourcie <code>padding</code> ou via les propriétés individuelles <code>padding-top</code>, <code>padding-right</code>, <code>padding-bottom</code>, <code>padding-left</code>. La notation raccourcie accepte de 1 à 4 valeurs appliquées dans l'ordre top → right → bottom → left (sens horaire).</p>
+
+      <h3>Référence complète — <code>padding</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur / Notation</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>padding: tous</code></td><td>1 valeur : appliquée aux 4 côtés. Ex: <code>padding: 20px</code></td><td>Espacement uniforme.</td></tr>
+            <tr><td><code>padding: vert hori</code></td><td>2 valeurs : <code>padding: 10px 20px</code> (vertical = 10px, horizontal = 20px)</td><td>Économie de code quand vertical ≠ horizontal.</td></tr>
+            <tr><td><code>padding: top hori bottom</code></td><td>3 valeurs : top = 10px, horizontal = 20px, bottom = 30px</td><td>Cas où top et bottom diffèrent.</td></tr>
+            <tr><td><code>padding: top right bottom left</code></td><td>4 valeurs (sens horaire) : <code>padding: 10px 15px 20px 25px</code></td><td>Contrôle individuel par côté.</td></tr>
+            <tr><td><code>padding-top</code></td><td>Cible uniquement le côté supérieur.</td><td>Ajustement marginal d'un seul côté.</td></tr>
+            <tr><td><code>padding-right</code></td><td>Cible uniquement le côté droit.</td><td>Espacement pour icône ou bouton à droite.</td></tr>
+            <tr><td><code>padding-bottom</code></td><td>Cible uniquement le côté inférieur.</td><td>Sépare le contenu du bord inférieur.</td></tr>
+            <tr><td><code>padding-left</code></td><td>Cible uniquement le côté gauche.</td><td>Aligner le texte avec un retrait.</td></tr>
+            <tr><td><code>em</code> / <code>rem</code></td><td>Padding proportionnel à la taille de police.</td><td>Padding responsive qui s'adapte à la taille du texte.</td></tr>
+            <tr><td><code>percentage</code></td><td>Pourcentage de la largeur du conteneur (même pour vertical).</td><td>Padding fluide, mais attention : % = % de la largeur, pas de la hauteur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Padding</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.p-1 { padding: 20px; }
+.p-2 { padding: 10px 20px; }
+.p-3 { padding: 10px 20px 30px; }
+.p-4 { padding: 10px 20px 30px 40px; }
+
+.p-top    { padding-top: 10px; }
+.p-right  { padding-right: 15px; }
+.p-bottom { padding-bottom: 10px; }
+.p-left   { padding-left: 15px; }
+
+.card {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 BORDER ══ -->
+    <div id="bm-border">
+      <div class="section-header"><span class="section-num">04</span><h2>Border — la bordure</h2></div>
+      <p>La <strong>bordure</strong> entoure le padding (ou directement le contenu). Elle se décompose en trois sous-propriétés : <code>border-width</code>, <code>border-style</code> et <code>border-color</code>. Avec <code>box-sizing: content-box</code>, une largeur déclarée de <code>200px</code> associée à une bordure de <code>5px</code> produit une largeur totale de 210px. Avec <code>border-box</code>, les 200px incluent la bordure (le contenu occupe alors 190px). Chaque côté peut être stylisé indépendamment via <code>border-top</code>, <code>border-right</code>, <code>border-bottom</code>, <code>border-left</code>.</p>
+
+      <h3>Référence complète — <code>border</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur / Sous-propriété</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>border-width</code></td><td>Épaisseur de la bordure : <code>thin</code>, <code>medium</code>, <code>thick</code> ou valeur numérique (px, em).</td><td>Définit l'épaisseur visuelle du cadre.</td></tr>
+            <tr><td><code>border-style: solid</code></td><td>Ligne continue.</td><td>Style le plus courant pour les bordures.</td></tr>
+            <tr><td><code>border-style: dashed</code></td><td>Ligne en tirets.</td><td>Séparation visuelle moins rigide, champs en pointillés.</td></tr>
+            <tr><td><code>border-style: dotted</code></td><td>Ligne en points.</td><td>Bordures décoratives légères.</td></tr>
+            <tr><td><code>border-style: double</code></td><td>Double ligne continue.</td><td>Encadrements prononcés.</td></tr>
+            <tr><td><code>border-style: groove</code></td><td>Effet 3D creusé.</td><td>Style rétro, boutons en relief.</td></tr>
+            <tr><td><code>border-style: ridge</code></td><td>Effet 3D en relief (inverse de groove).</td><td>Bordures avec effet de profondeur.</td></tr>
+            <tr><td><code>border-style: inset</code></td><td>Effet encastré.</td><td>Éléments qui semblent enfoncés.</td></tr>
+            <tr><td><code>border-style: outset</code></td><td>Effet saillant (inverse de inset).</td><td>Boutons en relief.</td></tr>
+            <tr><td><code>border-style: none</code></td><td>Aucune bordure (valeur par défaut).</td><td>Supprimer une bordure existante.</td></tr>
+            <tr><td><code>border-style: hidden</code></td><td>Similaire à none mais affecte la résolution des conflits dans les tableaux.</td><td>Tableaux, priorité de bordure.</td></tr>
+            <tr><td><code>border-color</code></td><td>Couleur de la bordure. Toute valeur de couleur CSS valide.</td><td><code>currentColor</code> pour harmoniser avec le texte.</td></tr>
+            <tr><td><code>border: width style color</code></td><td>Raccourci complet. Ex: <code>2px solid #3498db</code></td><td>Notation standard pour déclarer une bordure complète.</td></tr>
+            <tr><td><code>border-top</code> / <code>-right</code> / <code>-bottom</code> / <code>-left</code></td><td>Bordure spécifique à un côté.</td><td>Soulignement, séparation latérale, encadrement partiel.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Border</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.border-solid  { border: 2px solid #3498db; }
+.border-dashed { border: 3px dashed #e74c3c; }
+.border-dotted { border: 2px dotted #2ecc71; }
+.border-double { border: 4px double #9b59b6; }
+
+.border-top    { border-top: 3px solid #e63946; }
+.border-right  { border-right: 3px solid #3498db; }
+.border-bottom { border-bottom: 3px solid #2ecc71; }
+.border-left   { border-left: 3px solid #f39c12; }</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 BORDER-RADIUS ══ -->
+    <div id="bm-radius">
+      <div class="section-header"><span class="section-num">05</span><h2>Border-radius — coins arrondis</h2></div>
+      <p>La propriété <code>border-radius</code> arrondit les angles d'un élément. Elle figure parmi les propriétés les plus utilisées pour adoucir l'apparence des interfaces. La syntaxe permet de spécifier un rayon unique (appliqué aux 4 coins), deux valeurs (diagonales), ou quatre valeurs (chaque coin individuellement). Un rayon de <code>50%</code> transforme un élément carré en cercle parfait. <code>9999px</code> (ou une valeur très élevée) produit une forme de pilule (capsule), car le rayon est limité par les dimensions de l'élément.</p>
+
+      <h3>Référence complète — <code>border-radius</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>valeur unique</code></td><td>Rayon identique pour les 4 coins. Ex: <code>8px</code></td><td>Coins arrondis uniformes (cartes, boutons).</td></tr>
+            <tr><td><code>deux valeurs</code></td><td>Première = top-left + bottom-right, seconde = top-right + bottom-left.</td><td>Arrondis asymétriques sur les diagonales.</td></tr>
+            <tr><td><code>quatre valeurs</code></td><td>TL, TR, BR, BL (sens horaire).</td><td>Contrôle individuel de chaque coin.</td></tr>
+            <tr><td><code>50%</code></td><td>Forme circulaire ou ovale selon les proportions.</td><td>Avatars, boutons ronds, badges, pastilles.</td></tr>
+            <tr><td><code>9999px</code> / <code>100vmax</code></td><td>Forme de pilule (capsule) — valeur suffisamment grande.</td><td>Tags, labels, boutons pill, barres de progression.</td></tr>
+            <tr><td><code>a / b</code></td><td>Rayon elliptique : horizontal / vertical. Ex: <code>50px / 25px</code></td><td>Effets spéciaux, formes ovales allongées.</td></tr>
+            <tr><td><code>border-radius TL TR BR BL</code></td><td>Valeurs individuelles par coin.</td><td>Formes irrégulières, design asymétrique.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Border-radius</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.small  { border-radius: 4px; }
+.medium { border-radius: 8px; }
+.large  { border-radius: 16px; }
+.pill   { border-radius: 9999px; }
+.circle { border-radius: 50%; }
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 MARGIN ══ -->
+    <div id="bm-margin">
+      <div class="section-header"><span class="section-num">06</span><h2>Margin — l'espace extérieur</h2></div>
+      <p>La <strong>margin</strong> constitue l'espace situé en dehors de la bordure. Elle sépare l'élément de ses voisins. Invisible, elle n'adopte pas la couleur de fond de l'élément. La valeur <code>auto</code> est particulièrement utile pour centrer horizontalement un élément de largeur définie : <code>margin-left: auto; margin-right: auto</code> répartit équitablement l'espace disponible. Les marges négatives (<code>margin-top: -20px</code>) permettent de superposer des éléments ou de créer des effets de chevauchement. Un phénomène important est le <strong>margin collapse</strong> : lorsque deux éléments bloc se succèdent verticalement, leurs marges ne s'additionnent pas — seule la valeur la plus élevée est conservée. Ce phénomène ne concerne que les marges verticales et ne se produit pas dans un contexte flexbox ou grid.</p>
+
+      <h3>Référence complète — <code>margin</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur / Notation</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>margin: tous</code></td><td>1 valeur : appliquée aux 4 côtés. Ex: <code>margin: 20px</code></td><td>Espacement uniforme autour de l'élément.</td></tr>
+            <tr><td><code>margin: vert hori</code></td><td>2 valeurs : vertical = 10px, horizontal = 20px.</td><td>Séparation verticale + centrage horizontal.</td></tr>
+            <tr><td><code>margin: top hori bottom</code></td><td>3 valeurs.</td><td>Ajustement asymétrique vertical.</td></tr>
+            <tr><td><code>margin: top right bottom left</code></td><td>4 valeurs (sens horaire).</td><td>Contrôle individuel complet.</td></tr>
+            <tr><td><code>auto</code></td><td>Calcule automatiquement l'espace restant. Utilisé avec <code>margin: 0 auto</code> pour centrer.</td><td>Centrage horizontal d'un bloc de largeur définie.</td></tr>
+            <tr><td><code>margin-left: auto</code></td><td>Pousse l'élément vers la droite.</td><td>Aligner un bouton à droite dans un conteneur.</td></tr>
+            <tr><td><code>valeurs négatives</code></td><td>Ex: <code>margin-top: -20px</code>. Déplace l'élément ou attire les éléments voisins.</td><td>Superpositions, chevauchements, effets de dépassement.</td></tr>
+            <tr><td><code>margin-top</code></td><td>Marge supérieure individuelle.</td><td>Séparation avec l'élément précédent.</td></tr>
+            <tr><td><code>margin-bottom</code></td><td>Marge inférieure individuelle.</td><td>Convention : utiliser uniquement margin-bottom pour espacer les éléments.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Margin</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.m-1 { margin: 20px; }
+.m-2 { margin: 10px 20px; }
+.m-3 { margin: 10px auto 20px; }
+
+.center {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.neg-top { margin-top: -20px; }</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Règles du margin collapse</div>
+          <p>Ce phénomène ne concerne que les marges verticales. Il ne se produit pas dans un contexte flexbox ou grid. Il est également neutralisé si l'élément possède un padding ou une bordure. Pour éviter les comportements inattendus, il est conseillé d'utiliser une seule direction : toujours <code>margin-bottom</code>, jamais <code>margin-top</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 BOX-SIZING ══ -->
+    <div id="bm-boxsize">
+      <div class="section-header"><span class="section-num">07</span><h2>box-sizing — la clé du layout</h2></div>
+      <p>La propriété <code>box-sizing</code> modifie le mode de calcul des dimensions. Elle constitue la propriété la plus importante du Box Model pour la conception de mises en page. Avec <code>box-sizing: content-box</code> (valeur par défaut), <code>width</code> et <code>height</code> s'appliquent uniquement au contenu : le padding et la bordure s'ajoutent à la dimension déclarée. Avec <code>box-sizing: border-box</code>, <code>width</code> et <code>height</code> incluent le contenu, le padding et la bordure. La majorité des développeurs appliquent <code>box-sizing: border-box</code> à l'ensemble des éléments via le sélecteur universel <code>*</code>, ce qui simplifie considérablement les calculs de dimensions.</p>
+
+      <h3>Référence complète — <code>box-sizing</code> et <code>overflow</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>content-box</code></td><td>Valeur par défaut. <code>width</code>/<code>height</code> = uniquement la zone de contenu. Padding et border s'ajoutent.</td><td>Comportement historique du CSS. À éviter pour les layouts modernes.</td></tr>
+            <tr><td><code>border-box</code></td><td><code>width</code>/<code>height</code> = contenu + padding + border. Le contenu se réduit pour s'adapter.</td><td>Recommandé pour tous les éléments. Simplifie les calculs de grilles et colonnes.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Box-sizing</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.content-box {
+  box-sizing: content-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid #333;
+  /* total = 250px */
+}
+
+.border-box {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid #333;
+  /* total = 200px, contenu = 150px */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <iframe class="code-preview-iframe" srcdoc="<html><head><style>body{font-family:Georgia,serif;font-size:15px;line-height:1.7;background:#fafafa;color:#1a1a2e;margin:12px;}</style></head><body><div style=&quot;box-sizing:content-box;width:200px;padding:20px;border:5px solid #333;background:#e8f4f8;margin-bottom:10px;&quot;>content-box: 250px</div><div style=&quot;box-sizing:border-box;width:200px;padding:20px;border:5px solid #333;background:#d4edda;&quot;>border-box: 200px</div></body></html>"></iframe>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Recommandation : border-box sur tous les éléments</div>
+          <p>La majorité des développeurs appliquent <code>box-sizing: border-box</code> à l'ensemble des éléments. Avec border-box, une largeur déclarée de 200px correspond effectivement à 200px, quels que soient le padding et la bordure ajoutés. Cette pratique est si répandue que Bootstrap et Tailwind l'incluent par défaut dans leur configuration.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 MIN/MAX ══ -->
+    <div id="bm-minmax">
+      <div class="section-header"><span class="section-num">08</span><h2>min/max-width & min/max-height</h2></div>
+      <p>Ces propriétés définissent des <strong>limites</strong> aux dimensions des éléments. Elles sont indispensables pour la conception de mises en page adaptatives (responsive design). Le motif classique <code>width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px;</code> permet au conteneur d'occuper la totalité de la largeur disponible sur mobile et de se limiter à 1100px sur les écrans larges. <code>min-height: 100vh</code> garantit qu'une section occupe au moins la hauteur du viewport. <code>max-height</code> avec <code>overflow-y: auto</code> crée des panneaux défilables de hauteur limitée.</p>
+
+      <h3>Référence complète — <code>min/max width/height</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>min-width</code></td><td>Largeur minimale. L'élément ne peut pas être plus étroit.</td><td>Garantir une lisibilité minimale (ex: 320px sur mobile).</td></tr>
+            <tr><td><code>max-width</code></td><td>Largeur maximale. L'élément ne peut pas dépasser cette valeur.</td><td>Conteneur de contenu (ex: 1200px max sur grand écran).</td></tr>
+            <tr><td><code>min-height</code></td><td>Hauteur minimale. L'élément fait au moins cette hauteur.</td><td>Sections pleine hauteur (60vh, 100vh), zones vides.</td></tr>
+            <tr><td><code>max-height</code></td><td>Hauteur maximale. Le contenu supplémentaire est géré par overflow.</td><td>Panneaux défilants, boîtes de contenu limité.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Min/Max</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  min-height: 60vh;
+}
+
+.panel {
+  max-height: 400px;
+  overflow-y: auto;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 OVERFLOW ══ -->
+    <div id="bm-overflow">
+      <div class="section-header"><span class="section-num">09</span><h2>Overflow — gérer le débordement</h2></div>
+      <p>La propriété <code>overflow</code> détermine le comportement à adopter lorsque le contenu dépasse les dimensions de la boîte. Elle peut être définie globalement (<code>overflow</code>) ou par axe (<code>overflow-x</code>, <code>overflow-y</code>). L'astuce <code>text-overflow: ellipsis</code> combinée à <code>overflow: hidden</code> et <code>white-space: nowrap</code> permet de tronquer un texte long avec des points de suspension. Pour un texte multi-lignes tronqué, on utilise <code>-webkit-line-clamp</code> avec <code>display: -webkit-box</code>.</p>
+
+      <h3>Référence complète — <code>overflow</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>visible</code></td><td>Valeur par défaut. Le contenu dépasse de la boîte sans barre de défilement.</td><td>Quand le débordement est souhaité (effets visuels, ombres portées).</td></tr>
+            <tr><td><code>hidden</code></td><td>Le contenu qui dépasse est rogné (caché). Pas de barre de défilement.</td><td>Images dans un cadre, masquage de contenu, clearfix. Attention aux ombres qui sont aussi rognées.</td></tr>
+            <tr><td><code>scroll</code></td><td>Barres de défilement toujours visibles (même si le contenu ne dépasse pas).</td><td>Zones de contenu toujours défilables, panneaux latéraux.</td></tr>
+            <tr><td><code>auto</code></td><td>Barres de défilement apparaissent uniquement si le contenu dépasse.</td><td>Solution recommandée pour la plupart des conteneurs défilants.</td></tr>
+            <tr><td><code>clip</code></td><td>Similaire à <code>hidden</code> mais interdit le défilement programmatique (scrollIntoView).</td><td>Comportement plus strict que hidden, support navigateur plus récent.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Overflow</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.visible  { overflow: visible; height: 40px; }
+.hidden   { overflow: hidden; height: 40px; }
+.scroll   { overflow: scroll; height: 40px; }
+.auto     { overflow: auto; height: 40px; }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 250px;
+}
+
+.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">overflow: hidden et les ombres</div>
+          <p>L'utilisation de <code>overflow: hidden</code> sur un conteneur entraîne le rognage des <code>box-shadow</code> des éléments enfants. Pour remédier à ce problème, il convient d'ajouter du padding sur l'élément concerné afin de ménager l'espace nécessaire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 EXERCICES ══ -->
+    <div id="bm-exo">
+      <div class="section-header"><span class="section-num">10</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📦 Construction d'une carte</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-boxmodel-carte.html</code> avec une carte de visite.</li>
+            <li>La carte fait <code>width: 350px</code> avec <code>box-sizing: border-box</code>.</li>
+            <li>Ajoutez <code>padding: 2rem</code> et <code>border: 2px solid #ddd</code>.</li>
+            <li>Utilisez <code>border-radius: 12px</code> pour des coins arrondis.</li>
+            <li>À l'intérieur : nom, titre, description, bouton de contact.</li>
+            <li>Le bouton a <code>padding: .75em 1.5em</code>, <code>border-radius: 9999px</code>, <code>border: none</code>.</li>
+            <li>Centrez la carte avec <code>margin: 2rem auto</code>.</li>
+            <li>Vérifiez la largeur totale dans les DevTools.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔲 Mise en page avec overflow</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-overflow.html</code> avec un conteneur de 300x100px.</li>
+            <li>Remplissez-le d'un long texte. Testez chaque valeur d'overflow.</li>
+            <li>Ajoutez une section avec <code>min-height: 40vh</code>.</li>
+            <li>Créez un texte tronqué avec <code>text-overflow: ellipsis</code>.</li>
+            <li>Ajoutez <code>max-width: 600px; margin: 0 auto; padding: 0 16px;</code>.</li>
+            <li>Testez une marge négative pour superposer deux éléments.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Bonus — Démontrer le margin collapse</div>
+          <p>Créez deux divs avec <code>margin-bottom: 30px</code> et <code>margin-top: 20px</code>. Mesurez l'espace (30px, pas 50px). Ajoutez <code>display: flex</code> sur le parent : le collapse disparaît.</p>
+        </div>
+      </div>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📁</div>
+        <div class="callout-body">
+          <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+          <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+          <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Structurez les cartes de projet du portfolio en appliquant les propriétés du Box Model : padding interne, marges entre les cartes, bordures et coins arrondis.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Créer une mise en page aérée et hiérarchisée pour les réalisations.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="boxmodel">
+      <div class="quiz-title">Quiz — Box Model</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 11 BILAN ══ -->
+    <div id="bm-bilan">
+      <div class="section-header"><span class="section-num">11</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Les quatre couches du Box Model : content, padding, border, margin</li>
+        <li>Padding : espacement interne, 1 à 4 valeurs en shorthand</li>
+        <li>Border : width, style (solid, dashed, dotted), color, par côté</li>
+        <li>Border-radius : coins arrondis, cercle (50%), pilule (9999px)</li>
+        <li>Margin : espacement externe, auto pour centrer, marges négatives</li>
+        <li>Le margin collapse : les marges verticales s'effondrent entre éléments bloc</li>
+        <li>box-sizing : content-box vs border-box (recommandé)</li>
+        <li>min/max width/height pour les limites responsive</li>
+        <li>Overflow : visible, hidden, scroll, auto, ellipsis</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Box Model</dt><dd>Modèle de boîte : content + padding + border + margin.</dd>
+          <dt>Padding</dt><dd>Espace intérieur entre le contenu et la bordure. Prend le fond.</dd>
+          <dt>Border</dt><dd>Bordure visible. Propriétés : width, style, color.</dd>
+          <dt>Margin</dt><dd>Espace extérieur invisible. Sépare les éléments.</dd>
+          <dt>Margin collapse</dt><dd>Fusion des marges verticales : seule la plus grande est conservée.</dd>
+          <dt>box-sizing</dt><dd>Définit le calcul des dimensions. border-box inclut padding et border.</dd>
+          <dt>border-radius</dt><dd>Arrondit les coins. 50% cercle, 9999px pilule.</dd>
+          <dt>Shorthand</dt><dd>Propriété regroupant plusieurs valeurs (padding, margin, border).</dd>
+          <dt>Overflow</dt><dd>Gère le dépassement. hidden coupe, scroll force, auto adapte.</dd>
+          <dt>text-overflow: ellipsis</dt><dd>Ajoute ... quand le texte dépasse. Nécessite overflow: hidden.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Suivant</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Flexbox</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">display:flex · Direction · Wrap · Alignement · Flex-grow · Projet</div>
+        </div>
+        <a href="flexbox.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Flexbox →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

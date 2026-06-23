@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styles de Formulaires · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html" class="active">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Styles de Formulaires</div>
+      <a href="#sf-intro"     class="sidebar-item"><span class="sidebar-num">01</span>Pourquoi styliser ?</a>
+      <a href="#sf-input"     class="sidebar-item"><span class="sidebar-num">02</span>Champs input</a>
+      <a href="#sf-button"    class="sidebar-item"><span class="sidebar-num">03</span>Boutons</a>
+      <a href="#sf-select"    class="sidebar-item"><span class="sidebar-num">04</span>Select & textarea</a>
+      <a href="#sf-check"     class="sidebar-item"><span class="sidebar-num">05</span>Checkbox & radio</a>
+      <a href="#sf-states"    class="sidebar-item"><span class="sidebar-num">06</span>États : focus, disabled</a>
+      <a href="#sf-layout"    class="sidebar-item"><span class="sidebar-num">07</span>Layout Flexbox/Grid</a>
+      <a href="#sf-valid"     class="sidebar-item"><span class="sidebar-num">08</span>Validation visuelle</a>
+      <a href="#sf-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#sf-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="box-model.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Box Model →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Styles de Formulaires</div>
+      <h1>Styles de Formulaires</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Inputs · Boutons · Select · Checkbox · États · Validation · Layout</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 POURQUOI STYLISER ══ -->
+    <div id="sf-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Pourquoi styliser les formulaires ?</h2></div>
+      <p>Les formulaires constituent l'un des éléments les plus importants de tout site web interactif. Néanmoins, par défaut, les navigateurs les affichent avec des styles très rudimentaires et variables d'un environnement à l'autre. La mise en forme d'un formulaire améliore significativement l'<strong>expérience utilisateur</strong>, la <strong>crédibilité</strong> du site et le <strong>taux de conversion</strong>. Les études indiquent qu'un formulaire bien conçu peut augmenter le taux de conversion de 20 à 40%. Les facteurs déterminants incluent : des champs suffisamment dimensionnés, des libellés explicites, des boutons visibles, des messages d'erreur compréhensibles et une validation en temps réel.</p>
+
+      <h3>Problèmes des styles par défaut des navigateurs</h3>
+      <div class="grid-3">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🔤 Polices incohérentes</h3>
+          <p style="font-size:.9rem;">Chaque navigateur utilise sa propre police et taille pour les inputs. Un formulaire peut avoir un rendu différent sur Chrome, Firefox et Safari.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">📐 Tailles variables</h3>
+          <p style="font-size:.9rem;">Les champs n'ont pas la même hauteur, le même padding ou la même bordure selon le navigateur, rendant un design pixel-perfect impossible.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🎯 États invisibles</h3>
+          <p style="font-size:.9rem;">Les états de focus, de survol et d'erreur sont souvent trop subtils ou absents. L'utilisateur ne peut pas déterminer sa position dans le formulaire.</p>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Corrélation entre qualité stylistique et taux de conversion</div>
+          <p>Les études indiquent qu'un formulaire bien conçu peut augmenter le taux de conversion de 20 à 40%. Les facteurs déterminants incluent : des champs suffisamment dimensionnés, des libellés explicites, des boutons visibles, des messages d'erreur compréhensibles et une validation en temps réel. Le langage CSS joue un rôle déterminant dans l'ensemble de ces aspects.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 INPUT ══ -->
+    <div id="sf-input">
+      <div class="section-header"><span class="section-num">02</span><h2>Styliser les champs input</h2></div>
+      <p>Les champs <code>&lt;input&gt;</code> sont les éléments de formulaire les plus courants. Ils existent en plusieurs types (text, email, password, number, date, etc.) et nécessitent une attention particulière pour allier esthétique et fonctionnalité. Par défaut, les éléments input n'héritent pas de la police du reste de la page. Il convient d'ajouter systématiquement <code>font-family: inherit</code> et <code>font-size: inherit</code> pour garantir la cohérence typographique avec le design global.</p>
+
+      <h3>Référence complète — Propriétés de style pour les champs de formulaire</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Valeurs</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>appearance</code></td><td><code>none</code>, <code>auto</code>, <code>menulist-button</code>, <code>textfield</code>, <code>searchfield</code>, <code>checkbox</code>, <code>radio</code>, <code>listbox</code></td><td>Contrôle l'affichage natif du navigateur. <code>none</code> supprime le style par défaut.</td><td>Indispensable pour styliser select, checkbox et radio. <code>-moz-appearance</code> pour Firefox.</td></tr>
+            <tr><td><code>cursor</code></td><td><code>auto</code>, <code>default</code>, <code>pointer</code>, <code>text</code>, <code>not-allowed</code>, <code>wait</code>, <code>crosshair</code>, <code>help</code>, <code>grab</code>, <code>zoom-in</code></td><td>Modifie l'apparence du curseur au survol de l'élément.</td><td><code>pointer</code> sur les boutons, <code>not-allowed</code> sur les champs désactivés.</td></tr>
+            <tr><td><code>resize</code></td><td><code>none</code>, <code>both</code>, <code>horizontal</code>, <code>vertical</code>, <code>block</code>, <code>inline</code></td><td>Autorise ou non le redimensionnement d'un élément par l'utilisateur.</td><td><code>vertical</code> pour les textarea (redimensionnement vertical seulement).</td></tr>
+            <tr><td><code>outline</code></td><td><code>width style color</code>, <code>none</code></td><td>Cercle de focus autour de l'élément. Distinct de border (n'affecte pas le box model).</td><td>Remplacer <code>outline: none</code> par un <code>:focus-visible</code> personnalisé pour l'accessibilité.</td></tr>
+            <tr><td><code>caret-color</code></td><td><code>auto</code>, <code>color</code> (toute valeur de couleur CSS)</td><td>Couleur du curseur de saisie (caret) dans les champs de texte.</td><td>Personnalisation fine du curseur d'insertion, utile pour les thèmes sombres.</td></tr>
+            <tr><td><code>accent-color</code></td><td><code>auto</code>, <code>color</code> (toute valeur de couleur CSS)</td><td>Couleur des éléments de formulaire natifs (checkbox, radio, range, progress).</td><td>Thématisation rapide des contrôles de formulaire sans <code>appearance: none</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Input stylisé</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Style de base pour tous les inputs */
+.input-base {
+  width: 100%;
+  padding: .75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #2c3e50;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Placeholder stylisé */
+.input-base::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Différents types */
+input[type="email"] { border-color: #3498db; }
+input[type="password"] { letter-spacing: .3em; }
+input[type="date"] { appearance: none; }</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Utilisation systématique de font-family: inherit</div>
+          <p>Par défaut, les éléments input n'héritent pas de la police du reste de la page. Il convient d'ajouter systématiquement <code>font-family: inherit</code> et <code>font-size: inherit</code> (ou une valeur fixe) pour garantir la cohérence typographique avec le design global. Sans cette précaution, les inputs utilisent la police par défaut du navigateur (souvent Times New Roman ou une police système).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 BOUTONS ══ -->
+    <div id="sf-button">
+      <div class="section-header"><span class="section-num">03</span><h2>Styliser les boutons</h2></div>
+      <p>Les boutons (<code>&lt;button&gt;</code> et <code>&lt;input type="submit"&gt;</code>) constituent l'élément d'action principal du formulaire. Leur apparence doit les rendre immédiatement identifiables comme éléments cliquables. Un bouton bien conçu possède un état de repos clair, un état hover réactif (changement de couleur, léger déplacement), un état actif (enfoncement), et un état disabled visible. Si <code>outline: none</code> est appliqué, un style de focus visible alternatif doit impérativement être fourni pour les utilisateurs navigant au clavier.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Boutons</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Bouton principal */
+.btn-primary {
+  display: inline-block;
+  padding: .75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #3498db;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease, transform .15s ease;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Bouton secondaire (outline) */
+.btn-secondary {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid currentColor;
+}
+
+.btn-secondary:hover {
+  background: #3498db;
+  color: #fff;
+}
+
+/* Bouton désactivé */
+.btn-primary:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Focus visible — accessible */
+.btn-primary:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 SELECT & TEXTAREA ══ -->
+    <div id="sf-select">
+      <div class="section-header"><span class="section-num">04</span><h2>Styliser select et textarea</h2></div>
+      <p>Les éléments <code>&lt;select&gt;</code> (listes déroulantes) et <code>&lt;textarea&gt;</code> (zones de texte multi-lignes) présentent des particularités de style qui leur sont propres. La propriété <code>appearance: none</code> supprime le style natif du navigateur sur les éléments de formulaire. Elle est indispensable pour les <code>&lt;select&gt;</code>, <code>&lt;input type="checkbox"&gt;</code> et <code>&lt;input type="radio"&gt;</code>. Sans elle, certaines parties de ces éléments (notamment la flèche du select) ne peuvent pas être stylisées.</p>
+
+      <h3>Référence complète — Pseudo-classes et pseudo-éléments des formulaires</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sélecteur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>::placeholder</code></td><td>Cible le texte indicatif affiché dans un champ vide.</td><td>Changer la couleur, la police ou le style du placeholder. Support partiel : préfixes <code>::-webkit-input-placeholder</code>, <code>:-moz-placeholder</code>.</td></tr>
+            <tr><td><code>:invalid</code></td><td>S'applique quand la valeur ne respecte pas les contraintes de validation HTML5 (<code>required</code>, <code>type</code>, <code>pattern</code>).</td><td>Bordure rouge, message d'erreur. À combiner avec <code>:not(:placeholder-shown)</code> pour éviter l'affichage au chargement.</td></tr>
+            <tr><td><code>:valid</code></td><td>S'applique quand la valeur respecte les contraintes de validation HTML5.</td><td>Bordure verte, icône de succès. Même recommandation que <code>:invalid</code>.</td></tr>
+            <tr><td><code>:required</code></td><td>Cible les champs avec l'attribut <code>required</code>.</td><td>Ajouter un indicateur visuel (astérisque, bordure latérale) pour signaler les champs obligatoires.</td></tr>
+            <tr><td><code>:optional</code></td><td>Cible les champs sans l'attribut <code>required</code>.</td><td>Style plus discret pour les champs facultatifs.</td></tr>
+            <tr><td><code>:disabled</code></td><td>Cible les champs avec l'attribut <code>disabled</code>.</td><td>Fond grisé, opacité réduite, curseur <code>not-allowed</code>.</td></tr>
+            <tr><td><code>:focus</code></td><td>S'applique quand l'élément reçoit le focus (souris ou clavier).</td><td>Border-color + box-shadow pour indiquer le champ actif.</td></tr>
+            <tr><td><code>:focus-within</code></td><td>S'applique à un élément parent quand l'un de ses descendants a le focus.</td><td>Mettre en évidence tout un groupe de champs ou un fieldset.</td></tr>
+            <tr><td><code>:focus-visible</code></td><td>S'applique uniquement quand le focus est activé via le clavier (pas au clic).</td><td>Style de focus pour l'accessibilité clavier, sans l'imposer aux utilisateurs souris.</td></tr>
+            <tr><td><code>:placeholder-shown</code></td><td>S'applique quand le placeholder est visible (champ vide et non focalisé).</td><td>Différencier l'état vide des autres états. Utile pour les animations de label flottant.</td></tr>
+            <tr><td><code>:user-invalid</code></td><td>Similaire à <code>:invalid</code> mais ne s'active qu'après une interaction utilisateur.</td><td>Solution idéale pour éviter les erreurs au chargement. Support navigateur récent (Chrome 119+).</td></tr>
+            <tr><td><code>:read-only</code></td><td>Cible les champs avec l'attribut <code>readonly</code>.</td><td>Style différent des champs éditables (fond légèrement teinté, bordure en pointillés).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Select & Textarea</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* SELECT stylisé */
+.select-styled {
+  width: 100%;
+  padding: .75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #2c3e50;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* TEXTARA stylisé */
+.textarea-styled {
+  width: 100%;
+  min-height: 120px;
+  padding: .75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #2c3e50;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  line-height: 1.6;
+  transition: border-color .2s;
+}
+
+/* Désactiver le resize si besoin */
+.textarea-fixed { resize: none; }</div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">appearance: none pour un contrôle total</div>
+          <p>La propriété <code>appearance: none</code> supprime le style natif du navigateur sur les éléments de formulaire. Elle est indispensable pour les <code>&lt;select&gt;</code>, <code>&lt;input type="checkbox"&gt;</code> et <code>&lt;input type="radio"&gt;</code>. Sans elle, certaines parties de ces éléments (notamment la flèche du select) ne peuvent pas être stylisées. Il convient de noter que <code>appearance: none</code> supprime également les styles essentiels (comme la coche de la checkbox) — ceux-ci doivent être recréés en CSS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 CHECKBOX & RADIO ══ -->
+    <div id="sf-check">
+      <div class="section-header"><span class="section-num">05</span><h2>Checkbox et radio personnalisés</h2></div>
+      <p>Les cases à cocher (checkbox) et les boutons radio sont notoirement difficiles à styliser. La technique standard consiste à <strong>masquer l'élément natif</strong> et à créer un <strong>visuel personnalisé</strong> à l'aide de pseudo-éléments. Le principe est invariant : masquer l'input natif avec <code>opacity: 0; position: absolute;</code> (à ne pas confondre avec <code>display: none</code> qui le retirerait du focus), puis utiliser <code>label::before</code> et le sélecteur combinatoire <code>input:checked + label::before</code> pour générer le visuel. L'input conserve sa fonctionnalité et son accessibilité (focus, navigation clavier, lecteurs d'écran).</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Checkbox personnalisée</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* 1. Cache l'input natif */
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* 2. Style du label */
+.custom-checkbox label {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* 3. Visuel personnalisé */
+.custom-checkbox label::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+
+/* 4. État coché */
+.custom-checkbox input:checked + label::before {
+  background: #3498db;
+  border-color: #3498db;
+}
+
+/* 5. État focus clavier */
+.custom-checkbox input:focus-visible + label::before {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* RADIO — même principe, bordures rondes */
+.custom-radio label::before {
+  border-radius: 50%;
+}
+
+.custom-radio input:checked + label::before {
+  background: #3498db;
+  box-shadow: inset 0 0 0 4px #fff;
+}</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Principe de la checkbox masquée</div>
+          <p>La technique de stylisation des checkbox et radio suit un protocole invariant : masquer l'input natif avec <code>opacity: 0; position: absolute;</code> (à ne pas confondre avec <code>display: none</code> qui le retirerait du focus), puis utiliser <code>label::before</code> et le sélecteur combinatoire <code>input:checked + label::before</code> pour générer le visuel. L'input conserve sa fonctionnalité et son accessibilité (focus, navigation clavier, lecteurs d'écran).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 ÉTATS ══ -->
+    <div id="sf-states">
+      <div class="section-header"><span class="section-num">06</span><h2>États : focus, disabled, invalid</h2></div>
+      <p>Les éléments de formulaire présentent plusieurs états qu'il convient de styliser pour guider l'utilisateur : le focus (champ actif), l'état désactivé (disabled) et l'état d'erreur (invalid). La pseudo-classe <code>:invalid</code> s'applique dès le chargement de la page si un champ requis est vide. Pour éviter d'afficher des erreurs avant que l'utilisateur ait interagi, on combine avec <code>:not(:placeholder-shown)</code> ou on utilise JavaScript pour ajouter une classe après la première soumission. Le pseudo-sélecteur <code>:user-invalid</code> (support récent) résout ce problème nativement.</p>
+
+      <h3>Référence complète — <code>:focus</code>, <code>:focus-within</code>, <code>:focus-visible</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pseudo-classe</th><th>Déclencheur</th><th>Description</th><th>Bonnes pratiques</th></tr></thead>
+          <tbody>
+            <tr><td><code>:focus</code></td><td>Focus souris ou clavier</td><td>S'applique à tout élément recevant le focus, quel que soit le mode d'accès.</td><td>Utiliser <code>box-shadow</code> pour un halo coloré ; toujours associer à un style visible.</td></tr>
+            <tr><td><code>:focus-visible</code></td><td>Focus clavier uniquement</td><td>S'applique quand le navigateur détermine que le focus doit être visible (Tab, navigation clavier).</td><td>Utiliser pour les outlines de substitution ; préférer à <code>:focus</code> pour l'accessibilité.</td></tr>
+            <tr><td><code>:focus-within</code></td><td>Focus sur l'élément ou un descendant</td><td>S'applique à l'élément parent quand lui-même ou l'un de ses enfants a le focus.</td><td>Idéal pour surligner un fieldset, un groupe de champs, ou une carte interactive.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — États des champs</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* FOCUS — champ actif */
+.input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, .15);
+  background: #f8fbff;
+}
+
+/* DISABLED — champ désactivé */
+.input:disabled {
+  background: #f0f0f0;
+  color: #999;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  opacity: .7;
+}
+
+/* REQUIRED — champ obligatoire */
+.input:required {
+  border-left: 3px solid #e74c3c;
+}
+
+/* INVALID — validation HTML5 (après interaction) */
+.input:invalid:not(:placeholder-shown) {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, .15);
+}
+
+/* VALID — champ valide */
+.input:valid:not(:placeholder-shown) {
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, .15);
+}</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Comportement de :invalid au chargement initial</div>
+          <p>La pseudo-classe <code>:invalid</code> s'applique dès le chargement de la page si un champ requis est vide. Pour éviter d'afficher des erreurs avant que l'utilisateur ait interagi, on peut combiner avec <code>:not(:placeholder-shown)</code> ou utiliser JavaScript pour ajouter une classe après la première soumission. Une alternative est le pseudo-sélecteur <code>:user-invalid</code> (support récent dans les navigateurs).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 LAYOUT ══ -->
+    <div id="sf-layout">
+      <div class="section-header"><span class="section-num">07</span><h2>Layout de formulaire avec Flexbox/Grid</h2></div>
+      <p>La mise en page d'un formulaire moderne recourt à <strong>Flexbox</strong> ou <strong>CSS Grid</strong> pour aligner les libellés, les champs et les messages d'erreur de manière cohérente et adaptative. Il convient d'utiliser systématiquement la structure HTML appropriée : <code>&lt;form&gt;</code> pour le conteneur, <code>&lt;fieldset&gt;</code> pour regrouper des champs connexes, <code>&lt;legend&gt;</code> pour le titre du groupe, <code>&lt;label&gt;</code> pour chaque champ (avec l'attribut <code>for</code> pointant vers l'<code>id</code> de l'input). Cette structure est indispensable pour l'accessibilité et contribue au référencement.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Layout de formulaire</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Formulaire en colonne (classique) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: .9rem;
+  color: #2c3e50;
+}
+
+/* Formulaire en ligne (horizontal) */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Grille 2 colonnes */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+/* Bouton centré */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Structure HTML sémantique pour les formulaires</div>
+          <p>Il convient d'utiliser systématiquement la structure HTML appropriée : <code>&lt;form&gt;</code> pour le conteneur, <code>&lt;fieldset&gt;</code> pour regrouper des champs connexes, <code>&lt;legend&gt;</code> pour le titre du groupe, <code>&lt;label&gt;</code> pour chaque champ (avec l'attribut <code>for</code> pointant vers l'<code>id</code> de l'input). Cette structure est indispensable pour l'accessibilité (lecteurs d'écran) et contribue au référencement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 VALIDATION ══ -->
+    <div id="sf-valid">
+      <div class="section-header"><span class="section-num">08</span><h2>Validation visuelle personnalisée</h2></div>
+      <p>La validation HTML5 native (attributs <code>required</code>, <code>type="email"</code>, <code>pattern</code>) peut être enrichie par un style CSS personnalisé pour fournir des retours clairs et accessibles. Le langage CSS prend en charge le style de validation, mais c'est JavaScript qui contrôle la logique. En pratique, on ajoute ou supprime les classes <code>.error</code> et <code>.success</code> sur les <code>.form-group</code> lors de la soumission ou de manière dynamique. La validation HTML5 (pseudo-classes <code>:valid</code>, <code>:invalid</code>) constitue un complément utile mais ne suffit pas pour des validations complexes (mot de passe, confirmation, etc.).</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Validation personnalisée</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Message d'erreur */
+.form-group.error input {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, .15);
+}
+
+.error-message {
+  display: none;
+  color: #e74c3c;
+  font-size: .85rem;
+  margin-top: .25rem;
+}
+
+.form-group.error .error-message {
+  display: block;
+}
+
+/* Message de succès */
+.form-group.success input {
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, .15);
+}
+
+.success-message {
+  display: none;
+  color: #2ecc71;
+  font-size: .85rem;
+  margin-top: .25rem;
+}
+
+.form-group.success .success-message {
+  display: block;
+}
+
+/* Icône de validation */
+.form-group { position: relative; }
+.form-group.success::after { content: '✓'; color: #2ecc71; }
+.form-group.error::after   { content: '✕'; color: #e74c3c; }</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <iframe class="code-preview-iframe" srcdoc="<html><head><style>body{font-family:Georgia,serif;font-size:15px;line-height:1.7;background:#fafafa;color:#1a1a2e;margin:12px;}input{font-family:inherit;box-sizing:border-box;width:100%;}</style></head><body><div style=&quot;display:flex;flex-direction:column;gap:12px;max-width:300px;&quot;><div style=&quot;display:flex;flex-direction:column;gap:4px;&quot;><label style=&quot;font-weight:600;font-size:.85rem;&quot;>Email</label><input type=&quot;email&quot; value=&quot;invalide&quot; style=&quot;padding:.5rem .8rem;font-size:.9rem;border:2px solid #e74c3c;border-radius:6px;box-shadow:0 0 0 3px rgba(231,76,60,.15);outline:none;&quot;><span style=&quot;color:#e74c3c;font-size:.8rem;&quot;>&#10006; Format d'email invalide</span></div><div style=&quot;display:flex;flex-direction:column;gap:4px;&quot;><label style=&quot;font-weight:600;font-size:.85rem;&quot;>Nom</label><input type=&quot;text&quot; value=&quot;Jean Dupont&quot; style=&quot;padding:.5rem .8rem;font-size:.9rem;border:2px solid #2ecc71;border-radius:6px;box-shadow:0 0 0 3px rgba(46,204,113,.15);outline:none;&quot;><span style=&quot;color:#2ecc71;font-size:.8rem;&quot;>&#10004; Valide</span></div></div></body></html>"></iframe>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Validation complète avec JavaScript</div>
+          <p>Le langage CSS prend en charge le style de validation, mais c'est JavaScript qui contrôle la logique. En pratique, on ajoute ou supprime les classes <code>.error</code> et <code>.success</code> sur les <code>.form-group</code> lors de la soumission ou de manière dynamique (au fur et à mesure de la saisie). La validation HTML5 (pseudo-classes <code>:valid</code>, <code>:invalid</code>) constitue un complément utile mais ne suffit pas pour des validations complexes (mot de passe, confirmation, etc.).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="sf-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📝 Formulaire d'inscription complet</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-form-signup.html</code> avec un formulaire d'inscription complet.</li>
+            <li>Champs : nom, email, mot de passe, confirmation, pays (select), conditions (checkbox).</li>
+            <li>Utilisez Flexbox pour la mise en page : label au-dessus, champ en dessous.</li>
+            <li>Style tous les champs avec padding, border-radius, et transition au focus.</li>
+            <li>Ajoutez un bouton de soumission stylisé avec effet hover.</li>
+            <li>Créez une checkbox personnalisée pour les conditions générales.</li>
+            <li>Le select doit avoir un style personnalisé (appearance: none).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✨ Validation visuelle en temps réel</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-form-validation.html</code> avec un formulaire de contact (nom, email, message).</li>
+            <li>Utilisez les pseudo-classes <code>:valid</code> et <code>:invalid</code> avec <code>:not(:placeholder-shown)</code>.</li>
+            <li>Au focus, le champ change de bordure et affiche une ombre bleue.</li>
+            <li>Si le champ est invalide (email mal formaté), bordure rouge + icône erreur.</li>
+            <li>Si valide, bordure verte + icône succès.</li>
+            <li>Le message d'erreur apparaît sous le champ uniquement quand invalide.</li>
+            <li>Désactivez le bouton si le formulaire contient des erreurs.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Formulaire multi-étapes</div>
+          <p>Créez un formulaire d'inscription en 3 étapes avec navigation. Chaque étape est une section affichée/masquée. Utilisez des indicateurs d'étape (cercles numérotés) en haut : l'étape courante est en bleu, les étapes validées en vert, les suivantes en gris. Chaque étape contient des champs stylisés selon les techniques apprises. Utilisez Flexbox pour la barre d'étapes.</p>
+        </div>
+      </div>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📁</div>
+        <div class="callout-body">
+          <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+          <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+          <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Concevez le formulaire de contact du portfolio. Appliquez les styles appris aux champs, boutons, états de focus et de validation.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Produire un formulaire fonctionnel, esthétique et accessible.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="forms">
+      <div class="quiz-title">Quiz — Styles de Formulaires</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="sf-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>L'importance des formulaires stylisés pour l'expérience utilisateur</li>
+        <li>Le style de base des inputs : padding, border, border-radius, font-family</li>
+        <li>Les boutons : primary, secondary, disabled, focus-visible</li>
+        <li>Le select (appearance: none) et le textarea (resize)</li>
+        <li>La technique de checkbox/radio personnalisés avec input caché + label::before</li>
+        <li>Les états : focus, disabled, readonly, required, valid, invalid, placeholder-shown</li>
+        <li>Le layout de formulaire avec Flexbox et Grid</li>
+        <li>La validation visuelle avec messages d'erreur/succès et icônes</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Input</dt><dd>Élément HTML de saisie. Types : text, email, password, number, date, etc.</dd>
+          <dt>Label</dt><dd>Balise HTML associée à un input via l'attribut for. Essentiel pour l'accessibilité.</dd>
+          <dt>Placeholder</dt><dd>Texte indicatif affiché dans un champ vide. Stylisé avec ::placeholder.</dd>
+          <dt>appearance</dt><dd>Propriété CSS qui retire le style natif du navigateur. Utile pour select, checkbox, radio.</dd>
+          <dt>:focus-visible</dt><dd>Pseudo-classe qui s'applique au focus clavier (pas au clic souris). Recommandé pour l'accessibilité.</dd>
+          <dt>:valid / :invalid</dt><dd>Pseudo-classes HTML5 basées sur les attributs de validation (required, type, pattern).</dd>
+          <dt>Fieldset</dt><dd>Balise HTML qui groupe des champs de formulaire liés. Accompagnée de &lt;legend&gt;.</dd>
+          <dt>Flexbox</dt><dd>Modèle de mise en page unidimensionnel utilisé pour aligner labels et champs.</dd>
+          <dt>Validation</dt><dd>Vérification des données saisies. HTML5 pour la base, CSS pour le style, JS pour la logique.</dd>
+          <dt>Disabled</dt><dd>État d'un champ désactivé. Style : fond grisé, curseur not-allowed, opacité réduite.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Suivant</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Le Box Model</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Content · Padding · Border · Margin · Box-sizing · Overflow</div>
+        </div>
+        <a href="box-model.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Box Model →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

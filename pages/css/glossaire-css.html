@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossaire — Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary-letter { color: var(--teal) !important; border-color: rgba(45,212,191,.25) !important; }
+
+    .letter-index { display: flex; flex-wrap: wrap; gap: .35rem; margin: 1.5rem 0 2rem; justify-content: center; }
+    .letter-index a { display: inline-flex; align-items: center; justify-content: center; width: 2.2rem; height: 2.2rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text2); text-decoration: none; transition: all .15s ease; }
+    .letter-index a:hover, .letter-index a:focus { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
+
+    .gloss-letter-group { margin-bottom: 2.5rem; scroll-margin-top: 80px; }
+    .gloss-letter-group h2 { font-size: 2rem; margin: 0 0 1rem; padding-bottom: .3rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: .75rem; }
+    .gloss-letter-group h2 .letter-char { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; background: var(--teal-dim); border: 1px solid rgba(45,212,191,.25); border-radius: var(--radius); font-size: 1.3rem; line-height: 1; }
+
+    .gloss-item { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; padding: .65rem .9rem; margin-bottom: .4rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); transition: border-color .15s ease; }
+    .gloss-item:hover { border-color: var(--border2); }
+    .gloss-term { font-family: 'JetBrains Mono', monospace; font-size: .88rem; font-weight: 700; color: var(--text); }
+    .gloss-def { font-size: .85rem; color: var(--text2); flex: 1; min-width: 200px; }
+    .gloss-link { font-family: 'JetBrains Mono', monospace; font-size: .65rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; white-space: nowrap; padding: 2px 10px; border-radius: 4px; background: var(--teal-dim); border: 1px solid rgba(45,212,191,.3); color: var(--teal); text-decoration: none; transition: all .15s ease; }
+    .gloss-link:hover { background: var(--teal); color: #0D1117; }
+
+    .gloss-legend { font-size: .8rem; color: var(--text3); margin-bottom: 1.5rem; text-align: center; }
+
+    @media (max-width: 768px) {
+      .gloss-item { flex-direction: column; gap: .25rem; }
+      .letter-index a { width: 1.9rem; height: 1.9rem; font-size: .75rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s1">Glossaire</div>
+      <a href="#letter-A" class="sidebar-item"><span class="sidebar-num">A</span>Animation</a>
+      <a href="#letter-B" class="sidebar-item"><span class="sidebar-num">B</span>Background · BEM · Box Model</a>
+      <a href="#letter-C" class="sidebar-item"><span class="sidebar-num">C</span>CSS · Calc · Cascade · Combinateur</a>
+      <a href="#letter-D" class="sidebar-item"><span class="sidebar-num">D</span>Display · Desktop-first</a>
+      <a href="#letter-E" class="sidebar-item"><span class="sidebar-num">E</span>Espacement typo</a>
+      <a href="#letter-F" class="sidebar-item"><span class="sidebar-num">F</span>Filter · Flexbox · Font</a>
+      <a href="#letter-G" class="sidebar-item"><span class="sidebar-num">G</span>Gap · Grille · Grid</a>
+      <a href="#letter-I" class="sidebar-item"><span class="sidebar-num">I</span>Image responsive · !important</a>
+      <a href="#letter-J" class="sidebar-item"><span class="sidebar-num">J</span>justify-content</a>
+      <a href="#letter-K" class="sidebar-item"><span class="sidebar-num">K</span>@keyframes</a>
+      <a href="#letter-L" class="sidebar-item"><span class="sidebar-num">L</span>linear-gradient</a>
+      <a href="#letter-M" class="sidebar-item"><span class="sidebar-num">M</span>Margin · Media query · Mobile-first</a>
+      <a href="#letter-N" class="sidebar-item"><span class="sidebar-num">N</span>Normalize.css</a>
+      <a href="#letter-O" class="sidebar-item"><span class="sidebar-num">O</span>Order · Overflow</a>
+      <a href="#letter-P" class="sidebar-item"><span class="sidebar-num">P</span>Padding · Position · Pseudo-classe</a>
+      <a href="#letter-R" class="sidebar-item"><span class="sidebar-num">R</span>radial-gradient · Règle CSS</a>
+      <a href="#letter-S" class="sidebar-item"><span class="sidebar-num">S</span>Sélecteur · Spécificité · Sticky</a>
+      <a href="#letter-T" class="sidebar-item"><span class="sidebar-num">T</span>Transform · Transition</a>
+      <a href="#letter-U" class="sidebar-item"><span class="sidebar-num">U</span>Unités CSS</a>
+      <a href="#letter-V" class="sidebar-item"><span class="sidebar-num">V</span>Variable CSS · Viewport</a>
+      <a href="#letter-Z" class="sidebar-item"><span class="sidebar-num">Z</span>z-index</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Glossaire</div>
+      <h1>Glossaire — Cours CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">80 termes essentiels couvrant les 10 séances</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span>
+        <span class="meta-tag">80 entrées</span>
+        <span class="meta-tag">10 séances</span>
+        <span class="meta-tag">Référence</span>
+      </div>
+    </div>
+
+    <!-- Alphabetical index -->
+    <div class="letter-index" id="top-index">
+      <a href="#letter-A">A</a>
+      <a href="#letter-B">B</a>
+      <a href="#letter-C">C</a>
+      <a href="#letter-D">D</a>
+      <a href="#letter-E">E</a>
+      <a href="#letter-F">F</a>
+      <a href="#letter-G">G</a>
+      <a href="#letter-I">I</a>
+      <a href="#letter-J">J</a>
+      <a href="#letter-K">K</a>
+      <a href="#letter-L">L</a>
+      <a href="#letter-M">M</a>
+      <a href="#letter-N">N</a>
+      <a href="#letter-O">O</a>
+      <a href="#letter-P">P</a>
+      <a href="#letter-R">R</a>
+      <a href="#letter-S">S</a>
+      <a href="#letter-T">T</a>
+      <a href="#letter-U">U</a>
+      <a href="#letter-V">V</a>
+      <a href="#letter-Z">Z</a>
+    </div>
+
+    <p class="gloss-legend">Cliquez sur un terme pour accéder à la section correspondante du cours.</p>
+
+    <!-- ══ A ══ -->
+    <div class="gloss-letter-group" id="letter-A">
+      <h2><span class="letter-char">A</span> A</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">align-items</span>
+        <span class="gloss-def">Aligne les éléments flexibles sur l'axe transversal (perpendiculaire à flex-direction).</span>
+        <a href="seance7-css.html#s7-align" class="gloss-link">Séance 7 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">align-self</span>
+        <span class="gloss-def">Permet de surcharger l'alignement d'un seul élément flexible.</span>
+        <a href="seance7-css.html#s7-order" class="gloss-link">Séance 7 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Animation CSS</span>
+        <span class="gloss-def">Propriétés name, duration, iteration-count pour animer un élément via @keyframes.</span>
+        <a href="seance10-css.html#s10-anim" class="gloss-link">Séance 10 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">auto-fill / auto-fit</span>
+        <span class="gloss-def">Mots-clés pour les grilles responsives : auto-fill crée des pistes vides, auto-fit les supprime.</span>
+        <a href="seance8-css.html#s8-autofit" class="gloss-link">Séance 8 · 06</a>
+      </div>
+    </div>
+
+    <!-- ══ B ══ -->
+    <div class="gloss-letter-group" id="letter-B">
+      <h2><span class="letter-char">B</span> B</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">background-color</span>
+        <span class="gloss-def">Couleur de fond d'un élément.</span>
+        <a href="seance5-css.html#s5-color" class="gloss-link">Séance 5 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">background-image</span>
+        <span class="gloss-def">Image de fond appliquée à un élément.</span>
+        <a href="seance5-css.html#s5-image" class="gloss-link">Séance 5 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">background-position</span>
+        <span class="gloss-def">Positionne l'image de fond dans son conteneur (center, top left, valeurs).</span>
+        <a href="seance5-css.html#s5-pos" class="gloss-link">Séance 5 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">background-repeat</span>
+        <span class="gloss-def">Contrôle la répétition de l'image de fond (repeat, no-repeat, repeat-x/y).</span>
+        <a href="seance5-css.html#s5-repeat" class="gloss-link">Séance 5 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">background-size</span>
+        <span class="gloss-def">Redimensionne l'image de fond (cover, contain, valeurs).</span>
+        <a href="seance5-css.html#s5-size" class="gloss-link">Séance 5 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">BEM</span>
+        <span class="gloss-def">Méthodologie de nommage CSS : Block Element Modifier pour du code maintenable et modulaire.</span>
+        <a href="seance10-css.html#s10-bem" class="gloss-link">Séance 10 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">border</span>
+        <span class="gloss-def">Bordure autour d'un élément (épaisseur, style, couleur).</span>
+        <a href="seance4-css.html#s4-border" class="gloss-link">Séance 4 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">border-radius</span>
+        <span class="gloss-def">Arrondit les coins d'un élément.</span>
+        <a href="seance4-css.html#s4-radius" class="gloss-link">Séance 4 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Box Model</span>
+        <span class="gloss-def">Modèle de boîte : contenu, padding, bordure, marge — la base du dimensionnement CSS.</span>
+        <a href="seance4-css.html#s4-content" class="gloss-link">Séance 4 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">box-shadow</span>
+        <span class="gloss-def">Ombre portée d'un élément (décalage X, Y, flou, étalement, couleur).</span>
+        <a href="seance5-css.html#s5-shadow" class="gloss-link">Séance 5 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">box-sizing: border-box</span>
+        <span class="gloss-def">Inclut le padding et la bordure dans la largeur/hauteur déclarée.</span>
+        <a href="seance4-css.html#s4-boxsize" class="gloss-link">Séance 4 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">breakpoint</span>
+        <span class="gloss-def">Point de rupture (taille d'écran) où la disposition change via une media query.</span>
+        <a href="seance9-css.html#s9-break" class="gloss-link">Séance 9 · 03</a>
+      </div>
+    </div>
+
+    <!-- ══ C ══ -->
+    <div class="gloss-letter-group" id="letter-C">
+      <h2><span class="letter-char">C</span> C</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">calc()</span>
+        <span class="gloss-def">Fonction de calcul CSS permettant de combiner des unités (ex : calc(100% - 2rem)).</span>
+        <a href="seance10-css.html#s10-calc" class="gloss-link">Séance 10 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">cascade CSS</span>
+        <span class="gloss-def">Système de priorité des styles : origine → spécificité → ordre d'apparition.</span>
+        <a href="seance1-css.html#s1-cascade" class="gloss-link">Séance 1 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">clamp()</span>
+        <span class="gloss-def">Fonction qui borne une valeur entre un minimum et un maximum.</span>
+        <a href="seance9-css.html#s9-units" class="gloss-link">Séance 9 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">combinateur descendant</span>
+        <span class="gloss-def">Le sélecteur d'espace cible les éléments descendants, à n'importe quel niveau.</span>
+        <a href="seance2-css.html#s2-desc" class="gloss-link">Séance 2 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">combinateurs &gt; + ~</span>
+        <span class="gloss-def">&gt; enfant direct, + adjacent, ~ frères suivants.</span>
+        <a href="seance2-css.html#s2-combi" class="gloss-link">Séance 2 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">container queries</span>
+        <span class="gloss-def">Adaptation du style d'un élément en fonction de la taille de son conteneur parent.</span>
+        <a href="seance9-css.html#s9-modular" class="gloss-link">Séance 9 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">couleurs CSS</span>
+        <span class="gloss-def">Notation hexadécimale (#ff0000), RGB (rgb(255,0,0)), HSL (hsl(0,100%,50%)).</span>
+        <a href="seance3-css.html#s3-colors" class="gloss-link">Séance 3 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">CSS</span>
+        <span class="gloss-def">Cascading Style Sheets — langage de style qui habille le HTML.</span>
+        <a href="seance1-css.html#s1-role" class="gloss-link">Séance 1 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">CSS Grid</span>
+        <span class="gloss-def">Modèle de disposition bidimensionnelle (lignes et colonnes) pour des mises en page complexes.</span>
+        <a href="seance8-css.html#s8-grid" class="gloss-link">Séance 8 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">CSS inline/interne/externe</span>
+        <span class="gloss-def">Les trois méthodes d'application du CSS : inline (attribut style), interne (balise style), externe (fichier .css).</span>
+        <a href="seance1-css.html#s1-methods" class="gloss-link">Séance 1 · 03</a>
+      </div>
+    </div>
+
+    <!-- ══ D ══ -->
+    <div class="gloss-letter-group" id="letter-D">
+      <h2><span class="letter-char">D</span> D</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">desktop-first</span>
+        <span class="gloss-def">Approche responsive qui commence par le style desktop (grand écran) avec max-width.</span>
+        <a href="seance9-css.html#s9-desktop" class="gloss-link">Séance 9 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">DevTools CSS</span>
+        <span class="gloss-def">Outils de développement du navigateur pour inspecter et modifier les styles en direct.</span>
+        <a href="seance1-css.html#s1-inspect" class="gloss-link">Séance 1 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">display block / inline</span>
+        <span class="gloss-def">Mode d'affichage : block (toute la largeur, retour à la ligne) vs inline (à côté du texte).</span>
+        <a href="seance6-css.html#s6-display" class="gloss-link">Séance 6 · 01</a>
+      </div>
+    </div>
+
+    <!-- ══ E ══ -->
+    <div class="gloss-letter-group" id="letter-E">
+      <h2><span class="letter-char">E</span> E</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">espacement typographique</span>
+        <span class="gloss-def">letter-spacing (espacement des lettres), word-spacing (mots), white-space (retours à la ligne).</span>
+        <a href="seance3-css.html#s3-space" class="gloss-link">Séance 3 · 08</a>
+      </div>
+    </div>
+
+    <!-- ══ F ══ -->
+    <div class="gloss-letter-group" id="letter-F">
+      <h2><span class="letter-char">F</span> F</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">filter CSS</span>
+        <span class="gloss-def">Effets visuels appliqués à un élément : blur, grayscale, brightness, contrast, sepia.</span>
+        <a href="seance10-css.html#s10-filters" class="gloss-link">Séance 10 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">flex-basis</span>
+        <span class="gloss-def">Taille de base d'un élément flexible avant distribution de l'espace.</span>
+        <a href="seance7-css.html#s7-basis" class="gloss-link">Séance 7 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">flex-direction</span>
+        <span class="gloss-def">Direction de l'axe principal en flexbox : row (horizontal) ou column (vertical).</span>
+        <a href="seance7-css.html#s7-direction" class="gloss-link">Séance 7 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">flex-grow / flex-shrink</span>
+        <span class="gloss-def">Capacité d'un élément à s'agrandir (grow) ou rétrécir (shrink) dans l'espace disponible.</span>
+        <a href="seance7-css.html#s7-grow" class="gloss-link">Séance 7 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">flex-wrap</span>
+        <span class="gloss-def">Permet le retour à la ligne des éléments flexibles quand ils dépassent le conteneur.</span>
+        <a href="seance7-css.html#s7-wrap" class="gloss-link">Séance 7 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Flexbox</span>
+        <span class="gloss-def">Modèle de disposition unidimensionnelle flexible pour aligner et répartir l'espace.</span>
+        <a href="seance7-css.html#s7-flex" class="gloss-link">Séance 7 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">float</span>
+        <span class="gloss-def">Méthode historique pour faire flotter un élément à gauche/droite et habiller le texte autour.</span>
+        <a href="seance6-css.html#s6-float" class="gloss-link">Séance 6 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">font-family</span>
+        <span class="gloss-def">Police de caractères — Web Safe (Arial, Georgia) et Google Fonts personnalisées.</span>
+        <a href="seance3-css.html#s3-font" class="gloss-link">Séance 3 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">font-size</span>
+        <span class="gloss-def">Taille de la police avec unités absolues (px) ou relatives (em, rem).</span>
+        <a href="seance3-css.html#s3-size" class="gloss-link">Séance 3 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">font-weight</span>
+        <span class="gloss-def">Épaisseur de la police : normal (400), bold (700), ou valeurs numériques 100–900.</span>
+        <a href="seance3-css.html#s3-weight" class="gloss-link">Séance 3 · 06</a>
+      </div>
+    </div>
+
+    <!-- ══ G ══ -->
+    <div class="gloss-letter-group" id="letter-G">
+      <h2><span class="letter-char">G</span> G</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">gap</span>
+        <span class="gloss-def">Espacement entre les cellules d'une grille (row-gap + column-gap).</span>
+        <a href="seance8-css.html#s8-gap" class="gloss-link">Séance 8 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">grid-area</span>
+        <span class="gloss-def">Placement d'un élément dans la grille par zones nommées via grid-template-areas.</span>
+        <a href="seance8-css.html#s8-area" class="gloss-link">Séance 8 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">grid-column / grid-row</span>
+        <span class="gloss-def">Fusion de cellules en définissant le début et la fin sur l'axe colonne ou ligne.</span>
+        <a href="seance8-css.html#s8-span" class="gloss-link">Séance 8 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">grid-template</span>
+        <span class="gloss-def">Définition des colonnes et lignes de la grille (grid-template-columns, grid-template-rows).</span>
+        <a href="seance8-css.html#s8-template" class="gloss-link">Séance 8 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">grille implicite</span>
+        <span class="gloss-def">Placement automatique des éléments hors du template défini.</span>
+        <a href="seance8-css.html#s8-implicit" class="gloss-link">Séance 8 · 08</a>
+      </div>
+    </div>
+
+    <!-- ══ I ══ -->
+    <div class="gloss-letter-group" id="letter-I">
+      <h2><span class="letter-char">I</span> I</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">!important</span>
+        <span class="gloss-def">Force une règle CSS avec la priorité maximale, surpassant même l'inline.</span>
+        <a href="seance1-css.html#s1-important" class="gloss-link">Séance 1 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">image responsive</span>
+        <span class="gloss-def">Technique max-width: 100% et attribut srcset pour adapter l'image à l'écran.</span>
+        <a href="seance9-css.html#s9-images" class="gloss-link">Séance 9 · 07</a>
+      </div>
+    </div>
+
+    <!-- ══ J ══ -->
+    <div class="gloss-letter-group" id="letter-J">
+      <h2><span class="letter-char">J</span> J</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">justify-content</span>
+        <span class="gloss-def">Aligne les éléments flexibles sur l'axe principal (flex-start, center, space-between, etc.).</span>
+        <a href="seance7-css.html#s7-justify" class="gloss-link">Séance 7 · 04</a>
+      </div>
+    </div>
+
+    <!-- ══ K ══ -->
+    <div class="gloss-letter-group" id="letter-K">
+      <h2><span class="letter-char">K</span> K</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">@keyframes</span>
+        <span class="gloss-def">Règle qui définit les étapes (from/to ou %) d'une animation CSS.</span>
+        <a href="seance10-css.html#s10-keyframes" class="gloss-link">Séance 10 · 03</a>
+      </div>
+    </div>
+
+    <!-- ══ L ══ -->
+    <div class="gloss-letter-group" id="letter-L">
+      <h2><span class="letter-char">L</span> L</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">letter-spacing</span>
+        <span class="gloss-def">Espacement entre les lettres (interlettrage).</span>
+        <a href="seance3-css.html#s3-space" class="gloss-link">Séance 3 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">line-height</span>
+        <span class="gloss-def">Hauteur de ligne (interligne) — valeur numérique sans unité recommandée (1.6).</span>
+        <a href="seance3-css.html#s3-size" class="gloss-link">Séance 3 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">linear-gradient</span>
+        <span class="gloss-def">Dégradé linéaire entre deux ou plusieurs couleurs (direction, stops).</span>
+        <a href="seance5-css.html#s5-linear" class="gloss-link">Séance 5 · 06</a>
+      </div>
+    </div>
+
+    <!-- ══ M ══ -->
+    <div class="gloss-letter-group" id="letter-M">
+      <h2><span class="letter-char">M</span> M</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">margin</span>
+        <span class="gloss-def">Marge externe entre la bordure de l'élément et les éléments voisins.</span>
+        <a href="seance4-css.html#s4-margin" class="gloss-link">Séance 4 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">@media query</span>
+        <span class="gloss-def">Règle conditionnelle qui applique des styles selon le type d'écran (taille, orientation).</span>
+        <a href="seance9-css.html#s9-queries" class="gloss-link">Séance 9 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">min-width / max-width</span>
+        <span class="gloss-def">Bornes de taille minimale et maximale pour un élément.</span>
+        <a href="seance4-css.html#s4-minmax" class="gloss-link">Séance 4 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">minmax()</span>
+        <span class="gloss-def">Fonction Grid définissant une taille minimale et maximale pour une piste.</span>
+        <a href="seance8-css.html#s8-minmax" class="gloss-link">Séance 8 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">mobile-first</span>
+        <span class="gloss-def">Approche responsive commençant par le style mobile avec min-width en media queries.</span>
+        <a href="seance9-css.html#s9-mobile" class="gloss-link">Séance 9 · 04</a>
+      </div>
+    </div>
+
+    <!-- ══ N ══ -->
+    <div class="gloss-letter-group" id="letter-N">
+      <h2><span class="letter-char">N</span> N</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">Normalize.css</span>
+        <span class="gloss-def">Base de styles uniforme entre navigateurs, conservant les styles utiles par défaut.</span>
+        <a href="seance1-css.html#s1-normalize" class="gloss-link">Séance 1 · 08</a>
+      </div>
+    </div>
+
+    <!-- ══ O ══ -->
+    <div class="gloss-letter-group" id="letter-O">
+      <h2><span class="letter-char">O</span> O</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">order</span>
+        <span class="gloss-def">Modifie l'ordre d'affichage d'un élément flexible sans changer le HTML.</span>
+        <a href="seance7-css.html#s7-order" class="gloss-link">Séance 7 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">overflow</span>
+        <span class="gloss-def">Gère le contenu qui dépasse de son conteneur (visible, hidden, scroll, auto).</span>
+        <a href="seance4-css.html#s4-overflow" class="gloss-link">Séance 4 · 08</a>
+      </div>
+    </div>
+
+    <!-- ══ P ══ -->
+    <div class="gloss-letter-group" id="letter-P">
+      <h2><span class="letter-char">P</span> P</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">padding</span>
+        <span class="gloss-def">Espacement interne entre le contenu et la bordure de l'élément.</span>
+        <a href="seance4-css.html#s4-padding" class="gloss-link">Séance 4 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">position absolute</span>
+        <span class="gloss-def">Sort l'élément du flux et le positionne par rapport à l'ancêtre positionné le plus proche.</span>
+        <a href="seance6-css.html#s6-absolute" class="gloss-link">Séance 6 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">position fixed</span>
+        <span class="gloss-def">Fixe l'élément par rapport à la fenêtre du navigateur, même au scroll.</span>
+        <a href="seance6-css.html#s6-fixed" class="gloss-link">Séance 6 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">position relative</span>
+        <span class="gloss-def">Décale l'élément par rapport à sa position normale sans sortir du flux.</span>
+        <a href="seance6-css.html#s6-relative" class="gloss-link">Séance 6 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">position static</span>
+        <span class="gloss-def">Position par défaut dans le flux normal du document.</span>
+        <a href="seance6-css.html#s6-static" class="gloss-link">Séance 6 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">position sticky</span>
+        <span class="gloss-def">Alterne entre relative et fixed au scroll — utile pour les en-têtes collants.</span>
+        <a href="seance6-css.html#s6-sticky" class="gloss-link">Séance 6 · 06</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">pseudo-classe :hover</span>
+        <span class="gloss-def">État d'un élément déclenché par l'interaction utilisateur (survol, focus, nth-child).</span>
+        <a href="seance2-css.html#s2-pseudo" class="gloss-link">Séance 2 · 08</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">px (pixel)</span>
+        <span class="gloss-def">Unité absolue de mesure — 1 px correspond à un point d'affichage.</span>
+        <a href="seance3-css.html#s3-abs" class="gloss-link">Séance 3 · 02</a>
+      </div>
+    </div>
+
+    <!-- ══ R ══ -->
+    <div class="gloss-letter-group" id="letter-R">
+      <h2><span class="letter-char">R</span> R</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">radial-gradient</span>
+        <span class="gloss-def">Dégradé radial partant d'un point central et s'étendant en cercle ou ellipse.</span>
+        <a href="seance5-css.html#s5-radial" class="gloss-link">Séance 5 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">règle CSS</span>
+        <span class="gloss-def">Sélecteur + bloc de déclarations { propriété: valeur; } — l'unité de base du CSS.</span>
+        <a href="seance1-css.html#s1-syntax" class="gloss-link">Séance 1 · 02</a>
+      </div>
+    </div>
+
+    <!-- ══ S ══ -->
+    <div class="gloss-letter-group" id="letter-S">
+      <h2><span class="letter-char">S</span> S</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">sélecteur d'attribut [attr]</span>
+        <span class="gloss-def">Cible les éléments par la présence ou la valeur d'un attribut HTML.</span>
+        <a href="seance2-css.html#s2-attr" class="gloss-link">Séance 2 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">sélecteur de classe .class</span>
+        <span class="gloss-def">Cible tous les éléments possédant une classe donnée — réutilisable.</span>
+        <a href="seance2-css.html#s2-class" class="gloss-link">Séance 2 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">sélecteur de type</span>
+        <span class="gloss-def">Cible les balises HTML par leur nom (p, div, h1, section).</span>
+        <a href="seance2-css.html#s2-tag" class="gloss-link">Séance 2 · 01</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">sélecteur d'ID #id</span>
+        <span class="gloss-def">Cible un élément unique par son identifiant HTML — spécificité élevée.</span>
+        <a href="seance2-css.html#s2-id" class="gloss-link">Séance 2 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">sélecteur universel *</span>
+        <span class="gloss-def">Cible tous les éléments de la page — spécificité nulle (0,0,0,0).</span>
+        <a href="seance2-css.html#s2-universal" class="gloss-link">Séance 2 · 04</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">spécificité</span>
+        <span class="gloss-def">Calcul du poids d'un sélecteur (a,b,c,d) — inline > id > classe > balise.</span>
+        <a href="seance1-css.html#s1-specific" class="gloss-link">Séance 1 · 05</a>
+      </div>
+    </div>
+
+    <!-- ══ T ══ -->
+    <div class="gloss-letter-group" id="letter-T">
+      <h2><span class="letter-char">T</span> T</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">text-align</span>
+        <span class="gloss-def">Alignement horizontal du texte (left, center, right, justify).</span>
+        <a href="seance3-css.html#s3-text" class="gloss-link">Séance 3 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">text-transform</span>
+        <span class="gloss-def">Transformation de la casse du texte (uppercase, lowercase, capitalize).</span>
+        <a href="seance3-css.html#s3-text" class="gloss-link">Séance 3 · 07</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">transform</span>
+        <span class="gloss-def">Modifie visuellement un élément : rotation (rotate), échelle (scale), translation (translate).</span>
+        <a href="seance10-css.html#s10-transform" class="gloss-link">Séance 10 · 02</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">transition</span>
+        <span class="gloss-def">Animation entre deux états CSS (property, duration, easing, delay).</span>
+        <a href="seance10-css.html#s10-trans" class="gloss-link">Séance 10 · 01</a>
+      </div>
+    </div>
+
+    <!-- ══ U ══ -->
+    <div class="gloss-letter-group" id="letter-U">
+      <h2><span class="letter-char">U</span> U</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">unités relatives em/rem</span>
+        <span class="gloss-def">em = relatif à la police du parent ; rem = relatif à la police racine (html).</span>
+        <a href="seance3-css.html#s3-rel" class="gloss-link">Séance 3 · 03</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">unités responsives vw/vh/%</span>
+        <span class="gloss-def">vw = % de la largeur du viewport, vh = % de la hauteur, % = relatif au parent.</span>
+        <a href="seance9-css.html#s9-units" class="gloss-link">Séance 9 · 06</a>
+      </div>
+    </div>
+
+    <!-- ══ V ══ -->
+    <div class="gloss-letter-group" id="letter-V">
+      <h2><span class="letter-char">V</span> V</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">variable CSS (custom property)</span>
+        <span class="gloss-def">Valeur réutilisable définie avec --nom et utilisée avec var(--nom).</span>
+        <a href="seance10-css.html#s10-vars" class="gloss-link">Séance 10 · 05</a>
+      </div>
+
+      <div class="gloss-item">
+        <span class="gloss-term">viewport meta</span>
+        <span class="gloss-def">Balise HTML meta name="viewport" essentielle pour le responsive design.</span>
+        <a href="seance9-css.html#s9-viewport" class="gloss-link">Séance 9 · 01</a>
+      </div>
+    </div>
+
+    <!-- ══ Z ══ -->
+    <div class="gloss-letter-group" id="letter-Z">
+      <h2><span class="letter-char">Z</span> Z</h2>
+
+      <div class="gloss-item">
+        <span class="gloss-term">z-index</span>
+        <span class="gloss-def">Ordre d'empilement des éléments superposés — fonctionne avec position non-static.</span>
+        <a href="seance6-css.html#s6-zindex" class="gloss-link">Séance 6 · 07</a>
+      </div>
+    </div>
+
+    <!-- Back to top link -->
+    <div style="text-align:center;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">
+      <a href="#top-index" style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:600;color:var(--teal);text-decoration:none;">↑ Revenir à l'index alphabétique</a>
+    </div>
+
+    <!-- Next link -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Cours CSS complet</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">10 séances de la syntaxe aux animations</div>
+        <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Sélectionnez une séance dans le menu pour commencer</div>
+      </div>
+      <a href="seance1-css.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 1 →</a>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

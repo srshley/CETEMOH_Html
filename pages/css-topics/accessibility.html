@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibilité CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html" class="active">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label t10">Accessibilité</div>
+      <a href="#t10-why"       class="sidebar-item"><span class="sidebar-num">01</span>Pourquoi l'accessibilité ?</a>
+      <a href="#t10-contrast"  class="sidebar-item"><span class="sidebar-num">02</span>Contrastes WCAG</a>
+      <a href="#t10-outline"   class="sidebar-item"><span class="sidebar-num">03</span>outline & outline-offset</a>
+      <a href="#t10-focus"     class="sidebar-item"><span class="sidebar-num">04</span>:focus-visible & :focus-within</a>
+      <a href="#t10-motion"    class="sidebar-item"><span class="sidebar-num">05</span>prefers-reduced-motion</a>
+      <a href="#t10-scheme"    class="sidebar-item"><span class="sidebar-num">06</span>prefers-color-scheme</a>
+      <a href="#t10-contrast-mq" class="sidebar-item"><span class="sidebar-num">07</span>prefers-contrast & forced-colors</a>
+      <a href="#t10-sronly"    class="sidebar-item"><span class="sidebar-num">08</span>Contenu masqué (sr-only)</a>
+      <a href="#t10-content"   class="sidebar-item"><span class="sidebar-num">09</span>Éviter contenu généré seul</a>
+      <a href="#t10-exo"       class="sidebar-item"><span class="sidebar-num">10</span>Exercices</a>
+      <a href="#t10-bilan"     class="sidebar-item"><span class="sidebar-num">11</span>Glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="positioning.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Positionnement →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Accessibilité</div>
+      <h1>Accessibilité CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Contrastes · Focus · Mouvement · Mode sombre · sr-only · Media queries</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Accessibilité</span>
+        <span class="meta-tag">~1h30</span><span class="meta-tag">11 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 POURQUOI L'ACCESSIBILITÉ ? ══ -->
+    <div id="t10-why">
+      <div class="section-header"><span class="section-num">01</span><h2>Pourquoi l'accessibilité CSS ?</h2></div>
+      <p>L'accessibilité web (abrégée en a11y) vise à rendre les sites utilisables par l'<strong>ensemble</strong> des personnes, indépendamment de leurs capacités ou de leurs appareils. Le CSS joue un rôle déterminant dans cette démarche : il peut aussi bien améliorer que compromettre l'expérience utilisateur pour les personnes malvoyantes, daltoniennes, épileptiques, ou présentant des troubles moteurs.</p>
+      <p>L'accessibilité ne constitue pas un « nice to have » — elle représente un droit fondamental dans l'écosystème du web contemporain. De la même manière que les rampes d'accès profitent à tous (personnes en fauteuil, parents avec poussette), les pratiques CSS accessibles servent l'ensemble des utilisateurs.</p>
+
+      <h3>L'impact du CSS sur l'accessibilité</h3>
+      <div class="grid-3">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">👁️ Visuel</h3>
+          <p style="font-size:.9rem;">Contrastes insuffisants, textes trop petits, polices illisibles — le CSS peut rendre un site inaccessible aux malvoyants.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🎯 Navigation</h3>
+          <p style="font-size:.9rem;">Styles de focus invisibles, ordre de tabulation perturbé par <code>position: absolute</code>, éléments cliquables trop petits.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🌀 Mouvement</h3>
+          <p style="font-size:.9rem;">Animations rapides, défilement parallaxe, clignotements — sources de nausée ou de crises d'épilepsie.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">L'accessibilité bénéficie à tous les utilisateurs</div>
+          <p>Les pratiques CSS accessibles (contrastes élevés, textes dimensionnés de manière adaptée, navigation au clavier) servent l'ensemble des utilisateurs : usage en plein soleil, écran de qualité médiocre, mobilité réduite momentanée, ou utilisateur âgé.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 CONTRASTES WCAG ══ -->
+    <div id="t10-contrast">
+      <div class="section-header"><span class="section-num">02</span><h2>Contrastes et couleurs accessibles</h2></div>
+      <p>Le contraste entre la couleur du texte et celle du fond constitue le facteur principal de lisibilité. Les WCAG (Web Content Accessibility Guidelines) définissent des ratios minimums à respecter pour garantir une perception adéquate du contenu. Le ratio de contraste est calculé à partir de la luminance relative de chaque couleur, produisant une valeur comprise entre 1:1 (aucun contraste) et 21:1 (contraste maximal, noir sur blanc).</p>
+
+      <h3>Ratios de contraste WCAG</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Niveau</th><th>Texte normal (&lt;18px)</th><th>Texte large (&ge;18px gras ou &ge;24px)</th><th>Composants d'interface</th></tr></thead>
+          <tbody>
+            <tr><td><strong>AA</strong> (minimum)</td><td>4.5:1</td><td>3:1</td><td>3:1</td></tr>
+            <tr><td><strong>AAA</strong> (renforcé)</td><td>7:1</td><td>4.5:1</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Le ratio de contraste se calcule avec la formule : <code>(L1 + 0.05) / (L2 + 0.05)</code>, où L1 est la luminance relative de la couleur la plus claire et L2 celle de la couleur la plus foncée. Des outils comme <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM Contrast Checker</a> ou le sélecteur de couleurs des DevTools permettent de vérifier ces valeurs.</p>
+
+      <div class="code-preview-split interactive">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Contrastes</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false">/* ✅ BON — contraste suffisant (AA) */
+.good-contrast {
+  color: #1a1a2e;        /* texte très foncé */
+  background: #f5f5f5;   /* fond clair */
+  /* ratio ≈ 15:1 ✅ */
+}
+
+/* ❌ MAUVAIS — contraste insuffisant */
+.bad-contrast {
+  color: #cccccc;        /* gris clair */
+  background: #ffffff;   /* fond blanc */
+  /* ratio ≈ 1.5:1 ❌ illisible */
+}
+
+/* Sélection de couleurs accessibles */
+:root {
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a6a; /* assez foncé pour AA */
+  --text-muted: #8a8aaa;    /* décoratif uniquement */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0f0f5;
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;padding:1rem;">
+            <div style="background:#f5f5f5;color:#1a1a2e;padding:8px;margin-bottom:6px;border-radius:4px;">✅ Bon contraste (15:1)</div>
+            <div style="background:white;color:#ccc;padding:8px;border-radius:4px;">❌ Mauvais contraste (1.5:1)</div>
+            <div style="background:#2c3e50;color:white;padding:8px;margin-top:6px;border-radius:4px;">✅ Texte blanc sur fond foncé</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">La couleur comme unique vecteur d'information</div>
+          <p>Environ 8 % des hommes présentent une forme de daltonisme (déficience rouge-vert principalement). Il ne faut <strong>jamais</strong> utiliser la couleur comme seul indicateur d'information. Un champ de formulaire ne doit pas virer au <span style="color:red;">rouge</span> uniquement — ajoutez une icône, un texte d'erreur ou un symbole. De même, les liens soulignés sont préférables aux liens distingués uniquement par leur couleur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 OUTLINE & OUTLINE-OFFSET ══ -->
+    <div id="t10-outline">
+      <div class="section-header"><span class="section-num">03</span><h2>outline et outline-offset</h2></div>
+      <p>La propriété <code>outline</code> dessine un contour autour d'un élément, sans affecter sa taille ni sa position dans le flux (contrairement à <code>border</code>). Elle est essentielle pour les styles de focus accessibles. La propriété <code>outline-offset</code> permet d'ajuster la distance entre le contour et le bord de l'élément.</p>
+
+      <h3>Référence complète — <code>outline</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;outline-width&gt;</code></td><td>Épaisseur du contour : <code>thin</code> (1px), <code>medium</code> (3px), <code>thick</code> (5px), ou une valeur <code>&lt;length&gt;</code> comme <code>2px</code>.</td><td>Définit la visibilité du contour</td></tr>
+            <tr><td><code>&lt;outline-style&gt;</code></td><td>Style du contour : <code>none</code>, <code>hidden</code>, <code>dotted</code>, <code>dashed</code>, <code>solid</code>, <code>double</code>, <code>groove</code>, <code>ridge</code>, <code>inset</code>, <code>outset</code>.</td><td>Apparence visuelle du contour</td></tr>
+            <tr><td><code>&lt;outline-color&gt;</code></td><td>Couleur du contour. Accepte <code>invert</code> (inversion des couleurs — déprécié) et toute valeur de couleur CSS.</td><td>Contraste du contour</td></tr>
+            <tr><td><code>none</code></td><td>Pas de contour. Utilisé avec précaution : ne jamais retirer le contour sans fournir une alternative visible.</td><td>Désactivation (avec alternative)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>outline-offset</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;length&gt;</code></td><td>Distance entre le bord de l'élément et le contour. Valeur positive (extérieur) ou négative (intérieur). Ex: <code>2px</code>, <code>-2px</code>.</td><td>Espacement du contour de focus</td></tr>
+            <tr><td><code>initial</code></td><td>Valeur par défaut (0). Le contour est collé au bord de l'élément.</td><td>Réinitialisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Style de contour de base */
+.focus-style {
+  outline: 2px solid #3498db;
+  outline-offset: 3px;
+}
+
+/* Contour avec box-shadow (alternative élégante) */
+.custom-focus {
+  outline: none; /* supprime le contour par défaut */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, .4);
+  border-radius: 4px;
+}
+
+/* Contour négatif (à l'intérieur) */
+.inner-outline {
+  outline: 2px solid #e63946;
+  outline-offset: -4px;
+}</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne jamais supprimer outline sans alternative</div>
+          <p><code>outline: none</code> sans fournir de style de focus alternatif rend la navigation au clavier impossible pour les utilisateurs qui ne peuvent pas utiliser de souris. Si vous remplacez l'outline par défaut par un <code>box-shadow</code> ou un autre indicateur visuel, assurez-vous que ce dernier est au moins aussi visible que l'outline original.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 :FOCUS-VISIBLE & :FOCUS-WITHIN ══ -->
+    <div id="t10-focus">
+      <div class="section-header"><span class="section-num">04</span><h2>:focus-visible et :focus-within</h2></div>
+      <p>Les pseudo-classes <code>:focus-visible</code> et <code>:focus-within</code> offrent un contrôle précis sur les styles de focus. <code>:focus-visible</code> ne s'applique qu'en navigation clavier (idéal), tandis que <code>:focus-within</code> s'applique à un parent quand un de ses enfants reçoit le focus.</p>
+
+      <h3>Référence complète — <code>:focus-visible</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Caractéristique</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>:focus-visible</code></td><td>Pseudo-classe qui applique le style uniquement lorsque le navigateur détermine que le focus doit être visible (navigation au clavier, pas au clic souris).</td><td>Style de focus moderne — recommandé pour tous les éléments interactifs</td></tr>
+            <tr><td><code>:focus</code> (classique)</td><td>S'applique dès qu'un élément reçoit le focus, y compris lors d'un clic souris.</td><td>Style de focus traditionnel — peut être inesthétique après un clic</td></tr>
+            <tr><td>Support navigateur</td><td>Tous les navigateurs modernes depuis 2022. Pour les anciens, combiner avec <code>:focus</code> en fallback.</td><td>Dégradation élégante</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>:focus-within</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Caractéristique</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>:focus-within</code></td><td>Pseudo-classe qui cible un élément lorsqu'il contient un élément enfant ayant le focus.</td><td>Mise en évidence de conteneurs (formulaires, cartes) dont un champ est actif</td></tr>
+            <tr><td>Héritage</td><td>Remonte dans tous les ancêtres jusqu'à la racine du document.</td><td>Navigation dans des arbres complexes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split interactive">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false">/* ❌ MAUVAIS — supprimer le focus */
+*:focus { outline: none; } /* JAMAIS ! */
+
+/* ✅ BON — focus visible au clavier uniquement */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ✅ Focus avec halo box-shadow */
+.custom-focus:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, .4);
+  border-radius: 4px;
+}
+
+/* ✅ Mise en évidence du conteneur parent */
+.card:focus-within {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, .2);
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;padding:1rem;">
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <a href="#" style="outline:2px solid #3498db;outline-offset:3px;padding:4px 8px;text-decoration:none;color:#2980b9;border-radius:4px;">Lien focusé</a>
+              <button style="outline:2px solid #3498db;outline-offset:3px;border:none;background:#3498db;color:white;padding:6px 12px;border-radius:4px;">Bouton focusé</button>
+            </div>
+            <div style="margin-top:8px;border:2px solid #3498db;padding:10px;border-radius:6px;background:rgba(52,152,219,.05);">
+              <span style="font-size:13px;">✅ Carte avec <code>:focus-within</code> activé</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Distinction entre :focus et :focus-visible</div>
+          <p>La pseudo-classe <code>:focus</code> s'applique dès qu'un élément reçoit le focus, y compris lors d'un clic souris. <code>:focus-visible</code> ne s'applique que lorsque le navigateur détecte une navigation au clavier. Cette approche constitue la solution idéale : les utilisateurs souris ne perçoivent pas de halo inesthétique après un clic, tandis que les utilisateurs clavier disposent systématiquement d'un repère visible.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 PREFERS-REDUCED-MOTION ══ -->
+    <div id="t10-motion">
+      <div class="section-header"><span class="section-num">05</span><h2>prefers-reduced-motion</h2></div>
+      <p>Certaines personnes souffrent de troubles vestibulaires, de nausées ou de migraines déclenchées par les mouvements et animations. La media query <code>prefers-reduced-motion</code> permet de détecter si l'utilisateur a configuré son système d'exploitation pour réduire les animations.</p>
+
+      <h3>Référence complète — <code>prefers-reduced-motion</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>no-preference</code></td><td>L'utilisateur n'a pas exprimé de préférence (valeur par défaut implicite).</td><td>Animations normales</td></tr>
+            <tr><td><code>reduce</code></td><td>L'utilisateur a demandé la réduction des animations via les paramètres système.</td><td>Désactiver ou ralentir les animations</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Approche globale : désactiver toutes les animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Approche fine : désactiver seulement le décoratif */
+@media (prefers-reduced-motion: reduce) {
+  .parallax, .confetti, .floating-bg {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Conserver les animations fonctionnelles (loader) */
+  .loading-spinner {
+    animation-duration: 1.5s; /* ralentie, pas arrêtée */
+  }
+}
+
+/* Défilement doux adapté */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Préservation des animations fonctionnelles</div>
+          <p>Il convient d'éviter l'approche binaire consistant à appliquer <code>animation: none</code> à l'ensemble des éléments. Une barre de progression ou un spinner de chargement constituent des animations <strong>fonctionnelles</strong> qui fournissent un feedback nécessaire. Il est préférable de les ralentir plutôt que de les supprimer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 PREFERS-COLOR-SCHEME ══ -->
+    <div id="t10-scheme">
+      <div class="section-header"><span class="section-num">06</span><h2>prefers-color-scheme (mode sombre)</h2></div>
+      <p>La media query <code>prefers-color-scheme</code> détecte si l'utilisateur a opté pour un thème clair (<code>light</code>) ou sombre (<code>dark</code>) au niveau de son système d'exploitation. Elle constitue le fondement technique du « dark mode » automatique.</p>
+
+      <h3>Référence complète — <code>prefers-color-scheme</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>no-preference</code></td><td>L'utilisateur n'a pas exprimé de préférence de thème.</td><td>Utiliser le thème clair par défaut</td></tr>
+            <tr><td><code>light</code></td><td>L'utilisateur préfère un thème clair (fond blanc, texte foncé).</td><td>Thème clair standard</td></tr>
+            <tr><td><code>dark</code></td><td>L'utilisateur préfère un thème sombre (fond foncé, texte clair).</td><td>Thème sombre, réduction de la fatigue oculaire</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Thème clair (défaut) */
+:root {
+  --bg: #ffffff;
+  --text: #1a1a2e;
+  --text-secondary: #4a4a6a;
+  --border: #ddd;
+  --accent: #3498db;
+}
+
+/* Thème sombre automatique */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --text: #e0e0e0;
+    --text-secondary: #a0a0b0;
+    --border: #333;
+    --accent: #5dade2;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Ajustement des images en mode sombre */
+@media (prefers-color-scheme: dark) {
+  img { opacity: .85; filter: brightness(.9); }
+}
+
+/* Forcer le mode avec une classe (toggle manuel) */
+.dark-theme { --bg: #121212; --text: #e0e0e0; }
+.light-theme { --bg: #ffffff; --text: #1a1a2e; }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Articulation entre mode automatique et basculement manuel</div>
+          <p>La meilleure expérience utilisateur s'obtient en trois étapes : ① Appliquer le thème automatique via <code>prefers-color-scheme</code>. ② Ajouter un bouton de basculement manuel qui modifie une classe sur <code>&lt;html&gt;</code>. ③ Stocker la préférence dans <code>localStorage</code> pour assurer sa persistance entre les pages.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 PREFERS-CONTRAST & FORCED-COLORS ══ -->
+    <div id="t10-contrast-mq">
+      <div class="section-header"><span class="section-num">07</span><h2>prefers-contrast et forced-colors</h2></div>
+      <p>Ces media queries permettent d'adapter l'interface aux besoins de contraste de l'utilisateur. <code>prefers-contrast</code> détecte une préférence logicielle, tandis que <code>forced-colors</code> détecte l'activation du mode contraste élevé au niveau du système (notamment sous Windows).</p>
+
+      <h3>Référence complète — <code>prefers-contrast</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>no-preference</code></td><td>L'utilisateur n'a pas exprimé de préférence (valeur par défaut).</td><td>Styles normaux</td></tr>
+            <tr><td><code>more</code></td><td>L'utilisateur a demandé un contraste accru (textes plus foncés, bordures plus visibles).</td><td>Accessibilité renforcée, malvoyance</td></tr>
+            <tr><td><code>less</code></td><td>L'utilisateur a demandé un contraste réduit (textes plus doux).</td><td>Fatigue visuelle, migraines</td></tr>
+            <tr><td><code>custom</code></td><td>L'utilisateur utilise un jeu de couleurs personnalisé (expérimental).</td><td>Palettes personnalisées</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>forced-colors</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Pas de mode de couleurs forcées (valeur par défaut).</td><td>Styles normaux</td></tr>
+            <tr><td><code>active</code></td><td>Mode contraste élevé du système activé (Windows High Contrast Mode). Les couleurs système remplacent les couleurs CSS.</td><td>Assure une visibilité minimale</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Contraste accru */
+@media (prefers-contrast: more) {
+  :root {
+    --text: #000000;       /* texte 100% noir */
+    --text-secondary: #222;
+    --border: #000;
+  }
+  a { text-decoration: underline; }
+}
+
+/* Contraste réduit */
+@media (prefers-contrast: less) {
+  :root {
+    --text: #555;
+    --border: #e0e0e0;
+  }
+}
+
+/* Mode contraste élevé Windows */
+@media (forced-colors: active) {
+  .btn {
+    border: 2px solid ButtonText;
+  }
+  .icon {
+    forced-color-adjust: none; /* préserve les couleurs d'origine */
+  }
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Disponibilité variable des media queries</div>
+          <p>Les media queries <code>prefers-reduced-motion</code> et <code>prefers-color-scheme</code> sont les plus largement prises en charge. <code>prefers-reduced-transparency</code> et <code>inverted-colors</code> sont moins répandues — vérifiez leur compatibilité sur <a href="https://caniuse.com" target="_blank" rel="noopener">caniuse.com</a> avant utilisation en production.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 CONTENU MASQUÉ (SR-ONLY) ══ -->
+    <div id="t10-sronly">
+      <div class="section-header"><span class="section-num">08</span><h2>Contenu masqué pour lecteurs d'écran (.sr-only)</h2></div>
+      <p>Il existe des situations où un contenu doit être invisible visuellement tout en demeurant <strong>accessible aux lecteurs d'écran</strong>. La classe <code>.sr-only</code> (screen-reader only) constitue le motif standard pour masquer un élément sur le plan visuel tout en le maintenant dans le DOM à l'intention des technologies d'assistance.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* .sr-only — visible uniquement par les lecteurs d'écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Variante : remettre visible au focus (ex: Skip to content) */
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 8px 16px;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: #3498db;
+  color: white;
+}</pre></div>
+      </div>
+
+      <h3>Usages courants de .sr-only</h3>
+      <ul>
+        <li><strong>Libellés cachés</strong> pour les icônes seules : <code>&lt;button&gt;&lt;span class="sr-only"&gt;Menu&lt;/span&gt;☰&lt;/button&gt;</code></li>
+        <li><strong>Descriptions d'images</strong> pour les illustrations décoratives non décrites par alt</li>
+        <li><strong>Tableaux complexes</strong> avec des en-têtes supplémentaires invisibles</li>
+        <li><strong>Liens "Skip to content"</strong> : invisibles sauf au focus clavier</li>
+        <li><strong>Indications de statut</strong> pour les mises à jour dynamiques via ARIA live regions</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Proscription de display: none et visibility: hidden</div>
+          <p>Les propriétés <code>display: none</code> et <code>visibility: hidden</code> masquent l'élément <strong>également aux lecteurs d'écran</strong>. Si le contenu revêt une importance pour la compréhension de la page, il convient d'utiliser <code>.sr-only</code> plutôt que ces propriétés. De même, l'attribut <code>aria-hidden="true"</code> doit être réservé aux éléments purement décoratifs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 ÉVITER LE CONTENU GÉNÉRÉ SEUL ══ -->
+    <div id="t10-content">
+      <div class="section-header"><span class="section-num">09</span><h2>Éviter le contenu généré seul (::before / ::after)</h2></div>
+      <p>Les pseudo-éléments <code>::before</code> et <code>::after</code> permettent d'ajouter du contenu décoratif via CSS. Cependant, ce contenu n'est <strong>pas accessible</strong> : les lecteurs d'écran ne restituent pas le contenu de la propriété <code>content</code> (sauf dans certains cas particuliers pour les émojis).</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* ✅ ACCEPTABLE — contenu purement décoratif */
+.badge::before {
+  content: "★ ";
+  color: gold;
+}
+
+/* ❌ PROBLÉMATIQUE — information perdue pour les lecteurs d'écran */
+.price::before {
+  content: "Prix : ";
+}
+/* Le lecteur d'écran lira "25 €" et non "Prix : 25 €" */
+
+/* ✅ SOLUTION — inclure le texte dans le HTML */
+/* &lt;span class="sr-only"&gt;Prix : &lt;/span&gt;&lt;span class="price"&gt;25 €&lt;/span&gt; */</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle fondamentale : le contenu textuel dans le HTML</div>
+          <p>Si le contenu est <strong>important pour la compréhension</strong>, il doit figurer dans le HTML et non dans le CSS. Les pseudo-éléments doivent être réservés au contenu décoratif (icônes, séparateurs, puces). Pour les libellés tels que « Prix : », « Nouveau ! », « Lire la suite », rédigez-les dans le HTML en recourant à <code>.sr-only</code> si vous souhaitez les masquer visuellement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 EXERCICES ══ -->
+    <div id="t10-exo">
+      <div class="section-header"><span class="section-num">10</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">♿ Composant accessible</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-accessibilite.html</code> avec un formulaire de contact : nom, email, message, bouton envoyer.</li>
+            <li>Assurez-vous que tous les champs ont un <code>&lt;label&gt;</code> explicite.</li>
+            <li>Utilisez <code>:focus-visible</code> pour un style de focus visible au clavier : outline de 2px bleu avec offset.</li>
+            <li>Ajoutez un lien "Aller au contenu" avec la classe <code>.sr-only-focusable</code>.</li>
+            <li>Vérifiez le ratio de contraste des couleurs choisies avec un outil comme WebAIM Contrast Checker.</li>
+            <li>Ajoutez un message d'erreur visible ET lisible par les lecteurs d'écran (avec <code>role="alert"</code>).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🌙 Thème sombre & animations</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-dark-mode.html</code> avec une page simple : header, contenu, sidebar, footer.</li>
+            <li>Définissez des variables CSS pour les couleurs (bg, text, accent, border).</li>
+            <li>Utilisez <code>prefers-color-scheme</code> pour appliquer automatiquement un thème sombre.</li>
+            <li>Ajoutez une animation CSS sur un élément (ex : un badge qui pulse).</li>
+            <li>Utilisez <code>prefers-reduced-motion</code> pour désactiver cette animation si l'utilisateur l'a demandé.</li>
+            <li>Ajoutez un bouton de basculement manuel clair/sombre avec JavaScript qui change une classe sur <code>&lt;html&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Audit d'accessibilité</div>
+          <p>Prenez une page web existante et lancez un audit avec <strong>Lighthouse</strong> (dans Chrome DevTools, onglet Lighthouse). Examinez les résultats dans la catégorie "Accessibilité". Corrigez au moins 3 problèmes identifiés : contrastes, aria labels, headings hierarchy, ou focus styles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="t10">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- Projet fil rouge -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Vérifiez les contrastes de couleurs du portfolio (ratio minimum 4.5:1). Ajoutez les styles :focus-visible pour la navigation au clavier et un mode de contraste élevé.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Rendre le portfolio conforme aux WCAG 2.1 niveau AA.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══ 11 GLOSSAIRE ══ -->
+    <div id="t10-bilan">
+      <div class="section-header"><span class="section-num">11</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>L'importance de l'accessibilité CSS et son impact sur tous les utilisateurs</li>
+        <li>Les ratios de contraste WCAG (AA : 4.5:1, AAA : 7:1) et comment les vérifier</li>
+        <li>outline et outline-offset pour les contours de focus</li>
+        <li>Les styles de focus :focus-visible (clavier uniquement) et :focus-within (conteneur focusé)</li>
+        <li>prefers-reduced-motion : adapter ou désactiver les animations</li>
+        <li>prefers-color-scheme : implémenter un mode sombre automatique</li>
+        <li>prefers-contrast et forced-colors pour les préférences de contraste</li>
+        <li>La classe .sr-only pour le contenu caché visuellement mais accessible aux lecteurs d'écran</li>
+        <li>Les pièges du contenu généré via ::before/::after et comment les éviter</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Accessibilité (a11y)</dt><dd>Pratiques visant à rendre le web utilisable par tous, y compris les personnes handicapées.</dd>
+          <dt>WCAG</dt><dd>Web Content Accessibility Guidelines — normes internationales d'accessibilité web (niveaux A, AA, AAA).</dd>
+          <dt>Ratio de contraste</dt><dd>Rapport entre la luminance du texte et du fond. Minimum 4.5:1 pour AA, 7:1 pour AAA.</dd>
+          <dt>Outline</dt><dd>Propriété CSS qui affiche un contour de focus. Ne pas supprimer sans alternative.</dd>
+          <dt>:focus-visible</dt><dd>Pseudo-classe qui applique le style de focus uniquement lors de la navigation au clavier.</dd>
+          <dt>:focus-within</dt><dd>Pseudo-classe qui cible un élément contenant un enfant focusé.</dd>
+          <dt>prefers-reduced-motion</dt><dd>Media query qui détecte la demande de réduction des animations.</dd>
+          <dt>prefers-color-scheme</dt><dd>Media query qui détecte le thème clair (light) ou sombre (dark) du système.</dd>
+          <dt>prefers-contrast</dt><dd>Media query qui détecte la préférence de contraste (more, less).</dd>
+          <dt>forced-colors</dt><dd>Media query qui détecte le mode contraste élevé du système (Windows).</dd>
+          <dt>sr-only</dt><dd>Classe CSS qui cache un élément visuellement mais le garde accessible aux lecteurs d'écran.</dd>
+          <dt>Lecteur d'écran</dt><dd>Logiciel qui lit à voix haute le contenu de l'écran (NVDA, JAWS, VoiceOver, TalkBack).</dd>
+          <dt>Contenu généré</dt><dd>Texte ou icônes ajoutés via ::before/::after et la propriété content en CSS.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Fiche suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Positionnement CSS</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Display · Position · z-index · Float</div>
+        </div>
+        <a href="positioning.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Positionnement →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

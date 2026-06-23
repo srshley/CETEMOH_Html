@@ -1,0 +1,631 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html" class="active">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Flexbox</div>
+      <a href="#f-intro"       class="sidebar-item"><span class="sidebar-num">01</span>Introduction</a>
+      <a href="#f-flex"        class="sidebar-item"><span class="sidebar-num">02</span>display: flex</a>
+      <a href="#f-direction"   class="sidebar-item"><span class="sidebar-num">03</span>flex-direction</a>
+      <a href="#f-wrap"        class="sidebar-item"><span class="sidebar-num">04</span>flex-wrap & gap</a>
+      <a href="#f-justify"     class="sidebar-item"><span class="sidebar-num">05</span>justify-content</a>
+      <a href="#f-align"       class="sidebar-item"><span class="sidebar-num">06</span>align-items</a>
+      <a href="#f-grow"        class="sidebar-item"><span class="sidebar-num">07</span>flex-grow/shrink/basis</a>
+      <a href="#f-order"       class="sidebar-item"><span class="sidebar-num">08</span>align-self & order</a>
+      <a href="#f-gap"         class="sidebar-item"><span class="sidebar-num">09</span>Gap</a>
+      <a href="#f-project"     class="sidebar-item"><span class="sidebar-num">10</span>Projet : Jeu de Cartes</a>
+      <a href="#f-exo"         class="sidebar-item"><span class="sidebar-num">11</span>Exercices</a>
+      <a href="#f-bilan"       class="sidebar-item"><span class="sidebar-num">12</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="typography.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Typographie →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Flexbox</div>
+      <h1>Flexbox</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">display:flex · Direction · Wrap · Alignement · Flex-grow · Projet</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">12 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 INTRODUCTION ══ -->
+    <div id="f-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Introduction à Flexbox</h2></div>
+      <p><strong>Flexbox</strong> (Flexible Box Layout) est un modèle de mise en page unidimensionnel — il gère soit une ligne, soit une colonne, mais pas les deux simultanément. Avant l'introduction de Flexbox, l'alignement vertical d'éléments ou la création de colonnes de hauteur égale nécessitaient des techniques CSS complexes et souvent détournées. Flexbox est supporté par l'ensemble des navigateurs modernes depuis 2015. Les problèmes résolus incluent : centrage vertical parfait, colonnes de hauteur égale, espacement uniforme, réordonnancement visuel, et adaptation dynamique à la taille du contenu. Pour une mise en page bidimensionnelle (lignes ET colonnes), CSS Grid est recommandé.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🎮</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : les aimants sur une plaque</div>
+          <p>Imaginez des aimants disposés sur une plaque métallique. Vous pouvez les organiser en ligne ou en colonne, les espacer, les centrer, les agrandir ou les rétrécir. Flexbox constitue la plaque : vous définissez la direction et l'alignement, et les éléments aimantés suivent automatiquement ces règles.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">✅ Problèmes résolus</h3>
+          <p style="font-size:.9rem;">Centrage vertical parfait, colonnes de hauteur égale, espacement uniforme, réordonnancement visuel, adaptation dynamique à la taille du contenu.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">📐 Unidimensionnel</h3>
+          <p style="font-size:.9rem;">Flexbox opère sur un seul axe à la fois (ligne OU colonne). Pour une mise en page bidimensionnelle (lignes ET colonnes), CSS Grid est recommandé.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--teal);">🌍 Support navigateur</h3>
+          <p style="font-size:.9rem;">Flexbox est supporté par l'ensemble des navigateurs modernes depuis 2015.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 DISPLAY FLEX ══ -->
+    <div id="f-flex">
+      <div class="section-header"><span class="section-num">02</span><h2>display: flex et l'axe principal</h2></div>
+      <p>En déclarant <code>display: flex</code> sur un conteneur, ses enfants deviennent des éléments flexibles qui s'alignent automatiquement selon les règles définies. Flexbox repose sur deux axes : l'<strong>axe principal</strong> (main axis) défini par <code>flex-direction</code>, et l'<strong>axe secondaire</strong> (cross axis) qui lui est perpendiculaire. La propriété <code>justify-content</code> agit sur l'axe principal, tandis que <code>align-items</code> opère sur l'axe secondaire. <code>display: inline-flex</code> crée un conteneur flex de type inline (taille ajustée au contenu).</p>
+
+      <h3>Référence complète — <code>display</code> pour Flexbox</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>display: flex</code></td><td>Conteneur flex de type bloc. Occupe toute la largeur disponible.</td><td>Layout principal, sections, barres de navigation, grilles.</td></tr>
+            <tr><td><code>display: inline-flex</code></td><td>Conteneur flex de type inline. Largeur ajustée au contenu.</td><td>Éléments qui doivent s'aligner horizontalement sans prendre toute la largeur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — display: flex</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.container {
+  display: flex;
+}
+
+/* Les enfants directs deviennent flexibles */
+/* S'alignent horizontalement par défaut */
+/* S'étirent pour remplir la hauteur */</div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Les deux axes de Flexbox</div>
+          <p>Flexbox repose sur deux axes : l'<strong>axe principal</strong> (main axis) défini par <code>flex-direction</code>, et l'<strong>axe secondaire</strong> (cross axis) qui lui est perpendiculaire. La propriété <code>justify-content</code> agit sur l'axe principal, tandis que <code>align-items</code> opère sur l'axe secondaire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 FLEX-DIRECTION ══ -->
+    <div id="f-direction">
+      <div class="section-header"><span class="section-num">03</span><h2>flex-direction — changer la direction</h2></div>
+      <p><code>flex-direction</code> détermine la direction de l'axe principal. C'est la propriété fondamentale qui définit si les éléments s'alignent en ligne (horizontalement) ou en colonne (verticalement). Les valeurs <code>row-reverse</code> et <code>column-reverse</code> inversent l'ordre visuel des éléments. Combinée à <code>flex-wrap</code>, la direction définit le comportement responsive de base.</p>
+
+      <h3>Référence complète — <code>flex-direction</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>row</code></td><td>Valeur par défaut. Axe principal horizontal, de gauche à droite.</td><td>Barres de navigation, listes horizontales, boutons côte à côte.</td></tr>
+            <tr><td><code>row-reverse</code></td><td>Axe principal horizontal inversé, de droite à gauche.</td><td>Designs asymétriques, éléments alignés à droite.</td></tr>
+            <tr><td><code>column</code></td><td>Axe principal vertical, de haut en bas.</td><td>Contenu empilé, cartes en colonne, formulaires.</td></tr>
+            <tr><td><code>column-reverse</code></td><td>Axe principal vertical inversé, de bas en haut.</td><td>Chats (messages du bas vers le haut), menus verticaux inversés.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — flex-direction</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.row        { flex-direction: row; }
+.row-reverse{ flex-direction: row-reverse; }
+.column     { flex-direction: column; }
+.column-reverse { flex-direction: column-reverse; }</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 FLEX-WRAP ══ -->
+    <div id="f-wrap">
+      <div class="section-header"><span class="section-num">04</span><h2>flex-wrap & gap</h2></div>
+      <p><code>flex-wrap</code> autorise le retour à la ligne des éléments flexibles. Sans cette propriété (valeur par défaut <code>nowrap</code>), les éléments rétrécissent pour tenir sur une seule ligne, ce qui peut produire des contenus illisibles. <code>flex-wrap: wrap</code> est la base du responsive design avec Flexbox : lorsque les éléments n'ont plus assez d'espace, ils passent automatiquement à la ligne suivante. La propriété <code>flex-flow</code> est un raccourci pour <code>flex-direction</code> et <code>flex-wrap</code>.</p>
+
+      <h3>Référence complète — <code>flex-wrap</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>nowrap</code></td><td>Valeur par défaut. Tous les éléments tiennent sur une ligne. Ils rétrécissent si nécessaire.</td><td>Barres de navigation, lignes de boutons qui ne doivent pas passer à la ligne.</td></tr>
+            <tr><td><code>wrap</code></td><td>Les éléments passent à la ligne suivante quand l'espace est insuffisant.</td><td>Grilles de cartes, galeries responsives, listes d'icônes.</td></tr>
+            <tr><td><code>wrap-reverse</code></td><td>Les éléments passent à la ligne en sens inverse (lignes de bas en haut).</td><td>Layouts inversés, designs non standard.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — flex-wrap</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.nowrap  { flex-wrap: nowrap; }
+.wrap    { flex-wrap: wrap; }
+.wrap-rev{ flex-wrap: wrap-reverse; }
+
+.flex-flow { flex-flow: row wrap; }</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 JUSTIFY-CONTENT ══ -->
+    <div id="f-justify">
+      <div class="section-header"><span class="section-num">05</span><h2>justify-content — alignement principal</h2></div>
+      <p><code>justify-content</code> distribue l'espace disponible le long de l'axe principal. C'est la propriété clé pour espacer, centrer ou répartir les éléments sur la ligne. La combinaison <code>display: flex; justify-content: center; align-items: center;</code> permet de centrer parfaitement tout élément, horizontalement et verticalement, à l'intérieur de son conteneur — une opération notoirement difficile avant Flexbox.</p>
+
+      <h3>Référence complète — <code>justify-content</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>flex-start</code></td><td>Valeur par défaut. Éléments alignés au début de l'axe principal.</td><td>Alignement standard à gauche (row) ou en haut (column).</td></tr>
+            <tr><td><code>flex-end</code></td><td>Éléments alignés à la fin de l'axe principal.</td><td>Alignement à droite ou en bas.</td></tr>
+            <tr><td><code>center</code></td><td>Éléments centrés sur l'axe principal.</td><td>Centrage horizontal de boutons, navigation centrée.</td></tr>
+            <tr><td><code>space-between</code></td><td>Premier élément au début, dernier à la fin, espace égal entre les autres.</td><td>Barre de navigation avec logo à gauche et liens à droite.</td></tr>
+            <tr><td><code>space-around</code></td><td>Espace égal autour de chaque élément (les extrémités ont la moitié de l'espace).</td><td>Galeries avec espacement visuellement équilibré.</td></tr>
+            <tr><td><code>space-evenly</code></td><td>Espace strictement égal entre tous les éléments (y compris les extrémités).</td><td>Distribution mathématiquement parfaite.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — justify-content</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.flex-start    { justify-content: flex-start; }
+.flex-end      { justify-content: flex-end; }
+.center        { justify-content: center; }
+.space-between { justify-content: space-between; }
+.space-around  { justify-content: space-around; }
+.space-evenly  { justify-content: space-evenly; }</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Centrage parfait</div>
+          <p>La combinaison <code>display: flex; justify-content: center; align-items: center;</code> permet de centrer parfaitement tout élément, horizontalement et verticalement, à l'intérieur de son conteneur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 ALIGN-ITEMS ══ -->
+    <div id="f-align">
+      <div class="section-header"><span class="section-num">06</span><h2>align-items — alignement secondaire</h2></div>
+      <p><code>align-items</code> détermine l'alignement des éléments sur l'axe secondaire (perpendiculaire à l'axe principal). <code>align-content</code> (différent) distribue l'espace entre les lignes lorsqu'il y a plusieurs lignes (nécessite <code>flex-wrap: wrap</code>). <code>align-self</code> permet de surcharger la valeur pour un élément individuel.</p>
+
+      <h3>Référence complète — <code>align-items</code>, <code>align-content</code>, <code>align-self</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>align-items</code></td><td><code>stretch</code></td><td>Valeur par défaut. Les éléments s'étirent pour remplir la hauteur du conteneur.</td><td>Colonnes de hauteur égale.</td></tr>
+            <tr><td><code>align-items</code></td><td><code>flex-start</code></td><td>Éléments alignés en haut de l'axe secondaire.</td><td>Aligner le contenu en haut.</td></tr>
+            <tr><td><code>align-items</code></td><td><code>flex-end</code></td><td>Éléments alignés en bas de l'axe secondaire.</td><td>Aligner le contenu en bas.</td></tr>
+            <tr><td><code>align-items</code></td><td><code>center</code></td><td>Éléments centrés sur l'axe secondaire.</td><td>Centrage vertical.</td></tr>
+            <tr><td><code>align-items</code></td><td><code>baseline</code></td><td>Éléments alignés sur la ligne de base du texte.</td><td>Aligner du texte de tailles différentes.</td></tr>
+            <tr><td><code>align-content</code></td><td><code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>, <code>stretch</code></td><td>Distribue l'espace entre les lignes (multi-lignes uniquement).</td><td>Grilles flexibles avec plusieurs rangées.</td></tr>
+            <tr><td><code>align-self</code></td><td><code>auto</code>, <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>baseline</code>, <code>stretch</code></td><td>Surcharge <code>align-items</code> pour un élément spécifique.</td><td>Un élément particulier doit avoir un alignement différent.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — align-items</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.stretch   { align-items: stretch; }
+.flex-start{align-items: flex-start; }
+.flex-end  { align-items: flex-end; }
+.center    { align-items: center; }
+.baseline  { align-items: baseline; }</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 FLEX-GROW/SHRINK/BASIS ══ -->
+    <div id="f-grow">
+      <div class="section-header"><span class="section-num">07</span><h2>flex-grow, flex-shrink, flex-basis</h2></div>
+      <p><code>flex-grow</code> régit la capacité d'agrandissement d'un élément, <code>flex-shrink</code> gère son rétrécissement, et <code>flex-basis</code> détermine sa taille initiale avant répartition de l'espace. La propriété raccourcie <code>flex</code> combine les trois : <code>flex: 1</code> équivaut à <code>flex-grow: 1; flex-shrink: 1; flex-basis: 0</code> (l'élément peut s'agrandir et se rétrécir librement). <code>flex: auto</code> équivaut à <code>1 1 auto</code> (taille de base = contenu). <code>flex: none</code> équivaut à <code>0 0 auto</code> (taille fixe).</p>
+
+      <h3>Référence complète — <code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Valeurs</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>flex-grow</code></td><td><code>0</code> (défaut) à N</td><td>Facteur d'agrandissement. 0 = l'élément ne s'agrandit pas. 1+ = part de l'espace disponible.</td><td>Distribuer l'espace restant : sidebar fixe (0), contenu flexible (1).</td></tr>
+            <tr><td><code>flex-shrink</code></td><td><code>1</code> (défaut) à N</td><td>Facteur de rétrécissement. 0 = l'élément ne rétrécit pas. 1+ = proportion de réduction.</td><td>Empêcher un élément de rétrécir (0) : icônes, avatars, tags.</td></tr>
+            <tr><td><code>flex-basis</code></td><td><code>auto</code> (défaut), length, percentage</td><td>Taille initiale avant distribution de l'espace. <code>auto</code> = taille du contenu.</td><td>Définir une largeur de base : sidebar de 250px, colonne de 30%.</td></tr>
+            <tr><td><code>flex: 1</code></td><td><code>1 1 0</code></td><td>Peut s'agrandir et rétrécir. Taille initiale 0 (toute la place disponible).</td><td>Contenu principal flexible, colonnes égales.</td></tr>
+            <tr><td><code>flex: auto</code></td><td><code>1 1 auto</code></td><td>Peut s'agrandir et rétrécir. Taille initiale basée sur le contenu.</td><td>Éléments qui grandissent mais respectent leur contenu.</td></tr>
+            <tr><td><code>flex: none</code></td><td><code>0 0 auto</code></td><td>Taille fixe basée sur le contenu. Ne s'agrandit ni ne rétrécit.</td><td>Éléments qui doivent conserver leur taille exacte.</td></tr>
+            <tr><td><code>flex: 0 0 250px</code></td><td><code>0 0 250px</code></td><td>Taille fixe de 250px. Ni agrandissement ni rétrécissement.</td><td>Sidebar, panneau latéral de largeur fixe.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Flex grow/shrink/basis</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.grow-0 { flex-grow: 0; }
+.grow-1 { flex-grow: 1; }
+.grow-2 { flex-grow: 2; }
+
+.shrink-0 { flex-shrink: 0; }
+
+.basis-200 { flex-basis: 200px; }
+.basis-auto { flex-basis: auto; }
+.basis-30  { flex-basis: 30%; }
+
+.flex-1   { flex: 1; }
+.flex-auto { flex: auto; }
+.flex-none { flex: none; }
+
+.sidebar     { flex: 0 0 250px; }
+.main-content { flex: 1; }</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <iframe class="code-preview-iframe" srcdoc="<html><head><style>body{font-family:Georgia,serif;font-size:15px;line-height:1.7;background:#fafafa;color:#1a1a2e;margin:12px;}</style></head><body><div style=&quot;display:flex;gap:8px;background:#e8f4f8;padding:8px;border-radius:4px;&quot;><div style=&quot;flex:1;background:#3498db;color:white;padding:8px;border-radius:3px;text-align:center;&quot;>flex:1</div><div style=&quot;flex:2;background:#e74c3c;color:white;padding:8px;border-radius:3px;text-align:center;&quot;>flex:2</div><div style=&quot;flex:1;background:#2ecc71;color:white;padding:8px;border-radius:3px;text-align:center;&quot;>flex:1</div></div></body></html>"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ALIGN-SELF & ORDER ══ -->
+    <div id="f-order">
+      <div class="section-header"><span class="section-num">08</span><h2>align-self et order</h2></div>
+      <p><code>order</code> modifie l'ordre d'affichage visuel des éléments. Tous les éléments ont un <code>order</code> par défaut de 0. Les éléments sont affichés du plus petit au plus grand <code>order</code>. <code>align-self</code> permet de surcharger la valeur de <code>align-items</code> pour un élément spécifique, permettant à un élément d'avoir un alignement différent des autres. Attention : <code>order</code> modifie l'ordre <strong>visuel</strong> mais pas l'ordre <strong>DOM</strong>. Les lecteurs d'écran suivent l'ordre du document HTML. Il est déconseillé d'utiliser <code>order</code> pour modifier l'ordre logique de lecture.</p>
+
+      <h3>Référence complète — <code>order</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>0</code> (défaut)</td><td>Ordre neutre. L'élément apparaît dans l'ordre du DOM.</td><td>Comportement standard.</td></tr>
+            <tr><td><code>-1</code>, <code>-2</code></td><td>Ordre avant les éléments par défaut.</td><td>Faire passer un élément en premier visuellement.</td></tr>
+            <tr><td><code>1</code>, <code>2</code>...</td><td>Ordre après les éléments par défaut.</td><td>Déplacer un élément en fin de ligne.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — align-self & order</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.item-1 { order: 3; }
+.item-2 { order: 1; }
+.item-3 { order: 2; }
+
+.self-start   { align-self: flex-start; }
+.self-end     { align-self: flex-end; }
+.self-center  { align-self: center; }
+.self-stretch { align-self: stretch; }</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">order et l'accessibilité</div>
+          <p>La propriété <code>order</code> modifie l'ordre <strong>visuel</strong> mais pas l'ordre <strong>DOM</strong>. Les lecteurs d'écran suivent l'ordre du document HTML. Il est déconseillé d'utiliser <code>order</code> pour modifier l'ordre logique de lecture.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 GAP ══ -->
+    <div id="f-gap">
+      <div class="section-header"><span class="section-num">09</span><h2>Gap — espacement entre les items</h2></div>
+      <p><code>gap</code> introduit un espacement uniforme entre les éléments flexibles, sans appliquer de marge aux extrémités du conteneur. Les propriétés <code>row-gap</code> et <code>column-gap</code> permettent de différencier l'espacement vertical et horizontal. <code>gap</code> résout le problème des marges qui s'additionnent ou se chevauchent entre éléments flexibles, et simplifie considérablement le code par rapport à l'utilisation de marges individuelles.</p>
+
+      <h3>Référence complète — <code>gap</code>, <code>row-gap</code>, <code>column-gap</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>gap: size</code></td><td>Espacement identique entre les lignes et les colonnes.</td><td>Espacement uniforme dans une grille ou flex.</td></tr>
+            <tr><td><code>row-gap: size</code></td><td>Espacement vertical entre les lignes.</td><td>Espacement vertical différent de l'horizontal.</td></tr>
+            <tr><td><code>column-gap: size</code></td><td>Espacement horizontal entre les colonnes.</td><td>Espacement horizontal différent du vertical.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Gap</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.gap-small  { gap: 4px; }
+.gap-medium { gap: 1rem; }
+.gap-large  { gap: 2rem; }
+
+.gap-custom {
+  row-gap: 16px;
+  column-gap: 24px;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 PROJET ══ -->
+    <div id="f-project">
+      <div class="section-header"><span class="section-num">10</span><h2>Projet : Jeu de Cartes</h2></div>
+      <p>Créez un jeu de cartes adaptatif (responsive) avec Flexbox. Les cartes doivent s'afficher en ligne et passer en colonne sur les écrans de petite taille. Utilisez <code>flex-wrap: wrap</code> pour le responsive sans media queries.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Jeu de cartes</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.card {
+  flex: 1 1 250px;
+  max-width: 300px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(0,0,0,.14);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1.25rem;
+}
+
+.card-tag {
+  align-self: flex-start;
+  background: #e8f4f8;
+  color: #2c7a7b;
+  padding: .25rem .75rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+}</div>
+        </div>
+      </div>
+
+      <ol class="exercise-list">
+        <li>Créez un conteneur <code>.card-deck</code> avec <code>display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;</code>.</li>
+        <li>Ajoutez 3 à 6 cartes avec une classe <code>.card</code> ayant <code>flex: 1 1 280px; max-width: 320px;</code>.</li>
+        <li>Ajoutez un tag avec <code>align-self: flex-start</code> pour qu'il ne s'étire pas.</li>
+        <li>Utilisez <code>flex-direction: column</code> sur le corps de la carte (<code>.card-body</code>).</li>
+        <li>Testez le responsive : les cartes passent automatiquement à la ligne.</li>
+      </ol>
+    </div>
+
+    <!-- ══ 11 EXERCICES ══ -->
+    <div id="f-exo">
+      <div class="section-header"><span class="section-num">11</span><h2>Exercices</h2></div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">Navigation responsive</span>
+        </div>
+        <div class="exercise-body">
+          <p>Créez une barre de navigation avec <code>display: flex</code> qui passe de ligne à colonne sur mobile.</p>
+          <ol>
+            <li>Utilisez <code>display: flex; justify-content: space-between; align-items: center;</code></li>
+            <li>Le logo est à gauche, les liens à droite</li>
+            <li>Sur mobile (&lt; 768px), utilisez <code>flex-direction: column</code> ou <code>flex-wrap: wrap</code></li>
+            <li>Ajoutez un espacement avec <code>gap: 1rem</code></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">Centrage absolu</span>
+        </div>
+        <div class="exercise-body">
+          <p>Centrez parfaitement un élément dans son parent (horizontalement et verticalement) en 3 lignes de CSS.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn">COPIER</button>
+            </div>
+            <div class="code-body">
+              <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">Barre de progression</span>
+        </div>
+        <div class="exercise-body">
+          <p>Créez une barre de progression avec Flexbox où la partie remplie utilise <code>flex</code> pour s'adapter au pourcentage.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+              <span class="code-lang">HTML</span>
+              <button class="copy-btn">COPIER</button>
+            </div>
+            <div class="code-body">
+              <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="html"><div class="progress-bar">
+  <div class="progress-fill" style="flex: 0 0 70%;"></div>
+</div></div>
+            </div>
+          </div>
+          <p>Style : <code>display: flex; height: 1rem; border-radius: 999px; overflow: hidden;</code>.</p>
+        </div>
+      </div>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📁</div>
+        <div class="callout-body">
+          <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+          <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+          <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Utilisez Flexbox pour la barre de navigation principale et pour la section des compétences (affichage en rangée avec retour à la ligne).</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Obtenir une navigation et une grille de compétences flexibles et adaptatives.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 12 BILAN & GLOSSAIRE ══ -->
+    <div id="f-bilan">
+      <div class="section-header"><span class="section-num">12</span><h2>Bilan & glossaire</h2></div>
+
+      <h3>Points-clés à retenir</h3>
+      <ul class="checklist">
+        <li>Flexbox est unidimensionnel : ligne OU colonne, pas les deux.</li>
+        <li><code>display: flex</code> sur le parent active Flexbox.</li>
+        <li><code>justify-content</code> pour l'axe principal, <code>align-items</code> pour l'axe secondaire.</li>
+        <li><code>flex-wrap: wrap</code> permet le responsive sans media queries.</li>
+        <li><code>flex</code> est le raccourci de <code>flex-grow flex-shrink flex-basis</code>.</li>
+        <li><code>gap</code> remplace les marges pour espacer les items.</li>
+        <li><code>order</code> change l'ordre visuel, pas l'ordre DOM.</li>
+      </ul>
+
+      <div class="glossary">
+        <dl>
+          <dt>Flex container</dt><dd>Élément parent avec <code>display: flex</code>. Ses enfants directs deviennent des éléments flexibles.</dd>
+          <dt>Flex item</dt><dd>Enfant direct d'un conteneur flex. Peut être redimensionné, réordonné et aligné automatiquement.</dd>
+          <dt>Main axis / Cross axis</dt><dd>Axe principal défini par <code>flex-direction</code>. L'axe secondaire est perpendiculaire.</dd>
+          <dt>flex-grow</dt><dd>Capacité d'un item à s'agrandir si de l'espace est disponible. Valeur par défaut : 0.</dd>
+          <dt>flex-shrink</dt><dd>Capacité d'un item à rétrécir si l'espace manque. Valeur par défaut : 1.</dd>
+          <dt>flex-basis</dt><dd>Taille initiale d'un item avant répartition de l'espace. Par défaut : <code>auto</code>.</dd>
+          <dt>order</dt><dd>Modifie l'ordre visuel des items. Valeur par défaut : 0.</dd>
+          <dt>justify-content</dt><dd>Distribue l'espace sur l'axe principal.</dd>
+          <dt>align-items</dt><dd>Aligne les items sur l'axe secondaire.</dd>
+          <dt>align-self</dt><dd>Surcharge <code>align-items</code> pour un item spécifique.</dd>
+          <dt>gap / row-gap / column-gap</dt><dd>Espacement entre les items flexibles.</dd>
+          <dt>flex-flow</dt><dd>Raccourci pour <code>flex-direction</code> et <code>flex-wrap</code>.</dd>
+        </dl>
+      </div>
+
+      <!-- Quiz -->
+      <div class="quiz" data-session="flexbox">
+        <div class="quiz-title">Quiz — Flexbox</div>
+        <div class="quiz-questions"></div>
+        <button class="quiz-submit">Vérifier</button>
+        <div class="quiz-score"></div>
+      </div>
+
+    </div><!-- /f-bilan -->
+
+    <!-- FOOTER -->
+    <div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+      <a href="box-model.html" style="display:flex;align-items:center;gap:.5rem;color:var(--teal);font-family:'Syne',sans-serif;font-weight:600;">← Box Model</a>
+      <a href="../../index.html" style="display:flex;align-items:center;gap:.5rem;color:var(--text2);font-family:'Syne',sans-serif;font-size:.9rem;">Retour à l'accueil</a>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

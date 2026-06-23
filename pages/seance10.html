@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 10 — SEO &amp; Accessibilité · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--green); background:var(--green-dim); border-color:rgba(52,211,153,.25); }
+    .section-header    { border-bottom-color:rgba(52,211,153,.2); }
+    h3                 { color:var(--green); }
+    .sidebar-item.active { color:var(--green); border-left-color:var(--green); background:var(--green-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html" class="active">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label" style="color:var(--green);">Séance 10</div>
+      <a href="#s10-meta" class="sidebar-item"><span class="sidebar-num">01</span>Meta SEO</a>
+      <a href="#s10-og" class="sidebar-item"><span class="sidebar-num">02</span>Open Graph</a>
+      <a href="#s10-twitter" class="sidebar-item"><span class="sidebar-num">03</span>Twitter Cards</a>
+      <a href="#s10-jsonld" class="sidebar-item"><span class="sidebar-num">04</span>JSON-LD</a>
+      <a href="#s10-aria" class="sidebar-item"><span class="sidebar-num">05</span>ARIA roles</a>
+      <a href="#s10-wcag" class="sidebar-item"><span class="sidebar-num">06</span>WCAG</a>
+      <a href="#s10-screen" class="sidebar-item"><span class="sidebar-num">07</span>Lecteurs d'écran</a>
+      <a href="#s10-lighthouse" class="sidebar-item"><span class="sidebar-num">08</span>Lighthouse</a>
+      <a href="#s10-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s10-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance9.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">← Séance 9</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s3">
+      <div class="session-badge s3">Séance 10 / 10</div>
+      <h1>SEO &amp; Accessibilité</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Meta SEO • Open Graph • Twitter Cards • JSON-LD • ARIA • WCAG • Lecteurs d'écran • Lighthouse</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 META SEO ══ -->
+    <div id="s10-meta">
+      <div class="section-header"><span class="section-num">01</span><h2>Meta tags pour le SEO</h2></div>
+      <p>Le SEO (Search Engine Optimization) commence dans le <code>&lt;head&gt;</code>. Les balises <code>&lt;meta&gt;</code> donnent aux moteurs de recherche les informations essentielles sur votre page.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Meta SEO</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport"
+    content="width=device-width, initial-scale=1.0"&gt;
+
+  &lt;!-- Titre : 50-60 caractères --&gt;
+  &lt;title&gt;Cours HTML Complet - Apprenez le HTML5
+    | Mon Site&lt;/title&gt;
+
+  &lt;!-- Description : 150-160 caractères --&gt;
+  &lt;meta name="description"
+    content="Apprenez le HTML5 de zéro. Cours
+    complet avec exercices, exemples et
+    projets pratiques pour débutants."&gt;
+
+  &lt;!-- Indexation --&gt;
+  &lt;meta name="robots"
+    content="index, follow"&gt;
+
+  &lt;!-- Auteur --&gt;
+  &lt;meta name="author"
+    content="Jean Dupont"&gt;
+&lt;/head&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:.75em;font-family:Arial,sans-serif;">
+              <div style="color:#1a0aab;font-size:1.1em;font-weight:400;margin-bottom:.1em;">Cours HTML Complet - Apprenez le HTML5 | Mon Site</div>
+              <div style="color:#006621;font-size:.85em;margin-bottom:.2em;">https://monsite.com/</div>
+              <div style="color:#545454;font-size:.85em;">Apprenez le HTML5 de zéro. Cours complet avec exercices, exemples et projets pratiques pour débutants.</div>
+            </div>
+            <p style="font-family:Arial,sans-serif;font-size:.75rem;color:#888;margin-top:.3em;">Aperçu de votre site dans Google — le titre et la description sont ce que voient les utilisateurs.</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Meta</th><th>Rôle SEO</th></tr></thead>
+          <tbody>
+            <tr><td><code>title</code></td><td>Titre cliquable dans Google. 50-60 car. Mot-clé principal en premier.</td></tr>
+            <tr><td><code>description</code></td><td>Texte sous le titre dans Google. 150-160 car. Donne envie de cliquer.</td></tr>
+            <tr><td><code>robots</code></td><td><code>index</code> = page dans Google. <code>follow</code> = suivre les liens. <code>noindex</code> = exclure.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 02 OPEN GRAPH ══ -->
+    <div id="s10-og">
+      <div class="section-header"><span class="section-num">02</span><h2>Open Graph (Facebook, LinkedIn)</h2></div>
+      <p>Le protocole <strong>Open Graph</strong> (OG) contrôle l'apparence de votre page quand elle est partagée sur Facebook, LinkedIn, Pinterest, etc. Sans OG, le réseau social choisit une image au hasard.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Open Graph</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;meta property="og:title"
+    content="Cours HTML Complet"&gt;
+  &lt;meta property="og:description"
+    content="Apprenez le HTML5 de zéro."&gt;
+  &lt;meta property="og:image"
+    content="https://monsite.com/
+    images/og-html-cours.jpg"&gt;
+  &lt;meta property="og:url"
+    content="https://monsite.com/"&gt;
+  &lt;meta property="og:type"
+    content="website"&gt;
+  &lt;meta property="og:locale"
+    content="fr_FR"&gt;
+  &lt;meta property="og:site_name"
+    content="Mon Site"&gt;
+&lt;/head&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <div style="border:1px solid #ddd;border-radius:8px;overflow:hidden;max-width:400px;font-family:Arial,sans-serif;">
+              <div style="background:#e8e8e8;height:120px;display:flex;align-items:center;justify-content:center;color:#999;font-size:.85em;">📷 og:image (1200×630 px)</div>
+              <div style="padding:.5em .75em;">
+                <div style="font-size:.7rem;color:#888;text-transform:uppercase;">monsite.com</div>
+                <div style="font-weight:700;font-size:.95rem;margin:.1em 0;">Cours HTML Complet</div>
+                <div style="font-size:.8rem;color:#555;">Apprenez le HTML5 de zéro.</div>
+              </div>
+            </div>
+            <p style="font-family:Arial,sans-serif;font-size:.75rem;color:#888;margin-top:.3em;">Aperçu du partage sur Facebook/LinkedIn.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Taille recommandée pour og:image</div>
+          <p>L'image doit faire au moins 1200×630 pixels, moins de 8 Mo. Utilisez le validateur officiel : <strong>developers.facebook.com/tools/debug</strong> pour tester l'affichage.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 TWITTER CARDS ══ -->
+    <div id="s10-twitter">
+      <div class="section-header"><span class="section-num">03</span><h2>Twitter Cards</h2></div>
+      <p>Les <strong>Twitter Cards</strong> fonctionnent comme Open Graph mais pour X (Twitter). Deux types principaux : <code>summary</code> (titre+description+image) et <code>summary_large_image</code> (image en grand).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Twitter Cards</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;head&gt;
+  &lt;meta name="twitter:card"
+    content="summary_large_image"&gt;
+  &lt;meta name="twitter:site"
+    content="@monsite"&gt;
+  &lt;meta name="twitter:title"
+    content="Cours HTML Complet"&gt;
+  &lt;meta name="twitter:description"
+    content="Apprenez le HTML5 de zéro."&gt;
+  &lt;meta name="twitter:image"
+    content="https://monsite.com/
+    images/twitter-card.jpg"&gt;
+&lt;/head&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <div style="border:1px solid #ddd;border-radius:12px;overflow:hidden;max-width:400px;font-family:Arial,sans-serif;">
+              <div style="background:#e8e8e8;height:160px;display:flex;align-items:center;justify-content:center;color:#999;font-size:.85em;">📷 twitter:image (summary_large_image)</div>
+              <div style="padding:.5em .75em .75em;">
+                <div style="font-weight:700;font-size:.9rem;">Cours HTML Complet</div>
+                <div style="font-size:.8rem;color:#555;">Apprenez le HTML5 de zéro.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">OG et Twitter : les deux sont nécessaires</div>
+          <p>Facebook/LinkedIn lisent les balises <code>og:</code>. Twitter/X lit <code>twitter:</code>. Pour être compatible partout, incluez les deux ensembles. Twitter utilise aussi <code>og:title</code> si <code>twitter:title</code> manque.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 JSON-LD ══ -->
+    <div id="s10-jsonld">
+      <div class="section-header"><span class="section-num">04</span><h2>JSON-LD &amp; Schema.org</h2></div>
+      <p><strong>JSON-LD</strong> (JavaScript Object Notation for Linked Data) est le format recommandé par Google pour les données structurées. Il permet aux moteurs de recherche d'afficher des <strong>rich snippets</strong> : étoiles, prix, recettes, FAQ.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — JSON-LD</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Cours HTML Complet",
+  "description": "Apprenez le HTML5 de zéro.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Mon Site"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Jean Dupont"
+  }
+}
+&lt;/script&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p style="font-family:Arial,sans-serif;font-size:.85rem;color:#555;">Les données JSON-LD sont invisibles dans le navigateur mais lisibles par Google. Elles peuvent générer des résultats enrichis dans les SERP.</p>
+            <p style="font-family:Arial,sans-serif;font-size:.8rem;color:#888;">Testez vos données structurées avec : <strong>search.google.com/test/rich-results</strong></p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Types Schema.org courants</div>
+          <p><code>Article</code>, <code>Course</code>, <code>Product</code>, <code>Recipe</code>, <code>FAQPage</code>, <code>Event</code>, <code>LocalBusiness</code>. Chaque type a des propriétés spécifiques. Consultez schema.org pour la liste complète.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 ARIA ══ -->
+    <div id="s10-aria">
+      <div class="section-header"><span class="section-num">05</span><h2>ARIA : rôles &amp; attributs</h2></div>
+      <p><strong>ARIA</strong> (Accessible Rich Internet Applications) améliore l'accessibilité quand le HTML sémantique ne suffit pas. Règle d'or : <strong>pas d'ARIA si le HTML natif fait le travail</strong>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — ARIA</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Rôle explicite (quand le HTML sémantique
+     ne suffit pas) --&gt;
+&lt;div role="navigation" aria-label="Menu principal"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="/"&gt;Accueil&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- aria-label : alternative au label invisible --&gt;
+&lt;button aria-label="Fermer"&gt;×&lt;/button&gt;
+
+&lt;!-- aria-hidden : cacher un élément décoratif --&gt;
+&lt;span aria-hidden="true"&gt;★&lt;/span&gt;
+
+&lt;!-- aria-describedby : description liée --&gt;
+&lt;input type="text" aria-describedby="aide-nom"&gt;
+&lt;p id="aide-nom"&gt;Saisissez votre nom complet.&lt;/p&gt;
+
+&lt;!-- aria-expanded : état d'un menu déroulant --&gt;
+&lt;button aria-expanded="false"
+  aria-controls="menu-deroulant"&gt;
+  Menu
+&lt;/button&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p style="font-family:Arial,sans-serif;font-size:.85rem;color:#555;">Les attributs ARIA ne changent pas le rendu visuel — ils aident les technologies d'assistance.</p>
+            <p><button aria-label="Fermer" style="border:1px solid #ccc;background:#fff;border-radius:4px;padding:.2em .5em;cursor:pointer;font-size:1.2em;">×</button> ← <code>aria-label="Fermer"</code></p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut ARIA</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>aria-label</code></td><td>Texte alternatif pour un élément sans label visible.</td></tr>
+            <tr><td><code>aria-labelledby</code></td><td>Référence l'id d'un élément qui sert de label.</td></tr>
+            <tr><td><code>aria-describedby</code></td><td>Référence l'id d'une description complémentaire.</td></tr>
+            <tr><td><code>aria-hidden</code></td><td>Cache un élément aux lecteurs d'écran (décoratif).</td></tr>
+            <tr><td><code>aria-expanded</code></td><td>Indique si un élément est déplié (true/false).</td></tr>
+            <tr><td><code>aria-controls</code></td><td>Indique quel élément est contrôlé (accordéon, menu).</td></tr>
+            <tr><td><code>role</code></td><td>Définit le rôle d'un élément (navigation, button, dialog).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle : pas d'ARIA inutile</div>
+          <p>N'ajoutez pas <code>role="navigation"</code> sur un <code>&lt;nav&gt;</code> — c'est déjà implicite. N'ajoutez pas <code>role="button"</code> sur un <code>&lt;button&gt;</code>. Utilisez ARIA uniquement quand le HTML natif est insuffisant.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 WCAG ══ -->
+    <div id="s10-wcag">
+      <div class="section-header"><span class="section-num">06</span><h2>WCAG — Règles d'accessibilité</h2></div>
+      <p>Les <strong>WCAG</strong> (Web Content Accessibility Guidelines) sont le standard international d'accessibilité web. Les principes clés pour le HTML : contraste suffisant, navigation au clavier, alternatives textuelles.</p>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">🎨 Contraste</h3>
+          <p style="font-size:.9rem;">Le texte doit avoir un contraste minimum de <strong>4.5:1</strong> avec son fond (3:1 pour les grands textes). Les outils comme WebAIM Contrast Checker vérifient cela.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">⌨️ Clavier</h3>
+          <p style="font-size:.9rem;">Toutes les fonctionnalités doivent être accessibles au clavier (Tab, Enter, Escape). Un focus visible (outline) est obligatoire — ne faites pas <code>outline: none</code> sans le remplacer.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">🖼️ Alt</h3>
+          <p style="font-size:.9rem;">Toute image doit avoir un <code>alt</code> pertinent. <code>alt=""</code> pour les images décoratives. Jamais de <code>alt="image"</code> ou <code>alt="photo.jpg"</code>.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">📝 Sémantique</h3>
+          <p style="font-size:.9rem;">Utilisez les balises pour leur sens, pas leur style. Un <code>&lt;h1&gt;</code> doit être un vrai titre, pas du texte en grand. Les lecteurs d'écran naviguent par titres.</p>
+        </div>
+      </div>
+      <div class="compare">
+        <div class="compare-card good">
+          <div class="compare-label">✅ Accessible</div>
+          <p style="font-size:.85rem;">Titres hiérarchisés · alt descriptifs · navigation au clavier · contrastes suffisants · labels sur tous les champs.</p>
+        </div>
+        <div class="compare-card bad">
+          <div class="compare-label">❌ Non accessible</div>
+          <p style="font-size:.85rem;">Images sans alt · titres manquants · focus invisible · contrastes insuffisants · champs sans label.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 LECTEURS D'ÉCRAN ══ -->
+    <div id="s10-screen">
+      <div class="section-header"><span class="section-num">07</span><h2>Lecteurs d'écran</h2></div>
+      <p>Les <strong>lecteurs d'écran</strong> (NVDA, JAWS, VoiceOver) transforment le contenu visuel en synthèse vocale. Comprendre comment ils fonctionnent est essentiel pour produire un HTML accessible.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Testez avec NVDA (gratuit)</div>
+          <p><strong>NVDA</strong> (NonVisual Desktop Access) est un lecteur d'écran gratuit pour Windows. Téléchargez-le et naviguez sur votre site les yeux fermés pour comprendre l'expérience utilisateur.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Raccourci NVDA</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>H</kbd></td><td>Naviguer entre les titres (h1→h6)</td></tr>
+            <tr><td><kbd>B</kbd></td><td>Naviguer entre les boutons</td></tr>
+            <tr><td><kbd>F</kbd></td><td>Naviguer entre les formulaires</td></tr>
+            <tr><td><kbd>L</kbd></td><td>Naviguer entre les listes</td></tr>
+            <tr><td><kbd>T</kbd></td><td>Naviguer entre les tableaux</td></tr>
+            <tr><td><kbd>D</kbd></td><td>Naviguer entre les landmarks (ARIA)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 08 LIGHTHOUSE ══ -->
+    <div id="s10-lighthouse">
+      <div class="section-header"><span class="section-num">08</span><h2>Outils d'audit : Lighthouse</h2></div>
+      <p><strong>Lighthouse</strong> est un outil Google intégré à Chrome qui analyse une page web et donne des scores sur 100 pour : Performance, Accessibilité, SEO, Best Practices et PWA.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Lancer un audit</div>
+          <p>Dans Chrome : F12 → onglet "Lighthouse" (ou "Audits") → cliquer sur "Analyser le chargement de la page". Après quelques secondes, vous obtenez un rapport détaillé avec des conseils d'amélioration pour chaque catégorie.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--blue);">🚀 Performance</h3>
+          <p style="font-size:.9rem;">Temps de chargement, images optimisées, JavaScript différé. Un bon score = site rapide = meilleur SEO.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--green);">♿ Accessibilité</h3>
+          <p style="font-size:.9rem;">Contraste, labels, ARIA, structure sémantique. 100% est l'objectif pour un site inclusif.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--amber);">🔍 SEO</h3>
+          <p style="font-size:.9rem;">Meta tags, title, description, balises d'en-tête, données structurées, robots.txt, sitemap.</p>
+        </div>
+        <div class="grid-card">
+          <h3 style="margin-top:0;color:var(--purple);">✅ Best Practices</h3>
+          <p style="font-size:.9rem;">HTTPS, requêtes sécurisées, doctype valide, console sans erreur, images dimensionnées.</p>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Objectif : 90+ partout</div>
+          <p>Visez un score d'au moins 90 dans chaque catégorie. Lighthouse vous donne des suggestions concrètes pour chaque point négatif. C'est le meilleur outil pour améliorer votre site étape par étape.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s10-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Audit SEO de votre page</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Prenez une page que vous avez créée dans les séances précédentes.</li>
+            <li>Vérifiez qu'elle a : un title optimisé (50-60 car.), une meta description (150-160 car.), un h1 unique.</li>
+            <li>Ajoutez les balises Open Graph (og:title, og:description, og:image, og:url).</li>
+            <li>Ajoutez les Twitter Cards (twitter:card, twitter:title, twitter:description, twitter:image).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔧 Audit Lighthouse</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ouvrez votre page dans Chrome.</li>
+            <li>F12 → onglet Lighthouse → "Analyser le chargement de la page".</li>
+            <li>Notez vos scores dans chaque catégorie.</li>
+            <li>Corrigez au moins 3 problèmes identifiés.</li>
+            <li>Relancez l'audit et comparez les scores.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Accessibilité</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Vérifiez que tous vos formulaires ont des <code>&lt;label&gt;</code> avec <code>for</code>.</li>
+            <li>Vérifiez que toutes vos images ont un <code>alt</code> pertinent.</li>
+            <li>Ajoutez <code>aria-label</code> aux boutons qui n'ont qu'une icône.</li>
+            <li>Vérifiez que la navigation au clavier (Tab) fonctionne correctement.</li>
+            <li>Testez avec le contraste : utilisez webaim.org/resources/contrastchecker.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="10">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s10-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; glossaire final</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Meta SEO : title, description, robots pour Google</li>
+        <li>Open Graph : og:title, og:description, og:image, og:url</li>
+        <li>Twitter Cards : summary et summary_large_image</li>
+        <li>JSON-LD : données structurées Schema.org</li>
+        <li>ARIA : rôles et attributs pour l'accessibilité</li>
+        <li>WCAG : contraste, clavier, alt, sémantique</li>
+        <li>Lecteurs d'écran : NVDA, navigation par titres/landmarks</li>
+        <li>Lighthouse : audit performance, accessibilité, SEO</li>
+      </ul>
+      <div class="highlight-box" style="margin-top:2rem;">
+        <h3>🎉 Félicitations ! Vous avez terminé le cours HTML</h3>
+        <p style="margin:.5rem 0 0;">Vous maîtrisez maintenant la syntaxe HTML, la sémantique, les formulaires, les tableaux, le multimédia, l'accessibilité et le SEO. Ces 10 séances vous donnent les bases solides pour aborder le CSS et le JavaScript. N'oubliez pas : le HTML est le squelette du web — tout le reste repose dessus.</p>
+      </div>
+      <h3 style="margin-top:2rem;">Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>SEO</dt><dd>Search Engine Optimization — optimisation pour les moteurs de recherche.</dd>
+          <dt>Open Graph</dt><dd>Protocole de balises meta pour contrôler l'affichage sur les réseaux sociaux.</dd>
+          <dt>Twitter Card</dt><dd>Balises meta pour l'affichage des liens sur X/Twitter.</dd>
+          <dt>JSON-LD</dt><dd>Format de données structurées recommandé par Google pour les rich snippets.</dd>
+          <dt>Schema.org</dt><dd>Vocabulaire standardisé pour décrire le contenu aux moteurs de recherche.</dd>
+          <dt>ARIA</dt><dd>Attributs HTML pour améliorer l'accessibilité des composants dynamiques.</dd>
+          <dt>WCAG</dt><dd>Règles internationales d'accessibilité web. Niveaux A, AA, AAA.</dd>
+          <dt>Lecteur d'écran</dt><dd>Logiciel qui lit le contenu à voix haute pour les personnes aveugles.</dd>
+          <dt>NVDA</dt><dd>Lecteur d'écran gratuit pour Windows. Standard pour les tests d'accessibilité.</dd>
+          <dt>Lighthouse</dt><dd>Outil d'audit Google intégré à Chrome. Mesure performance, a11y, SEO.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochain cours</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Cours CSS — Les styles</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Sélecteurs, couleurs, mise en page, Flexbox, Grid, responsive</div>
+        </div>
+        <a href="../index.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Retour à l'accueil</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

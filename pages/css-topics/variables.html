@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variables CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html" class="active">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Variables CSS</div>
+      <a href="#var-why"       class="sidebar-item"><span class="sidebar-num">01</span>Pourquoi des variables ?</a>
+      <a href="#var-declare"   class="sidebar-item"><span class="sidebar-num">02</span>Déclarer avec --nom</a>
+      <a href="#var-fallback"  class="sidebar-item"><span class="sidebar-num">03</span>var() avec fallback</a>
+      <a href="#var-scope"     class="sidebar-item"><span class="sidebar-num">04</span>Portée (scope)</a>
+      <a href="#var-cascade"   class="sidebar-item"><span class="sidebar-num">05</span>Cascade : initial/inherit/unset/revert</a>
+      <a href="#var-themes"    class="sidebar-item"><span class="sidebar-num">06</span>Thèmes (sombre/clair)</a>
+      <a href="#var-js"        class="sidebar-item"><span class="sidebar-num">07</span>Manipuler en JavaScript</a>
+      <a href="#var-exo"       class="sidebar-item"><span class="sidebar-num">08</span>Exercices</a>
+      <a href="#var-bilan"     class="sidebar-item"><span class="sidebar-num">09</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="animations.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Animations CSS →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Variables CSS</div>
+      <h1>Variables CSS</h1>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~1h30</span><span class="meta-tag">9 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 POURQUOI ══ -->
+    <div id="var-why">
+      <div class="section-header"><span class="section-num">01</span><h2>Pourquoi des variables CSS ?</h2></div>
+      <p>Les <strong>variables CSS</strong> (également appelées <em>Custom Properties</em>) sont des conteneurs de valeurs réutilisables dans l'ensemble de la feuille de style. Introduites en CSS3, elles permettent de centraliser les valeurs (couleurs, espacements, polices) et de les modifier dynamiquement, contrairement aux variables SASS ou LESS qui sont compilées une fois pour toutes et demeurent immuables au runtime.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🎨</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la peinture du salon</div>
+          <p>Sans variables, vous devez reproduire la même teinte pour chaque pot — un écart de dosage produirait des murs de couleurs différentes. Avec une variable, vous préparez un unique pot de peinture et l'utilisez sur l'ensemble des surfaces. Pour modifier toute la pièce, un seul pot est à changer.</p>
+        </div>
+      </div>
+
+      <h3>Avantages des variables CSS</h3>
+      <ul>
+        <li><strong>Réutilisabilité</strong> : une variable déclarée une fois peut être utilisée des centaines de fois</li>
+        <li><strong>Lisibilité</strong> : <code>var(--primary)</code> est plus parlant que <code>#2c3e50</code></li>
+        <li><strong>Thèmes dynamiques</strong> : changer toutes les couleurs en redéfinissant quelques variables</li>
+        <li><strong>Runtime</strong> : contrairement aux variables SASS, elles respectent la cascade et sont modifiables en JavaScript</li>
+      </ul>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Variables CSS vs préprocesseurs</div>
+          <p>Les <strong>variables CSS</strong> sont natives, dynamiques, et respectent la cascade et l'héritage. Les <strong>variables SASS ($var)</strong> sont compilées et immuables au runtime. Les variables CSS remplacent avantageusement les variables de préprocesseur pour la majorité des usages.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 DÉCLARER ══ -->
+    <div id="var-declare">
+      <div class="section-header"><span class="section-num">02</span><h2>Déclarer une variable avec --nom</h2></div>
+      <p>Une variable CSS se déclare à l'aide de deux tirets <code>--</code> suivis du nom choisi. La déclaration s'effectue dans une règle CSS, et la variable est accessible à l'ensemble des éléments descendants de ce sélecteur. La fonction <code>var()</code> permet de lire la valeur.</p>
+
+      <h3>Référence complète — <code>--custom-property</code> (conventions de nommage)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aspect</th><th>Recommandation</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td>Préfixe</td><td>Toujours commencer par <code>--</code></td><td><code>--primary</code></td></tr>
+            <tr><td>Casse</td><td>kebab-case (tirets) — le camelCase est déconseillé</td><td><code>--color-primary</code> ✓ / <code>--colorPrimary</code> ✗</td></tr>
+            <tr><td>Nom sémantique</td><td>Ce que la variable représente, pas son apparence</td><td><code>--color-primary</code> ✓ / <code>--blue</code> ✗ (si la couleur change)</td></tr>
+            <tr><td>Regroupement</td><td>Grouper par catégorie : couleurs, typographie, espacements, ombres</td><td><code>--color-*</code>, <code>--font-*</code>, <code>--spacing-*</code></td></tr>
+            <tr><td>Portée</td><td>Déclarer dans <code>:root</code> pour une portée globale</td><td><code>:root { --primary: #3498db; }</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Live editor</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><div class="code-editor" contenteditable="true" spellcheck="false">:root {
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --secondary: #2ecc71;
+  --danger: #e74c3c;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --bg: #f8f9fa;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,.1);
+  --font-main: 'Inter', sans-serif;
+  --spacing: 1rem;
+  --max-width: 1100px;
+  --transition: .3s ease;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--text);
+  background: var(--bg);
+}
+
+.btn {
+  background: var(--primary);
+  border-radius: var(--radius);
+}</div></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:var(--primary,#3498db);color:white;padding:10px 20px;border-radius:var(--radius,8px);display:inline-block;box-shadow:var(--shadow,0 2px 8px rgba(0,0,0,.1));">Variable CSS : --primary</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Conventions de nommage sémantique</div>
+          <p>Utilisez des noms <strong>sémantiques</strong> plutôt que descriptifs. Préférez <code>--color-primary</code> à <code>--blue</code>. Si la couleur primaire passe du bleu au vert, <code>--color-primary</code> reste cohérent tandis que <code>--blue</code> deviendrait trompeur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 VAR() AVEC FALLBACK ══ -->
+    <div id="var-fallback">
+      <div class="section-header"><span class="section-num">03</span><h2>var() avec valeur de fallback</h2></div>
+      <p>La fonction <code>var()</code> admet un deuxième argument : une <strong>valeur de fallback</strong> employée lorsque la variable n'est pas définie ou qu'elle est invalide. Cette fonctionnalité est essentielle pour créer des composants réutilisables et robustes.</p>
+
+      <h3>Référence complète — <code>var()</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>var(--nom)</code></td><td>Lit la valeur de la variable <code>--nom</code></td><td>Utilisation standard quand la variable est toujours définie</td></tr>
+            <tr><td><code>var(--nom, fallback)</code></td><td>Lit la valeur de <code>--nom</code> ; si absente, utilise <code>fallback</code></td><td>Composants réutilisables où l'appelant peut ou non définir la variable</td></tr>
+            <tr><td><code>var(--nom, var(--autre, fallback))</code></td><td>Fallback chaîné : essaie --nom, puis --autre, puis la valeur littérale</td><td>Système de thème avec plusieurs niveaux de surcharge</td></tr>
+            <tr><td><code>var(--nom, valeur)</code></td><td>Si la variable existe mais est invalide pour la propriété, le fallback est utilisé</td><td>Protection contre les valeurs mal typées (ex: un string pour une largeur)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.element {
+  color: var(--text-color, #333);
+  /* Si --text-color n'existe pas → #333 */
+}
+
+.element {
+  background: var(--surface, var(--bg, #fff));
+  /* essaie --surface, puis --bg, puis #fff */
+}
+
+.card {
+  background: var(--card-bg, white);
+  color: var(--card-text, var(--text, #333));
+  border-radius: var(--card-radius, 8px);
+}</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Attention aux propriétés raccourcies</div>
+          <p><code>var()</code> dans une propriété raccourcie comme <code>border</code> ou <code>animation</code> peut faire échouer la propriété entière si la variable est invalide. Exemple : <code>border: var(--border-width, 2px) solid black</code> — si la variable est invalide, toute la bordure disparaît. Privilégiez l'écriture longue.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 PORTÉE ══ -->
+    <div id="var-scope">
+      <div class="section-header"><span class="section-num">04</span><h2>Portée des variables (scope)</h2></div>
+      <p>Les variables CSS respectent la <strong>cascade</strong>. Une variable dans <code>:root</code> est globale. Une variable dans un sélecteur spécifique n'est accessible qu'à ce sélecteur et à ses descendants. Cette portée locale permet de créer des <strong>composants autonomes</strong> sans risque de fuite.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">:root { --color: #3498db; --padding: 1rem; }
+
+.card {
+  --color: #2ecc71;           /* surcharge locale */
+  --card-radius: 12px;         /* accessible seulement dans .card */
+  color: var(--color);         /* → #2ecc71 */
+}
+
+.card__title  { color: var(--color); }  /* → #2ecc71 (hérité) */
+.card__footer { --color: #e74c3c; }      /* surcharge dans le footer */
+
+.other { color: var(--color); }          /* → #3498db (globale) */</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 05 CASCADE ══ -->
+    <div id="var-cascade">
+      <div class="section-header"><span class="section-num">05</span><h2>Héritage et mots-clés de cascade avec les variables</h2></div>
+      <p>Les variables CSS obéissent aux mêmes règles de cascade que les propriétés standard : héritage du parent vers l'enfant, et la déclaration la plus spécifique prévaut. Les mots-clés <code>initial</code>, <code>inherit</code>, <code>unset</code> et <code>revert</code> peuvent être utilisés pour contrôler cet héritage.</p>
+
+      <h3>Référence complète — <code>initial</code>, <code>inherit</code>, <code>unset</code>, <code>revert</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mot-clé</th><th>Description</th><th>Utilisation avec les variables</th></tr></thead>
+          <tbody>
+            <tr><td><code>initial</code></td><td>Réinitialise la variable à sa valeur par défaut (inexistante pour les custom properties)</td><td><code>--var: initial</code> ← la variable n'a plus de valeur, le fallback s'applique</td></tr>
+            <tr><td><code>inherit</code></td><td>Force l'héritage explicite de la valeur du parent</td><td><code>--var: inherit</code> ← rarement utile car l'héritage est déjà le comportement par défaut</td></tr>
+            <tr><td><code>unset</code></td><td>Se comporte comme <code>inherit</code> pour les propriétés héritées, <code>initial</code> sinon</td><td><code>--var: unset</code> ← efface la valeur ; le fallback de var() sera utilisé</td></tr>
+            <tr><td><code>revert</code></td><td>Réinitialise à la valeur de la feuille de style d'agent utilisateur</td><td><code>--var: revert</code> ← supprime la valeur définie par l'auteur ; le fallback s'applique</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">:root { --text-color: #333; }
+article { --text-color: #1a5276; }
+
+p { color: var(--text-color); }
+/* Dans article → #1a5276, hors article → #333 */
+
+.reset-var {
+  --text-color: initial;            /* aucune valeur */
+  color: var(--text-color, black);  /* → black (fallback) */
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Les variables ne sont pas des constantes</div>
+          <p>Les variables CSS peuvent être <strong>redéfinies à n'importe quel niveau</strong> et leur valeur finale est déterminée par la cascade au moment de l'utilisation. Cette propriété les rend particulièrement adaptées au theming : modifiez une variable dans un contexte et tous les enfants adoptent la nouvelle valeur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 THÈMES ══ -->
+    <div id="var-themes">
+      <div class="section-header"><span class="section-num">06</span><h2>Variables et thèmes (mode sombre / clair)</h2></div>
+      <p>Les variables CSS se révèlent particulièrement utiles pour la création de <strong>thèmes</strong>. En redéfinissant les mêmes noms de variables dans des contextes différents (attribut <code>data-theme</code>, media query <code>prefers-color-scheme</code>), on modifie l'intégralité de l'apparence d'un site.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">:root {
+  --bg: #ffffff;
+  --text: #2c3e50;
+  --primary: #3498db;
+  --border: #e2e8f0;
+}
+
+[data-theme="dark"] {
+  --bg: #0D1117;
+  --text: #e6edf3;
+  --primary: #58a6ff;
+  --border: #30363d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1117;
+    --text: #e6edf3;
+  }
+}
+
+body { background: var(--bg); color: var(--text); }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Stratégie de theming complète</div>
+          <p>① Déclarez les variables claires dans <code>:root</code>. ② Utilisez <code>@media (prefers-color-scheme: dark)</code> pour détecter le thème système. ③ Permettez à l'utilisateur de forcer un thème via <code>data-theme</code>. ④ Stockez la préférence dans <code>localStorage</code>. ⑤ Ajoutez <code>transition: background .3s, color .3s</code> sur <code>body</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 JAVASCRIPT ══ -->
+    <div id="var-js">
+      <div class="section-header"><span class="section-num">07</span><h2>Manipuler les variables en JavaScript</h2></div>
+      <p>L'avantage distinctif des variables CSS : les lire et modifier en <strong>JavaScript</strong> en temps réel via <code>setProperty()</code> et <code>getPropertyValue()</code>.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">JavaScript</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="javascript">const root = document.documentElement;
+
+// Lire une variable
+const primary = getComputedStyle(root)
+  .getPropertyValue('--primary').trim();
+
+// Modifier une variable
+root.style.setProperty('--primary', '#e74c3c');
+
+// Thème toggle
+function toggleTheme() {
+  const current = root.getAttribute('data-theme');
+  root.setAttribute('data-theme',
+    current === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme',
+    current === 'dark' ? 'light' : 'dark');
+}
+
+// Animation de variable
+let hue = 0;
+setInterval(() => {
+  root.style.setProperty('--hue', hue++);
+  root.style.setProperty('--dynamic-color',
+    `hsl(${hue}, 70%, 50%)`);
+}, 50);</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 08 EXERCICES ══ -->
+    <div id="var-exo">
+      <div class="section-header"><span class="section-num">08</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎨 Système de design avec variables</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-variables.html</code> avec un fichier CSS séparé.</li>
+            <li>Définissez dans <code>:root</code> au moins 15 variables : couleurs, polices, espacements, ombres.</li>
+            <li>Créez 3 composants : carte, bouton, badge.</li>
+            <li>Chaque composant utilise exclusivement les variables définies.</li>
+            <li>Ajoutez un bouton qui bascule le thème sombre/clair en JS.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🌓 Mode sombre avec localStorage</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-darkmode.html</code> avec deux jeux de variables.</li>
+            <li>Utilisez <code>@media (prefers-color-scheme: dark)</code>.</li>
+            <li>Ajoutez un bouton "🌙 / ☀️" qui bascule le thème.</li>
+            <li>Stockez la préférence dans <code>localStorage</code>.</li>
+            <li>Utilisez <code>getComputedStyle()</code> et <code>setProperty()</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Générateur de thème</div>
+          <p>Créez un sélecteur de couleur primaire (input type="color") qui modifie <code>--primary</code> en JS. Ajoutez un slider pour <code>--spacing</code> (4 px à 32 px). Tous les composants de la page doivent réagir instantanément.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FIL ROUGE ══ -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Implémentez un système de thème clair/sombre pour le portfolio à l'aide de variables CSS et d'une classe sur l'élément racine. Utilisez prefers-color-scheme pour le thème automatique.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Offrir un confort de lecture adapté aux préférences de l'utilisateur.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="VAR">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 09 BILAN ══ -->
+    <div id="var-bilan">
+      <div class="section-header"><span class="section-num">09</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Compétences acquises</h3>
+      <ul class="checklist">
+        <li>Déclaration avec --nom et utilisation avec var()</li>
+        <li>Valeurs de fallback dans var(--nom, fallback)</li>
+        <li>Portée des variables : globale (:root) vs locale</li>
+        <li>Héritage et cascade des variables CSS</li>
+        <li>Mots-clés initial, inherit, unset, revert avec les variables</li>
+        <li>Création de thèmes clair/sombre avec prefers-color-scheme et data-theme</li>
+        <li>Manipulation en JavaScript avec setProperty et getPropertyValue</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Custom Property</dt><dd>Nom officiel des variables CSS. Propriété personnalisée commençant par --.</dd>
+          <dt>var()</dt><dd>Fonction CSS qui lit une variable. Accepte un fallback en second argument.</dd>
+          <dt>Fallback</dt><dd>Valeur de secours utilisée quand la variable n'est pas définie.</dd>
+          <dt>:root</dt><dd>Sélecteur racine (&lt;html&gt;). Portée globale par défaut pour les variables.</dd>
+          <dt>Scope</dt><dd>Zone de validité d'une variable. Globale dans :root, locale dans un sélecteur.</dd>
+          <dt>initial</dt><dd>Mot-clé qui réinitialise une variable (perd sa valeur, le fallback s'applique).</dd>
+          <dt>setProperty</dt><dd>Méthode JS : element.style.setProperty('--nom', valeur).</dd>
+          <dt>getPropertyValue</dt><dd>Méthode JS pour lire une variable (via getComputedStyle).</dd>
+          <dt>prefers-color-scheme</dt><dd>Media query détectant le thème système (clair/sombre).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Chapitre suivant</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Animations CSS</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Transitions · Transform · @keyframes · Filters · Performance</div>
+        </div>
+        <a href="animations.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Animations CSS →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

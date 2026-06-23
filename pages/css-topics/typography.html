@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typographie CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html" class="active">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label t9">Typographie</div>
+      <a href="#t9-family"     class="sidebar-item"><span class="sidebar-num">01</span>font-family</a>
+      <a href="#t9-size"       class="sidebar-item"><span class="sidebar-num">02</span>font-size</a>
+      <a href="#t9-weight"     class="sidebar-item"><span class="sidebar-num">03</span>font-weight & font-style</a>
+      <a href="#t9-variant"    class="sidebar-item"><span class="sidebar-num">04</span>font-variant</a>
+      <a href="#t9-line"       class="sidebar-item"><span class="sidebar-num">05</span>line-height</a>
+      <a href="#t9-text"       class="sidebar-item"><span class="sidebar-num">06</span>text-align, transform & decoration</a>
+      <a href="#t9-indent"     class="sidebar-item"><span class="sidebar-num">07</span>text-indent</a>
+      <a href="#t9-spacing"    class="sidebar-item"><span class="sidebar-num">08</span>letter-spacing & word-spacing</a>
+      <a href="#t9-white"      class="sidebar-item"><span class="sidebar-num">09</span>white-space & word-break</a>
+      <a href="#t9-fontface"   class="sidebar-item"><span class="sidebar-num">10</span>@font-face</a>
+      <a href="#t9-google"     class="sidebar-item"><span class="sidebar-num">11</span>Google Fonts</a>
+      <a href="#t9-exo"        class="sidebar-item"><span class="sidebar-num">12</span>Exercices</a>
+      <a href="#t9-bilan"      class="sidebar-item"><span class="sidebar-num">13</span>Glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="accessibility.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Accessibilité →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Typographie</div>
+      <h1>Typographie CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Polices · Tailles · Graisses · Interlignage · Alignement · Espacement · @font-face</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Fondamental</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">13 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 FONT-FAMILY ══ -->
+    <div id="t9-family">
+      <div class="section-header"><span class="section-num">01</span><h2>font-family — Choix d'une police de caractères</h2></div>
+      <p>La propriété <code>font-family</code> spécifie la police de caractères employée pour le rendu du texte. Il est impératif de toujours fournir une <strong>liste de polices de secours</strong> (fallback) séparées par des virgules, dans la mesure où il n'est pas possible de garantir qu'une police particulière soit installée sur le système de l'utilisateur. Cette pratique constitue un fondement de la robustesse typographique sur le Web.</p>
+      <p>Les valeurs sont évaluées dans l'ordre de déclaration : le navigateur utilise la première police disponible dans la liste. La liste doit toujours se terminer par une <strong>famille générique</strong> (serif, sans-serif, monospace, etc.) pour garantir qu'une police sera toujours appliquée.</p>
+
+      <h3>Référence complète — <code>font-family</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;family-name&gt;</code></td><td>Nom d'une police spécifique (ex: Arial, Georgia, 'Times New Roman'). Les noms contenant des espaces doivent être entre guillemets.</td><td>Police choisie pour le design</td></tr>
+            <tr><td><code>serif</code></td><td>Police avec empattements (petits pieds aux extrémités des lettres).</td><td>Texte imprimé, articles, blogs — lecture longue</td></tr>
+            <tr><td><code>sans-serif</code></td><td>Police sans empattements, style moderne et épuré.</td><td>Écrans, interfaces, sites modernes — lecture rapide</td></tr>
+            <tr><td><code>monospace</code></td><td>Chasse fixe : toutes les lettres occupent la même largeur.</td><td>Code source, données tabulaires, terminaux</td></tr>
+            <tr><td><code>cursive</code></td><td>Style manuscrit ou calligraphique.</td><td>Citations, signatures, décorations</td></tr>
+            <tr><td><code>fantasy</code></td><td>Police décorative, non standard, ludique.</td><td>Titres, effets spéciaux, sites thématiques</td></tr>
+            <tr><td><code>system-ui</code></td><td>Police par défaut du système d'exploitation de l'utilisateur.</td><td>Performance maximale, aspect natif</td></tr>
+            <tr><td><code>ui-serif</code></td><td>Variante serif de la police système.</td><td>Interfaces natives avec empattements</td></tr>
+            <tr><td><code>ui-sans-serif</code></td><td>Variante sans-serif de la police système.</td><td>Interfaces natives modernes</td></tr>
+            <tr><td><code>ui-monospace</code></td><td>Variante monospace de la police système.</td><td>Éditeurs de code natifs</td></tr>
+            <tr><td><code>ui-rounded</code></td><td>Police système arrondie.</td><td>Interfaces ludiques, applications enfants</td></tr>
+            <tr><td><code>math</code></td><td>Police conçue pour les notations mathématiques.</td><td>Formules, équations, documents scientifiques</td></tr>
+            <tr><td><code>emoji</code></td><td>Police dédiée aux caractères emoji.</td><td>Affichage des emojis, pictogrammes</td></tr>
+            <tr><td><code>fangsong</code></td><td>Style de caractères semi-cursif chinois.</td><td>Typographie chinoise, documents officiels</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Toujours terminer par la famille générique */
+body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Titres en serif, texte en sans-serif */
+h1, h2, h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* Code en monospace */
+code, pre {
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+}
+
+/* Police avec espace dans le nom → guillemets */
+.font-custom {
+  font-family: 'Playfair Display', serif;
+}</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Polices système : une alternative performante</div>
+          <p>Les polices système sont préinstallées sur le système d'exploitation de l'utilisateur. Le recours à <code>system-ui</code>, <code>-apple-system</code>, <code>Segoe UI</code> ou <code>sans-serif</code> permet d'obtenir un rendu natif sans aucun téléchargement externe. Cette approche constitue la solution la plus performante en termes de temps de chargement : <code>font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 FONT-SIZE ══ -->
+    <div id="t9-size">
+      <div class="section-header"><span class="section-num">02</span><h2>font-size — Dimensionnement du texte</h2></div>
+      <p>La propriété <code>font-size</code> détermine la taille du texte. Il est recommandé d'utiliser des unités relatives (<code>rem</code>, <code>em</code>, <code>%</code>) plutôt que des unités absolues (<code>px</code>) afin de respecter les préférences d'accessibilité de l'utilisateur et d'assurer une adaptation aux différents contextes de visualisation.</p>
+      <p>La valeur par défaut est <code>medium</code> (généralement 16px sur les navigateurs de bureau). L'unité <code>rem</code> est préférée car elle réfère à la taille de police de l'élément racine (<code>html</code>), ce qui la rend prévisible et ne dépend pas de l'imbrication des éléments.</p>
+
+      <h3>Référence complète — <code>font-size</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>xx-small</code></td><td>Très très petite taille (≈ 9px).</td><td>Mentions légales, notes de bas de page</td></tr>
+            <tr><td><code>x-small</code></td><td>Très petite taille (≈ 10px).</td><td>Informations secondaires</td></tr>
+            <tr><td><code>small</code></td><td>Petite taille (≈ 13px).</td><td>Texte secondaire, légendes</td></tr>
+            <tr><td><code>medium</code></td><td>Taille moyenne — valeur par défaut (≈ 16px).</td><td>Texte courant des paragraphes</td></tr>
+            <tr><td><code>large</code></td><td>Grande taille (≈ 18px).</td><td>Texte mis en évidence</td></tr>
+            <tr><td><code>x-large</code></td><td>Très grande taille (≈ 24px).</td><td>Sous-titres, intertitres</td></tr>
+            <tr><td><code>xx-large</code></td><td>Très très grande taille (≈ 32px).</td><td>Titres de section</td></tr>
+            <tr><td><code>xxx-large</code></td><td>Extrêmement grande taille (≈ 48px).</td><td>Titres principaux, hero</td></tr>
+            <tr><td><code>smaller</code></td><td>Plus petit que la taille de police de l'élément parent.</td><td>Texte hiérarchique imbriqué</td></tr>
+            <tr><td><code>larger</code></td><td>Plus grand que la taille de police de l'élément parent.</td><td>Mise en évidence relative</td></tr>
+            <tr><td><code>&lt;length&gt;</code></td><td>Valeur numérique avec unité : <code>px</code>, <code>em</code>, <code>rem</code>, <code>pt</code>, <code>cm</code>, <code>mm</code>, <code>in</code>, <code>pc</code>, <code>q</code>.</td><td>Contrôle précis de la taille</td></tr>
+            <tr><td><code>&lt;percentage&gt;</code></td><td>Pourcentage de la taille de police de l'élément parent. 150% = 1.5× la taille du parent.</td><td>Dimensionnement relatif contextuel</td></tr>
+            <tr><td><code>inherit</code></td><td>Hérite de la valeur calculée de l'élément parent.</td><td>Forcer l'héritage</td></tr>
+            <tr><td><code>initial</code></td><td>Rétablit la valeur initiale (<code>medium</code>).</td><td>Réinitialisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Échelle typographique en rem (recommandé) */
+html { font-size: 16px; } /* valeur par défaut */
+h1   { font-size: 2.5rem; } /* 40px */
+h2   { font-size: 2rem; }   /* 32px */
+h3   { font-size: 1.5rem; } /* 24px */
+h4   { font-size: 1.25rem; }/* 20px */
+p    { font-size: 1rem; }   /* 16px */
+small { font-size: .875rem; }/* 14px */
+.tiny { font-size: .75rem; } /* 12px */
+
+/* Tailles absolues (px) — à éviter pour le texte */
+.px-example { font-size: 18px; }
+
+/* Tailles relatives en % */
+.percent { font-size: 150%; } /* 1.5× la taille du parent */</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Justification du rejet des unités px pour font-size</div>
+          <p>Lorsqu'un utilisateur a configuré son navigateur avec une taille de police par défaut de 20px (pour des raisons liées à une déficience visuelle), un texte défini en <code>16px</code> demeure à 16px et ignore ce réglage utilisateur. En revanche, l'unité <code>1rem</code> (équivalant à la taille définie à la racine) s'adapte automatiquement à cette préférence. Il s'agit d'un enjeu fondamental d'<strong>accessibilité</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 FONT-WEIGHT & FONT-STYLE ══ -->
+    <div id="t9-weight">
+      <div class="section-header"><span class="section-num">03</span><h2>font-weight & font-style</h2></div>
+      <p>La propriété <code>font-weight</code> régit la graisse (épaisseur) du texte, tandis que <code>font-style</code> gère l'inclinaison italique. L'application de ces propriétés est conditionnée par les variantes disponibles au sein de la police utilisée. Toutes les polices ne disposent pas de l'ensemble des graisses : l'utilisation d'une graisse non prise en charge entraîne la sélection de la valeur la plus proche par le navigateur.</p>
+
+      <h3>Référence complète — <code>font-weight</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>100</code></td><td>Thin (Ultra Light) — la plus fine.</td><td>Affichage très léger, effets décoratifs</td></tr>
+            <tr><td><code>200</code></td><td>Extra Light.</td><td>Texte secondaire très fin</td></tr>
+            <tr><td><code>300</code></td><td>Light.</td><td>Texte léger, sous-titres délicats</td></tr>
+            <tr><td><code>400</code></td><td>Normal (Regular) — équivalent à <code>normal</code>.</td><td>Texte courant des paragraphes</td></tr>
+            <tr><td><code>500</code></td><td>Medium.</td><td>Texte légèrement renforcé</td></tr>
+            <tr><td><code>600</code></td><td>Semi Bold.</td><td>Sous-titres, navigation</td></tr>
+            <tr><td><code>700</code></td><td>Bold — équivalent à <code>bold</code>.</td><td>Titres, emphase, mots importants</td></tr>
+            <tr><td><code>800</code></td><td>Extra Bold.</td><td>Titres percutants, affiches</td></tr>
+            <tr><td><code>900</code></td><td>Black (Heavy) — la plus épaisse.</td><td>Titres principaux, hero sections</td></tr>
+            <tr><td><code>950</code></td><td>Extra Black — disponible dans les polices variables.</td><td>Effets extrêmes, typographie display</td></tr>
+            <tr><td><code>normal</code></td><td>Équivalent à 400.</td><td>Valeur par défaut</td></tr>
+            <tr><td><code>bold</code></td><td>Équivalent à 700.</td><td>Gras standard</td></tr>
+            <tr><td><code>lighter</code></td><td>Plus léger que le parent (sélectionne la graisse inférieure disponible).</td><td>Hiérarchie relative</td></tr>
+            <tr><td><code>bolder</code></td><td>Plus gras que le parent (sélectionne la graisse supérieure disponible).</td><td>Hiérarchie relative</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>font-style</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Style romain (droit) — valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>italic</code></td><td>Version italique de la police. Utilise la variante italique si disponible.</td><td>Citations, titres d'œuvres, emphase</td></tr>
+            <tr><td><code>oblique</code></td><td>Version inclinée mécaniquement. Si aucun italic n'existe, le navigateur incline le texte.</td><td>Alternatives stylistiques</td></tr>
+            <tr><td><code>oblique &lt;angle&gt;</code></td><td>Inclinaison spécifique en degrés (ex: <code>oblique 15deg</code>).</td><td>Contrôle précis de l'inclinaison</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* font-weight : valeurs numériques 100–900 */
+.thin   { font-weight: 100; }
+.light  { font-weight: 300; }
+.normal { font-weight: 400; }
+.medium { font-weight: 500; }
+.bold   { font-weight: 700; }
+.black  { font-weight: 900; }
+
+/* Mots-clés équivalents */
+.normal { font-weight: normal; } /* = 400 */
+.bold   { font-weight: bold; }   /* = 700 */
+
+/* font-style */
+.italic  { font-style: italic; }
+.normal  { font-style: normal; }
+.oblique { font-style: oblique; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Disponibilité limitée des graisses</div>
+          <p>L'utilisation d'une valeur <code>font-weight</code> non prise en charge par la police conduit le navigateur à sélectionner la valeur la plus proche. Lors du recours à Google Fonts, il convient de sélectionner explicitement les graisses souhaitées dans l'URL de chargement. Les polices variables (<code>font-variation-settings</code>) offrent une flexibilité accrue pour le réglage fin de la graisse.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 FONT-VARIANT ══ -->
+    <div id="t9-variant">
+      <div class="section-header"><span class="section-num">04</span><h2>font-variant</h2></div>
+      <p>La propriété <code>font-variant</code> contrôle l'utilisation de variantes typographiques de la police, notamment les petites capitales (small-caps). Elle permet de modifier l'apparence des lettres sans changer le texte source.</p>
+
+      <h3>Référence complète — <code>font-variant</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Pas de variante — valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>small-caps</code></td><td>Petites capitales : les lettres minuscules sont affichées en capitales réduites.</td><td>Sigles, acronymes, titres élégants</td></tr>
+            <tr><td><code>all-small-caps</code></td><td>Toutes les lettres en petites capitales (minuscules et majuscules).</td><td>Texte entièrement en capitales harmonieuses</td></tr>
+            <tr><td><code>petite-caps</code></td><td>Petites capitales encore plus réduites que small-caps.</td><td>Notes de bas de page, annotations</td></tr>
+            <tr><td><code>all-petite-caps</code></td><td>Toutes les lettres en petites capitales réduites.</td><td>Texte secondaire élégant</td></tr>
+            <tr><td><code>unicase</code></td><td>Mélange de capitales et de petites capitales pour un effet harmonieux.</td><td>Titres stylisés</td></tr>
+            <tr><td><code>titling-caps</code></td><td>Capitales spécialement conçues pour les titres (plus fines).</td><td>Titres, headlines</td></tr>
+            <tr><td><code>&lt;font-variant-ligatures&gt;</code></td><td>Contrôle des ligatures : <code>common-ligatures</code>, <code>no-common-ligatures</code>, <code>discretionary-ligatures</code>, <code>historical-ligatures</code>, <code>contextual</code>.</td><td>Typographie fine, polices décoratives</td></tr>
+            <tr><td><code>&lt;font-variant-numeric&gt;</code></td><td>Variantes numériques : <code>lining-nums</code>, <code>oldstyle-nums</code>, <code>proportional-nums</code>, <code>tabular-nums</code>, <code>diagonal-fractions</code>, <code>stacked-fractions</code>, <code>ordinal</code>, <code>slashed-zero</code>.</td><td>Tableaux, données chiffrées, fractions</td></tr>
+            <tr><td><code>&lt;font-variant-east-asian&gt;</code></td><td>Variantes pour les scripts d'Asie de l'Est : <code>jis78</code>, <code>jis83</code>, <code>jis90</code>, <code>jis04</code>, <code>simplified</code>, <code>traditional</code>, <code>full-width</code>, <code>proportional-width</code>, <code>ruby</code>.</td><td>Typographie japonaise, chinoise, coréenne</td></tr>
+            <tr><td><code>&lt;font-variant-position&gt;</code></td><td>Position : <code>sub</code>, <code>super</code>.</td><td>Indices, exposants typographiques</td></tr>
+            <tr><td><code>&lt;font-variant-caps&gt;</code></td><td>Forme abrégée pour les variantes de capitales.</td><td>Synthèse des variantes caps</td></tr>
+            <tr><td><code>&lt;font-variant-alternates&gt;</code></td><td>Sélection de glyphes alternatifs via <code>@font-feature-values</code>.</td><td>Polices décoratives avec variantes stylistiques</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.small-caps { font-variant: small-caps; }
+
+/* Ligatures standard */
+.text-ligatures {
+  font-variant: common-ligatures contextual;
+}
+
+/* Chiffres tabulaires pour les tableaux */
+.table-nums {
+  font-variant-numeric: tabular-nums lining-nums;
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 05 LINE-HEIGHT ══ -->
+    <div id="t9-line">
+      <div class="section-header"><span class="section-num">05</span><h2>line-height — Hauteur de ligne</h2></div>
+      <p>La propriété <code>line-height</code> définit l'interlignage, c'est-à-dire la hauteur allouée à chaque ligne de texte. Il s'agit d'un facteur déterminant pour la <strong>lisibilité</strong> du contenu. La valeur préconisée pour les paragraphes se situe entre <strong>1.5 et 1.8</strong>.</p>
+      <p>La règle fondamentale est d'utiliser un <strong>nombre sans unité</strong> pour <code>line-height</code>, car cette valeur reste alors proportionnelle à la taille de police courante, quel que soit l'héritage.</p>
+
+      <h3>Référence complète — <code>line-height</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Valeur par défaut, déterminée par le navigateur (généralement 1.2).</td><td>Texte sans réglage spécifique</td></tr>
+            <tr><td><code>&lt;number&gt;</code></td><td>Nombre sans unité multiplié par la taille de police courante. Ex: <code>1.6</code> = 1.6 × font-size. Valeur recommandée.</td><td>Meilleure pratique — toutes les situations</td></tr>
+            <tr><td><code>&lt;length&gt;</code></td><td>Valeur absolue avec unité. Ex: <code>24px</code>, <code>1.5em</code>. Déconseillé car non proportionnel.</td><td>Cas spécifiques où une hauteur fixe est requise</td></tr>
+            <tr><td><code>&lt;percentage&gt;</code></td><td>Pourcentage de la taille de police courante. Ex: <code>160%</code>.</td><td>Similaire à &lt;number&gt; mais hérité différemment</td></tr>
+            <tr><td><code>inherit</code></td><td>Hérite de la valeur calculée du parent.</td><td>Forcer l'héritage</td></tr>
+            <tr><td><code>initial</code></td><td>Rétablit la valeur initiale (<code>normal</code>).</td><td>Réinitialisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* line-height : TOUJOURS sans unité */
+.tight   { line-height: 1.2; } /* titres, dense */
+.normal  { line-height: 1.5; } /* confortable */
+.roomy   { line-height: 1.8; } /* aéré, citations */
+.spacious { line-height: 2; }  /* très aéré */
+
+/* Avec unité (à éviter) */
+.bad { line-height: 24px; }
+/* Si font-size change, 24px devient inadapté */</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle fondamentale : line-height sans unité</div>
+          <p>Il convient de toujours utiliser un <strong>nombre sans unité</strong> pour la propriété <code>line-height</code>. En effet, cette valeur est alors proportionnelle à la taille de police courante. Si l'on spécifie <code>line-height: 1.6</code>, l'interlignage représentera 1,6 fois la taille du texte, quel que soit l'héritage ou les modifications ultérieures de <code>font-size</code>. Cette règle est l'une des plus universellement acceptées en CSS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 TEXT-ALIGN, TRANSFORM, DECORATION ══ -->
+    <div id="t9-text">
+      <div class="section-header"><span class="section-num">06</span><h2>text-align, text-transform, text-decoration</h2></div>
+      <p>Ces trois propriétés régissent respectivement l'alignement, la casse et la décoration du texte. Bien que d'utilisation simple, elles constituent des outils essentiels pour la mise en forme typographique au quotidien.</p>
+
+      <h3>Référence complète — <code>text-align</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>left</code></td><td>Aligne le texte à gauche — valeur par défaut pour les langues LTR.</td><td>Texte standard, paragraphes</td></tr>
+            <tr><td><code>right</code></td><td>Aligne le texte à droite — valeur par défaut pour les langues RTL.</td><td>En-têtes de tableaux, légendes</td></tr>
+            <tr><td><code>center</code></td><td>Centre le texte horizontalement.</td><td>Titres, citations, boutons</td></tr>
+            <tr><td><code>justify</code></td><td>Justifie le texte : les espaces sont ajustés pour que chaque ligne occupe toute la largeur.</td><td>Impression, livres, articles longs</td></tr>
+            <tr><td><code>match-parent</code></td><td>Hérite et respecte la direction du parent.</td><td>Alignement contextuel</td></tr>
+            <tr><td><code>start</code></td><td>Aligne au début selon la direction d'écriture (gauche en LTR, droite en RTL).</td><td>Internationalisation</td></tr>
+            <tr><td><code>end</code></td><td>Aligne à la fin selon la direction d'écriture.</td><td>Internationalisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>text-transform</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Pas de transformation — valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>capitalize</code></td><td>Met la première lettre de chaque mot en capitale.</td><td>Titres, légendes</td></tr>
+            <tr><td><code>uppercase</code></td><td>Convertit tout le texte en majuscules.</td><td>Sigles, titres percutants, boutons</td></tr>
+            <tr><td><code>lowercase</code></td><td>Convertit tout le texte en minuscules.</td><td>Normalisation, emails</td></tr>
+            <tr><td><code>full-width</code></td><td>Force les caractères à occuper toute la largeur (comme les caractères CJK).</td><td>Alignement avec les caractères est-asiatiques</td></tr>
+            <tr><td><code>full-size-kana</code></td><td>Convertit les kana (japonais) en pleine taille.</td><td>Typographie japonaise cohérente</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>text-decoration</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Pas de décoration.</td><td>Retirer le soulignement des liens</td></tr>
+            <tr><td><code>underline</code></td><td>Ligne sous le texte.</td><td>Liens, emphase, titres soulignés</td></tr>
+            <tr><td><code>overline</code></td><td>Ligne au-dessus du texte.</td><td>Effets décoratifs</td></tr>
+            <tr><td><code>line-through</code></td><td>Ligne barrant le texte.</td><td>Texte supprimé, tâches terminées</td></tr>
+            <tr><td><code>underline overline</code></td><td>Combinaison de soulignement et de ligne supérieure.</td><td>Effets décoratifs doubles</td></tr>
+            <tr><td colspan="3"><strong>Styles de ligne (text-decoration-style)</strong></td></tr>
+            <tr><td><code>solid</code></td><td>Ligne continue — valeur par défaut.</td><td>Style standard</td></tr>
+            <tr><td><code>double</code></td><td>Ligne double.</td><td>Emphase renforcée</td></tr>
+            <tr><td><code>dotted</code></td><td>Ligne pointillée.</td><td>Liens, annotations</td></tr>
+            <tr><td><code>dashed</code></td><td>Ligne en tirets.</td><td>Liens, annotations</td></tr>
+            <tr><td><code>wavy</code></td><td>Ligne ondulée.</td><td>Fautes d'orthographe, emphase ludique</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* ═══ text-align ═══ */
+.left     { text-align: left; }    /* défaut */
+.center   { text-align: center; }
+.right    { text-align: right; }
+.justify  { text-align: justify; } /* réservé à l'impression */
+
+/* ═══ text-transform ═══ */
+.upper    { text-transform: uppercase; }
+.lower    { text-transform: lowercase; }
+.capital  { text-transform: capitalize; }
+.none     { text-transform: none; }
+
+/* ═══ text-decoration ═══ */
+.underline { text-decoration: underline; }
+.line-through { text-decoration: line-through; }
+.overline  { text-decoration: overline; }
+.no-deco   { text-decoration: none; }
+
+/* Forme longue avec style et couleur */
+.fancy { text-decoration: underline wavy #e63946; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">text-transform et accessibilité</div>
+          <p>La propriété <code>text-transform: uppercase</code> opère une transformation purement visuelle. Un lecteur d'écran restituera le texte exactement tel qu'il est rédigé dans le HTML (en minuscules si tel est le cas dans le code source). Si un contenu doit impérativement être lu en majuscules (acronyme, sigle), il convient de l'écrire en majuscules directement dans le HTML.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 TEXT-INDENT ══ -->
+    <div id="t9-indent">
+      <div class="section-header"><span class="section-num">07</span><h2>text-indent — Indentation du texte</h2></div>
+      <p>La propriété <code>text-indent</code> définit le retrait de la première ligne d'un bloc de texte. Elle est traditionnellement utilisée pour signaler le début d'un paragraphe dans la typographie imprimée.</p>
+
+      <h3>Référence complète — <code>text-indent</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;length&gt;</code></td><td>Valeur absolue d'indentation. Ex: <code>2em</code>, <code>40px</code>.</td><td>Indentation standard des paragraphes</td></tr>
+            <tr><td><code>&lt;percentage&gt;</code></td><td>Pourcentage de la largeur du bloc contenant. Ex: <code>10%</code>.</td><td>Indentation proportionnelle à la largeur</td></tr>
+            <tr><td><code>0</code></td><td>Pas d'indentation — valeur par défaut.</td><td>Texte sans retrait</td></tr>
+            <tr><td><code>inherit</code></td><td>Hérite de la valeur du parent.</td><td>Forcer l'héritage</td></tr>
+            <tr><td><code>initial</code></td><td>Rétablit la valeur initiale (<code>0</code>).</td><td>Réinitialisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.indent { text-indent: 2em; }
+/* La première ligne de chaque paragraphe est décalée de 2em */
+
+.no-indent { text-indent: 0; }
+
+/* Indentation négative (effet "suspendu") */
+.hanging { text-indent: -2em; padding-left: 2em; }</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 08 LETTER-SPACING & WORD-SPACING ══ -->
+    <div id="t9-spacing">
+      <div class="section-header"><span class="section-num">08</span><h2>letter-spacing et word-spacing</h2></div>
+      <p>Ces propriétés permettent d'ajuster l'espacement entre les caractères (<code>letter-spacing</code>) et entre les mots (<code>word-spacing</code>). Elles s'expriment généralement en <code>em</code> afin de demeurer proportionnelles à la taille de police. Un léger <code>letter-spacing</code> positif améliore la lisibilité des textes en majuscules.</p>
+
+      <h3>Référence complète — <code>letter-spacing</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Espacement normal de la police — valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>&lt;length&gt;</code></td><td>Espacement supplémentaire entre les caractères. Valeur positive ou négative. Ex: <code>0.05em</code>, <code>-0.02em</code>, <code>2px</code>.</td><td>Tracking typographique, titres espacés</td></tr>
+            <tr><td><code>inherit</code></td><td>Hérite de la valeur du parent.</td><td>Forcer l'héritage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>word-spacing</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Espacement normal entre les mots — valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>&lt;length&gt;</code></td><td>Espacement supplémentaire entre les mots. Ex: <code>0.25em</code>, <code>5px</code>.</td><td>Texte aéré, justification, effets éditoriaux</td></tr>
+            <tr><td><code>inherit</code></td><td>Hérite de la valeur du parent.</td><td>Forcer l'héritage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* letter-spacing : espacement entre les caractères */
+.normal     { letter-spacing: normal; }
+.tight      { letter-spacing: -0.02em; }  /* resserré — titres */
+.loose      { letter-spacing: 0.05em; }   /* étalé — sous-titres */
+.spread     { letter-spacing: 0.15em; }   /* très étalé — style luxe */
+
+/* word-spacing : espacement entre les mots */
+.normal-words { word-spacing: normal; }
+.spaced-words { word-spacing: 0.25em; }
+
+/* Combinaison pour un style éditorial */
+.editorial {
+  letter-spacing: 0.02em;
+  word-spacing: 0.05em;
+}</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Cas d'usage du letter-spacing</div>
+          <p>Un léger <code>letter-spacing</code> positif (0.05em à 0.1em) améliore la lisibilité des textes en majuscules. Les marques de luxe et la presse écrite recourent fréquemment à un espacement accru pour les titres. À l'inverse, un espacement négatif peut produire un effet esthétique intéressant pour les gros titres modernes, mais son application à des textes longs compromet la lisibilité.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 WHITE-SPACE & WORD-BREAK ══ -->
+    <div id="t9-white">
+      <div class="section-header"><span class="section-num">09</span><h2>white-space et word-break</h2></div>
+      <p>La propriété <code>white-space</code> régit la gestion des espaces blancs dans le texte, tandis que <code>word-break</code> détermine les règles de coupure des mots en fin de ligne. Ces propriétés revêtent une importance particulière dans les interfaces utilisateur où le texte doit s'inscrire dans des conteneurs aux dimensions contraintes.</p>
+
+      <h3>Référence complète — <code>white-space</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Les espaces blancs sont compressés. Les retours à la ligne sont automatiques. Valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>nowrap</code></td><td>Les espaces blancs sont compressés. Pas de retour à la ligne automatique.</td><td>Barres de navigation, boutons, texte sur une ligne</td></tr>
+            <tr><td><code>pre</code></td><td>Les espaces blancs sont conservés. Pas de retour à la ligne automatique. Comportement comme la balise <code>&lt;pre&gt;</code>.</td><td>Code source, poésie, texte formaté</td></tr>
+            <tr><td><code>pre-wrap</code></td><td>Les espaces blancs sont conservés. Retours à la ligne automatiques.</td><td>Texte formaté avec wrap</td></tr>
+            <tr><td><code>pre-line</code></td><td>Les espaces blancs sont compressés. Les retours à la ligne dans le code sont conservés. Retours automatiques.</td><td>Texte avec sauts de ligne significatifs</td></tr>
+            <tr><td><code>break-spaces</code></td><td>Comme <code>pre-wrap</code> mais les espaces peuvent causer des retours à la ligne.</td><td>Gestion fine des espaces longs</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>word-break</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Règles de coupure par défaut du navigateur. Valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>break-all</code></td><td>Les mots peuvent être coupés à n'importe quel caractère pour passer à la ligne.</td><td>URLs longues, contenus en chinois/japonais</td></tr>
+            <tr><td><code>keep-all</code></td><td>Pas de coupure pour les mots CJK. Comportement normal pour les autres langues.</td><td>Texte en chinois, japonais, coréen</td></tr>
+            <tr><td><code>auto-phrase</code></td><td>Coupe aux limites de phrases (expérimental).</td><td>Texte asiatique avec phrases courtes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>overflow-wrap</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>normal</code></td><td>Pas de coupure forcée des mots. Valeur par défaut.</td><td>Texte standard</td></tr>
+            <tr><td><code>break-word</code></td><td>Les mots trop longs sont coupés pour éviter le débordement.</td><td>Prévention des débordements</td></tr>
+            <tr><td><code>anywhere</code></td><td>Comme <code>break-word</code>, mais affecte également les tailles intrinsèques.</td><td>Contrôle strict des débordements</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* ═══ white-space ═══ */
+.normal   { white-space: normal; }     /* défaut */
+.nowrap   { white-space: nowrap; }     /* pas de retour à la ligne */
+.pre      { white-space: pre; }        /* comme &lt;pre&gt; */
+.pre-wrap { white-space: pre-wrap; }   /* pre avec retour auto */
+.pre-line { white-space: pre-line; }   /* conserve les \n */
+
+/* ═══ word-break ═══ */
+.normal-break { word-break: normal; }
+.break-all    { word-break: break-all; } /* coupe n'importe où */
+.keep-all     { word-break: keep-all; }  /* pas de coupure (CJK) */
+
+/* ═══ overflow-wrap ═══ */
+.break-word   { overflow-wrap: break-word; } /* coupe si nécessaire */
+
+/* Cas pratique : troncature avec ellipsis */
+.url-container {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 10 @FONT-FACE ══ -->
+    <div id="t9-fontface">
+      <div class="section-header"><span class="section-num">10</span><h2>@font-face — Polices auto-hébergées</h2></div>
+      <p>La règle CSS <code>@font-face</code> permet d'utiliser des polices <strong>hébergées sur votre propre serveur</strong>, sans dépendre de Google Fonts ou d'un service tiers. Elle est particulièrement adaptée aux polices commerciales, aux polices maison, ou lorsqu'un contrôle total sur la performance est requis.</p>
+
+      <h3>Référence complète — Descripteurs <code>@font-face</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Descripteur</th><th>Description</th><th>Valeurs possibles</th></tr></thead>
+          <tbody>
+            <tr><td><code>font-family</code></td><td>Nom de la police (obligatoire). Utilisé dans la propriété <code>font-family</code>.</td><td><code>&lt;string&gt;</code></td></tr>
+            <tr><td><code>src</code></td><td>URL du fichier de police (obligatoire). Plusieurs sources avec fallback. Format recommandé : WOFF2.</td><td><code>url('...') format('...')</code></td></tr>
+            <tr><td><code>font-weight</code></td><td>Graisse associée à cette déclaration.</td><td><code>normal</code>, <code>bold</code>, <code>100</code>–<code>900</code></td></tr>
+            <tr><td><code>font-style</code></td><td>Style associé à cette déclaration.</td><td><code>normal</code>, <code>italic</code>, <code>oblique</code></td></tr>
+            <tr><td><code>font-stretch</code></td><td>Variante de largeur de police.</td><td><code>normal</code>, <code>condensed</code>, <code>expanded</code>, <code>ultra-condensed</code>, <code>semi-condensed</code>, <code>semi-expanded</code>, <code>extra-expanded</code>, <code>ultra-expanded</code>, <code>&lt;percentage&gt;</code></td></tr>
+            <tr><td><code>font-display</code></td><td>Stratégie d'affichage pendant le chargement.</td><td><code>auto</code>, <code>block</code>, <code>swap</code>, <code>fallback</code>, <code>optional</code></td></tr>
+            <tr><td><code>unicode-range</code></td><td>Limite la police à un sous-ensemble de caractères Unicode.</td><td><code>U+0025-00FF</code>, <code>U+4??</code>, etc.</td></tr>
+            <tr><td><code>font-variant</code></td><td>Variante typographique par défaut.</td><td><code>normal</code>, <code>small-caps</code>, etc.</td></tr>
+            <tr><td><code>font-feature-settings</code></td><td>Accès aux fonctionnalités OpenType avancées.</td><td><code>"liga"</code>, <code>"kern"</code>, etc.</td></tr>
+            <tr><td><code>font-named-instance</code></td><td>Instance nommée d'une police variable.</td><td><code>&lt;string&gt;</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Valeurs de <code>font-display</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Comportement</th><th>Utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>auto</code></td><td>Stratégie par défaut du navigateur (généralement block).</td><td>Aucune préférence</td></tr>
+            <tr><td><code>block</code></td><td>Cache le texte jusqu'à 3s pour afficher la police web (FOIT).</td><td>Polices essentielles à l'identité visuelle</td></tr>
+            <tr><td><code>swap</code></td><td>Affiche immédiatement la police de secours, remplace par la police web quand chargée (FOUT).</td><td>Recommandé pour la plupart des cas</td></tr>
+            <tr><td><code>fallback</code></td><td>Affiche la police de secours pendant ~100ms, puis la police web si chargée. Sinon, garde la secours.</td><td>Compromis performance/esthétique</td></tr>
+            <tr><td><code>optional</code></td><td>Si la police n'est pas chargée très rapidement (≈100ms), la police de secours est conservée.</td><td>Performance critique, police non essentielle</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split interactive">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false">/* Déclaration de la police */
+@font-face {
+  font-family: 'MaPolice';
+  src: url('fonts/mapolice.woff2') format('woff2'),
+       url('fonts/mapolice.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Utilisation */
+body {
+  font-family: 'MaPolice', 'Helvetica Neue', sans-serif;
+}
+
+/* Formats recommandés : WOFF2 (prioritaire), WOFF (fallback) */</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;padding:1rem;">
+            <p style="font-family:Georgia,serif;">Police chargée via @font-face (simulation — Georgia fait office de police personnalisée). Modifiez le code à gauche pour expérimenter.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Bonnes pratiques relatives à @font-face</h3>
+      <ul>
+        <li><strong>WOFF2</strong> est le format le plus moderne et le plus compressé. Il convient de l'utiliser en priorité.</li>
+        <li><strong>WOFF</strong> constitue la solution de secours pour les navigateurs plus anciens.</li>
+        <li><strong>font-display: swap</strong> : affiche le texte avec une police de secours immédiatement, puis remplace par la police web une fois chargée. Évite le Flash of Invisible Text (FOIT).</li>
+        <li>Chaque variante (graisse, style) doit être déclarée dans un bloc <code>@font-face</code> distinct, avec le même <code>font-family</code> mais des valeurs <code>font-weight</code>/<code>font-style</code> différentes.</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Licences et droits d'usage</div>
+          <p>Toutes les polices ne sont pas libres de droits pour une utilisation sur le Web. Il est impératif de vérifier la licence avant d'héberger une police sur son serveur. Les polices Google Fonts sont distribuées sous licence open-source (SIL Open Font License, Apache, etc.). Les polices commerciales nécessitent l'acquisition d'une licence web distincte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 11 GOOGLE FONTS ══ -->
+    <div id="t9-google">
+      <div class="section-header"><span class="section-num">11</span><h2>Google Fonts et polices web</h2></div>
+      <p>Google Fonts est un service gratuit de polices web hébergées. Il permet d'utiliser des centaines de familles de polices sans nécessité d'installation sur le serveur. L'intégration s'effectue via une balise <code>&lt;link&gt;</code> placée dans l'élément <code>&lt;head&gt;</code> du document.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML + CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;!-- Dans le &lt;head&gt; du HTML --&gt;
+&lt;link href="https://fonts.googleapis.com/css2?
+family=Inter:wght@400;700;900&amp;
+family=Playfair+Display:ital@0;1
+&amp;display=swap" rel="stylesheet"&gt;
+
+&lt;!-- Puis dans le CSS : --&gt;
+&lt;style&gt;
+  h1 { font-family: 'Playfair Display', serif; }
+  body { font-family: 'Inter', sans-serif; }
+&lt;/style&gt;</pre></div>
+      </div>
+
+      <h3>Procédure d'utilisation de Google Fonts</h3>
+      <ol>
+        <li>Accédez au site <a href="https://fonts.google.com" target="_blank" rel="noopener">fonts.google.com</a></li>
+        <li>Sélectionnez une police (exemples : Inter, Roboto, Open Sans, Lora, Playfair Display)</li>
+        <li>Choisissez les graisses nécessaires (400 = normal, 700 = gras, 900 = black)</li>
+        <li>Copiez la balise <code>&lt;link&gt;</code> fournie et insérez-la dans l'élément <code>&lt;head&gt;</code> de votre document</li>
+        <li>Utilisez le nom de la police dans votre CSS via la propriété <code>font-family</code></li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Impact des Google Fonts sur la performance</div>
+          <p>Chaque police issue de Google Fonts engendre un chargement externe supplémentaire susceptible de ralentir l'affichage de la page. Il est recommandé de se limiter à <strong>1 ou 2 familles</strong>. L'utilisation du paramètre <code>display=swap</code> dans l'URL permet d'afficher immédiatement une police de secours pendant le chargement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 12 EXERCICES ══ -->
+    <div id="t9-exo">
+      <div class="section-header"><span class="section-num">12</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🔤 Palette typographique complète</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-typo-complete.html</code> avec un article de blog : titre h1, sous-titre h2, plusieurs paragraphes, une citation blockquote, et une liste.</li>
+            <li>Définissez une police Google Font pour les titres (ex : Playfair Display, Oswald, ou Montserrat) et une police système pour le texte.</li>
+            <li>Utilisez <code>font-size</code> en rem pour tous les textes : 2.5rem pour h1, 1.8rem pour h2, 1.1rem pour p.</li>
+            <li>Appliquez <code>line-height: 1.7</code> sur les paragraphes et <code>line-height: 1.2</code> sur les titres.</li>
+            <li>Utilisez <code>text-transform: uppercase</code> et <code>letter-spacing: .15em</code> sur les sous-titres.</li>
+            <li>Ajoutez une citation avec <code>font-style: italic</code> et une bordure gauche colorée.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📐 Espacement & habillage</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page <code>exo-espacement.html</code> avec un bloc de texte large et un bloc étroit (300px).</li>
+            <li>Dans le bloc étroit, utilisez <code>overflow-wrap: break-word</code> pour éviter qu'un long mot ne déborde.</li>
+            <li>Ajoutez une ligne de texte en <code>white-space: nowrap</code> avec <code>text-overflow: ellipsis</code>.</li>
+            <li>Utilisez <code>letter-spacing: -0.02em</code> sur un gros titre pour un effet moderne.</li>
+            <li>Utilisez <code>text-decoration: underline wavy</code> sur un mot important.</li>
+            <li>Ajoutez un lien avec <code>text-decoration: none</code> qui souligne au survol.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">📦 @font-face personnalisé</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Trouvez une police libre de droits au format WOFF2 (ex : sur Google Fonts ou Font Library) et téléchargez-la.</li>
+            <li>Placez les fichiers WOFF2 dans un dossier <code>fonts/</code> à côté de votre HTML.</li>
+            <li>Déclarez la police avec <code>@font-face</code>.</li>
+            <li>Déclarez une variante gras (700) supplémentaire.</li>
+            <li>Utilisez la police dans votre page pour les titres, et une police système pour le texte.</li>
+            <li>Vérifiez dans les DevTools (onglet Network) que les fichiers WOFF2 se chargent bien.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Échelle typographique modulaire</div>
+          <p>Créez un système typographique complet basé sur une échelle modulaire (rapport 1.25 ou 1.333). Définissez h1 à h6 avec des tailles en rem suivant l'échelle. Par exemple, avec base 1rem et ratio 1.25 : h6 = 1rem, h5 = 1.25rem, h4 = 1.563rem, h3 = 1.953rem, h2 = 2.441rem, h1 = 3.052rem.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="t9">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- Projet fil rouge -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Importez une police via Google Fonts pour les titres et une pour le corps de texte. Définissez la hiérarchie typographique (h1-h6, body) avec des tailles cohérentes.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Assurer une lecture confortable et une identité graphique professionnelle.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══ 13 GLOSSAIRE ══ -->
+    <div id="t9-bilan">
+      <div class="section-header"><span class="section-num">13</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>font-family : choix de police avec fallback et familles génériques</li>
+        <li>font-size en rem (recommandé) vs px, importance pour l'accessibilité</li>
+        <li>font-weight (100–950) et font-style (normal, italic, oblique)</li>
+        <li>font-variant : small-caps, ligatures, variantes numériques</li>
+        <li>line-height sans unité : proportionnel à la taille de police</li>
+        <li>text-align, text-transform, text-decoration (underline, overline, line-through, wavy)</li>
+        <li>text-indent pour l'indentation des paragraphes</li>
+        <li>letter-spacing et word-spacing en em pour l'espacement</li>
+        <li>white-space (nowrap, pre, pre-wrap), word-break, overflow-wrap</li>
+        <li>@font-face : déclaration de polices auto-hébergées au format WOFF2</li>
+        <li>Google Fonts : intégration via &lt;link&gt;, display=swap</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>font-family</dt><dd>Propriété qui définit la police de caractères avec une liste de fallback.</dd>
+          <dt>Fallback</dt><dd>Police de secours utilisée si la police demandée n'est pas disponible.</dd>
+          <dt>rem</dt><dd>Unité relative à la taille de police de la racine (html). 1rem = 16px par défaut.</dd>
+          <dt>em</dt><dd>Unité relative à la taille de police du parent. S'accumule dans les éléments imbriqués.</dd>
+          <dt>line-height</dt><dd>Hauteur de ligne. Toujours sans unité (ex: 1.6). Essentiel pour la lisibilité.</dd>
+          <dt>font-weight</dt><dd>Graisse de la police : 100 (thin) à 950 (extra black). 400 = normal, 700 = bold.</dd>
+          <dt>font-variant</dt><dd>Variantes typographiques : petites capitales, ligatures, chiffres tabulaires.</dd>
+          <dt>text-transform</dt><dd>Modifie la casse : uppercase, lowercase, capitalize. Visuel seulement.</dd>
+          <dt>letter-spacing</dt><dd>Espacement entre les caractères. En em. Utile pour les textes en majuscules.</dd>
+          <dt>white-space</dt><dd>Gère les espaces blancs et les retours à la ligne. nowrap empêche la coupure.</dd>
+          <dt>word-break</dt><dd>Définit les règles de coupure des mots : break-all, keep-all.</dd>
+          <dt>@font-face</dt><dd>Règle CSS déclarant une police hébergée sur votre serveur. Formats : WOFF2, WOFF.</dd>
+          <dt>font-display</dt><dd>Stratégie d'affichage : swap (FOUT), block (FOIT), optional (performance).</dd>
+          <dt>text-overflow: ellipsis</dt><dd>Ajoute des points de suspension quand le texte dépasse son conteneur.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Fiche suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Accessibilité CSS</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Contrastes · Focus · prefers-reduced-motion · Mode sombre · sr-only</div>
+        </div>
+        <a href="accessibility.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Accessibilité →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

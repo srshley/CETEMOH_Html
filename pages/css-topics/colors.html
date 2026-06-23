@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Couleurs CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html" class="active">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Couleurs CSS</div>
+      <a href="#c-formats"     class="sidebar-item"><span class="sidebar-num">01</span>Formats de couleurs</a>
+      <a href="#c-noms"        class="sidebar-item"><span class="sidebar-num">02</span>Noms prédéfinis</a>
+      <a href="#c-hex"         class="sidebar-item"><span class="sidebar-num">03</span>Hexadécimal</a>
+      <a href="#c-rgb"         class="sidebar-item"><span class="sidebar-num">04</span>RGB & RGBA</a>
+      <a href="#c-hsl"         class="sidebar-item"><span class="sidebar-num">05</span>HSL & HSLA</a>
+      <a href="#c-opacity"     class="sidebar-item"><span class="sidebar-num">06</span>Opacité & transparence</a>
+      <a href="#c-current"     class="sidebar-item"><span class="sidebar-num">07</span>currentColor</a>
+      <a href="#c-access"      class="sidebar-item"><span class="sidebar-num">08</span>Accessibilité des couleurs</a>
+      <a href="#c-exo"         class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#c-bilan"       class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="styling-forms.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Formulaires →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Couleurs CSS</div>
+      <h1>Couleurs CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Formats · Hex · RGB · HSL · Opacité · currentColor · Accessibilité</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Fondamental</span>
+        <span class="meta-tag">~1h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 FORMATS DE COULEURS ══ -->
+    <div id="c-formats">
+      <div class="section-header"><span class="section-num">01</span><h2>Les différents formats de couleurs</h2></div>
+      <p>Le langage CSS prend en charge plusieurs formats pour définir une couleur. Chacun présente des avantages spécifiques selon le contexte d'utilisation : précision, gestion de la transparence, lisibilité du code source. Le choix du format dépend des exigences du projet : une couleur fixe sera exprimée efficacement en hexadécimal, tandis qu'une couleur nécessitant une transparence variable utilisera les notations rgba ou hsla. La spécification CSS Color Module Level 4 a modernisé l'ensemble de ces formats en autorisant l'écriture sans virgules et en unifiant la syntaxe du canal alpha.</p>
+
+      <h3>Référence complète — <code>color</code> et les formats de couleur CSS</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Format</th><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>nom</code></td><td><code>red</code>, <code>tomato</code></td><td>Noms prédéfinis (148 couleurs)</td><td>Prototypage rapide, apprentissage</td></tr>
+            <tr><td><code>#RRGGBB</code></td><td><code>#ff6600</code></td><td>Hexadécimal sur 6 chiffres (R, V, B chacun de 00 à FF)</td><td>Standard industriel, couleurs fixes</td></tr>
+            <tr><td><code>#RGB</code></td><td><code>#f60</code></td><td>Hexadécimal court, chaque chiffre est doublé</td><td>Équivalent à #ff6600, écriture concise</td></tr>
+            <tr><td><code>#RRGGBBAA</code></td><td><code>#e6394680</code></td><td>Hexadécimal avec canal alpha (00 = transparent, FF = opaque)</td><td>Couleur fixe avec transparence intégrée</td></tr>
+            <tr><td><code>rgb()</code></td><td><code>rgb(231, 57, 70)</code></td><td>Rouge, Vert, Bleu de 0 à 255 chacun</td><td>Couleurs manipulées par programme</td></tr>
+            <tr><td><code>rgba()</code></td><td><code>rgba(231, 57, 70, .5)</code></td><td>RGB + canal alpha (0 à 1 ou 0% à 100%)</td><td>Superposition, overlays, transparence sélective</td></tr>
+            <tr><td><code>hsl()</code></td><td><code>hsl(4, 79%, 56%)</code></td><td>Teinte (0-360°), Saturation (0-100%), Luminosité (0-100%)</td><td>Création de palettes, variations chromatiques</td></tr>
+            <tr><td><code>hsla()</code></td><td><code>hsla(4, 79%, 56%, .5)</code></td><td>HSL + canal alpha</td><td>Palettes avec transparence</td></tr>
+            <tr><td><code>currentColor</code></td><td><code>border: 2px solid currentColor</code></td><td>Valeur dynamique égale à la propriété <code>color</code> de l'élément</td><td>Composants réutilisables, SVG, icônes</td></tr>
+            <tr><td><code>transparent</code></td><td><code>background: transparent</code></td><td>Couleur entièrement transparente (équivaut à rgba(0,0,0,0))</td><td>Masquer un fond sans le supprimer du flux</td></tr>
+            <tr><td><code>hwb()</code></td><td><code>hwb(4, 20%, 10%)</code></td><td>Teinte, Blancheur, Noirceur</td><td>Standard récent (CSS Color Level 4), approche perceptuelle</td></tr>
+            <tr><td><code>lch()</code> / <code>lab()</code></td><td><code>lch(53%, 45, 24)</code></td><td>Espace couleur CIE LCH/Lab, gamme plus large que sRGB</td><td>Design avancé, gamut P3, écrans haute fidélité</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Interchangeabilité des formats de couleurs</div>
+          <p>L'ensemble de ces formats est interchangeable : tout format valide peut être utilisé avec n'importe quelle propriété CSS acceptant une valeur de couleur (<code>color</code>, <code>background</code>, <code>border-color</code>, etc.). Le navigateur interprète chacun d'eux de manière équivalente. Il convient de sélectionner le format qui optimise la lisibilité et la maintenabilité du code.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 NOMS PRÉDÉFINIS ══ -->
+    <div id="c-noms">
+      <div class="section-header"><span class="section-num">02</span><h2>Noms de couleurs prédéfinis</h2></div>
+      <p>La spécification CSS définit <strong>148 noms de couleurs</strong> reconnus par l'ensemble des navigateurs. Ceux-ci comprennent des valeurs élémentaires (<code>red</code>, <code>blue</code>) aussi bien que des nuances plus spécifiques (<code>papayawhip</code>, <code>rebeccapurple</code>). Les 16 couleurs HTML d'origine (aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, purple, red, silver, teal, white, yellow) constituent le jeu minimal garanti depuis les débuts du web. Les 132 couleurs supplémentaires ont été ajoutées par les spécifications CSS Color Module Level 3 et 4, incluant des noms comme <code>crimson</code>, <code>coral</code>, <code>mediumseagreen</code> ou <code>slategray</code>.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Noms de couleurs</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Couleurs de base — les 16 couleurs HTML d'origine */
+.color-red    { color: red; }
+.color-blue   { color: blue; }
+.color-green  { color: green; }
+.color-yellow { color: yellow; }
+
+/* Couleurs nommées avancées */
+.color-tomato       { background: tomato; }
+.color-cornflowerblue { background: cornflowerblue; }
+.color-rebeccapurple  { background: rebeccapurple; }
+.color-papayawhip     { background: papayawhip; }
+
+/* Noms utiles pour le design */
+.color-whitesmoke  { background: whitesmoke; }
+.color-crimson     { background: crimson; }
+.color-coral       { background: coral; }
+.color-turquoise   { background: turquoise; }</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Limites des noms de couleurs</div>
+          <p>Les noms de couleurs sont pratiques pour le prototypage rapide, mais leur gamme reste limitée. Seules 148 nuances sont disponibles, contre plus de 16 millions avec les notations hexadécimale ou rgb. Pour un design précis, on privilégiera les formats hex ou hsl. Les noms conservent une utilité dans un contexte pédagogique ou pour des styles très simples.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 HEXADÉCIMAL ══ -->
+    <div id="c-hex">
+      <div class="section-header"><span class="section-num">03</span><h2>Hexadécimal (#RRGGBB, #RGB, #RRGGBBAA)</h2></div>
+      <p>Le format <strong>hexadécimal</strong> est le plus répandu en production. Chaque paire de caractères représente une composante (Rouge, Vert, Bleu) dont la valeur s'étend de 00 à FF (soit 0 à 255 en notation décimale). Le système hexadécimal utilise une base 16 avec les symboles 0-9 puis A-F. Ainsi <code>#ff6600</code> se décompose comme suit : Rouge = ff (255), Vert = 66 (102), Bleu = 00 (0). Le format court <code>#f60</code> est accepté lorsque chaque paire présente deux chiffres identiques. Le canal alpha s'étend de 00 (transparent) à ff (opaque), offrant 256 niveaux de transparence.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Hexadécimal</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* #RRGGBB — format standard (6 chiffres) */
+.hex-1 { color: #ff6600; }   /* orange */
+.hex-2 { color: #3498db; }   /* bleu */
+.hex-3 { color: #e74c3c; }   /* rouge */
+.hex-4 { color: #2ecc71; }   /* vert */
+
+/* #RGB — format court (3 chiffres), chaque chiffre est doublé */
+.hex-short-1 { color: #f60; }  /* = #ff6600 */
+.hex-short-2 { color: #0af; }  /* = #00aaff */
+
+/* #RRGGBBAA — hex avec transparence (8 chiffres) */
+.hex-alpha-1 { background: #e74c3c80; }  /* rouge à 50% */
+.hex-alpha-2 { background: #3498db40; }  /* bleu à 25% */
+.hex-alpha-3 { background: #2ecc71cc; }  /* vert à 80% */</div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Comprendre le codage hexadécimal</div>
+          <p>Le système hexadécimal utilise une base 16 avec les symboles 0-9 puis A-F. Ainsi <code>#ff6600</code> se décompose comme suit : Rouge = ff (255), Vert = 66 (102), Bleu = 00 (0). Le format court <code>#f60</code> est accepté lorsque chaque paire présente deux chiffres identiques : <code>#f60</code> équivaut à <code>#ff6600</code> car f = ff, 6 = 66, 0 = 00. Le canal alpha s'étend de 00 (transparent) à ff (opaque).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 RGB ET RGBA ══ -->
+    <div id="c-rgb">
+      <div class="section-header"><span class="section-num">04</span><h2>RGB et RGBA</h2></div>
+      <p>Le format <strong>RGB</strong> (Red Green Blue) utilise trois nombres compris entre 0 et 255 pour définir une couleur. <strong>RGBA</strong> étend ce format en ajoutant un quatrième paramètre déterminant le niveau de transparence (canal alpha). La syntaxe moderne (CSS Color Level 4) permet d'écrire <code>rgb(52 152 219 / .5)</code> sans virgules, avec une barre oblique pour séparer le canal alpha. Cette évolution harmonise la notation avec les autres fonctions couleur et améliore la lisibilité.</p>
+
+      <h3>Référence complète — <code>rgb()</code> et <code>rgba()</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>rgb(r, g, b)</code></td><td>Rouge, Vert, Bleu de 0 à 255 (ou 0% à 100%)</td><td><code>rgb(52, 152, 219)</code></td></tr>
+            <tr><td><code>rgba(r, g, b, a)</code></td><td>RGB + alpha de 0 (transparent) à 1 (opaque)</td><td><code>rgba(52, 152, 219, .5)</code></td></tr>
+            <tr><td><code>rgb(r g b / a)</code></td><td>Syntaxe moderne sans virgules</td><td><code>rgb(52 152 219 / .5)</code></td></tr>
+            <tr><td><code>rgba(r g b / a)</code></td><td>Syntaxe moderne sans virgules</td><td><code>rgba(52 152 219 / .5)</code></td></tr>
+            <tr><td><code>rgb(r, g, b, a)</code></td><td>rgba() est un alias de rgb() (CSS Color Level 4)</td><td><code>rgb(52, 152, 219, .5)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — RGB / RGBA</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* RGB — chaque canal de 0 à 255 */
+.rgb-1 { background: rgb(52, 152, 219); }   /* bleu */
+.rgb-2 { background: rgb(46, 204, 113); }   /* vert */
+.rgb-3 { background: rgb(231, 76, 60); }    /* rouge */
+
+/* RGBA — avec transparence (alpha: 0 à 1) */
+.rgba-1 { background: rgba(52, 152, 219, .3); }  /* bleu transparent */
+.rgba-2 { background: rgba(231, 76, 60, .6); }   /* rouge semi-transparent */
+.rgba-3 { background: rgba(0, 0, 0, .1); }       /* noir très léger */
+
+/* Syntaxe moderne : virgules optionnelles */
+.rgba-new { background: rgba(52 152 219 / .5); }  /* CSS Color Level 4 */</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Quand utiliser RGB plutôt que l'hexadécimal</div>
+          <p>RGB se révèle plus pertinent lorsque les couleurs sont manipulées par programmation ou lorsqu'on souhaite exprimer une valeur en termes de canaux (ex : « un rouge vif » = rgb(255, 0, 0) est plus immédiat que #ff0000). Le format RGBA est particulièrement adapté à la superposition de calques avec transparence, à la création d'overlays, ou à l'atténuation d'une couleur sans en modifier la teinte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 HSL ET HSLA ══ -->
+    <div id="c-hsl">
+      <div class="section-header"><span class="section-num">05</span><h2>HSL et HSLA</h2></div>
+      <p><strong>HSL</strong> (Hue, Saturation, Lightness) est généralement considéré comme plus <strong>intuitif</strong> que RGB d'un point de vue perceptif. La teinte (Hue) est exprimée par un angle sur le cercle chromatique (0–360 degrés) : 0° = rouge, 60° = jaune, 120° = vert, 180° = cyan, 240° = bleu, 300° = magenta, 360° = rouge (bouclage). La saturation (S) détermine l'intensité de la couleur (0% = gris neutre, 100% = couleur vive), tandis que la luminosité (L) contrôle la clarté (0% = noir, 50% = couleur pure, 100% = blanc). Cette organisation tri-dimensionnelle permet de naviguer dans l'espace colorimétrique de manière prévisible : en faisant varier la luminosité, on génère instantanément des ombres et des reflets d'une même teinte.</p>
+
+      <h3>Référence complète — <code>hsl()</code> et <code>hsla()</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Paramètre</th><th>Plage</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>H</code> (Hue)</td><td><code>0–360</code></td><td>Angle sur le cercle chromatique. 0 = rouge, 120 = vert, 240 = bleu.</td><td>Sélection de la teinte de base d'une palette</td></tr>
+            <tr><td><code>S</code> (Saturation)</td><td><code>0%–100%</code></td><td>Intensité de la couleur. 0% = gris, 100% = couleur pure.</td><td>Contrôle du vif vs. terne</td></tr>
+            <tr><td><code>L</code> (Lightness)</td><td><code>0%–100%</code></td><td>Luminosité. 0% = noir, 50% = normal, 100% = blanc.</td><td>Création de variantes claires/foncées</td></tr>
+            <tr><td><code>A</code> (Alpha)</td><td><code>0–1</code> ou <code>0%–100%</code></td><td>Transparence du canal alpha.</td><td>Superpositions et dégradés transparents</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — HSL / HSLA</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* HSL : teinte (0-360), saturation (0-100%), luminosité (0-100%) */
+.hsl-1 { background: hsl(0, 100%, 50%); }     /* rouge pur */
+.hsl-2 { background: hsl(120, 100%, 50%); }   /* vert pur */
+.hsl-3 { background: hsl(240, 100%, 50%); }   /* bleu pur */
+.hsl-4 { background: hsl(210, 70%, 53%); }    /* bleu comme #3498db */
+
+/* Faire varier la saturation et la luminosité */
+.hsl-sat { background: hsl(210, 100%, 53%); }  /* saturation max */
+.hsl-desat { background: hsl(210, 30%, 53%); } /* moins saturé, plus gris */
+.hsl-light { background: hsl(210, 70%, 80%); } /* clair (pastel) */
+.hsl-dark  { background: hsl(210, 70%, 30%); } /* foncé */
+
+/* HSLA — avec transparence */
+.hsla-1 { background: hsla(210, 70%, 53%, .5); }</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <iframe class="code-preview-iframe" srcdoc="<html><head><style>body{font-family:Georgia,serif;font-size:15px;line-height:1.7;background:#fafafa;color:#1a1a2e;margin:12px;}</style></head><body><div style=&quot;display:flex;gap:4px;flex-wrap:wrap;&quot;><span style=&quot;background:hsl(0,100%,50%);color:white;padding:4px 10px;&quot;>0&deg; rouge</span><span style=&quot;background:hsl(120,100%,50%);color:white;padding:4px 10px;&quot;>120&deg; vert</span><span style=&quot;background:hsl(240,100%,50%);color:white;padding:4px 10px;&quot;>240&deg; bleu</span><span style=&quot;background:hsl(210,70%,80%);padding:4px 10px;&quot;>210&deg; pastel</span><span style=&quot;background:hsl(210,70%,30%);color:white;padding:4px 10px;&quot;>210&deg; fonc&eacute;</span><span style=&quot;background:hsla(210,70%,53%,.5);padding:4px 10px;&quot;>hsla 50%</span></div></body></html>"></iframe>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Avantages de HSL pour la création de variations chromatiques</div>
+          <p>Avec HSL, il est possible de générer une palette complète à partir d'une teinte unique en faisant varier la saturation (vif → grisé) et la luminosité (clair → foncé). Exemple : <code>hsl(210, 70%, 95%)</code> pour un fond très clair, <code>hsl(210, 70%, 53%)</code> pour la couleur principale, <code>hsl(210, 70%, 30%)</code> pour un texte foncé. Cette opération s'avère considérablement plus complexe à réaliser avec les formats HEX ou RGB.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 OPACITÉ ══ -->
+    <div id="c-opacity">
+      <div class="section-header"><span class="section-num">06</span><h2>Opacité et transparence</h2></div>
+      <p>Le langage CSS offre plusieurs mécanismes pour gérer la transparence : la propriété <code>opacity</code> (qui affecte l'intégralité de l'élément) et le canal alpha intégré aux valeurs de couleur (qui n'affecte que la propriété concernée). Cette distinction est fondamentale. <code>opacity</code> rend transparent tout l'élément et ses descendants, y compris le texte, les images et les éléments enfants. Le canal alpha, quant à lui, s'applique propriété par propriété : un <code>background: rgba(0,0,0,.5)</code> laisse le texte parfaitement opaque. Pour créer des effets de superposition (overlays), on combine généralement un fond semi-transparent avec du texte opaque, soit via une pseudo-élément, soit via un dégradé.</p>
+
+      <h3>Référence complète — <code>opacity</code> et transparence</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété/Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>opacity: 1</code></td><td>Élément totalement opaque (valeur par défaut)</td><td>Comportement normal</td></tr>
+            <tr><td><code>opacity: 0.5</code></td><td>Élément semi-transparent à 50%. Le texte et les enfants sont également affectés.</td><td>Effets de fondu, mise en avant/hiérarchie visuelle</td></tr>
+            <tr><td><code>opacity: 0</code></td><td>Élément invisible mais présent dans le flux (contrairement à <code>display: none</code> et <code>visibility: hidden</code>)</td><td>Animations d'apparition, overlays invisibles</td></tr>
+            <tr><td><code>rgba(r,g,b,a)</code></td><td>Canal alpha intégré à la couleur. N'affecte que cette propriété.</td><td>Fond transparent avec texte opaque, ombres</td></tr>
+            <tr><td><code>hsla(h,s,l,a)</code></td><td>Canal alpha intégré à la valeur HSL</td><td>Fond transparent dans une palette HSL</td></tr>
+            <tr><td><code>#RRGGBBAA</code></td><td>Canal alpha intégré à la valeur hexadécimale</td><td>Transparence en notation hexadécimale</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Opacité vs Alpha</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* opacity — affecte TOUT l'élément (fond + contenu) */
+.opacity-full  { opacity: 1; }     /* opaque (défaut) */
+.opacity-half  { opacity: .5; }    /* 50% — le texte aussi devient transparent */
+.opacity-zero  { opacity: 0; }     /* invisible mais présent dans le flux */
+
+/* Alpha — affecte UNE propriété seulement */
+.alpha-bg {
+  background: rgba(52, 152, 219, .3); /* seul le fond devient transparent */
+  color: #2c3e50;                     /* le texte reste opaque */
+}
+
+/* Bordure transparente */
+.alpha-border {
+  border: 2px solid rgba(231, 76, 60, .5);
+}
+
+/* Ombre avec transparence */
+.alpha-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+}</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Opacity rend tout transparent, y compris le texte</div>
+          <p>L'application de <code>opacity: .5</code> à un élément rend l'<strong>intégralité</strong> de son contenu (texte, images, éléments descendants) semi-transparent. Pour obtenir un fond semi-transparent avec un texte opaque, il convient d'utiliser <code>background: rgba(...)</code> ou <code>background: hsla(...)</code>. Le canal alpha appliqué à la couleur de fond n'affecte que celle-ci, pas le contenu.</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Overlay semi-transparent</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* Overlay semi-transparent sur une image */
+.overlay-container {
+  position: relative;
+}
+
+.overlay-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .4); /* fond semi-transparent */
+}
+
+/* Solution avec dégradé */
+.hero {
+  background:
+    linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
+    url('hero.jpg') center/cover;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 CURRENTCOLOR ══ -->
+    <div id="c-current">
+      <div class="section-header"><span class="section-num">07</span><h2>currentColor — la couleur qui suit le texte</h2></div>
+      <p><code>currentColor</code> est un mot-clé représentant la valeur courante de la propriété <code>color</code> de l'élément. Il permet de concevoir des composants dont les bordures, les ombres, les fonds ou les icônes s'adaptent automatiquement lors d'un changement de couleur du texte. La valeur est résolue dynamiquement : si la couleur du texte change (via un sélecteur hover, une media query, ou une variable CSS), toutes les propriétés utilisant <code>currentColor</code> se mettent à jour simultanément. C'est particulièrement utile pour les icônes SVG (propriété <code>fill: currentColor</code>), les boutons outline, et les systèmes de design où un composant doit s'adapter à son contexte sans duplication de code.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — currentColor</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* currentColor = la valeur de color au moment de l'utilisation */
+.btn {
+  color: #3498db;
+  background: transparent;
+  border: 2px solid currentColor; /* bordure = même couleur que le texte */
+  padding: .75em 1.5em;
+  border-radius: 6px;
+  transition: all .2s;
+}
+
+.btn:hover {
+  color: white;
+  background: #3498db;
+}
+
+/* SVG et icônes */
+.icon {
+  fill: currentColor;       /* l'icône prend la couleur du texte */
+  width: 24px;
+  height: 24px;
+}</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">currentColor comme outil de thématisation</div>
+          <p>Avec <code>currentColor</code>, un composant s'adapte automatiquement à son contexte. La modification de la couleur du parent entraîne la mise à jour des bordures, icônes et ombres des éléments descendants. Cette approche est particulièrement utile dans le cadre de systèmes de design et de composants réutilisables. La combinaison avec les variables CSS permet d'obtenir des résultats encore plus puissants.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ACCESSIBILITÉ ══ -->
+    <div id="c-access">
+      <div class="section-header"><span class="section-num">08</span><h2>Bonnes pratiques et accessibilité des couleurs</h2></div>
+      <p>Le choix des couleurs ne relève pas uniquement de considérations esthétiques — il engage également la question de l'<strong>accessibilité</strong>. Un contraste insuffisant rend le texte illisible pour des millions d'utilisateurs (malvoyance, daltonisme, conditions d'éclairage défavorables). Le <strong>WCAG</strong> (Web Content Accessibility Guidelines) définit des ratios de contraste minimaux entre le texte et son arrière-plan. Il ne faut <strong>jamais</strong> utiliser la couleur comme unique moyen de transmission d'une information importante : un champ de formulaire qui devient rouge en cas d'erreur <strong>doit</strong> également comporter un message texte ou une icône. Environ 8% des hommes présentent une forme de daltonisme (principalement la deutéranopie, difficulté à distinguer le rouge et le vert).</p>
+
+      <h3>Ratios de contraste WCAG</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Niveau</th><th>Texte normal (&lt; 18px)</th><th>Texte large (≥ 18px ou bold ≥ 14px)</th></tr></thead>
+          <tbody>
+            <tr><td>AA (minimum)</td><td>4.5:1</td><td>3:1</td></tr>
+            <tr><td>AAA (amélioré)</td><td>7:1</td><td>4.5:1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Accessibilité des couleurs</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body">
+          <div class="code-editor" contenteditable="true" spellcheck="false" data-lang="css">/* ❌ MAUVAIS — contraste insuffisant */
+.bad-contrast {
+  color: #999999;           /* gris clair */
+  background: #f5f5f5;      /* fond presque blanc — ratio ~1.7:1 */
+}
+
+/* ✅ BON — contraste suffisant (AA) */
+.good-contrast {
+  color: #2c3e50;           /* texte foncé */
+  background: #f8f9fa;      /* fond clair — ratio ~10.5:1 */
+}
+
+/* ✅ Ne pas se fier uniquement à la couleur */
+a {
+  color: #3498db;
+  text-decoration: underline; /* indicateur visuel supplémentaire */
+}
+
+/* ✅ Mode sombre avec variables CSS */
+:root {
+  --text: #2c3e50;
+  --bg: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e4e6eb;
+    --bg: #18191a;
+  }
+}</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">La couleur n'est jamais le seul vecteur d'information</div>
+          <p>Il ne faut <strong>jamais</strong> utiliser la couleur comme unique moyen de transmission d'une information importante. Exemples : un champ de formulaire qui devient rouge en cas d'erreur <strong>doit</strong> également comporter un message texte ou une icône. Un graphique utilisant des couleurs <strong>doit</strong> aussi inclure des motifs ou des étiquettes. Environ 8% des hommes présentent une forme de daltonisme (principalement la deutéranopie, difficulté à distinguer le rouge et le vert).</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Palette accessible : configuration minimale</div>
+          <p>Pour un site accessible, il convient de définir au minimum : une couleur de <strong>texte foncé</strong> (#2c3e50 ou #1a1a2e), un <strong>fond clair</strong> (#f8f9fa ou #ffffff), une <strong>couleur d'accent</strong> présentant un bon contraste (ex : #3498db sur fond blanc = 4.2:1), et une <strong>couleur d'erreur</strong> qui ne repose pas exclusivement sur le rouge. Il est impératif de tester avec un vérificateur de contraste avant de valider une palette.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="c-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎨 Palette de couleurs complète</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-colors-palette.html</code> avec une page présentant 12 couleurs.</li>
+            <li>Utilisez au moins 4 formats différents : noms, hex, rgb/hsla, hsl.</li>
+            <li>Pour chaque couleur, affichez son nom, son code, et un bloc de couleur.</li>
+            <li>Créez une section "Teintes dérivées" : prenez une couleur de base en hsl et faites varier la luminosité de 10% à 90%.</li>
+            <li>Ajoutez une carte avec <code>background: rgba(...)</code> où le texte reste opaque.</li>
+            <li>Utilisez <code>currentColor</code> sur des bordures de boutons.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">♿ Accessibilité et contraste</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-access-colors.html</code> avec trois sections : une avec bon contraste, une avec mauvais contraste, une avec les deux.</li>
+            <li>Utilisez le vérificateur WebAIM pour mesurer les ratios.</li>
+            <li>Ajoutez une section "Ne pas utiliser la couleur seule" : créez des alertes (succès, erreur, info) qui utilisent des icônes ET des couleurs.</li>
+            <li>Simulez le daltonisme dans les DevTools (Rendering → Emulate vision deficiencies) et ajustez les couleurs si nécessaire.</li>
+            <li>Ajoutez une media query <code>prefers-color-scheme: dark</code> pour un mode sombre accessible.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Dégradés et transparence</div>
+          <p>Créez une page avec des dégradés utilisant rgba et hsla. Exemple : <code>background: linear-gradient(to right, rgba(52,152,219,.8), rgba(46,204,113,.8))</code>. Ajoutez un effet de verre (glassmorphism) avec <code>backdrop-filter: blur(10px)</code> et un fond rgba. Superposez du texte opaque sur des fonds transparents.</p>
+        </div>
+      </div>
+
+      <div class="callout analogy">
+        <div class="callout-icon">📁</div>
+        <div class="callout-body">
+          <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+          <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+          <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Définissez une palette de couleurs cohérente pour le portfolio à l'aide de variables CSS (couleur primaire, secondaire, textes, fonds). Utilisez au moins un dégradé dans la section héro.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Établir une identité visuelle unifiée et facilement modifiable.</li>
+            <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="colors">
+      <div class="quiz-title">Quiz — Couleurs CSS</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="c-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Les différents formats de couleur : noms, hex (#RRGGBB, #RGB, #RRGGBBAA), rgb/rgba, hsl/hsla</li>
+        <li>Les 148 noms de couleurs prédéfinis et leurs limites</li>
+        <li>Le format hexadécimal — le standard de l'industrie</li>
+        <li>RGB et RGBA pour les couleurs avec transparence</li>
+        <li>HSL et HSLA — plus intuitif pour créer des variations de teinte</li>
+        <li>La différence entre opacity (tout l'élément) et alpha (une propriété)</li>
+        <li>currentColor — la couleur qui suit le texte</li>
+        <li>L'accessibilité des couleurs : contraste WCAG, daltonisme, mode sombre</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>HEX</dt><dd>Format hexadécimal #RRGGBB ou #RGB. Ex : #ff6600. Le format le plus utilisé pour les couleurs fixes.</dd>
+          <dt>RGB</dt><dd>Red Green Blue — chaque canal de 0 à 255. rgba ajoute un canal alpha (transparence).</dd>
+          <dt>HSL</dt><dd>Hue (0-360°), Saturation (0-100%), Lightness (0-100%). Plus intuitif pour les variations.</dd>
+          <dt>Alpha</dt><dd>Canal de transparence. 0 = invisible, 1 = opaque. Utilisé dans rgba, hsla, #RRGGBBAA.</dd>
+          <dt>Opacity</dt><dd>Propriété CSS qui rend tout l'élément transparent (fond + contenu + enfants).</dd>
+          <dt>currentColor</dt><dd>Mot-clé représentant la valeur de color. Utile pour harmoniser bordures/ombres avec le texte.</dd>
+          <dt>WCAG</dt><dd>Web Content Accessibility Guidelines — normes d'accessibilité web, dont les ratios de contraste.</dd>
+          <dt>Ratio de contraste</dt><dd>Différence de luminosité entre le texte et son arrière-plan. Minimum 4.5:1 pour le niveau AA.</dd>
+          <dt>Daltonisme</dt><dd>Déficience visuelle affectant la perception des couleurs. 8% des hommes y sont sujets.</dd>
+          <dt>prefers-color-scheme</dt><dd>Media query qui détecte le thème système (clair/sombre) pour adapter les couleurs.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Suivant</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Styles de Formulaires</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Inputs · Boutons · Select · Checkbox · Validation · Layout</div>
+        </div>
+        <a href="styling-forms.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Formulaires →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

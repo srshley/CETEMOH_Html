@@ -1,0 +1,885 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sélecteurs d'Attributs · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html" class="active">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label t12">Attributs</div>
+      <a href="#t12-intro"     class="sidebar-item"><span class="sidebar-num">01</span>Introduction</a>
+      <a href="#t12-presence"  class="sidebar-item"><span class="sidebar-num">02</span>[attr] présence</a>
+      <a href="#t12-exact"     class="sidebar-item"><span class="sidebar-num">03</span>[attr=valeur] exact</a>
+      <a href="#t12-prefix"    class="sidebar-item"><span class="sidebar-num">04</span>[attr^=] commence par</a>
+      <a href="#t12-suffix"    class="sidebar-item"><span class="sidebar-num">05</span>[attr$=] termine par</a>
+      <a href="#t12-contain"   class="sidebar-item"><span class="sidebar-num">06</span>[attr*=] contient</a>
+      <a href="#t12-tilde"     class="sidebar-item"><span class="sidebar-num">07</span>[attr~=] mot dans liste</a>
+      <a href="#t12-pipe"      class="sidebar-item"><span class="sidebar-num">08</span>[attr|=] préfixe avec tiret</a>
+      <a href="#t12-case"      class="sidebar-item"><span class="sidebar-num">09</span>Modificateur i (casse)</a>
+      <a href="#t12-combo"     class="sidebar-item"><span class="sidebar-num">10</span>Combinaisons</a>
+      <a href="#t12-project"   class="sidebar-item"><span class="sidebar-num">11</span>Projet : Inventaire</a>
+      <a href="#t12-exo"       class="sidebar-item"><span class="sidebar-num">12</span>Exercices</a>
+      <a href="#t12-bilan"     class="sidebar-item"><span class="sidebar-num">13</span>Glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="responsive-design.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Responsive →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Sélecteurs d'attributs</div>
+      <h1>Sélecteurs d'Attributs</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Présence · Égalité · Préfixe · Suffixe · Contient · Projet : Inventaire de Livres</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">13 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 INTRODUCTION ══ -->
+    <div id="t12-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Introduction aux sélecteurs d'attributs</h2></div>
+      <p>Les <strong>sélecteurs d'attribut</strong> permettent de cibler les éléments HTML en fonction de la <strong>présence</strong> ou de la <strong>valeur</strong> de leurs attributs. Ils offrent une puissance de stylisation considérable sans nécessiter l'ajout de classes supplémentaires dans le code HTML. Leur spécificité est identique à celle des classes (0,0,1,0).</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Exemple</th><th>Cible</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr]</code></td><td>Présence de l'attribut</td><td><code>[disabled]</code></td><td>Tous les éléments désactivés</td></tr>
+            <tr><td><code>[attr="val"]</code></td><td>Égalité exacte</td><td><code>[type="submit"]</code></td><td>Boutons de soumission</td></tr>
+            <tr><td><code>[attr^="val"]</code></td><td>Commence par (préfixe)</td><td><code>[href^="https"]</code></td><td>Liens sécurisés</td></tr>
+            <tr><td><code>[attr$="val"]</code></td><td>Finit par (suffixe)</td><td><code>[src$=".png"]</code></td><td>Images PNG</td></tr>
+            <tr><td><code>[attr*="val"]</code></td><td>Contient la sous-chaîne</td><td><code>[class*="btn"]</code></td><td>Éléments avec "btn" dans la classe</td></tr>
+            <tr><td><code>[attr~="val"]</code></td><td>Mot dans une liste d'espaces</td><td><code>[rel~="noopener"]</code></td><td>Liens avec rel="noopener"</td></tr>
+            <tr><td><code>[attr|="val"]</code></td><td>Valeur exacte ou suivie d'un tiret</td><td><code>[lang|="fr"]</code></td><td>Pages en français</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Spécificité des sélecteurs d'attribut</div>
+          <p>Les sélecteurs d'attribut possèdent la <strong>même spécificité</strong> que les sélecteurs de classe : 0,0,1,0. Ainsi, un sélecteur tel que <code>[type="text"]</code> est aussi spécifique que <code>.text-field</code>. Cette propriété permet de substituer des classes par des sélecteurs d'attribut dans de nombreux cas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 [ATTR] PRÉSENCE ══ -->
+    <div id="t12-presence">
+      <div class="section-header"><span class="section-num">02</span><h2>[attr] — Présence simple de l'attribut</h2></div>
+      <p>Le sélecteur <code>[attr]</code> cible l'ensemble des éléments qui possèdent l'attribut <code>attr</code>, <strong>quelle que soit sa valeur</strong>. Il s'agit du sélecteur d'attribut le plus élémentaire. Idéal pour les attributs booléens (<code>disabled</code>, <code>required</code>, <code>readonly</code>, <code>hidden</code>) dont la seule présence suffit.</p>
+
+      <h3>Référence complète — <code>[attr]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr]</code></td><td>Sélectionne tout élément possédant l'attribut <code>attr</code>, sans vérifier sa valeur.</td><td>Attributs booléens : <code>[disabled]</code>, <code>[required]</code>, <code>[hidden]</code>, <code>[readonly]</code></td></tr>
+            <tr><td><code>[disabled]</code></td><td>Cible tous les éléments désactivés (boutons, inputs, champs).</td><td>Réduire l'opacité, changer le curseur</td></tr>
+            <tr><td><code>[required]</code></td><td>Cible les champs de formulaire obligatoires.</td><td>Ajouter un indicateur visuel (bordure, astérisque)</td></tr>
+            <tr><td><code>[hidden]</code></td><td>Cible les éléments avec l'attribut <code>hidden</code>.</td><td>Forcer <code>display: none</code></td></tr>
+            <tr><td><code>[data-toggle]</code></td><td>Cible les éléments avec un attribut <code>data-*</code> spécifique.</td><td>Interaction JavaScript</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Tous les éléments désactivés */
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tous les champs obligatoires */
+[required] {
+  border-left: 3px solid #e63946;
+}
+
+/* Tous les éléments avec un attribut hidden */
+[hidden] {
+  display: none !important;
+}
+
+/* Tous les liens avec target */
+[target] {
+  color: #8e44ad;
+}</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Attributs booléens</div>
+          <p>Les attributs booléens (<code>disabled</code>, <code>required</code>, <code>readonly</code>, <code>hidden</code>) n'ont pas besoin de valeur explicite — leur seule présence dans le code HTML suffit. Le sélecteur <code>[disabled]</code> fonctionne indifféremment que l'attribut soit écrit <code>disabled</code> ou <code>disabled="disabled"</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 [ATTR=VALEUR] ══ -->
+    <div id="t12-exact">
+      <div class="section-header"><span class="section-num">03</span><h2>[attr="valeur"] — Égalité exacte</h2></div>
+      <p>Le sélecteur <code>[attr="valeur"]</code> cible les éléments dont l'attribut <code>attr</code> possède exactement la valeur spécifiée. La correspondance doit être <strong>stricte</strong>, caractère par caractère (sensible à la casse par défaut).</p>
+
+      <h3>Référence complète — <code>[attr="valeur"]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr="valeur"]</code></td><td>Correspondance exacte, sensible à la casse par défaut. La valeur entière de l'attribut doit correspondre exactement à la chaîne.</td><td>Ciblage précis de types, états, ou valeurs spécifiques</td></tr>
+            <tr><td><code>[type="submit"]</code></td><td>Tous les boutons de soumission.</td><td>Styles spécifiques selon le type de champ</td></tr>
+            <tr><td><code>[target="_blank"]</code></td><td>Liens qui s'ouvrent dans un nouvel onglet.</td><td>Ajouter une icône de nouvelle fenêtre</td></tr>
+            <tr><td><code>[type="text"]</code></td><td>Champs de texte.</td><td>Styles personnalisés pour les inputs texte</td></tr>
+            <tr><td><code>[type="email"]</code></td><td>Champs d'email.</td><td>Styles personnalisés pour les inputs email</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Types de boutons */
+[type="submit"] { background: #2c3e50; color: white; }
+[type="reset"]  { background: #e74c3c; color: white; }
+[type="button"] { background: #95a5a6; color: white; }
+
+/* Liens externes */
+[target="_blank"] { color: #2980b9; }
+[target="_blank"]::after {
+  content: " \2197";
+  font-size: .8em;
+}
+
+/* Inputs texte et email */
+[type="text"] {
+  border: 2px solid #bdc3c7;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+[type="email"] {
+  border: 2px solid #3498db;
+  padding: 8px 12px;
+  border-radius: 4px;
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 04 [ATTR^=] COMMENCE PAR ══ -->
+    <div id="t12-prefix">
+      <div class="section-header"><span class="section-num">04</span><h2>[attr^="valeur"] — Commence par (préfixe)</h2></div>
+      <p>Le sélecteur <code>[attr^="valeur"]</code> cible les éléments dont la valeur de l'attribut <strong>commence par</strong> la chaîne spécifiée. Le symbole <code>^</code> évoque l'opérateur « commence par » (analogue à son usage dans les expressions régulières). Particulièrement utile pour catégoriser les liens selon le protocole.</p>
+
+      <h3>Référence complète — <code>[attr^="valeur"]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr^="chaîne"]</code></td><td>Sélectionne les éléments dont l'attribut commence par la chaîne spécifiée.</td><td>Catégorisation par préfixe</td></tr>
+            <tr><td><code>[href^="https"]</code></td><td>Liens sécurisés HTTPS.</td><td>Ajouter une icône de cadenas</td></tr>
+            <tr><td><code>[href^="http"]:not([href^="https"])</code></td><td>Liens HTTP non sécurisés (combinaison avec :not).</td><td>Alerte de sécurité</td></tr>
+            <tr><td><code>[href^="mailto"]</code></td><td>Liens d'adresse email.</td><td>Icône email</td></tr>
+            <tr><td><code>[href^="tel"]</code></td><td>Liens téléphoniques.</td><td>Icône téléphone</td></tr>
+            <tr><td><code>[id^="section-"]</code></td><td>Éléments dont l'ID commence par "section-".</td><td>Styles groupés par préfixe d'ID</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split interactive">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false">/* Liens HTTPS */
+a[href^="https"] {
+  color: #27ae60;
+}
+a[href^="https"]::before {
+  content: "\1F512 ";
+  font-size: .85em;
+}
+
+/* Liens mailto */
+a[href^="mailto"] {
+  color: #8e44ad;
+}
+a[href^="mailto"]::before {
+  content: "\2709 ";
+}
+
+/* Liens téléphoniques */
+a[href^="tel"] {
+  color: #2980b9;
+  font-weight: bold;
+}
+
+/* ID commençant par "section-" */
+[id^="section-"] {
+  border-left: 3px solid #3498db;
+  padding-left: 1rem;
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;padding:1rem;">
+            <div style="color:#27ae60;">🔒 Lien sécurisé HTTPS</div>
+            <div style="color:#8e44ad;">✉ contact@exemple.com</div>
+            <div style="color:#2980b9;font-weight:bold;">📞 +33 1 23 45 67 89</div>
+            <div style="border-left:3px solid #3498db;padding-left:1rem;margin-top:6px;">Élément avec ID "section-1"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Cas d'usage : stylisation des liens</div>
+          <p>Le sélecteur <code>[href^="https"]</code> constitue le moyen le plus élégant pour distinguer les liens internes des liens externes. En combinant l'opérateur <code>^</code> avec la pseudo-classe <code>:not()</code>, il est possible de traiter différemment les liens HTTP non sécurisés, les adresses électroniques, les numéros de téléphone et les ancres internes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 [ATTR$=] TERMINE PAR ══ -->
+    <div id="t12-suffix">
+      <div class="section-header"><span class="section-num">05</span><h2>[attr$="valeur"] — Termine par (suffixe)</h2></div>
+      <p>Le sélecteur <code>[attr$="valeur"]</code> cible les éléments dont la valeur de l'attribut <strong>termine par</strong> la chaîne spécifiée. Le symbole <code>$</code> évoque l'opérateur « termine par » (analogue à son usage dans les expressions régulières). Ce sélecteur est particulièrement adapté au ciblage des fichiers selon leur extension.</p>
+
+      <h3>Référence complète — <code>[attr$="valeur"]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr$="chaîne"]</code></td><td>Sélectionne les éléments dont l'attribut se termine par la chaîne spécifiée.</td><td>Catégorisation par extension ou suffixe</td></tr>
+            <tr><td><code>[href$=".pdf"]</code></td><td>Liens vers des fichiers PDF.</td><td>Badge [PDF] après le lien</td></tr>
+            <tr><td><code>[href$=".zip"]</code>, <code>[href$=".rar"]</code></td><td>Liens vers des archives.</td><td>Badge [Archive]</td></tr>
+            <tr><td><code>[href$=".doc"]</code>, <code>[href$=".docx"]</code></td><td>Liens vers des documents Word.</td><td>Badge [Word]</td></tr>
+            <tr><td><code>[src$=".png"]</code></td><td>Images au format PNG.</td><td>Style spécifique selon le format d'image</td></tr>
+            <tr><td><code>[src$=".svg"]</code></td><td>Images au format SVG.</td><td>Arrière-plan ou padding pour les SVG</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Fichiers selon leur extension */
+a[href$=".pdf"]::after {
+  content: " [PDF]";
+  color: #e74c3c;
+  font-size: .8em;
+  font-weight: bold;
+}
+
+a[href$=".zip"]::after,
+a[href$=".rar"]::after {
+  content: " [Archive]";
+  color: #e67e22;
+  font-size: .8em;
+}
+
+a[href$=".doc"]::after,
+a[href$=".docx"]::after {
+  content: " [Word]";
+  color: #2980b9;
+  font-size: .8em;
+}
+
+/* Images selon le format */
+img[src$=".png"] { border: 2px solid #3498db; }
+img[src$=".svg"] { background: #f8f9fa; padding: 4px; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Risque de faux positifs</div>
+          <p>Le sélecteur <code>[href$=".pdf"]</code> cible également les URLs telles que <code>document.pdf.php</code> ou <code>page.pdf?version=2</code>. Pour éviter ces correspondances intempestives, combinez-le avec <code>[href*="."]</code> ou adoptez une approche plus stricte. Dans les cas complexes, l'ajout d'une classe directement sur le lien peut s'avérer préférable.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 [ATTR*=] CONTIENT ══ -->
+    <div id="t12-contain">
+      <div class="section-header"><span class="section-num">06</span><h2>[attr*="valeur"] — Contient la sous-chaîne</h2></div>
+      <p>Le sélecteur <code>[attr*="valeur"]</code> cible les éléments dont la valeur de l'attribut <strong>contient</strong> la chaîne spécifiée, quelle que soit sa position dans la valeur. L'astérisque <code>*</code> évoque l'opérateur « contient ». C'est le sélecteur le plus flexible, mais aussi celui qui produit le plus de correspondances potentielles.</p>
+
+      <h3>Référence complète — <code>[attr*="valeur"]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr*="chaîne"]</code></td><td>Sélectionne les éléments dont l'attribut contient la sous-chaîne à n'importe quelle position.</td><td>Recherche de motif flexible</td></tr>
+            <tr><td><code>[class*="btn"]</code></td><td>Éléments dont la classe contient "btn". Cible btn, btn-primary, submit-btn.</td><td>Styles génériques pour composants</td></tr>
+            <tr><td><code>[href*="wikipedia"]</code></td><td>Liens contenant "wikipedia" dans l'URL.</td><td>Marquage de sources spécifiques</td></tr>
+            <tr><td><code>[href*="amazon"]</code></td><td>Liens contenant "amazon" dans l'URL.</td><td>Marquage de liens commerciaux</td></tr>
+            <tr><td><code>[name*="email"]</code></td><td>Champs dont l'attribut name contient "email".</td><td>Styles par motif dans le nom</td></tr>
+            <tr><td><code>[id*="section"]</code></td><td>Éléments dont l'ID contient "section".</td><td>Marges de défilement pour sections</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Classes contenant "btn" */
+[class*="btn"] {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Sources spécifiques */
+[href*="wikipedia"] { color: #636363; }
+[href*="amazon"]    { color: #ff9900; }
+
+/* Champs dont le name contient "email" */
+[name*="email"] {
+  border-color: #3498db;
+}
+
+/* ID contenant "section" */
+[id*="section"] {
+  scroll-margin-top: 80px;
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Puissance et risques de collision</div>
+          <p>Le sélecteur <code>[class*="btn"]</code> cible indifféremment <code>class="btn"</code>, <code>class="btn-primary"</code> et <code>class="submit-btn"</code>. Cette souplesse est utile mais peut engendrer des collisions si les noms se chevauchent. Exemple : <code>[class*="icon"]</code> ciblerait également <code>class="reconnaître"</code>. Pour un ciblage plus précis, préférez <code>[class~="icon"]</code> (mot entier) ou <code>[class^="icon-"]</code> (préfixe).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 [ATTR~=VALEUR] ══ -->
+    <div id="t12-tilde">
+      <div class="section-header"><span class="section-num">07</span><h2>[attr~="valeur"] — Mot dans une liste</h2></div>
+      <p>Le sélecteur <code>[attr~="valeur"]</code> cible les éléments dont la valeur de l'attribut contient le mot spécifié en tant que <strong>mot entier</strong> au sein d'une liste séparée par des espaces. Le tilde <code>~</code> évoque la notion de « mot ». Utile pour les attributs comme <code>rel</code>, <code>class</code> (liste de classes), ou tout attribut contenant des mots séparés par des espaces.</p>
+
+      <h3>Référence complète — <code>[attr~="valeur"]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr~="mot"]</code></td><td>L'attribut contient le mot exact spécifié dans une liste séparée par des espaces. Ne correspond pas à des sous-chaînes partielles.</td><td>Recherche de mot entier dans une liste</td></tr>
+            <tr><td><code>[rel~="noopener"]</code></td><td>Liens avec rel="noopener" (ou "noopener noreferrer").</td><td>Sécurité des liens externes</td></tr>
+            <tr><td><code>[rel~="nofollow"]</code></td><td>Liens avec rel="nofollow".</td><td>Marquage SEO</td></tr>
+            <tr><td><code>[class~="icon"]</code></td><td>Éléments dont la classe contient le mot exact "icon". Ne cible pas "icon-small".</td><td>Styles précis par mot de classe</td></tr>
+            <tr><td><code>[data-priority~="urgent"]</code></td><td>Attribut data-priority contenant le mot "urgent".</td><td>Priorité dans les listes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Attribut rel avec mot "nofollow" */
+[rel~="nofollow"]::after {
+  content: " [nofollow]";
+  color: #e74c3c;
+  font-size: .8em;
+}
+
+/* Mot exact dans l'attribut class */
+[class~="icon"] {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+/* Attribut data contient le mot "urgent" */
+[data-priority~="urgent"] {
+  border-left: 4px solid #e74c3c;
+  background: #fdf0ef;
+}
+
+/* Différence avec [attr*=] :
+   [class~="btn"] cible class="btn primary" MAIS PAS class="btn-primary"
+   [class*="btn"] cible class="btn-primary" AINSI QUE class="submit-btn" */</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Distinction entre [class~=] et [class*=]</div>
+          <p>La différence est subtile mais fondamentale : <code>[class~="btn"]</code> cible les éléments dont la liste de classes contient le mot entier « btn » (<code>class="btn primary"</code> correspond, mais pas <code>class="btn-primary"</code>). <code>[class*="btn"]</code> cible toute sous-chaîne contenant « btn » (<code>class="btn-primary"</code> et <code>class="submit-btn"</code> correspondent). L'opérateur <code>~=</code> est à privilégier lorsqu'on recherche un mot exact dans une liste séparée par des espaces.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 [ATTR|=VALEUR] ══ -->
+    <div id="t12-pipe">
+      <div class="section-header"><span class="section-num">08</span><h2>[attr|="valeur"] — Commence par un mot (suivi d'un tiret)</h2></div>
+      <p>Le sélecteur <code>[attr|="valeur"]</code> cible les éléments dont la valeur de l'attribut est <strong>exactement « valeur »</strong> ou <strong>commence par « valeur- »</strong> (suivi d'un tiret). Ce sélecteur a été conçu spécifiquement pour l'attribut <code>lang</code> (langue), mais s'applique à tous les attributs.</p>
+
+      <h3>Référence complète — <code>[attr|="valeur"]</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr|="valeur"]</code></td><td>Correspond si la valeur est exactement "valeur" OU commence par "valeur-" (suivi d'un tiret).</td><td>Codes de langue, préfixes de version, namespaces</td></tr>
+            <tr><td><code>[lang|="fr"]</code></td><td>Pages en français : fr, fr-FR, fr-CA, fr-BE, fr-CH.</td><td>Styles typographiques par langue</td></tr>
+            <tr><td><code>[lang|="en"]</code></td><td>Pages en anglais : en, en-US, en-GB.</td><td>Guillemets, césure, typographie locale</td></tr>
+            <tr><td><code>[data-version|="2"]</code></td><td>Version 2.x (2.0, 2.1, 2.5, 2.0.1).</td><td>Styles par version de composant</td></tr>
+            <tr><td><code>[class|="icon"]</code></td><td>Classes icon, icon-small, icon-large (mais pas iconButton).</td><td>Préfixes de classes structurés</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Langue française (fr, fr-FR, fr-CA, fr-BE...) */
+[lang|="fr"] {
+  quotes: "\AB" "\BB";
+}
+
+/* Langue anglaise (en, en-US, en-GB...) */
+[lang|="en"] {
+  quotes: "\201C" "\201D";
+}
+
+/* Application aux guillemets */
+[lang|="fr"] blockquote::before {
+  content: "\AB";
+}
+[lang|="fr"] blockquote::after {
+  content: "\BB";
+}
+
+/* Version de données */
+[data-version|="2"] {
+  border-color: #3498db;
+}
+
+/* Préfixes de namespace */
+[class|="icon"] {
+  /* icon, icon-small, icon-large */
+  vertical-align: middle;
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Usage principal : l'attribut lang</div>
+          <p>Le sélecteur <code>[lang|="fr"]</code> est l'outil idéal pour cibler l'ensemble des variantes du français : <code>fr</code>, <code>fr-FR</code>, <code>fr-CA</code>, <code>fr-BE</code>, <code>fr-CH</code>. Il s'agissait de l'usage initialement prévu par la spécification CSS. On peut également l'appliquer à ses propres attributs dont les valeurs présentent une structure hiérarchique, comme <code>data-version="2.0"</code> ou <code>data-version="2.1"</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 MODIFICATEUR i ══ -->
+    <div id="t12-case">
+      <div class="section-header"><span class="section-num">09</span><h2>Modificateur i — Insensibilité à la casse</h2></div>
+      <p>Par défaut, les sélecteurs d'attribut sont <strong>sensibles à la casse</strong> (case-sensitive). L'ajout du modificateur <code>i</code> (ou <code>I</code>) avant le crochet fermant rend la comparaison <strong>insensible à la casse</strong>. Le modificateur s'utilise avec <code>=</code>, <code>^=</code>, <code>$=</code>, <code>*=</code>, mais pas avec <code>~=</code> ni <code>|=</code>.</p>
+
+      <h3>Référence complète — Modificateur <code>i</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>[attr="val" i]</code></td><td>Comparaison insensible à la casse pour l'égalité exacte.</td><td>Formulaires avec valeurs normalisées</td></tr>
+            <tr><td><code>[attr^="val" i]</code></td><td>Préfixe insensible à la casse.</td><td>Protocoles (HTTP, http, Http)</td></tr>
+            <tr><td><code>[attr$="val" i]</code></td><td>Suffixe insensible à la casse.</td><td>Extensions (.PDF, .pdf, .Pdf)</td></tr>
+            <tr><td><code>[attr*="val" i]</code></td><td>Contient insensible à la casse.</td><td>Recherche de motif flexible</td></tr>
+            <tr><td><code>[type="submit" i]</code></td><td>Cible submit, SUBMIT, Submit, etc.</td><td>Normalisation des types de champ</td></tr>
+            <tr><td><code>[href$=".PDF" i]</code></td><td>Cible .pdf, .PDF, .Pdf.</td><td>Extensions de fichier en toutes variantes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Sensible à la casse (par défaut) */
+[type="submit"] { }        /* cible "submit" mais PAS "SUBMIT" */
+
+/* Insensible à la casse avec i */
+[type="submit" i] { }      /* cible submit, SUBMIT, Submit... */
+
+/* Exemples concrets */
+[class*="btn" i] { }        /* cible btn, BTN, Btn... */
+
+[href$=".PDF" i]::after {
+  content: " [PDF]";
+  color: #e74c3c;
+}
+/* Cible .pdf, .PDF, .Pdf, .pdf?version=2... */
+
+/* Support : tous les navigateurs modernes depuis 2019 */
+/* Ne fonctionne PAS avec [attr~=] et [attr|=] */</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Compatibilité et limitations</div>
+          <p>Le modificateur <code>i</code> est pris en charge par l'ensemble des navigateurs modernes depuis 2019. Toutefois, il ne fonctionne <strong>pas</strong> avec les sélecteurs <code>[attr~=]</code> (mot dans une liste) ni <code>[attr|=]</code> (préfixe avec tiret). Il est recommandé de tester sur les navigateurs cibles avant de l'utiliser en production.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 10 COMBINAISONS ══ -->
+    <div id="t12-combo">
+      <div class="section-header"><span class="section-num">10</span><h2>Combinaisons avec classes et balises</h2></div>
+      <p>Les sélecteurs d'attribut peuvent être combinés avec d'autres sélecteurs (balises, classes, pseudo-classes) pour obtenir un ciblage plus précis. On peut également enchaîner plusieurs sélecteurs d'attribut sur le même élément.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Combinaison avec une balise */
+a[href^="https"] { color: #27ae60; }
+input[type="text"] { border: 2px solid #ccc; }
+
+/* Combinaison avec une classe */
+.btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+.card[data-featured="true"] { border-color: gold; }
+
+/* Combinaison avec plusieurs attributs */
+input[type="text"][required] {
+  border-left: 3px solid #e74c3c;
+}
+a[href^="https"][target="_blank"]::after {
+  content: " \2197";
+}
+
+/* Combinaison avec pseudo-classe */
+input[type="text"]:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52,152,219,.2);
+}
+
+/* Négation d'attribut */
+input:not([type="submit"]) {
+  border: 1px solid #ccc;
+}
+a:not([href^="https"]) {
+  color: #e67e22;
+}</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Puissance des sélecteurs multiples</div>
+          <p>En combinant plusieurs sélecteurs d'attribut sur un même élément (<code>input[type="text"][required]</code>), on obtient un ciblage extrêmement précis sans classe dans le HTML. Cette technique est particulièrement utile pour les formulaires. La spécificité reste faible (0,0,2,0 pour deux attributs), ce qui la rend facile à surcharger si nécessaire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 11 PROJET : INVENTAIRE ══ -->
+    <div id="t12-project">
+      <div class="section-header"><span class="section-num">11</span><h2>Projet pratique : Inventaire de Livres</h2></div>
+      <p>Mettons en pratique les sélecteurs d'attribut avec un projet concret : un <strong>inventaire de livres</strong> utilisant des attributs <code>data-*</code> et des sélecteurs CSS avancés. Les attributs <code>data-*</code> sont parfaits pour stocker des métadonnées dans le HTML sans polluer les classes.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html"><!-- Structure HTML de l'inventaire -->
+<ul class="inventory">
+  <li class="book"
+      data-genre="fantasy"
+      data-status="available"
+      data-year="1997"
+      data-pages="320">
+    Harry Potter à l'école des sorciers
+  </li>
+  <li class="book"
+      data-genre="scifi"
+      data-status="borrowed"
+      data-year="1984"
+      data-pages="256">
+    Neuromancien
+  </li>
+  <li class="book"
+      data-genre="fantasy"
+      data-status="available"
+      data-year="1954"
+      data-pages="423">
+    La Communauté de l'Anneau
+  </li>
+  <li class="book"
+      data-genre="classic"
+      data-status="lost"
+      data-year="1869">
+    Guerre et Paix
+  </li>
+</ul></pre></div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Sélecteurs en action</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Livres disponibles */
+.book[data-status="available"] {
+  border-left: 4px solid #27ae60;
+}
+.book[data-status="available"]::before {
+  content: "📗 ";
+}
+
+/* Livres empruntés */
+.book[data-status="borrowed"] {
+  border-left: 4px solid #e67e22;
+  opacity: 0.7;
+}
+.book[data-status="borrowed"]::before {
+  content: "📕 ";
+}
+
+/* Livres perdus */
+.book[data-status="lost"] {
+  border-left: 4px solid #e74c3c;
+  text-decoration: line-through;
+}
+
+/* Par genre */
+.book[data-genre="fantasy"] {
+  background: linear-gradient(to right, #f3e5f5, transparent);
+}
+.book[data-genre="scifi"] {
+  background: linear-gradient(to right, #e3f2fd, transparent);
+}
+
+/* Livres publiés avant 1900 */
+.book[data-year$="18"] {
+  font-style: italic;
+}
+
+/* Livres de plus de 400 pages */
+.book[data-pages^="4"],
+.book[data-pages^="5"],
+.book[data-pages^="6"] {
+  font-weight: bold;
+}</pre></div>
+      </div>
+
+      <h3>Étapes du projet</h3>
+      <ol>
+        <li>Créez la structure HTML avec des attributs <code>data-*</code> pour chaque livre (genre, statut, année, pages).</li>
+        <li>Utilisez <code>[data-status="available"]</code> pour styliser les livres disponibles en vert.</li>
+        <li>Utilisez <code>[data-status="borrowed"]</code> pour les livres empruntés en orange avec opacité réduite.</li>
+        <li>Utilisez <code>[data-status="lost"]</code> pour les livres perdus en rouge avec texte barré.</li>
+        <li>Ajoutez des icônes avec <code>::before</code> selon le statut.</li>
+        <li>Utilisez <code>[data-genre="fantasy"]</code> pour un arrière-plan coloré par genre.</li>
+        <li>Utilisez <code>[data-year$="18"]</code> pour mettre en italique les livres du 19e siècle.</li>
+        <li>Ajoutez un filtre <code>[data-pages^="4"]</code> pour les livres de plus de 400 pages en gras.</li>
+      </ol>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi utiliser data-* pour ce projet ?</div>
+          <p>Les attributs <code>data-*</code> sont entièrement personnalisables, accessibles en CSS (sélecteurs d'attribut) et en JavaScript (<code>dataset</code>). Ce motif est utilisé par de nombreux frameworks CSS pour créer des composants dynamiques sans écrire de JavaScript.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 12 EXERCICES ══ -->
+    <div id="t12-exo">
+      <div class="section-header"><span class="section-num">12</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎯 Sélecteurs d'attribut avancés</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-attributs.html</code> avec 10 liens différents : internes, externes HTTPS, PDF, images, emails, etc.</li>
+            <li>Utilisez <code>[href^="https"]</code> pour ajouter un cadenas 🔒 devant les liens sécurisés.</li>
+            <li>Utilisez <code>[href$=".pdf"]</code> pour ajouter [PDF] en rouge après les fichiers PDF.</li>
+            <li>Utilisez <code>[href^="mailto"]</code> pour ajouter une icône email devant les adresses.</li>
+            <li>Utilisez <code>[target="_blank"]::after</code> pour ajouter ↗.</li>
+            <li>Ajoutez un style pour <code>[disabled]</code> sur un bouton désactivé.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📋 Inventaire de livres</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Reproduisez le projet Inventaire de livres avec au moins 8 livres de genres et statuts variés.</li>
+            <li>Ajoutez un attribut <code>data-rating</code> (1-5) et stylisez les étoiles avec <code>::after</code>.</li>
+            <li>Utilisez <code>[data-rating^="5"]</code> pour mettre en avant les livres 5 étoiles.</li>
+            <li>Utilisez <code>[data-year]</code> pour afficher l'année entre parenthèses.</li>
+            <li>Ajoutez <code>[data-pages]</code> et utilisez <code>[data-pages*="0"]</code> pour identifier les livres de plus de 100 pages.</li>
+            <li>Utilisez le modificateur <code>i</code> pour un attribut insensible à la casse.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🧩 Formulaires intelligents</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un formulaire avec au moins 6 champs de types différents (text, email, password, number, checkbox, submit).</li>
+            <li>Utilisez <code>input[type="text"]</code> et <code>input[type="email"]</code> pour des styles différents.</li>
+            <li>Utilisez <code>[required]</code> pour ajouter un indicateur visuel (bordure rouge, astérisque).</li>
+            <li>Combinez <code>input[type="text"][required]</code> pour un style encore plus spécifique.</li>
+            <li>Utilisez <code>input:not([type="submit"])</code> pour styliser tous les champs sauf le bouton.</li>
+            <li>Ajoutez <code>:focus</code> sur <code>input[type]</code> pour un halo de focus coloré par type.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Galerie de fichiers</div>
+          <p>Créez une galerie de fichiers avec des attributs <code>data-type</code> (image, video, audio, document) et <code>data-size</code> (taille en Ko). Utilisez les sélecteurs d'attribut pour colorer chaque type de fichier différemment et afficher la taille formatée.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="t12">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- Projet fil rouge -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Utilisez les sélecteurs d'attributs pour styliser différemment les liens externes (href^="http") et les ancres internes (href^="#"). Ajoutez une icône pour les liens externes avec ::after.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Apporter une distinction visuelle claire entre les différents types de liens.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══ 13 GLOSSAIRE ══ -->
+    <div id="t12-bilan">
+      <div class="section-header"><span class="section-num">13</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li><code>[attr]</code> : présence de l'attribut (ex: <code>[disabled]</code>)</li>
+        <li><code>[attr="valeur"]</code> : égalité exacte (ex: <code>[type="submit"]</code>)</li>
+        <li><code>[attr^="valeur"]</code> : commence par, préfixe (ex: <code>[href^="https"]</code>)</li>
+        <li><code>[attr$="valeur"]</code> : termine par, suffixe (ex: <code>[src$=".png"]</code>)</li>
+        <li><code>[attr*="valeur"]</code> : contient la sous-chaîne (ex: <code>[class*="btn"]</code>)</li>
+        <li><code>[attr~="valeur"]</code> : mot entier dans une liste (ex: <code>[rel~="noopener"]</code>)</li>
+        <li><code>[attr|="valeur"]</code> : valeur exacte ou suivie d'un tiret (ex: <code>[lang|="fr"]</code>)</li>
+        <li>Le modificateur <code>i</code> pour l'insensibilité à la casse</li>
+        <li>Les combinaisons avec balises, classes et pseudo-classes</li>
+        <li>Le projet Inventaire de Livres utilisant les attributs <code>data-*</code></li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>[attr]</dt><dd>Sélecteur de présence : cible les éléments qui ont l'attribut, quelle que soit sa valeur.</dd>
+          <dt>[attr="val"]</dt><dd>Sélecteur d'égalité exacte : la valeur doit correspondre exactement.</dd>
+          <dt>^= (préfixe)</dt><dd>Sélecteur « commence par » : la valeur commence par la chaîne indiquée.</dd>
+          <dt>$= (suffixe)</dt><dd>Sélecteur « termine par » : la valeur finit par la chaîne indiquée.</dd>
+          <dt>*= (contient)</dt><dd>Sélecteur « contient » : la valeur contient la sous-chaîne à n'importe quelle position.</dd>
+          <dt>~= (mot)</dt><dd>Sélecteur « mot dans la liste » : le mot exact apparaît dans une liste séparée par des espaces.</dd>
+          <dt>|= (tiret)</dt><dd>Sélecteur « préfixe avec tiret » : valeur exacte ou valeur suivie d'un tiret.</dd>
+          <dt>i (insensible)</dt><dd>Modificateur optionnel pour rendre la comparaison insensible à la casse.</dd>
+          <dt>data-*</dt><dd>Attributs HTML personnalisés pour stocker des données. Accessibles via sélecteurs d'attribut CSS.</dd>
+          <dt>Spécificité</dt><dd>Les sélecteurs d'attribut ont une spécificité de 0,0,1,0 (comme les classes).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Fiche suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Responsive Design</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Media queries · Mobile-first · Breakpoints · Viewport</div>
+        </div>
+        <a href="responsive-design.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Responsive →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

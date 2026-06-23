@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Responsive · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+    .code-editor { min-height:80px; background:#1e1e2e; color:#cdd6f4; font-family:'JetBrains Mono',monospace; font-size:.85rem; padding:1rem; border:none; outline:none; resize:vertical; width:100%; box-sizing:border-box; tab-size:2; }
+    .code-editor:focus { box-shadow:inset 0 0 0 2px var(--teal); }
+    .live-feedback { padding:.75rem 1rem; background:var(--bg2); border-top:1px solid var(--border); font-size:.85rem; min-height:2rem; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html" class="active">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Design Responsive</div>
+      <a href="#rd-intro"      class="sidebar-item"><span class="sidebar-num">01</span>Qu'est-ce que le responsive ?</a>
+      <a href="#rd-viewport"   class="sidebar-item"><span class="sidebar-num">02</span>Viewport meta tag</a>
+      <a href="#rd-media"      class="sidebar-item"><span class="sidebar-num">03</span>Media queries</a>
+      <a href="#rd-break"      class="sidebar-item"><span class="sidebar-num">04</span>Breakpoints & approches</a>
+      <a href="#rd-units"      class="sidebar-item"><span class="sidebar-num">05</span>Unités responsives</a>
+      <a href="#rd-images"     class="sidebar-item"><span class="sidebar-num">06</span>Images & picture</a>
+      <a href="#rd-container"  class="sidebar-item"><span class="sidebar-num">07</span>Container queries</a>
+      <a href="#rd-exo"        class="sidebar-item"><span class="sidebar-num">08</span>Exercices</a>
+      <a href="#rd-bilan"      class="sidebar-item"><span class="sidebar-num">09</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="variables.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Variables CSS →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Design Responsive</div>
+      <h1>Design Responsive</h1>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">9 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 INTRODUCTION ══ -->
+    <div id="rd-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Qu'est-ce que le responsive design ?</h2></div>
+      <p>Le <strong>responsive design</strong> (conception adaptative) est une méthodologie de développement web qui permet à une interface de s'afficher de manière optimale sur tous les supports : mobiles, tablettes, ordinateurs de bureau et téléviseurs. Le contenu demeure invariant ; seule la mise en page se reconfigure en fonction de l'espace disponible. Cette approche a été formalisée par Ethan Marcotte en 2010 et repose sur trois piliers fondamentaux : une grille fluide, des images flexibles et des media queries.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">💧</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : l'eau et le récipient</div>
+          <p>Considérons de l'eau versée dans différents récipients. Dans un verre étroit, elle adopte une forme haute et fine. Dans un saladier, elle s'étale largement. Il s'agit pourtant de la <strong>même eau</strong> — autrement dit, du même contenu. Le responsive design incarne précisément cette capacité du contenu à épouser la morphologie de son conteneur, en l'occurrence l'écran.</p>
+        </div>
+      </div>
+
+      <h3>Les trois piliers du responsive design</h3>
+      <ul>
+        <li><strong>Grille fluide</strong> : les largeurs sont exprimées en % ou en <code>fr</code>, jamais en unités fixes <code>px</code></li>
+        <li><strong>Images flexibles</strong> : les images ne doivent jamais excéder la largeur de leur conteneur (<code>max-width: 100%</code>)</li>
+        <li><strong>Media queries</strong> : des points de rupture conditionnant les changements de mise en page</li>
+      </ul>
+
+      <p>À l'heure actuelle, <strong>plus de 60 % du trafic web</strong> provient d'appareils mobiles. Google utilise le <em>mobile-first indexing</em> : c'est la version mobile d'un site qui est prise en compte pour le référencement. Un site non responsive est donc un site invisible.</p>
+    </div>
+
+    <!-- ══ 02 VIEWPORT ══ -->
+    <div id="rd-viewport">
+      <div class="section-header"><span class="section-num">02</span><h2>La balise meta viewport</h2></div>
+      <p>La mise en œuvre du responsive design débute par une balise HTML qui spécifie au navigateur mobile la manière d'interpréter la largeur de la page. En l'absence de celle-ci, les terminaux mobiles affichent la version desktop du site avec un zoom arrière important, rendant le texte illisible.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">HTML</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="html">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+<!-- width=device-width  → la largeur correspond à celle de l'écran du mobile -->
+<!-- initial-scale=1.0   → pas de zoom par défaut -->
+
+<!-- Exemple avec restrictions (déconseillé pour l'accessibilité) -->
+&lt;meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2"&gt;</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Sans viewport, pas de responsive</div>
+          <p>Si la balise viewport est omise, le site ne sera <strong>jamais</strong> véritablement responsive. Les iPhones et autres appareils mobiles restitueront la page comme si elle était conçue pour un écran de 980 px de large, avec un zoom arrière. L'utilisateur devra pincer-zoomer pour lire — une expérience désastreuse.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 MEDIA QUERIES ══ -->
+    <div id="rd-media">
+      <div class="section-header"><span class="section-num">03</span><h2>Les media queries — syntaxe @media</h2></div>
+      <p>Les <strong>media queries</strong> sont des règles CSS conditionnelles : elles ne s'appliquent que lorsque certaines conditions relatives au type de média ou aux caractéristiques du dispositif sont satisfaites (largeur d'écran, orientation, préférence utilisateur). Leur syntaxe générale est <code>@media type and (condition) { règles }</code>.</p>
+
+      <h3>Référence complète — <code>@media</code> (types de média)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>all</code></td><td>Tous les types de média (valeur par défaut)</td><td>Utilisé pour les règles universelles, sans condition</td></tr>
+            <tr><td><code>screen</code></td><td>Écrans : ordinateurs, mobiles, tablettes, téléviseurs</td><td>Utilisé dans la quasi-totalité des cas pour le web</td></tr>
+            <tr><td><code>print</code></td><td>Impression et aperçu avant impression</td><td>Masquer les interactions, ajuster les marges et les polices</td></tr>
+            <tr><td><code>speech</code></td><td>Synthèse vocale et lecteurs d'écran</td><td>Accessibilité : ajuster le débit ou le ton de la voix</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>@media</code> (opérateurs logiques)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Opérateur</th><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>and</code></td><td><code>@media screen and (min-width: 768px)</code></td><td>ET logique : toutes les conditions doivent être vraies</td><td>Combiner un type avec une ou plusieurs conditions</td></tr>
+            <tr><td><code>,</code> (virgule)</td><td><code>@media (max-width: 480px), (orientation: landscape)</code></td><td>OU logique : une des conditions suffit</td><td>Alternatives : petit écran OU paysage</td></tr>
+            <tr><td><code>not</code></td><td><code>@media not screen</code></td><td>Négation : inverse la condition</td><td>Exclure un type de média spécifique</td></tr>
+            <tr><td><code>only</code></td><td><code>@media only screen</code></td><td>Empêche les anciens navigateurs d'appliquer la règle</td><td>Progressive enhancement pour navigateurs obsolètes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>min-width</code> / <code>max-width</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Condition</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>min-width: Npx</code></td><td>Vrai quand la fenêtre fait <strong>au moins</strong> N px de large</td><td>Approche mobile-first : styles de base pour mobile, puis <code>min-width</code> pour les écrans plus grands</td></tr>
+            <tr><td><code>max-width: Npx</code></td><td>Vrai quand la fenêtre fait <strong>au plus</strong> N px de large</td><td>Approche desktop-first : styles de base pour desktop, puis <code>max-width</code> pour les écrans plus petits</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>orientation</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>portrait</code></td><td>La hauteur de la fenêtre est supérieure ou égale à la largeur</td><td>Adapter la mise en page lorsque le mobile est tenu en vertical</td></tr>
+            <tr><td><code>landscape</code></td><td>La largeur de la fenêtre est supérieure à la hauteur</td><td>Afficher plus de colonnes ou un menu déplié en mode horizontal</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>prefers-*</code> (préférences utilisateur)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Media query</th><th>Valeurs</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>prefers-color-scheme</code></td><td><code>light</code>, <code>dark</code></td><td>Détecte le thème clair ou sombre du système d'exploitation</td><td>Appliquer automatiquement un thème sombre/clair</td></tr>
+            <tr><td><code>prefers-reduced-motion</code></td><td><code>no-preference</code>, <code>reduce</code></td><td>Détecte si l'utilisateur demande une réduction des animations</td><td>Désactiver les animations pour les personnes sensibles (exigence WCAG)</td></tr>
+            <tr><td><code>prefers-contrast</code></td><td><code>no-preference</code>, <code>high</code>, <code>low</code></td><td>Détecte la préférence de contraste de l'utilisateur</td><td>Renforcer les contrastes pour les malvoyants</td></tr>
+            <tr><td><code>prefers-reduced-data</code></td><td><code>no-preference</code>, <code>reduce</code></td><td>Détecte si l'utilisateur souhaite réduire sa consommation de données</td><td>Servir des images de moindre qualité, désactiver les polices web</td></tr>
+            <tr><td><code>inverted-colors</code></td><td><code>none</code>, <code>inverted</code></td><td>Détecte si l'OS inverse les couleurs de l'écran</td><td>Inverser les images pour compenser l'inversion système</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Live editor</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Mobile-first : base = mobile, puis couches successives */
+.grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .grille { grid-template-columns: 1fr 1fr; }
+}
+
+@media screen and (min-width: 1024px) {
+  .grille { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* Préférence utilisateur */
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0D1117; --text: #e6edf3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; }
+}
+
+/* Orientation */
+@media (orientation: landscape) {
+  .sidebar { width: 250px; }
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#e8f4f8;padding:10px;border-radius:4px;font-size:13px;">
+              Redimensionnez la fenêtre pour voir les media queries en action. Les préférences système (mode sombre, réduction de mouvement) sont détectées automatiquement.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Où placer les media queries ?</div>
+          <p>Deux approches : ① <strong>Dans le même fichier CSS</strong> après les règles de base (recommandé). ② <strong>Dans un fichier CSS distinct</strong> grâce à l'attribut <code>media</code> sur <code>&lt;link&gt;</code>. L'approche centralisée facilite la maintenance et évite des requêtes HTTP superflues.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 BREAKPOINTS & APPROCHES ══ -->
+    <div id="rd-break">
+      <div class="section-header"><span class="section-num">04</span><h2>Breakpoints et approches : mobile-first vs desktop-first</h2></div>
+      <p>Un <strong>breakpoint</strong> est une largeur d'écran à partir de laquelle la mise en page se modifie. Il n'existe pas de valeurs universelles — tout dépend du contenu. Les breakpoints les plus fréquents (empruntés à Bootstrap) sont : 576 px (petits écrans), 768 px (tablettes), 992 px (desktop), 1200 px (grands écrans) et 1400 px (très grands écrans). La règle d'or est de les baser sur le contenu, pas sur des appareils spécifiques.</p>
+
+      <h3>Référence complète — Breakpoints courants</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Breakpoint</th><th>Mobile-first (min-width)</th><th>Desktop-first (max-width)</th><th>Cible</th></tr></thead>
+          <tbody>
+            <tr><td><code>576px</code></td><td><code>@media (min-width: 576px)</code></td><td><code>@media (max-width: 575px)</code></td><td>Grands mobiles en paysage</td></tr>
+            <tr><td><code>768px</code></td><td><code>@media (min-width: 768px)</code></td><td><code>@media (max-width: 767px)</code></td><td>Tablettes</td></tr>
+            <tr><td><code>992px</code></td><td><code>@media (min-width: 992px)</code></td><td><code>@media (max-width: 991px)</code></td><td>Desktop</td></tr>
+            <tr><td><code>1200px</code></td><td><code>@media (min-width: 1200px)</code></td><td><code>@media (max-width: 1199px)</code></td><td>Grands écrans</td></tr>
+            <tr><td><code>1400px</code></td><td><code>@media (min-width: 1400px)</code></td><td><code>@media (max-width: 1399px)</code></td><td>Très grands écrans</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS — Mobile-first</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* MOBILE-FIRST (recommandé) */
+/* Base = mobile (0‑575px) */
+.grille { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
+@media (min-width: 768px) { .grille { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .grille { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* DESKTOP-FIRST (alternative) */
+.grille { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+
+@media (max-width: 1023px) { .grille { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 767px) { .grille { grid-template-columns: 1fr; } }</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Mobile-first (min-width) est recommandé</div>
+          <p>Cette approche est plus performante (les mobiles téléchargent moins de CSS), plus élégante (progressive enhancement) et mieux adaptée au web contemporain. Desktop-first (max-width) peut servir pour adapter un site desktop existant, mais pour tout nouveau projet, privilégiez mobile-first.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 UNITÉS RESPONSIVES ══ -->
+    <div id="rd-units">
+      <div class="section-header"><span class="section-num">05</span><h2>Unités responsives : %, vw, vh, clamp()</h2></div>
+      <p>Les unités relatives constituent le fondement du responsive design. <code>vw</code>, <code>vh</code>, <code>%</code> et la fonction <code>clamp()</code> permettent aux éléments de s'adapter à la taille de l'écran sans recourir à des media queries. La fonction <code>clamp(MIN, PRÉFÉRÉ, MAX)</code> est particulièrement puissante : elle définit une valeur fluide entre un minimum et un maximum, éliminant le besoin de breakpoints pour les tailles de texte.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Viewport units */
+.hero    { height: 60vh; }           /* 60 % de la hauteur de l'écran */
+.section { padding: 5vw; }          /* padding proportionnel à la largeur */
+.title   { font-size: clamp(1.5rem, 4vw, 3rem); } /* taille fluide */
+
+/* clamp() — la fonction reine du responsive */
+.text { font-size: clamp(1rem, 2.5vw, 2rem); }
+.card { padding: clamp(1rem, 3vw, 2.5rem); }
+
+/* Pourcentage + max-width */
+.container { width: 100%; max-width: 1100px; margin: 0 auto; }</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">clamp() — une alternative moderne aux media queries</div>
+          <p><code>clamp(MIN, PRÉFÉRÉ, MAX)</code> permet une valeur fluide entre un minimum et un maximum. Un titre en <code>clamp(1.5rem, 4vw, 3rem)</code> croît progressivement avec l'écran sans jamais excéder 3 rem ni descendre sous 1.5 rem, éliminant le besoin de breakpoints pour les tailles de texte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 IMAGES RESPONSIVES ══ -->
+    <div id="rd-images">
+      <div class="section-header"><span class="section-num">06</span><h2>Images responsives et l'élément &lt;picture&gt;</h2></div>
+      <p>Une image qui excède la largeur de son conteneur compromet la mise en page. La règle fondamentale est <code>max-width: 100%</code>. Pour la performance, on utilise <code>srcset</code> (servir la bonne résolution) et l'élément <code>&lt;picture&gt;</code> (servir le bon format).</p>
+
+      <h3>Référence complète — <code>&lt;picture&gt;</code> et <code>&lt;source&gt;</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Élément / Attribut</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;picture&gt;</code></td><td>Conteneur générique pour plusieurs sources d'image</td><td>Fournir différents formats ou résolutions selon le contexte</td></tr>
+            <tr><td><code>&lt;source srcset="..." type="..."&gt;</code></td><td>Définit une source alternative avec son type MIME</td><td>Servir du WebP ou AVIF avec fallback JPEG/PNG</td></tr>
+            <tr><td><code>&lt;source srcset="..." media="..."&gt;</code></td><td>Source conditionnelle basée sur une media query</td><td>Charger une image différente selon la taille d'écran (art direction)</td></tr>
+            <tr><td><code>&lt;img src="..." alt="..."&gt;</code></td><td>Image de fallback, toujours présente et obligatoire</td><td>Fallback pour les navigateurs qui ne supportent pas &lt;picture&gt;</td></tr>
+            <tr><td><code>srcset="photo-400w.jpg 400w"</code></td><td>Liste d'images avec leurs largeurs en pixels (w)</td><td>Permet au navigateur de choisir la meilleure résolution</td></tr>
+            <tr><td><code>srcset="photo.jpg 1x, photo@2x.jpg 2x"</code></td><td>Liste d'images avec leur densité de pixels (x)</td><td>Cibler les écrans Retina (préférer la syntaxe w + sizes)</td></tr>
+            <tr><td><code>sizes="(max-width: 480px) 100vw, 800px"</code></td><td>Indique la taille d'affichage de l'image dans chaque breakpoint</td><td>Nécessaire pour que le navigateur choisisse la bonne source parmi les descriptors w</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS + HTML</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* CSS — la règle d'or */
+img, video, iframe { max-width: 100%; height: auto; }
+
+&-img { width: 100%; height: 300px; object-fit: cover; }
+
+/* srcset — servir la bonne taille */
+&lt;img src="photo-800.jpg"
+     srcset="photo-400.jpg 400w, photo-800.jpg 800w, photo-1200.jpg 1200w"
+     sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 800px"
+     alt="Paysage"&gt;
+
+/* picture — différents FORMATS */
+&lt;picture&gt;
+  &lt;source srcset="photo.avif" type="image/avif"&gt;
+  &lt;source srcset="photo.webp" type="image/webp"&gt;
+  &lt;img src="photo.jpg" alt="Paysage"&gt;
+&lt;/picture&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#e8f4f8;padding:10px;border-radius:4px;font-size:13px;">
+              <code>srcset</code> + <code>max-width: 100%</code> = images adaptées à tous les écrans et résolutions.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">La règle fondamentale pour toutes les images</div>
+          <p>Intégrez cette règle dans le reset CSS : <code>img, video, iframe { max-width: 100%; height: auto; }</code>. Sans elle, une image de 1920 px dépasserait de 300 px sur un mobile — rédhibitoire pour le responsive.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 CONTAINER QUERIES ══ -->
+    <div id="rd-container">
+      <div class="section-header"><span class="section-num">07</span><h2>Container queries — le futur du responsive</h2></div>
+      <p>Les <strong>container queries</strong> (<code>@container</code>) permettent à un composant de réagir à la taille de son propre conteneur plutôt qu'à celle de la fenêtre. Supportées par tous les navigateurs modernes depuis 2023, elles constituent une avancée majeure pour les composants réutilisables.</p>
+
+      <h3>Référence complète — <code>@container</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété / Règle</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>container-type: inline-size</code></td><td>Définit le conteneur comme un contexte de requête basé sur la largeur</td><td>Nécessaire pour activer les container queries sur ce conteneur</td></tr>
+            <tr><td><code>container-type: size</code></td><td>Définit le conteneur sur la largeur ET la hauteur</td><td>Plus rare, utile pour les requêtes sur les deux axes</td></tr>
+            <tr><td><code>container-name: nom</code></td><td>Donne un nom au conteneur pour le cibler dans @container</td><td>Évite les conflits quand plusieurs conteneurs sont imbriqués</td></tr>
+            <tr><td><code>container: nom / inline-size</code></td><td>Shorthand pour container-name et container-type</td><td><code>container: card / inline-size</code></td></tr>
+            <tr><td><code>@container nom (min-width: Npx)</code></td><td>Requête conditionnelle sur la taille du conteneur nommé</td><td>Adapter un composant à l'espace disponible dans son parent</td></tr>
+            <tr><td><code>@container (min-width: Npx)</code></td><td>Requête sur le conteneur le plus proche sans nom spécifique</td><td>Utilisation simple quand un seul conteneur est présent</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* 1. Définir un conteneur */
+.card-wrapper { container: card / inline-size; }
+
+/* 2. Utiliser @container */
+@container card (min-width: 400px) {
+  .card { display: flex; flex-direction: row; }
+  .card-img { width: 150px; height: 150px; }
+}
+
+@container card (max-width: 399px) {
+  .card { display: flex; flex-direction: column; }
+  .card-img { width: 100%; height: auto; }
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Container queries vs media queries</div>
+          <p>Les <strong>media queries</strong> réagissent au viewport (la fenêtre entière). Les <strong>container queries</strong> réagissent à la taille du parent. Une carte placée à la fois dans une sidebar étroite et dans la zone principale large s'adapte automatiquement à chaque contexte. Supportées par Chrome 105+, Firefox 110+, Safari 16+.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 EXERCICES ══ -->
+    <div id="rd-exo">
+      <div class="section-header"><span class="section-num">08</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📱 Page responsive complète</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-responsive.html</code> avec header, navigation, contenu principal, sidebar, footer.</li>
+            <li>En mobile (&lt; 576 px) : tout en 1 colonne, menu en hamburger.</li>
+            <li>En tablette (≥ 768 px) : 2 colonnes pour la section principale.</li>
+            <li>En desktop (≥ 1024 px) : 3 colonnes avec sidebar visible.</li>
+            <li>Utilisez <code>clamp()</code> pour les tailles de texte.</li>
+            <li>Images responsives avec <code>max-width: 100%</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔄 Migration mobile-first</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez un fichier CSS en desktop-first, puis réécrivez-le en mobile-first.</li>
+            <li>Ajoutez <code>clamp()</code> pour au moins 3 propriétés (font-size, padding, gap).</li>
+            <li>Utilisez <code>max-width: 100%; height: auto;</code> sur toutes les images.</li>
+            <li>Ajoutez un breakpoint à 576 px, 768 px et 1024 px.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Container queries</div>
+          <p>Créez un composant "carte-produit" avec <code>container-type: inline-size</code>. La carte passe en mode horizontal quand le conteneur dépasse 400 px. Placez la même carte dans une sidebar étroite et dans la zone principale — elle s'adapte automatiquement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FIL ROUGE ══ -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Rendez le portfolio adaptatif en définissant des breakpoints pour mobile (320 px), tablette (768 px) et desktop (1024 px). Utilisez l'approche mobile-first avec des media queries min-width.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Assurer une expérience utilisateur optimale sur tous les écrans.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="RD">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 09 BILAN ══ -->
+    <div id="rd-bilan">
+      <div class="section-header"><span class="section-num">09</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Compétences acquises</h3>
+      <ul class="checklist">
+        <li>Les principes du responsive design : grille fluide, images flexibles, media queries</li>
+        <li>La balise meta viewport — obligatoire pour tout site responsive</li>
+        <li>Syntaxe des media queries : @media, types, opérateurs logiques, min/max-width, orientation, prefers-*</li>
+        <li>Breakpoints : 576 px, 768 px, 992 px, 1200 px (adaptables au contenu)</li>
+        <li>Approche mobile-first (min-width) vs desktop-first (max-width)</li>
+        <li>Unités responsives : %, vw, vh, clamp(min, préféré, max)</li>
+        <li>Images responsives : max-width: 100 %, srcset, picture, object-fit</li>
+        <li>Container queries (@container) pour des composants réutilisables</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Responsive design</dt><dd>Approche de conception web qui adapte la mise en page à la taille de l'écran.</dd>
+          <dt>Viewport</dt><dd>Zone visible du navigateur. Balise meta obligatoire pour indiquer la largeur réelle au mobile.</dd>
+          <dt>Media query</dt><dd>Règle CSS conditionnelle basée sur les caractéristiques du dispositif.</dd>
+          <dt>Breakpoint</dt><dd>Largeur d'écran à partir de laquelle la mise en page change.</dd>
+          <dt>Mobile-first</dt><dd>Approche qui part du mobile (styles de base) et ajoute des couches pour les écrans plus larges.</dd>
+          <dt>clamp()</dt><dd>Fonction CSS : clamp(MIN, PRÉFÉRÉ, MAX). Crée une valeur fluide entre un min et un max.</dd>
+          <dt>srcset</dt><dd>Attribut HTML listant plusieurs versions d'une image pour différentes résolutions d'écran.</dd>
+          <dt>Container query</dt><dd>Media query basée sur la taille du conteneur parent plutôt que sur celle du viewport.</dd>
+          <dt>object-fit</dt><dd>Propriété CSS pour contrôler comment une image remplit son cadre (cover, contain, fill).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Chapitre suivant</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Variables CSS</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Custom properties · var() · Portée · Héritage · Thèmes · calc()</div>
+        </div>
+        <a href="variables.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Variables CSS →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

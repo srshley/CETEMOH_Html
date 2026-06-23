@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 10 — Animations & CSS Moderne · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1-css.html">Séance 1</a>
+      <a href="seance2-css.html">Séance 2</a>
+      <a href="seance3-css.html">Séance 3</a>
+      <a href="seance4-css.html">Séance 4</a>
+      <a href="seance5-css.html">Séance 5</a>
+      <a href="seance6-css.html">Séance 6</a>
+      <a href="seance7-css.html">Séance 7</a>
+      <a href="seance8-css.html">Séance 8</a>
+      <a href="seance9-css.html">Séance 9</a>
+      <a href="seance10-css.html" class="active">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s10">Séance 10</div>
+      <a href="#s10-trans"     class="sidebar-item"><span class="sidebar-num">01</span>Transitions</a>
+      <a href="#s10-transform" class="sidebar-item"><span class="sidebar-num">02</span>Transform</a>
+      <a href="#s10-keyframes" class="sidebar-item"><span class="sidebar-num">03</span>@keyframes</a>
+      <a href="#s10-anim"      class="sidebar-item"><span class="sidebar-num">04</span>Animation</a>
+      <a href="#s10-vars"      class="sidebar-item"><span class="sidebar-num">05</span>Variables CSS</a>
+      <a href="#s10-calc"      class="sidebar-item"><span class="sidebar-num">06</span>calc(), min(), max()</a>
+      <a href="#s10-filters"   class="sidebar-item"><span class="sidebar-num">07</span>Filters</a>
+      <a href="#s10-bem"       class="sidebar-item"><span class="sidebar-num">08</span>Méthodologie BEM</a>
+      <a href="#s10-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s10-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance1-css.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Retour Séance 1 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 10 / 10</div>
+      <h1>Animations & CSS Moderne</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Transitions · Transform · Keyframes · Variables · calc() · Filters · BEM</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 TRANSITIONS ══ -->
+    <div id="s10-trans">
+      <div class="section-header"><span class="section-num">01</span><h2>Transitions : property, duration, timing, delay</h2></div>
+      <p>Les <strong>transitions CSS</strong> permettent de fluidifier les changements d'état (hover, focus, ajout de classe). Au lieu d'un changement instantané, la valeur évolue progressivement.</p>
+
+      <div class="diagram-animated">
+        <div class="diagram-step">
+          <span class="diagram-label">🎨 Sélecteur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">📐 Propriété</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">📐 Propriété</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">🎯 Valeur</span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-label">🎯 Valeur</span>
+          <span class="diagram-arrow">→</span>
+          <span class="diagram-label">✨ Résultat stylisé</span>
+        </div>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Shorthand : property duration timing delay */
+.btn {
+  background: #3498db;
+  color: white;
+  padding: .75em 1.5em;
+  border: none;
+  border-radius: 6px;
+  transition: background .3s ease,
+              transform .2s ease,
+              box-shadow .3s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
+/* Timing functions */
+.ease     { transition: all .3s ease; }         /* démarre vite, ralentit à la fin (défaut) */
+.linear   { transition: all .3s linear; }       /* vitesse constante */
+.ease-in  { transition: all .3s ease-in; }      /* démarre lentement, accélère */
+.ease-out { transition: all .3s ease-out; }     /* démarre vite, ralentit */
+.ease-in-out { transition: all .3s ease-in-out; } /* lent au début et à la fin */
+
+/* Cubic-bezier personnalisé */
+.custom   { transition: all .3s cubic-bezier(.68, -.55, .265, 1.55); }
+
+/* transition: all — à éviter (toutes les propriétés transitionnent) */
+/* Préférez lister explicitement les propriétés à transitionner */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#3498db;color:white;padding:10px 20px;border-radius:6px;display:inline-block;transition:all .3s ease;cursor:pointer;" onmouseover="this.style.background='#2980b9';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#3498db';this.style.transform='none'">Survolez-moi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Les propriétés transitionnables</div>
+          <p>Toutes les propriétés CSS ne peuvent pas être animées en transition. Les plus courantes : <code>opacity</code>, <code>transform</code>, <code>background-color</code>, <code>color</code>, <code>box-shadow</code>, <code>border</code>. Certaines comme <code>display</code> ne sont pas animables. Pour un changement de display, utilisez plutôt <code>opacity</code> + <code>visibility</code> combinés. Les transitions sur <code>width</code> et <code>height</code> fonctionnent mais sont coûteuses en performance — préférez <code>transform</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 TRANSFORM ══ -->
+    <div id="s10-transform">
+      <div class="section-header"><span class="section-num">02</span><h2>Transform : rotate, scale, translate</h2></div>
+      <p><code>transform</code> modifie la <strong>forme, la taille et la position</strong> d'un élément sans affecter le flux du document. C'est la propriété la plus performante pour les animations car elle utilise l'accélération matérielle GPU.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* TRANSLATE — déplacement */
+.translate   { transform: translate(20px, 10px); }    /* X et Y */
+.translate-x { transform: translateX(30px); }         /* horizontal uniquement */
+.translate-y { transform: translateY(-20px); }        /* vertical (négatif = monte) */
+.center      { transform: translate(-50%, -50%); }    /* centrage parfait d'un absolu */
+
+/* ROTATE — rotation */
+.rotate      { transform: rotate(45deg); }   /* 45° dans le sens horaire */
+.rotate-neg  { transform: rotate(-90deg); }  /* 90° antihoraire */
+.rotate-half { transform: rotate(.5turn); }  /* 180° en tours */
+
+/* SCALE — mise à l'échelle */
+.scale       { transform: scale(1.2); }      /* 120% de la taille */
+.scale-x     { transform: scaleX(1.5); }     /* étirement horizontal */
+.scale-y     { transform: scaleY(0.8); }     /* rétrécissement vertical */
+
+/* SKEW — déformation (inclinaison) */
+.skew        { transform: skew(10deg, 5deg); }
+
+/* Combinaisons (ordre important) */
+.combo       { transform: translateX(20px) rotate(45deg) scale(1.1); }
+
+/* Transform-origin (point d'origine) */
+.origin-center { transform-origin: center; }       /* défaut */
+.origin-top    { transform-origin: top left; }
+.origin-own    { transform-origin: 30% 70%; }</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+              <div style="background:#3498db;color:white;padding:8px 12px;border-radius:4px;transform:rotate(15deg);">rotate(15deg)</div>
+              <div style="background:#e74c3c;color:white;padding:8px 12px;border-radius:4px;transform:scale(1.1);">scale(1.1)</div>
+              <div style="background:#2ecc71;color:white;padding:8px 12px;border-radius:4px;transform:translateY(-5px);">translateY</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Transform = GPU, pas CPU</div>
+          <p>Contrairement à <code>margin</code>, <code>left</code>, <code>width</code> ou <code>height</code> qui sollicitent le processeur (CPU) et déclenchent un <strong>reflow</strong> (recalcul complet de la mise en page), <code>transform</code> utilise uniquement le processeur graphique (GPU) et ne déclenche qu'un <strong>composite</strong> — beaucoup plus rapide. Pour des animations fluides à 60 images par seconde, utilisez <code>transform</code> et <code>opacity</code> exclusivement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 @KEYFRAMES ══ -->
+    <div id="s10-keyframes">
+      <div class="section-header"><span class="section-num">03</span><h2>@keyframes — définir des animations</h2></div>
+      <p>Les <strong>keyframes</strong> (images clés) définissent les étapes d'une animation. On spécifie des points de pourcentage (0% à 100%) avec les propriétés CSS à chaque étape.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Définition de l'animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-10px); }
+  75%      { transform: translateX(10px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#3498db;color:white;padding:12px 24px;border-radius:6px;display:inline-block;animation:pulse 2s ease-in-out infinite;" onmouseover="this.style.animation='shake .3s ease'" onmouseout="this.style.animation='pulse 2s ease-in-out infinite'">
+              Animation !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">from…to vs 0%…100%</div>
+          <p>Les mots-clés <code>from</code> et <code>to</code> sont équivalents à <code>0%</code> et <code>100%</code>. Pour les animations simples, <code>from { } to { }</code> est plus lisible. Pour les animations complexes avec plusieurs étapes intermédiaires, utilisez les pourcentages (<code>0%</code>, <code>25%</code>, <code>50%</code>, <code>75%</code>, <code>100%</code>). Les navigateurs interpolent automatiquement entre chaque étape.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 ANIMATION ══ -->
+    <div id="s10-anim">
+      <div class="section-header"><span class="section-num">04</span><h2>Animation : name, duration, iteration, direction</h2></div>
+      <p>La propriété <code>animation</code> applique les keyframes à un élément. Le shorthand <code>animation</code> regroupe toutes les sous-propriétés.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Shorthand complet : name duration timing delay iteration direction fill-mode */
+.fade-in {
+  animation: fadeIn .6s ease-out .2s both;
+  /* se déclenche après 0.2s, dure 0.6s, garde l'état final (both) */
+}
+
+/* Sous-propriétés séparées */
+.spinner {
+  animation-name: spin;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;   /* infini */
+  animation-direction: normal;           /* normal, reverse, alternate, alternate-reverse */
+  animation-fill-mode: both;             /* none, forwards, backwards, both */
+  animation-play-state: running;         /* running, paused */
+}
+
+/* Valeurs pratiques */
+.pulse-once  { animation: pulse .3s ease 2; }                 /* 2 fois */
+.pulse-inf   { animation: pulse 2s ease-in-out infinite; }    /* infini */
+.bounce-alt  { animation: pulse 1s ease alternate infinite; } /* aller-retour */
+
+/* Animation au scroll avec JS (déclenchement par classe) */
+.animate-on-scroll {
+  opacity: 0;
+  animation: fadeIn .6s ease forwards;
+}
+.animate-on-scroll.visible {
+  /* la classe .visible est ajoutée par JS au scroll */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div style="width:20px;height:20px;border:3px solid #3498db;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;"></div>
+              <span>Chargement…</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Accessibilité — prefers-reduced-motion</div>
+          <p>De nombreuses personnes souffrent de nausées ou de vertiges avec les animations. Utilisez toujours la media query <code>@media (prefers-reduced-motion: reduce)</code> pour désactiver ou réduire les animations : <code>animation-duration: 0.01ms !important;</code> et <code>transition-duration: 0.01ms !important;</code>. C'est une exigence WCAG (Accessibilité web). Les systèmes d'exploitation proposent cette option dans les paramètres d'accessibilité.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 VARIABLES CSS ══ -->
+    <div id="s10-vars">
+      <div class="section-header"><span class="section-num">05</span><h2>Variables CSS (Custom Properties)</h2></div>
+      <p>Les <strong>variables CSS</strong> (Custom Properties) sont des conteneurs de valeurs réutilisables dans toute la feuille de style. Elles commencent par <code>--</code> et s'utilisent avec <code>var()</code>. Elles respectent la cascade et l'héritage.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Déclaration — souvent dans :root (portée globale) */
+:root {
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --secondary: #2ecc71;
+  --danger: #e74c3c;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --bg: #f8f9fa;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,.1);
+  --font-main: 'Inter', sans-serif;
+  --spacing: 1rem;
+  --max-width: 1100px;
+}
+
+/* Utilisation */
+body { font-family: var(--font-main); color: var(--text); background: var(--bg); }
+.btn { background: var(--primary); border-radius: var(--radius); box-shadow: var(--shadow); }
+.btn:hover { background: var(--primary-dark); }
+
+/* Valeur de fallback */
+.special { color: var(--undefined-var, #333); }  /* utilise #333 si la variable n'existe pas */
+
+/* Portée locale — redéfinition dans un contexte spécifique */
+.card {
+  --card-padding: 1.5rem;
+  padding: var(--card-padding);
+}
+.card-compact {
+  --card-padding: .75rem;  /* redéfinit la variable locale */
+  padding: var(--card-padding);
+}
+
+/* Variables dans les media queries */
+@media (max-width: 768px) {
+  :root {
+    --spacing: .75rem;
+    --max-width: 100%;
+  }
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:var(--primary,#3498db);color:white;padding:10px 20px;border-radius:var(--radius,8px);display:inline-box;">Variable CSS : --primary</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Variables CSS vs préprocesseurs (SASS, LESS)</div>
+          <p>Les <strong>variables CSS</strong> sont natives et vivantes : elles respectent la cascade, l'héritage, et peuvent être modifiées en JavaScript ou dans les media queries. Les <strong>variables SASS ($var)</strong> sont compilées une fois pour toutes et ne changent pas au runtime. Les variables CSS remplacent avantageusement les variables de préprocesseur pour la plupart des usages. Les préprocesseurs restent utiles pour les mixins, les boucles et l'imbrication.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 CALC, MIN, MAX, CLAMP ══ -->
+    <div id="s10-calc">
+      <div class="section-header"><span class="section-num">06</span><h2>calc(), min(), max(), clamp()</h2></div>
+      <p>Les <strong>fonctions mathématiques CSS</strong> permettent des calculs directement dans les déclarations. Elles sont essentielles pour créer des valeurs fluides et adaptatives.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* calc() — calcul arithmétique */
+.calc {
+  width: calc(100% - 40px);        /* largeur moins 40px */
+  width: calc(50% - 2rem);         /* moitié moins 2rem */
+  font-size: calc(1rem + .5vw);    /* taille fluide */
+  height: calc(100vh - 80px);      /* plein écran moins navbar */
+}
+
+/* min() — prend la plus petite valeur */
+.min-el {
+  width: min(100%, 1200px);       /* jamais plus de 1200px */
+  font-size: min(3rem, 6vw);      /* 3rem max, sinon 6vw */
+}
+
+/* max() — prend la plus grande valeur */
+.max-el {
+  width: max(300px, 50%);         /* au moins 300px */
+  padding: max(1rem, 2vw);        /* au moins 1rem */
+}
+
+/* clamp() — entre min et max (déjà vu séance 9) */
+.clamp {
+  font-size: clamp(1rem, 2.5vw, 2.5rem);
+  /* ne descend pas sous 1rem, ne dépasse pas 2.5rem */
+}
+
+/* Combinaisons */
+.combo-func {
+  width: clamp(300px, 60%, 800px);
+  padding: calc(clamp(1rem, 2vw, 2rem) + .5rem);
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="width:calc(100% - 40px);background:#e8f4f8;padding:8px;border-radius:4px;">
+              calc(100% - 40px)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">calc() avec des unités mélangées</div>
+          <p><code>calc()</code> peut mélanger des unités : <code>calc(100vh - 80px)</code>, <code>calc(50% - 2rem)</code>. Important : les espaces autour des opérateurs <code>+</code> et <code>-</code> sont <strong>obligatoires</strong> (pour éviter la confusion avec les nombres négatifs). Pour <code>*</code> et <code>/</code>, les espaces ne sont pas nécessaires mais recommandés. <code>min()</code> et <code>max()</code> fonctionnent comme <code>clamp()</code> mais avec seulement deux valeurs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 FILTERS ══ -->
+    <div id="s10-filters">
+      <div class="section-header"><span class="section-num">07</span><h2>Filters : blur, grayscale, brightness</h2></div>
+      <p>La propriété <code>filter</code> applique des effets visuels (comme les filtres Instagram) à un élément. On peut les combiner et les animer.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* Filtres individuels */
+.blur       { filter: blur(4px); }           /* flou gaussien */
+.brightness { filter: brightness(1.2); }     /* luminosité (1 = normal) */
+.contrast   { filter: contrast(1.5); }       /* contraste */
+.grayscale  { filter: grayscale(1); }        /* noir et blanc (1 = 100%) */
+.sepia      { filter: sepia(.8); }           /* effet sépia */
+.hue-rotate { filter: hue-rotate(90deg); }   /* rotation des teintes */
+.saturate   { filter: saturate(2); }         /* saturation */
+.invert     { filter: invert(1); }           /* inversion des couleurs */
+.opacity    { filter: opacity(.5); }         /* transparence (alternative à opacity) */
+
+/* Combinaisons */
+.filter-combo {
+  filter: grayscale(.5) brightness(1.1) contrast(1.2);
+}
+
+/* Au survol — effet de révélation */
+.card { filter: grayscale(1); transition: filter .3s; }
+.card:hover { filter: grayscale(0); }
+
+/* backdrop-filter — filtre sur l'arrière-plan (effet verre) */
+.glass {
+  background: rgba(255,255,255,.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* crée un effet de verre dépoli sur ce qui se trouve derrière */
+}</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <img src="../../images/filter1.jpg" alt="Filtre noir et blanc" style="filter:grayscale(1);border-radius:4px;">
+              <img src="../../images/filter2.jpg" alt="Filtre flou" style="filter:blur(2px);border-radius:4px;">
+              <img src="../../images/filter3.jpg" alt="Filtre luminosité" style="filter:brightness(1.3);border-radius:4px;">
+              <img src="../../images/filter4.jpg" alt="Filtre sépia" style="filter:sepia(.7);border-radius:4px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">backdrop-filter — l'effet verre</div>
+          <p><code>backdrop-filter</code> applique un filtre à l'<strong>arrière-plan</strong> d'un élément (ce qui se trouve derrière lui), pas à l'élément lui-même. Associé à une couleur de fond semi-transparente, il crée l'effet "verre dépoli" (glassmorphism) très populaire. Supporté partout depuis 2020. Exemple typique : navbar floue qui laisse deviner le contenu en dessous.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 MÉTHODOLOGIE BEM ══ -->
+    <div id="s10-bem">
+      <div class="section-header"><span class="section-num">08</span><h2>Méthodologie BEM — nommer ses classes</h2></div>
+      <p><strong>BEM</strong> (Block Element Modifier) est une convention de nommage pour les classes CSS. Elle rend le code plus lisible, maintenable et évite les conflits de cascade. Ce n'est pas une technologie mais une <strong>méthodologie</strong>.</p>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — BEM</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="css">/* ═══ BLOC — composant autonome (nom au singulier) ═══ */
+.card { }
+
+/* ═══ ÉLÉMENT — partie du bloc (__ double underscore) ═══ */
+.card__title { }     /* titre de la carte */
+.card__image { }     /* image de la carte */
+.card__body { }      /* corps de la carte */
+.card__footer { }    /* pied de la carte */
+
+/* ═══ MODIFICATEUR — variation (-- double tiret) ═══ */
+.card--featured { }  /* carte mise en avant */
+.card--compact { }   /* carte compacte */
+.card__title--large { } /* titre en grand */
+
+/* Exemple complet en HTML */
+/*
+&lt;div class="card card--featured"&gt;
+  &lt;img class="card__image" src="photo.jpg" alt=""&gt;
+  &lt;div class="card__body"&gt;
+    &lt;h3 class="card__title card__title--large"&gt;Titre&lt;/h3&gt;
+    &lt;p class="card__text"&gt;Description&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="card__footer"&gt;
+    &lt;button class="card__btn"&gt;Lire la suite&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+*/
+
+/* ⚠️ BEM n'interdit pas l'imbrication ou les classes utilitaires */
+/* Un bloc peut contenir des blocs enfants */</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="border:1px solid #ddd;border-radius:8px;padding:16px;max-width:280px;background:white;">
+              <div style="background:#3498db;height:100px;border-radius:4px;margin-bottom:10px;"></div>
+              <div style="font-weight:700;font-size:1.1rem;margin-bottom:6px;">.card__title</div>
+              <div style="font-size:.85rem;color:#666;margin-bottom:10px;">.card__body</div>
+              <div style="background:#3498db;color:white;padding:6px 14px;border-radius:4px;display:inline-block;font-size:.8rem;">.card__btn</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi BEM est utile</div>
+          <p>BEM résout trois problèmes du CSS à grande échelle : ① <strong>Spécificité plate</strong> : toutes les classes ont la même spécificité (0,0,1,0) → pas de guerre de sélecteurs. ② <strong>Auto-documentation</strong> : le HTML montre immédiatement la structure du composant. ③ <strong>Pas de fuite</strong> : une classe dans un bloc n'affecte jamais un autre bloc. Alternative moderne : <strong>Tailwind CSS</strong> (classes utilitaires) ou <strong>CSS Modules</strong> (isolation automatique).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s10-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✨ Animations & transitions</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-animations.html</code> avec un bouton qui change de couleur, d'échelle et d'ombre au hover (transition smooth).</li>
+            <li>Ajoutez un spinner de chargement avec <code>@keyframes spin</code>.</li>
+            <li>Créez une carte qui apparaît avec <code>fadeIn</code> au chargement de la page.</li>
+            <li>Ajoutez un badge "Nouveau" qui pulse en continu.</li>
+            <li>Créez une barre de progression qui se remplit de 0% à 100% avec <code>@keyframes</code>.</li>
+            <li>Utilisez <code>transform</code> pour faire "flotter" un élément (translateY) avec une animation alternée.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🎨 Architecture CSS avec BEM & variables</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-bem.html</code> avec un composant "profile-card" en BEM.</li>
+            <li>Le bloc s'appelle <code>.profile</code>. Éléments : <code>__avatar</code>, <code>__name</code>, <code>__bio</code>, <code>__stats</code>, <code>__btn</code>.</li>
+            <li>Modificateurs : <code>--dark</code> (thème sombre), <code>--compact</code> (version petite).</li>
+            <li>Définissez toutes les couleurs, espacements et rayons avec des variables CSS dans <code>:root</code>.</li>
+            <li>Utilisez <code>calc()</code> ou <code>clamp()</code> pour calculer la taille de l'avatar.</li>
+            <li>Ajoutez un effet de survol avec <code>filter: brightness(1.1)</code> sur l'avatar.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Combo animation + BEM + variables</div>
+          <p>Créez une galerie de 6 cartes en BEM avec animation staggered (chaque carte apparaît avec un délai croissant) : <code>animation-delay: calc(var(--index) * .1s)</code>. Utilisez une variable CSS <code>--index</code> sur chaque carte (inline style) pour contrôler le délai. Chaque carte a une icône, un titre, une description et un bouton. Ajoutez <code>backdrop-filter: blur(4px)</code> sur un overlay au hover.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="10">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s10-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire — Félicitations ! 🎉</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Transitions CSS : property, duration, timing (ease, linear, cubic-bezier), delay</li>
+        <li>Transform : translate, rotate, scale, skew, transform-origin</li>
+        <li>@keyframes : création d'animations de 0% à 100%</li>
+        <li>Animation : name, duration, iteration, direction, fill-mode, play-state</li>
+        <li>Variables CSS : --custom, var() avec fallback, portée, héritage</li>
+        <li>Fonctions mathématiques : calc(), min(), max(), clamp()</li>
+        <li>Filters : blur, grayscale, brightness, contrast, sepia, backdrop-filter</li>
+        <li>Méthodologie BEM : Bloc__Élément--Modificateur</li>
+      </ul>
+
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Transition</dt><dd>Animation fluide entre deux états d'une propriété. Déclenchée par hover, focus, ou changement de classe.</dd>
+          <dt>Transform</dt><dd>Modification géométrique (déplacement, rotation, échelle) sans affecter le flux. Accéléré GPU.</dd>
+          <dt>@keyframes</dt><dd>Règle CSS qui définit les étapes d'une animation avec des pourcentages ou from/to.</dd>
+          <dt>Animation</dt><dd>Application de keyframes à un élément. Peut être infinie, alternée, différée.</dd>
+          <dt>Variable CSS</dt><dd>Propriété personnalisée --nom, réutilisable avec var(). Respecte la cascade et l'héritage.</dd>
+          <dt>calc()</dt><dd>Fonction mathématique CSS. Mélange d'unités possible. Ex : calc(100% - 40px).</dd>
+          <dt>clamp()</dt><dd>Fonction avec min, préféré et max. clamp(1rem, 2.5vw, 2rem). Remplit le rôle de min/max simultanément.</dd>
+          <dt>Filter</dt><dd>Effet visuel CSS (flou, noir et blanc, luminosité). backdrop-filter pour l'effet verre.</dd>
+          <dt>BEM</dt><dd>Méthodologie de nommage : Bloc__Élément--Modificateur. Structure plate et auto-documentée.</dd>
+          <dt>GPU acceleration</dt><dd>Utilisation du processeur graphique pour les animations (transform, opacity). 60 fps.</dd>
+        </dl>
+      </div>
+
+      <div style="margin-top:2.5rem;border-radius:var(--radius-lg);overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#2c3e50,#3498db);padding:2rem;text-align:center;color:white;">
+          <div style="font-size:2.5rem;margin-bottom:.5rem;">🎉</div>
+          <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.5rem;">Félicitations ! Vous avez terminé les 10 séances CSS</div>
+          <p style="opacity:.9;margin:0;font-size:.95rem;">De la syntaxe de base aux animations avancées, vous maîtrisez maintenant le CSS moderne.<br>Continuez à pratiquer, construisez des projets, et explorez des frameworks comme Tailwind ou Bootstrap.</p>
+          <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="seance1-css.html" style="background:rgba(255,255,255,.2);color:white;padding:.6rem 1.5rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.9rem;">Revoir Séance 1</a>
+            <a href="../../index.html" style="background:white;color:#2c3e50;padding:.6rem 1.5rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.9rem;">← Accueil du cours</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

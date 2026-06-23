@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CETEMOH — Apprendre le HTML & CSS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-brand">
+        <span class="badge">&lt;/&gt;</span>
+        <span id="course-brand">Cours HTML</span>
+      </div>
+      <nav class="topbar-nav" id="topbar-nav">
+        <a href="index.html" class="active">Accueil</a>
+        <a href="pages/seance1.html">Séance 1</a>
+        <a href="pages/seance2.html">Séance 2</a>
+        <a href="pages/seance3.html">Séance 3</a>
+        <a href="pages/seance4.html">Séance 4</a>
+        <a href="pages/seance5.html">Séance 5</a>
+        <a href="pages/seance6.html">Séance 6</a>
+        <a href="pages/seance7.html">Séance 7</a>
+        <a href="pages/seance8.html">Séance 8</a>
+        <a href="pages/seance9.html">Séance 9</a>
+        <a href="pages/seance10.html">Séance 10</a>
+      </nav>
+      <button class="hamburger" aria-label="Menu">☰</button>
+    </header>
+
+    <!-- No sidebar on home page -->
+    <main class="content" style="grid-column: 1/-1;">
+      <div class="content-inner" style="max-width:860px;">
+
+        <!-- Course Tabs -->
+        <div class="course-tabs">
+          <button class="course-tab active" data-course="html">HTML</button>
+          <button class="course-tab" data-course="css">CSS</button>
+        </div>
+
+        <!-- Hero -->
+        <div class="home-hero" id="course-hero">
+          <p class="hero-subtitle">Pour apprenants avec quelques bases</p>
+          <h1>Apprendre le <span id="hero-highlight">HTML</span></h1>
+          <p class="home-subtitle" id="hero-desc">
+            Un cours structuré en 10 séances progressives pour maîtriser le langage fondamental du web — de la structure à la sémantique.
+          </p>
+          <div id="hero-tags" style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+            <span class="tag-pill">Structure</span>
+            <span class="tag-pill">Texte & Listes</span>
+            <span class="tag-pill">Liens & Images</span>
+            <span class="tag-pill">Tableaux</span>
+            <span class="tag-pill">Sémantique HTML5</span>
+            <span class="tag-pill">Formulaires</span>
+          </div>
+        </div>
+
+        <!-- Course: HTML -->
+        <div class="course-content active" data-course="html">
+          <h2 class="course-subtitle">Programme du cours — HTML</h2>
+          <div class="session-cards">
+            <a href="pages/seance1.html" class="session-card s1">
+              <div class="sc-num s1">Séance 01 — Disponible</div>
+              <h2>Le Web &amp; Fondations</h2>
+              <p>Client/serveur, DNS, HTTP/HTTPS, navigateur, éditeur VS Code, Live Server, premier fichier HTML.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Client/Serveur</span>
+                <span class="sc-tag">DNS</span>
+                <span class="sc-tag">HTTP</span>
+                <span class="sc-tag">VS Code</span>
+                <span class="sc-tag">Live Server</span>
+              </div>
+            </a>
+            <a href="pages/seance2.html" class="session-card s2">
+              <div class="sc-num s2">Séance 02 — Disponible</div>
+              <h2>Syntaxe &amp; Structure HTML</h2>
+              <p>Balises, éléments, attributs, structure DOCTYPE, head/body, meta, title, commentaires, entités.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Balises</span>
+                <span class="sc-tag">Attributs</span>
+                <span class="sc-tag">DOCTYPE</span>
+                <span class="sc-tag">head/body</span>
+                <span class="sc-tag">Entités</span>
+              </div>
+            </a>
+            <a href="pages/seance3.html" class="session-card" style="border-top-color:var(--amber);">
+              <div class="sc-num s3" style="color:var(--amber);">Séance 03 — Disponible</div>
+              <h2>Texte, Titres &amp; Paragraphes</h2>
+              <p>h1-h6, p, strong, em, br, hr, blockquote, pre, code, abbr, address, small, mark, citations.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Titres</span><span class="sc-tag">Paragraphes</span>
+                <span class="sc-tag">Mise en valeur</span><span class="sc-tag">Citations</span>
+                <span class="sc-tag">Code inline</span>
+              </div>
+            </a>
+            <a href="pages/seance4.html" class="session-card s4">
+              <div class="sc-num s4">Séance 04 — Disponible</div>
+              <h2>Listes &amp; Liens</h2>
+              <p>ul, ol, dl, imbrication, liens externes/internes/ancres, mailto, tel, target, rel, chemins relatifs.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Listes ul/ol/dl</span>
+                <span class="sc-tag">Liens &lt;a&gt;</span>
+                <span class="sc-tag">Ancres</span>
+                <span class="sc-tag">Chemins</span>
+                <span class="sc-tag">target/rel</span>
+              </div>
+            </a>
+            <a href="pages/seance5.html" class="session-card s5">
+              <div class="sc-num s5">Séance 05 — Disponible</div>
+              <h2>Images &amp; Multimédia</h2>
+              <p>img, alt, width/height, figure/figcaption, picture, srcset, video, audio, iframe, formats.</p>
+              <div class="sc-tags">
+                <span class="sc-tag">Images</span>
+                <span class="sc-tag">Figure</span>
+                <span class="sc-tag">Video/Audio</span>
+                <span class="sc-tag">srcset</span>
+                <span class="sc-tag">iframe</span>
+              </div>
+            </a>
+            <a href="pages/seance6.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 06 — Disponible</div>
+              <h2>Tableaux HTML</h2>
+              <p>table, thead, tbody, tfoot, th, td, colspan, rowspan, caption, accessibilité des tableaux.</p>
+              <div class="sc-tags" style="border-top-color:var(--purple);">
+                <span class="sc-tag">table</span><span class="sc-tag">thead/tbody</span>
+                <span class="sc-tag">colspan/rowspan</span><span class="sc-tag">caption</span>
+                <span class="sc-tag">Accessibilité</span>
+              </div>
+            </a>
+            <a href="pages/seance7.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 07 — Disponible</div>
+              <h2>Formulaires — Bases</h2>
+              <p>form, input (text, password, email), label, button, select/option, textarea, fieldset, legend.</p>
+              <div class="sc-tags" style="border-top-color:var(--green);">
+                <span class="sc-tag">form</span><span class="sc-tag">input</span>
+                <span class="sc-tag">label</span><span class="sc-tag">select</span>
+                <span class="sc-tag">fieldset</span>
+              </div>
+            </a>
+            <a href="pages/seance8.html" class="session-card">
+              <div class="sc-num" style="color:var(--purple);">Séance 08 — Disponible</div>
+              <h2>Formulaires — Avancé</h2>
+              <p>Types input avancés (date, range, color, file), validation native, attributs required/pattern/min/max.</p>
+              <div class="sc-tags" style="border-top-color:var(--purple);">
+                <span class="sc-tag">Types input</span><span class="sc-tag">Validation</span>
+                <span class="sc-tag">required</span><span class="sc-tag">pattern</span>
+                <span class="sc-tag">Attributs</span>
+              </div>
+            </a>
+            <a href="pages/seance9.html" class="session-card">
+              <div class="sc-num" style="color:var(--teal);">Séance 09 — Disponible</div>
+              <h2>Sémantique HTML5</h2>
+              <p>header, nav, main, article, section, aside, footer, time, details/summary, figure, architecture.</p>
+              <div class="sc-tags" style="border-top-color:var(--teal);">
+                <span class="sc-tag">header/nav</span><span class="sc-tag">main</span>
+                <span class="sc-tag">article/section</span><span class="sc-tag">aside/footer</span>
+                <span class="sc-tag">details/time</span>
+              </div>
+            </a>
+            <a href="pages/seance10.html" class="session-card">
+              <div class="sc-num" style="color:var(--green);">Séance 10 — Disponible</div>
+              <h2>SEO &amp; Accessibilité</h2>
+              <p>Meta tags SEO, Open Graph, JSON-LD, ARIA roles, WCAG, contrastes, lecteurs d'écran, audits.</p>
+              <div class="sc-tags" style="border-top-color:var(--green);">
+                <span class="sc-tag">Meta SEO</span><span class="sc-tag">Open Graph</span>
+                <span class="sc-tag">JSON-LD</span><span class="sc-tag">ARIA</span>
+                <span class="sc-tag">WCAG</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Course: CSS -->
+        <div class="course-content" data-course="css">
+          <h2 class="course-subtitle">Programme du cours — CSS</h2>
+          <div class="topic-cards">
+            <a href="pages/css-topics/basic-css.html" class="topic-card">
+              <h2>CSS de Base</h2>
+              <p>Syntaxe, cascade, spécificité, intégration, héritage &mdash; les fondations du CSS.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Syntaxe</span><span class="tc-tag">Cascade</span>
+                <span class="tc-tag">Spécificité</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/design.html" class="topic-card">
+              <h2>Design</h2>
+              <p>Backgrounds, dégradés, ombres &mdash; habiller visuellement vos éléments.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Backgrounds</span><span class="tc-tag">Dégradés</span>
+                <span class="tc-tag">Ombres</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/units.html" class="topic-card">
+              <h2>Unités Absolues et Relatives</h2>
+              <p>px, em, rem, %, vw, vh &mdash; comprendre et choisir la bonne unité.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">px/em/rem</span><span class="tc-tag">vw/vh</span>
+                <span class="tc-tag">%</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/pseudo-classes-elements.html" class="topic-card">
+              <h2>Pseudo-classes et Éléments</h2>
+              <p>:hover, :focus, :nth-child, ::before, ::after &mdash; interactivité et décoration.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Pseudo-classes</span><span class="tc-tag">Pseudo-éléments</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/colors.html" class="topic-card">
+              <h2>Couleurs</h2>
+              <p>Hex, RGB, HSL, alpha, currentColor &mdash; maîtriser les couleurs en CSS.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Hex/RGB/HSL</span><span class="tc-tag">Alpha</span>
+                <span class="tc-tag">Opacité</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/styling-forms.html" class="topic-card">
+              <h2>Styles de Formulaires</h2>
+              <p>Inputs, boutons, select, checkbox, validation &mdash; des formulaires élégants.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Inputs</span><span class="tc-tag">Boutons</span>
+                <span class="tc-tag">Validation</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/box-model.html" class="topic-card">
+              <h2>Le Box Model</h2>
+              <p>Content, padding, border, margin, box-sizing &mdash; le concept fondamental.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Box Model</span><span class="tc-tag">Padding</span>
+                <span class="tc-tag">Border</span><span class="tc-tag">Margin</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/flexbox.html" class="topic-card">
+              <h2>Flexbox</h2>
+              <p>display:flex, direction, wrap, alignement, grow/shrink &mdash; layouts flexibles.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Flexbox</span><span class="tc-tag">Alignement</span>
+                <span class="tc-tag">Layout</span>
+              </div>
+              <div class="tc-project">Projet : Portfolio — Navigation &amp; Compétences</div>
+            </a>
+            <a href="pages/css-topics/typography.html" class="topic-card">
+              <h2>Typographie</h2>
+              <p>font-family, Google Fonts, taille, graisse, interlignage, espacement du texte.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Polices</span><span class="tc-tag">Texte</span>
+                <span class="tc-tag">Google Fonts</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/accessibility.html" class="topic-card">
+              <h2>Accessibilité</h2>
+              <p>Contrastes, focus, prefers-reduced-motion, mode sombre, lecteurs d'écran.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">A11y</span><span class="tc-tag">Contrastes</span>
+                <span class="tc-tag">Focus</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/positioning.html" class="topic-card">
+              <h2>Positionnement</h2>
+              <p>Display, position (static/relative/absolute/fixed/sticky), z-index, float.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Display</span><span class="tc-tag">Position</span>
+                <span class="tc-tag">z-index</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/attribute-selectors.html" class="topic-card">
+              <h2>Sélecteurs d'Attributs</h2>
+              <p>[attr], [attr^=], [attr$=], [attr*=] &mdash; cibler par attributs HTML.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Sélecteurs</span><span class="tc-tag">Attributs</span>
+                <span class="tc-tag">Regex CSS</span>
+              </div>
+            </a>
+            <a href="pages/css-topics/responsive-design.html" class="topic-card">
+              <h2>Design Responsive</h2>
+              <p>Media queries, mobile-first, breakpoints, unités responsives, container queries.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Media Queries</span><span class="tc-tag">Breakpoints</span>
+                <span class="tc-tag">Mobile-first</span>
+              </div>
+              <div class="tc-project">Projet : Portfolio — Adaptation Mobile</div>
+            </a>
+            <a href="pages/css-topics/variables.html" class="topic-card">
+              <h2>Variables CSS</h2>
+              <p>--custom-properties, var(), scope, fallback, thèmes dynamiques.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Variables</span><span class="tc-tag">Thèmes</span>
+                <span class="tc-tag">Custom Properties</span>
+              </div>
+              <div class="tc-project">Projet : Portfolio — Thème sombre/clair</div>
+            </a>
+            <a href="pages/css-topics/grid.html" class="topic-card">
+              <h2>CSS Grid</h2>
+              <p>display:grid, templates, gap, grid-area, auto-fit/minmax, alignement.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Grid</span><span class="tc-tag">Templates</span>
+                <span class="tc-tag">Layout 2D</span>
+              </div>
+              <div class="tc-project">Projet : Portfolio — Grille des Réalisations</div>
+            </a>
+            <a href="pages/css-topics/animations.html" class="topic-card">
+              <h2>Animations</h2>
+              <p>Transitions, @keyframes, transform, filters &mdash; donner vie à vos pages.</p>
+              <div class="tc-tags">
+                <span class="tc-tag">Animations</span><span class="tc-tag">Transitions</span>
+                <span class="tc-tag">Keyframes</span>
+              </div>
+              <div class="tc-project">Projet : Portfolio — Animations &amp; Interactions</div>
+            </a>
+          </div>
+        </div>
+
+
+        <!-- How to use -->
+        <div
+          style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:2rem 0;">
+          <h2 style="margin-top:0;">Comment utiliser ce cours</h2>
+          <div class="grid-2">
+            <div>
+              <h3 style="margin-top:0;">📖 Lire</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Chaque séance est structurée en sections numérotées. Lisez
+                les explications et les exemples.</p>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">💻 Pratiquer</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Copiez les blocs de code (bouton COPIER) et testez-les dans
+                VS Code + Live Server.</p>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">✏️ Exercices</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Chaque séance se termine par des exercices pratiques pour
+                ancrer les notions.</p>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">🔍 Inspecter</h3>
+              <p style="font-size:.9rem;color:var(--text2);">Ouvrez l'inspecteur (F12) sur n'importe quel site pour voir
+                le HTML en action.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools tip -->
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">Outils recommandés</div>
+            <p>Téléchargez <strong>VS Code</strong> sur <code>code.visualstudio.com</code> et installez l'extension
+              <strong>Live Server</strong> pour voir vos modifications en temps réel. Un navigateur moderne (Chrome ou
+              Firefox) suffira pour tout le reste.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

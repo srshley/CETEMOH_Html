@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 5 — Images &amp; Multimédia · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--green); background:var(--green-dim); border-color:rgba(52,211,153,.25); }
+    .section-header    { border-bottom-color:rgba(52,211,153,.2); }
+    h3                 { color:var(--green); }
+    .sidebar-item.active { color:var(--green); border-left-color:var(--green); background:var(--green-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html" class="active">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s5">Séance 5</div>
+      <a href="#s5-img" class="sidebar-item"><span class="sidebar-num">01</span>Img (src, alt, dimensions)</a>
+      <a href="#s5-figure" class="sidebar-item"><span class="sidebar-num">02</span>Figure &amp; Figcaption</a>
+      <a href="#s5-formats" class="sidebar-item"><span class="sidebar-num">03</span>Formats d'image</a>
+      <a href="#s5-srcset" class="sidebar-item"><span class="sidebar-num">04</span>Srcset &amp; sizes</a>
+      <a href="#s5-picture" class="sidebar-item"><span class="sidebar-num">05</span>Picture</a>
+      <a href="#s5-video" class="sidebar-item"><span class="sidebar-num">06</span>Vidéo</a>
+      <a href="#s5-audio" class="sidebar-item"><span class="sidebar-num">07</span>Audio</a>
+      <a href="#s5-iframe" class="sidebar-item"><span class="sidebar-num">08</span>Iframe (YouTube)</a>
+      <a href="#s5-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s5-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance4.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">← Séance 4</a>
+      <a href="seance6.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--green);margin-top:.5rem;">Séance 6 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s3">
+      <div class="session-badge s3">Séance 05 / 10</div>
+      <h1>Images &amp; Multimédia</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Img • Figure • Formats • Srcset • Picture • Vidéo • Audio • Iframe</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 IMG ══ -->
+    <div id="s5-img">
+      <div class="section-header"><span class="section-num">01</span><h2>La balise &lt;img&gt;</h2></div>
+      <p><code>&lt;img&gt;</code> est une balise orpheline qui insère une image dans le flux du document. Trois attributs sont essentiels : <code>src</code> (source), <code>alt</code> (texte alternatif), et les dimensions <code>width</code>/<code>height</code>.</p>
+      <div class="img-diagram">
+        <div>
+          <div class="img-placeholder"><span class="img-icon">🖼️</span><span>photo.jpg</span><span style="font-size:.6rem">600×400 px</span></div>
+          <div class="img-alt-bar">alt="Chat roux endormi sur canapé"</div>
+        </div>
+        <div class="img-diagram-attrs">
+          <div class="img-attr-row"><span class="img-attr-badge required">src ★</span><div><strong>Source</strong> — chemin local ou URL.</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge required">alt ★</span><div><strong>Texte alternatif</strong> — lu par lecteurs d'écran, indexé par Google.</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge optional">width/height</span><div>Dimensions en px. Évite le CLS (saut de mise en page).</div></div>
+          <div class="img-attr-row"><span class="img-attr-badge perf">loading="lazy"</span><div>Charge l'image seulement quand visible.</div></div>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Image basique</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;img src="images/chat.jpg"
+     alt="Un chat roux endormi sur un canapé bleu"
+     width="600" height="400"
+     loading="lazy"
+     decoding="async"&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <img src="../images/chat01.jpg" alt="Chat" style="max-width:100%;border-radius:4px;">
+          </div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Guide de l'attribut alt</div>
+          <p>✅ <code>alt="Portrait de Marie Curie en 1903"</code><br>
+          ✅ <code>alt=""</code> (image décorative, lecteur d'écran l'ignore)<br>
+          ❌ <code>alt="image"</code> ou <code>alt="DSC_4892.jpg"</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 FIGURE ══ -->
+    <div id="s5-figure">
+      <div class="section-header"><span class="section-num">02</span><h2>Figure &amp; Figcaption</h2></div>
+      <p><code>&lt;figure&gt;</code> associe une image (ou un autre média) à sa légende <code>&lt;figcaption&gt;</code>. L'ensemble forme un bloc sémantique unique, déplaçable sans perdre le contexte.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Figure + Figcaption</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;figure&gt;
+  &lt;img src="tokyo.jpg"
+       alt="Vue aérienne de Tokyo au coucher du soleil"
+       width="800" height="500"
+       loading="lazy"&gt;
+  &lt;figcaption&gt;Tokyo vu depuis la Tokyo Skytree,
+    juillet 2024. Photo : Jean Dupont.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <figure>
+              <img src="../images/tokyo42.jpg" alt="Tokyo" style="max-width:100%;border-radius:4px;">
+              <figcaption style="font-size:.85em;color:#777;font-style:italic;margin-top:.25em;">Tokyo vu depuis la Tokyo Skytree.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 FORMATS ══ -->
+    <div id="s5-formats">
+      <div class="section-header"><span class="section-num">03</span><h2>Formats d'image</h2></div>
+      <p>Chaque format a ses forces et faiblesses. Choisir le bon format améliore la performance et la qualité visuelle.</p>
+      <div class="format-grid">
+        <div class="format-card">
+          <span class="format-badge jpeg">JPEG</span>
+          <div class="format-name">Photographies</div>
+          <div class="format-props">✓ Très compressé<br>✓ Universel<br>✗ Pas de transparence</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge png">PNG</span>
+          <div class="format-name">Logos & icônes</div>
+          <div class="format-props">✓ Transparence<br>✓ Sans perte<br>✗ Fichier lourd</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge webp">WebP</span>
+          <div class="format-name">Polyvalent</div>
+          <div class="format-props">✓ 30% + léger que JPEG<br>✓ Transparence<br>✓ Animations</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge avif">AVIF</span>
+          <div class="format-name">Compression max</div>
+          <div class="format-props">✓ 50% + léger que JPEG<br>✓ Qualité excellente<br>✗ Support partiel</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge svg">SVG</span>
+          <div class="format-name">Vectoriel</div>
+          <div class="format-props">✓ Infiniment redimensionnable<br>✓ Très léger<br>✓ Animable</div>
+        </div>
+        <div class="format-card">
+          <span class="format-badge gif">GIF</span>
+          <div class="format-name">Animations</div>
+          <div class="format-props">✓ Animations<br>✓ Universel<br>✗ 256 couleurs max</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 SRCSET ══ -->
+    <div id="s5-srcset">
+      <div class="section-header"><span class="section-num">04</span><h2>Srcset &amp; sizes</h2></div>
+      <p><code>srcset</code> permet de fournir plusieurs versions d'une même image. Le navigateur choisit la plus adaptée à la résolution et à la taille de l'écran. <code>sizes</code> indique la largeur d'affichage prévue.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Srcset et sizes</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;img src="image-800.jpg"
+     srcset="image-400.jpg 400w,
+             image-800.jpg 800w,
+             image-1600.jpg 1600w"
+     sizes="(max-width: 480px) 400px,
+            (max-width: 1024px) 800px,
+            1600px"
+     alt="Paysage de montagne"
+     width="1600" height="900"
+     loading="lazy"&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p style="font-family:Arial,sans-serif;font-size:.85rem;color:#555;">Le navigateur choisit automatiquement la meilleure version selon l'écran. Sur mobile : 400w. Sur desktop : 1600w.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 PICTURE ══ -->
+    <div id="s5-picture">
+      <div class="section-header"><span class="section-num">05</span><h2>Balise &lt;picture&gt;</h2></div>
+      <p><code>&lt;picture&gt;</code> offre un contrôle total : choisir le format selon le support du navigateur (WebP, AVIF) ET l'art direction (image différente selon la largeur).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Picture</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;picture&gt;
+  &lt;!-- AVIF : meilleure compression --&gt;
+  &lt;source srcset="photo.avif" type="image/avif"&gt;
+
+  &lt;!-- WebP : bon compromis --&gt;
+  &lt;source srcset="photo.webp" type="image/webp"&gt;
+
+  &lt;!-- Fallback JPEG universel --&gt;
+  &lt;img src="photo.jpg"
+       alt="Coucher de soleil sur la mer"
+       width="800" height="533"
+       loading="lazy"&gt;
+&lt;/picture&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p style="font-family:Arial,sans-serif;font-size:.85rem;color:#555;">Si le navigateur supporte AVIF → utilise photo.avif. Sinon WebP, sinon JPEG en fallback. L'image s'affiche toujours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 VIDÉO ══ -->
+    <div id="s5-video">
+      <div class="section-header"><span class="section-num">06</span><h2>Vidéo HTML5</h2></div>
+      <p>La balise <code>&lt;video&gt;</code> intègre une vidéo sans plugin. Attributs clés : <code>src</code>, <code>controls</code>, <code>autoplay</code> (avec <code>muted</code> obligatoire), <code>loop</code>, <code>poster</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Vidéo</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Vidéo basique avec contrôles --&gt;
+&lt;video src="presentation.mp4"
+       controls
+       width="640" height="360"
+       poster="miniature.jpg"&gt;
+  &lt;p&gt;Votre navigateur ne supporte pas la vidéo.&lt;/p&gt;
+&lt;/video&gt;
+
+&lt;!-- Vidéo avec sources multiples (fallback) --&gt;
+&lt;video controls width="640" height="360"&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+  &lt;source src="video.webm" type="video/webm"&gt;
+  &lt;p&gt;Vidéo non supportée.&lt;/p&gt;
+&lt;/video&gt;
+
+&lt;!-- Autoplay muet (autorisé par les navigateurs) --&gt;
+&lt;video src="animation.mp4"
+       autoplay muted loop
+       width="400" height="300"&gt;&lt;/video&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <video controls width="100%" style="max-width:400px;border-radius:4px;background:#000;">
+              <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Autoplay et navigateurs modernes</div>
+          <p>Depuis 2018, Chrome, Firefox et Safari bloquent l'autoplay avec son. Pour qu'une vidéo se lance automatiquement, ajoutez <code>muted</code> (muet). L'utilisateur peut ensuite réactiver le son.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 AUDIO ══ -->
+    <div id="s5-audio">
+      <div class="section-header"><span class="section-num">07</span><h2>Audio HTML5</h2></div>
+      <p>La balise <code>&lt;audio&gt;</code> fonctionne comme <code>&lt;video&gt;</code> mais pour le son. Attributs : <code>src</code>, <code>controls</code>, <code>autoplay</code>, <code>loop</code>, <code>muted</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Audio</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Audio basique avec contrôles --&gt;
+&lt;audio src="musique.mp3" controls&gt;
+  &lt;p&gt;Votre navigateur ne supporte pas l'audio.&lt;/p&gt;
+&lt;/audio&gt;
+
+&lt;!-- Sources multiples (fallback) --&gt;
+&lt;audio controls&gt;
+  &lt;source src="musique.mp3" type="audio/mpeg"&gt;
+  &lt;source src="musique.ogg" type="audio/ogg"&gt;
+  &lt;p&gt;Audio non supporté.&lt;/p&gt;
+&lt;/audio&gt;
+
+&lt;!-- Boucle et autoplay muet --&gt;
+&lt;audio src="ambiance.mp3"
+       autoplay loop muted&gt;&lt;/audio&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <audio controls style="width:100%;max-width:400px;">
+              <source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 IFRAME ══ -->
+    <div id="s5-iframe">
+      <div class="section-header"><span class="section-num">08</span><h2>Iframe — Intégrer YouTube</h2></div>
+      <p><code>&lt;iframe&gt;</code> intègre une page web dans une autre. Utilisé pour les vidéos YouTube, les cartes Google Maps, les widgets. Attention aux dimensions et à l'attribut <code>title</code> pour l'accessibilité.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Iframe YouTube</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Intégration YouTube (cliquer sur Partager → Intégrer) --&gt;
+&lt;iframe width="560" height="315"
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="Vidéo tutoriel HTML"
+  frameborder="0"
+  allow="accelerometer; autoplay;
+         clipboard-write; encrypted-media;
+         gyroscope; picture-in-picture"
+  allowfullscreen&gt;
+&lt;/iframe&gt;
+
+&lt;!-- Google Maps --&gt;
+&lt;iframe
+  src="https://www.google.com/maps/embed?pb=..."
+  width="600" height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  title="Carte Google Maps"&gt;
+&lt;/iframe&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <div style="background:#e8e8e8;border-radius:4px;padding:2rem;text-align:center;font-family:Arial,sans-serif;color:#888;">
+              <div style="font-size:2rem;margin-bottom:.5rem;">▶️</div>
+              <p style="margin:0;">Vidéo YouTube intégrée ici</p>
+              <p style="margin:0;font-size:.8rem;">width="560" height="315"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Obtenir le code d'intégration YouTube</div>
+          <p>Sur YouTube : cliquez sur "Partager" sous la vidéo → "Intégrer" → copiez le code <code>&lt;iframe&gt;</code>. Remplacez <code>VIDEO_ID</code> par l'ID de la vidéo (ex: dQw4w9WgXcQ).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s5-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Galerie d'images</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page "Galerie" avec 4 images locales (utilisez celles du dossier <code>images/</code>).</li>
+            <li>Chaque image a <code>alt</code> descriptif, <code>width</code>, <code>height</code> et <code>loading="lazy"</code>.</li>
+            <li>Encadrez chaque image dans <code>&lt;figure&gt;</code> avec <code>&lt;figcaption&gt;</code>.</li>
+            <li>Rendez la première image cliquable (lien vers une page externe).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔧 Média player</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Ajoutez une vidéo avec des sources MP4 et WebM (fallback).</li>
+            <li>Ajoutez un fichier audio avec contrôles.</li>
+            <li>La vidéo a un <code>poster</code> (image de prévisualisation).</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Intégration YouTube</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Trouvez une vidéo YouTube sur le HTML ou le CSS.</li>
+            <li>Cliquez "Partager" → "Intégrer" et copiez le code.</li>
+            <li>Collez-le dans une page HTML.</li>
+            <li>Ajoutez <code>title</code> et <code>loading="lazy"</code> à l'iframe.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="05">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s5-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Image img : src, alt, width, height, loading lazy</li>
+        <li>Figure et figcaption pour les légendes sémantiques</li>
+        <li>Formats : JPEG, PNG, WebP, AVIF, SVG, GIF</li>
+        <li>Srcset et sizes pour les images responsives</li>
+        <li>Picture pour le choix de format et l'art direction</li>
+        <li>Vidéo : src, controls, autoplay, muted, loop, poster</li>
+        <li>Audio : src, controls, sources multiples</li>
+        <li>Iframe pour YouTube, Maps et autres intégrations</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>alt</dt><dd>Texte alternatif d'une image. Obligatoire. Décrit l'image pour les lecteurs d'écran et Google.</dd>
+          <dt>CLS</dt><dd>Cumulative Layout Shift — déplacement de la mise en page au chargement des images. Évité par width+height.</dd>
+          <dt>loading="lazy"</dt><dd>Charge l'image seulement quand elle entre dans la fenêtre visible.</dd>
+          <dt>srcset</dt><dd>Liste de plusieurs résolutions d'une image pour différentes tailles d'écran.</dd>
+          <dt>picture</dt><dd>Conteneur pour sources multiples avec fallback. Utile pour les formats modernes.</dd>
+          <dt>figure</dt><dd>Contenu autonome (image, vidéo, code) avec légende optionnelle.</dd>
+          <dt>figcaption</dt><dd>Légende d'un élément figure. Toujours à l'intérieur de figure.</dd>
+          <dt>iframe</dt><dd>Fenêtre intégrée affichant une autre page web. Utilisé pour YouTube, Maps.</dd>
+          <dt>controls</dt><dd>Attribut booléen qui affiche les boutons de contrôle du média (play, pause, volume).</dd>
+          <dt>poster</dt><dd>Image de prévisualisation affichée avant le lancement d'une vidéo.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 6 — Tableaux HTML</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Table, tr, td, th, colspan, rowspan, caption, thead, tbody, tfoot</div>
+        </div>
+        <a href="seance6.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 6 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

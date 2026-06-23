@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animations CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html" class="active">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Animations CSS</div>
+      <a href="#anim-intro"     class="sidebar-item"><span class="sidebar-num">01</span>Introduction</a>
+      <a href="#anim-trans"     class="sidebar-item"><span class="sidebar-num">02</span>Transitions</a>
+      <a href="#anim-transform" class="sidebar-item"><span class="sidebar-num">03</span>Transform</a>
+      <a href="#anim-keyframes" class="sidebar-item"><span class="sidebar-num">04</span>@keyframes</a>
+      <a href="#anim-props"     class="sidebar-item"><span class="sidebar-num">05</span>Animation properties</a>
+      <a href="#anim-fill"      class="sidebar-item"><span class="sidebar-num">06</span>fill-mode & play-state</a>
+      <a href="#anim-filters"   class="sidebar-item"><span class="sidebar-num">07</span>Filters CSS</a>
+      <a href="#anim-perf"      class="sidebar-item"><span class="sidebar-num">08</span>Performance & accessibilité</a>
+      <a href="#anim-exo"       class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#anim-bilan"     class="sidebar-item"><span class="sidebar-num">10</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="../../index.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Accueil →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Animations CSS</div>
+      <h1>Animations CSS</h1>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">2 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 INTRODUCTION ══ -->
+    <div id="anim-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Introduction aux animations CSS</h2></div>
+      <p>Les <strong>animations CSS</strong> permettent d'animer une page web sans recourir à JavaScript. Transitions, transformations, keyframes et filtres offrent un contrôle précis sur le mouvement, l'apparition et les effets visuels. Utilisées à bon escient, elles améliorent l'expérience utilisateur ; employées excessivement, elles deviennent perturbantes.</p>
+
+      <div class="callout analogy">
+        <div class="callout-icon">🎬</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le cinéma d'animation</div>
+          <p>Les <strong>transitions</strong> sont comme un zoom fluide entre deux plans. Les <strong>@keyframes</strong> sont un storyboard où chaque image clé définit une pose, l'ordinateur calculant les images intermédiaires (interpolation). Les <strong>filtres</strong> correspondent aux effets de post-production (flou, noir et blanc, saturation).</p>
+        </div>
+      </div>
+
+      <h3>Quatre piliers des animations CSS</h3>
+      <ul>
+        <li><strong>Transitions</strong> : fluidifient les changements d'état (hover, focus)</li>
+        <li><strong>Transform</strong> : modifient la géométrie (rotation, échelle, déplacement) — accéléré GPU</li>
+        <li><strong>@keyframes</strong> : animations complexes avec plusieurs étapes, en boucle ou en alternance</li>
+        <li><strong>Filters</strong> : effets visuels (flou, luminosité, saturation) — animables</li>
+      </ul>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">CSS vs JavaScript pour les animations</div>
+          <p>Les animations CSS sont plus performantes (GPU), plus simples et ne nécessitent pas de bibliothèque. JavaScript est préférable pour les animations complexes (physique, timeline, scroll). Règle : si possible en CSS, faites-le en CSS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 TRANSITIONS ══ -->
+    <div id="anim-trans">
+      <div class="section-header"><span class="section-num">02</span><h2>Transitions CSS</h2></div>
+      <p>Les <strong>transitions</strong> fluidifient les changements d'état (hover, focus, ajout de classe). Plutôt qu'une modification instantanée, la valeur évolue progressivement sur une durée définie selon une fonction de timing.</p>
+
+      <h3>Référence complète — <code>transition-property</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>all</code></td><td>Toutes les propriétés animables de l'élément</td><td>Pratique mais coûteux en performances ; préférer des propriétés explicites</td></tr>
+            <tr><td><code>none</code></td><td>Aucune transition</td><td>Désactiver les transitions sur un élément</td></tr>
+            <tr><td><code>opacity</code></td><td>Transition sur l'opacité uniquement</td><td>Animation très performante (GPU)</td></tr>
+            <tr><td><code>transform</code></td><td>Transition sur les transformations</td><td>Animation très performante (GPU)</td></tr>
+            <tr><td><code>background-color</code></td><td>Transition sur la couleur de fond</td><td>Hover sur les boutons, cartes</td></tr>
+            <tr><td><code>color</code></td><td>Transition sur la couleur du texte</td><td>Liens, titres</td></tr>
+            <tr><td><code>box-shadow</code></td><td>Transition sur les ombres</td><td>Élévation au survol</td></tr>
+            <tr><td><code>filter</code></td><td>Transition sur les filtres</td><td>Effets de révélation (grayscale → color)</td></tr>
+            <tr><td><code>propriété1, propriété2</code></td><td>Liste explicite de propriétés</td><td><code>transition: opacity .3s, transform .2s</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>transition-duration</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>0s</code></td><td>Aucune durée, changement instantané (défaut)</td><td>Désactiver une transition</td></tr>
+            <tr><td><code>0.1s</code> à <code>0.3s</code></td><td>Très rapide, subtil</td><td>Micro-interactions : hover sur bouton, feedback immédiat</td></tr>
+            <tr><td><code>0.3s</code> à <code>0.6s</code></td><td>Standard, confortable</td><td>Transitions générales, ouvertures/fermetures de menus</td></tr>
+            <tr><td><code>1s</code> et plus</td><td>Lent, expressif</td><td>Animations d'entrée, mises en garde, effets décoratifs</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>transition-timing-function</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Courbe bezier équivalente</th></tr></thead>
+          <tbody>
+            <tr><td><code>ease</code></td><td>Départ rapide, ralentissement progressif (défaut)</td><td><code>cubic-bezier(.25, .1, .25, 1)</code></td></tr>
+            <tr><td><code>linear</code></td><td>Vitesse constante du début à la fin</td><td><code>cubic-bezier(0, 0, 1, 1)</code></td></tr>
+            <tr><td><code>ease-in</code></td><td>Départ lent, accélération progressive</td><td><code>cubic-bezier(.42, 0, 1, 1)</code></td></tr>
+            <tr><td><code>ease-out</code></td><td>Départ rapide, ralentissement à la fin</td><td><code>cubic-bezier(0, 0, .58, 1)</code></td></tr>
+            <tr><td><code>ease-in-out</code></td><td>Lent au début et à la fin, rapide au milieu</td><td><code>cubic-bezier(.42, 0, .58, 1)</code></td></tr>
+            <tr><td><code>cubic-bezier(p1x, p1y, p2x, p2y)</code></td><td>Courbe personnalisée pour un contrôle précis</td><td><code>cubic-bezier(.68, -.55, .265, 1.55)</code> (effet rebond)</td></tr>
+            <tr><td><code>steps(N)</code></td><td>Animation par paliers, sans interpolation fluide</td><td>Utile pour les animations sprite (frame par frame)</td></tr>
+            <tr><td><code>step-start</code></td><td>Identique à <code>steps(1, start)</code></td><td>Saut instantané à la valeur finale</td></tr>
+            <tr><td><code>step-end</code></td><td>Identique à <code>steps(1, end)</code></td><td>Saut instantané après le délai</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>transition-delay</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>0s</code></td><td>Pas de délai, la transition commence immédiatement (défaut)</td><td>Réaction instantanée à l'interaction</td></tr>
+            <tr><td><code>N(s/ms)</code></td><td>Délai positif : attend N secondes avant de débuter</td><td>Staggered animations : chaque élément démarre après un décalage</td></tr>
+            <tr><td><code>-N(s/ms)</code></td><td>Délai négatif : commence directement à N secondes dans l'animation</td><td>Simuler un démarrage anticipé sans décalage visuel</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>transition</code> (shorthand)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>transition: propriété durée timing délai</code></td><td>Shorthand complet pour une propriété</td><td><code>transition: opacity .3s ease .1s</code></td></tr>
+            <tr><td><code>transition: prop1 durée, prop2 durée</code></td><td>Transitions multiples séparées par des virgules</td><td><code>transition: opacity .3s, transform .2s</code></td></tr>
+            <tr><td>Ordre</td><td>Durée puis délai : la 1ère valeur temporelle est la durée, la 2e est le délai</td><td><code>transition: .3s .1s</code> → durée .3s, délai .1s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS — Live editor</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><div class="code-editor" contenteditable="true" spellcheck="false">.btn {
+  background: #3498db;
+  color: white;
+  padding: .75em 1.5em;
+  border: none;
+  border-radius: 6px;
+  transition: background .3s ease,
+              transform .2s ease,
+              box-shadow .3s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}</div></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;">
+            <div style="background:#3498db;color:white;padding:10px 20px;border-radius:6px;display:inline-block;transition:all .3s ease;cursor:pointer;" onmouseover="this.style.background='#2980b9';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#3498db';this.style.transform='none'">Survolez-moi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Propriétés transitionnables</div>
+          <p>Toutes les propriétés ne sont pas animables. Les plus courantes : <code>opacity</code>, <code>transform</code>, <code>background-color</code>, <code>color</code>, <code>box-shadow</code>. <code>display</code> n'est pas animable — utilisez <code>opacity</code> et <code>visibility</code>. Évitez <code>transition: all</code> en production, listez les propriétés explicitement.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 TRANSFORM ══ -->
+    <div id="anim-transform">
+      <div class="section-header"><span class="section-num">03</span><h2>Transform : rotate, scale, translate, skew, matrix</h2></div>
+      <p><code>transform</code> modifie la <strong>forme, la taille et la position</strong> d'un élément sans affecter le flux du document. C'est la propriété la plus performante pour les animations car elle utilise l'accélération GPU (pas de reflow).</p>
+
+      <h3>Référence complète — <code>transform</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fonction</th><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>translate()</code></td><td><code>translate(tx, ty)</code></td><td>Déplace l'élément de tx px horizontalement et ty px verticalement</td><td>Animation de glissement (slide), centrage parfait avec <code>translate(-50%, -50%)</code></td></tr>
+            <tr><td><code>translateX()</code></td><td><code>translateX(tx)</code></td><td>Déplacement horizontal uniquement</td><td>Défilement latéral, menu qui glisse de la gauche</td></tr>
+            <tr><td><code>translateY()</code></td><td><code>translateY(ty)</code></td><td>Déplacement vertical uniquement</td><td>Animation de fondu vers le haut, flottement</td></tr>
+            <tr><td><code>rotate()</code></td><td><code>rotate(angle)</code></td><td>Rotation autour du centre (ou du point défini par transform-origin)</td><td>Spinner, icônes qui tournent, badges</td></tr>
+            <tr><td><code>scale()</code></td><td><code>scale(sx, sy?)</code></td><td>Mise à l'échelle. 1 = taille normale, 2 = double, 0.5 = moitié</td><td>Effet de zoom au survol, pulse, agrandissement</td></tr>
+            <tr><td><code>scaleX()</code></td><td><code>scaleX(sx)</code></td><td>Échelle horizontale uniquement</td><td>Barre de progression, effets de distorsion</td></tr>
+            <tr><td><code>scaleY()</code></td><td><code>scaleY(sy)</code></td><td>Échelle verticale uniquement</td><td>Révélation verticale, accordéon</td></tr>
+            <tr><td><code>skew()</code></td><td><code>skew(ax, ay?)</code></td><td>Inclinaison (déformation) de l'élément sur les axes X et Y</td><td>Effets 3D apparents, étiquettes inclinées</td></tr>
+            <tr><td><code>skewX()</code></td><td><code>skewX(ax)</code></td><td>Inclinaison horizontale uniquement</td><td>Badges en forme de parallélogramme</td></tr>
+            <tr><td><code>skewY()</code></td><td><code>skewY(ay)</code></td><td>Inclinaison verticale uniquement</td><td>Effets de perspective</td></tr>
+            <tr><td><code>matrix()</code></td><td><code>matrix(a, b, c, d, tx, ty)</code></td><td>Transformation 2D combinée via une matrice de 6 valeurs</td><td>Utilisé par les outils générés (pas besoin de l'écrire manuellement)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>transform-origin</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>center</code></td><td>Point d'origine au centre de l'élément (défaut)</td><td>Rotation normale</td></tr>
+            <tr><td><code>top left</code></td><td>Origine dans le coin supérieur gauche</td><td>Rotation qui part du coin</td></tr>
+            <tr><td><code>X% Y%</code></td><td>Position personnalisée en pourcentage</td><td><code>transform-origin: 30% 70%</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.translate   { transform: translate(20px, 10px); }
+.rotate      { transform: rotate(45deg); }
+.scale       { transform: scale(1.2); }
+.skew        { transform: skew(10deg, 5deg); }
+
+/* Combinaison (ordre important !) */
+.combo { transform: translateX(20px) rotate(45deg) scale(1.1); }
+
+/* Point d'origine */
+.origin-custom { transform-origin: 30% 70%; }</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Transform = GPU, pas CPU</div>
+          <p>Contrairement à <code>margin</code>, <code>left</code>, <code>width</code> ou <code>height</code> qui déclenchent un <strong>reflow</strong>, <code>transform</code> utilise exclusivement le GPU et ne déclenche que la composition. Pour des animations fluides à 60 fps, utilisez exclusivement <code>transform</code> et <code>opacity</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 @KEYFRAMES ══ -->
+    <div id="anim-keyframes">
+      <div class="section-header"><span class="section-num">04</span><h2>@keyframes — Définir une animation</h2></div>
+      <p>Les <strong>keyframes</strong> (images clés) définissent les étapes d'une animation avec des pourcentages (de 0 % à 100 %) ou les mots-clés <code>from</code> (0 %) et <code>to</code> (100 %). Le navigateur interpole automatiquement entre chaque étape.</p>
+
+      <h3>Référence complète — <code>@keyframes</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>from { } to { }</code></td><td>Animation à 2 étapes : état initial et état final</td><td>Animations simples : fadeIn, slideIn, spin</td></tr>
+            <tr><td><code>0% { } … 100% { }</code></td><td>Étapes multiples avec pourcentages intermédiaires</td><td>Animations complexes : pulse, shake, colorCycle avec 3+ étapes</td></tr>
+            <tr><td><code>0%, 100% { }</code></td><td>Valeurs communes à plusieurs étapes (groupées par virgule)</td><td>Éviter la répétition : état initial = état final dans une animation en boucle</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-10px); }
+  75%      { transform: translateX(10px); }
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 05 ANIMATION PROPERTIES ══ -->
+    <div id="anim-props">
+      <div class="section-header"><span class="section-num">05</span><h2>Propriétés d'animation complètes</h2></div>
+      <p>La propriété <code>animation</code> applique les keyframes à un élément. Elle regroupe plusieurs sous-propriétés qui contrôlent la durée, la répétition, la direction et le comportement avant/après l'animation.</p>
+
+      <h3>Référence complète — <code>animation-*</code> (sous-propriétés)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Valeurs possibles</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>animation-name</code></td><td>Nom des @keyframes (ex: <code>fadeIn</code>, <code>pulse</code>)</td><td>Spécifie quelle règle @keyframes utiliser</td></tr>
+            <tr><td><code>animation-duration</code></td><td><code>0s</code>, <code>.3s</code>, <code>2s</code>, <code>500ms</code>, etc.</td><td>Durée d'un cycle complet de l'animation</td></tr>
+            <tr><td><code>animation-timing-function</code></td><td><code>ease</code>, <code>linear</code>, <code>ease-in</code>, <code>ease-out</code>, <code>ease-in-out</code>, <code>cubic-bezier()</code>, <code>steps()</code>, <code>step-start</code>, <code>step-end</code></td><td>Fonction d'accélération de l'animation (mêmes valeurs que transition-timing-function)</td></tr>
+            <tr><td><code>animation-delay</code></td><td><code>0s</code>, <code>.5s</code>, <code>-1s</code> (négatif accepté)</td><td>Délai avant le début de l'animation. Négatif = commence à un état intermédiaire</td></tr>
+            <tr><td><code>animation-iteration-count</code></td><td><code>1</code>, <code>2</code>, <code>2.5</code>, <code>infinite</code></td><td>Nombre de répétitions de l'animation. Décimal possible pour une répétition partielle</td></tr>
+            <tr><td><code>animation-direction</code></td><td><code>normal</code>, <code>reverse</code>, <code>alternate</code>, <code>alternate-reverse</code></td><td>Sens de lecture : normal (0→100), reverse (100→0), alternate (va-et-vient), alternate-reverse (inverse)</td></tr>
+            <tr><td><code>animation-fill-mode</code></td><td><code>none</code>, <code>forwards</code>, <code>backwards</code>, <code>both</code></td><td>État de l'élément avant (backwards) et après (forwards) l'animation</td></tr>
+            <tr><td><code>animation-play-state</code></td><td><code>running</code>, <code>paused</code></td><td>Permet de suspendre et reprendre une animation en cours</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>animation</code> (shorthand)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Syntaxe</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>animation: name duration timing delay iteration direction fill-mode</code></td><td>Shorthand complet (ordre spécifique)</td><td><code>animation: fadeIn .6s ease-out .2s 1 normal both</code></td></tr>
+            <tr><td>Ordre</td><td>name → duration → timing → delay → iteration → direction → fill-mode</td><td>Les seules valeurs obligatoires sont <strong>name</strong> et <strong>duration</strong></td></tr>
+            <tr><td>Astuce délai</td><td>Deux valeurs temporelles : la 1ère = durée, la 2e = délai</td><td><code>animation: fadeIn .6s .2s</code> (durée .6s, délai .2s)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* Sous-propriétés détaillées */
+.element {
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: both;
+  animation-play-state: running;
+}
+
+/* Shorthand : nom durée timing délai répétition direction fill-mode */
+.fade-in    { animation: fadeIn .6s ease-out .2s 1 normal both; }
+.pulse-inf  { animation: pulse 2s ease-in-out infinite; }
+.bounce-alt { animation: bounce 1s ease alternate infinite; }
+.spinner    { animation: spin 1s linear infinite; }</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 06 FILL-MODE & PLAY-STATE ══ -->
+    <div id="anim-fill">
+      <div class="section-header"><span class="section-num">06</span><h2>animation-fill-mode et animation-play-state</h2></div>
+      <p><code>animation-fill-mode</code> contrôle l'état de l'élément <strong>avant</strong> et <strong>après</strong> l'animation. <code>animation-play-state</code> permet de suspendre et reprendre une animation. Ces deux propriétés sont essentielles pour des animations qui semblent naturelles et qui respectent l'interaction utilisateur.</p>
+
+      <h3>Référence complète — <code>animation-fill-mode</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Comportement avant l'animation</th><th>Comportement après l'animation</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Aucun style particulier (défaut)</td><td>Retour à l'état initial</td><td>Animation décorative qui n'altère pas l'apparence permanente</td></tr>
+            <tr><td><code>forwards</code></td><td>Aucun style particulier</td><td>Conserve l'état final (100%/to)</td><td>Animation d'entrée : l'élément reste visible après l'apparition</td></tr>
+            <tr><td><code>backwards</code></td><td>Applique l'état initial (0%/from) pendant le délai</td><td>Retour à l'état initial</td><td>Éviter le flash : l'élément est déjà dans son état de départ avant le début</td></tr>
+            <tr><td><code>both</code></td><td>Applique l'état initial (comme backwards)</td><td>Conserve l'état final (comme forwards)</td><td>Recommandé pour la plupart des animations : pas de flash avant ni après</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>animation-play-state</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>running</code></td><td>L'animation est en cours d'exécution (défaut)</td><td>État normal de l'animation</td></tr>
+            <tr><td><code>paused</code></td><td>L'animation est suspendue à l'état actuel</td><td>Au survol : figer une animation pour permettre la lecture. En JS : toggle play/pause</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.forwards  { animation: fadeIn 1s forwards; }
+.both      { animation: fadeIn 1s .5s both; }
+
+.spinner { animation: spin 2s linear infinite; }
+.spinner:hover { animation-play-state: paused; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Sans fill-mode, l'élément disparaît après l'animation</div>
+          <p>Sans <code>animation-fill-mode: both</code> (ou <code>forwards</code>), un élément avec <code>opacity: 0</code> dans @keyframes from sera visible avant le délai, puis disparaîtra subitement après la fin. <code>both</code> résout les deux : invisible avant, visible après.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 FILTERS ══ -->
+    <div id="anim-filters">
+      <div class="section-header"><span class="section-num">07</span><h2>Filters CSS : effets visuels complets</h2></div>
+      <p>La propriété <code>filter</code> applique des effets visuels à un élément. <code>backdrop-filter</code> applique un filtre à l'arrière-plan (effet verre dépoli). Ces effets sont animables via transitions ou keyframes.</p>
+
+      <h3>Référence complète — <code>filter</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fonction</th><th>Plage typique</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>blur(radius)</code></td><td>0px à 10px+</td><td>Applique un flou gaussien du rayon spécifié</td><td>Effet de verre dépoli, arrière-plan flouté, mise au point</td></tr>
+            <tr><td><code>brightness(amount)</code></td><td>0 (noir) à 1 (normal) à 2+ (lumineux)</td><td>Ajuste la luminosité : &lt; 1 assombrit, &gt; 1 éclaircit</td><td>Mode nuit, hover plus lumineux, correction d'exposition</td></tr>
+            <tr><td><code>contrast(amount)</code></td><td>0 (gris) à 1 (normal) à 2+ (contrasté)</td><td>Ajuste le contraste des couleurs</td><td>Images plus vives, mode contraste élevé, effets dramatiques</td></tr>
+            <tr><td><code>drop-shadow(h-offset v-offset blur spread color)</code></td><td>Variables selon l'effet</td><td>Ombre portée qui suit les contours réels de l'élément (contrairement à box-shadow)</td><td>Ombre sur des PNG transparents, icônes, textes découpés</td></tr>
+            <tr><td><code>grayscale(amount)</code></td><td>0 (couleur) à 1 (noir et blanc)</td><td>Convertit l'image en nuances de gris</td><td>Images en noir et blanc au repos, révélation couleur au hover</td></tr>
+            <tr><td><code>hue-rotate(angle)</code></td><td>0deg à 360deg</td><td>Fait tourner la teinte (cercle chromatique)</td><td>Changement de couleur dynamique, effets arc-en-ciel animés</td></tr>
+            <tr><td><code>invert(amount)</code></td><td>0 (normal) à 1 (inversé)</td><td>Inverse les couleurs (négatif photo)</td><td>Mode sombre automatique, effets artistiques</td></tr>
+            <tr><td><code>opacity(amount)</code></td><td>0 (transparent) à 1 (opaque)</td><td>Ajuste la transparence (similaire à la propriété opacity)</td><td>Fondu, apparition/disparition progressive</td></tr>
+            <tr><td><code>saturate(amount)</code></td><td>0 (désaturé) à 1 (normal) à 2+ (saturé)</td><td>Ajuste la saturation des couleurs</td><td>Images plus vives, effet rétro désaturé</td></tr>
+            <tr><td><code>sepia(amount)</code></td><td>0 (couleur) à 1 (sépia complet)</td><td>Applique un filtre sépia (ton vieux papier photo)</td><td>Effet vintage, photo ancienne, ambiance rétro</td></tr>
+            <tr><td><code>url(svg#id)</code></td><td>Chemin vers un filtre SVG</td><td>Applique un filtre SVG personnalisé</td><td>Effets complexes impossibles en CSS pur</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.blur       { filter: blur(4px); }
+.brightness { filter: brightness(1.2); }
+.contrast   { filter: contrast(1.5); }
+.grayscale  { filter: grayscale(1); }
+.sepia      { filter: sepia(.8); }
+.hue-rotate { filter: hue-rotate(90deg); }
+.saturate   { filter: saturate(2); }
+.invert     { filter: invert(1); }
+.drop-shadow { filter: drop-shadow(4px 4px 8px rgba(0,0,0,.3)); }
+
+/* Combinaisons */
+.combo { filter: grayscale(.5) brightness(1.1) contrast(1.2); }
+
+/* Au survol */
+.card { filter: grayscale(1) blur(1px); transition: filter .3s; }
+.card:hover { filter: grayscale(0) blur(0); }
+
+/* backdrop-filter — effet verre dépoli */
+.glass {
+  background: rgba(255,255,255,.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">backdrop-filter : l'effet verre dépoli</div>
+          <p><code>backdrop-filter</code> applique un filtre à l'<strong>arrière-plan</strong> (ce qui se trouve derrière l'élément). Associé à un fond semi-transparent, il produit l'effet "glassmorphism". Supporté par tous les navigateurs depuis 2020.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 PERFORMANCE & ACCESSIBILITÉ ══ -->
+    <div id="anim-perf">
+      <div class="section-header"><span class="section-num">08</span><h2>Performance et accessibilité</h2></div>
+      <p>Pour des animations fluides à <strong>60 images par seconde</strong>, utilisez <code>transform</code> et <code>opacity</code> (GPU, pas de reflow). Évitez les propriétés qui déclenchent un reflow (<code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code>, <code>top</code>, <code>left</code>).</p>
+
+      <h3>Référence complète — Performances des propriétés</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Propriété</th><th>Impact</th><th>Opération de rendu</th><th>Recommandation</th></tr></thead>
+          <tbody>
+            <tr><td><code>transform</code></td><td>🟢 Très performant</td><td>Composite uniquement (GPU)</td><td>À utiliser pour toute animation de position/taille/rotation</td></tr>
+            <tr><td><code>opacity</code></td><td>🟢 Très performant</td><td>Composite uniquement (GPU)</td><td>À utiliser pour toute animation de transparence</td></tr>
+            <tr><td><code>filter</code></td><td>🟡 Moyen</td><td>Paint + Composite</td><td>Utiliser avec modération, surtout sur mobile</td></tr>
+            <tr><td><code>background-color</code></td><td>🟡 Moyen</td><td>Paint + Composite</td><td>Acceptable pour des transitions simples</td></tr>
+            <tr><td><code>box-shadow</code></td><td>🟡 Moyen</td><td>Paint + Composite</td><td>Éviter les animations d'ombres complexes</td></tr>
+            <tr><td><code>width</code>, <code>height</code></td><td>🔴 Coûteux</td><td>Layout + Paint + Composite</td><td>Éviter ; utiliser <code>transform: scale()</code> à la place</td></tr>
+            <tr><td><code>top</code>, <code>left</code></td><td>🔴 Coûteux</td><td>Layout + Paint + Composite</td><td>Éviter ; utiliser <code>transform: translate()</code> à la place</td></tr>
+            <tr><td><code>margin</code>, <code>padding</code></td><td>🔴 Coûteux</td><td>Layout + Paint + Composite</td><td>Ne pas animer</td></tr>
+            <tr><td><code>font-size</code></td><td>🔴 Coûteux</td><td>Layout + Paint + Composite</td><td>Ne pas animer</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>prefers-reduced-motion</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Media query</th><th>Description</th><th>Contexte d'utilisation (exigence WCAG)</th></tr></thead>
+          <tbody>
+            <tr><td><code>prefers-reduced-motion: reduce</code></td><td>L'utilisateur a demandé une réduction des mouvements dans son système d'exploitation</td><td>Désactiver toutes les animations, limiter les transitions, supprimer les défilements automatiques</td></tr>
+            <tr><td><code>prefers-reduced-motion: no-preference</code></td><td>L'utilisateur n'a pas de préférence particulière</td><td>Comportement normal : toutes les animations sont actives</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* ⚡ Bonnes pratiques : transform + opacity */
+.animate { transform: translateX(100px); opacity: .5; }
+
+/* 🔴 À éviter : propriétés qui déclenchent un reflow */
+/* width, height, margin, padding, top, left, font-size */
+
+/* ♿ Accessibilité : désactiver les animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* will-change : optimisation explicite */
+.card { will-change: transform, opacity; }</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">WCAG 2.1 — Animation from Interactions (AAA)</div>
+          <p>Le critère WCAG 2.3.3 exige que les mouvements déclenchés par une interaction puissent être désactivés via <code>prefers-reduced-motion</code>. Cette exigence est inscrite dans la législation de plusieurs pays pour les sites publics.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="anim-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✨ Animations & transitions</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-animations.html</code> avec un bouton qui change de couleur, d'échelle et d'ombre au hover.</li>
+            <li>Ajoutez un spinner avec <code>@keyframes spin</code>.</li>
+            <li>Une carte apparaît avec <code>fadeIn</code> et <code>fill-mode: both</code>.</li>
+            <li>Un badge "Nouveau" pulse en continu.</li>
+            <li>Barre de progression qui se remplit de 0 % à 100 %.</li>
+            <li>Animation flottante avec <code>transform: translateY</code> alterné.</li>
+            <li><code>animation-play-state: paused</code> au survol.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🎬 Galerie avec effets visuels</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-filters.html</code> avec 6 images en grille.</li>
+            <li>Chaque image a <code>grayscale(1)</code> par défaut.</li>
+            <li>Au survol : <code>grayscale(0)</code> + <code>scale(1.05)</code>.</li>
+            <li>Ajoutez <code>backdrop-filter: blur(4px)</code> sur un overlay.</li>
+            <li>Bouton "Mode nuit" : <code>brightness(.8) saturate(1.2)</code>.</li>
+            <li>Implémentez <code>prefers-reduced-motion</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus — Carte animée complète</div>
+          <p>Image qui se scale au hover, titre qui slide depuis la gauche, description qui fade in avec délai, badge qui pulse, ombre qui s'intensifie. Exclusivement <code>transform</code> et <code>opacity</code>. Ajoutez <code>will-change</code> et <code>prefers-reduced-motion</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FIL ROUGE ══ -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Ajoutez des animations au défilement (reveal) sur les sections du portfolio, une transition sur les cartes au survol, et un effet de fondu sur les images.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Dynamiser la navigation dans le portfolio sans nuire aux performances ni à l'accessibilité.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="ANIM">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="anim-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Compétences acquises</h3>
+      <ul class="checklist">
+        <li>Transitions CSS : property, duration, timing-function, delay, shorthand</li>
+        <li>Transform : translate, rotate, scale, skew, matrix, transform-origin</li>
+        <li>@keyframes : from/to, 0% à 100%, étapes multiples</li>
+        <li>Animation : name, duration, timing, delay, iteration, direction, fill-mode, play-state, shorthand</li>
+        <li>Filters : blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, invert, opacity, saturate, sepia, url</li>
+        <li>backdrop-filter pour l'effet verre dépoli</li>
+        <li>Performance : transform + opacity = GPU ; éviter les propriétés à reflow</li>
+        <li>will-change pour l'optimisation explicite</li>
+        <li>Accessibilité : prefers-reduced-motion (exigence WCAG)</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Transition</dt><dd>Animation fluide entre deux états (hover, focus, changement de classe).</dd>
+          <dt>Transform</dt><dd>Modification géométrique (déplacement, rotation, échelle). Accéléré GPU.</dd>
+          <dt>@keyframes</dt><dd>Règle CSS définissant les étapes d'une animation (pourcentages ou from/to).</dd>
+          <dt>animation-fill-mode</dt><dd>État avant/après l'animation : none, forwards, backwards, both.</dd>
+          <dt>animation-play-state</dt><dd>running (lecture) ou paused (pause).</dd>
+          <dt>Timing function</dt><dd>Fonction d'accélération : ease, linear, ease-in, ease-out, cubic-bezier, steps().</dd>
+          <dt>Filter</dt><dd>Effet visuel CSS : flou, N&amp;B, luminosité, ombre portée, etc.</dd>
+          <dt>backdrop-filter</dt><dd>Filtre appliqué à l'arrière-plan d'un élément (effet verre dépoli).</dd>
+          <dt>GPU acceleration</dt><dd>Utilisation du processeur graphique. Transform + Opacity = 60 fps.</dd>
+          <dt>will-change</dt><dd>Propriété prévenant le navigateur qu'une propriété va être animée.</dd>
+          <dt>prefers-reduced-motion</dt><dd>Media query pour désactiver les animations (accessibilité).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Section suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Retour à l'accueil</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Explorez les autres sujets du cours CSS</div>
+        </div>
+        <a href="../../index.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Accueil →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

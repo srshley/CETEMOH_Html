@@ -1,0 +1,678 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Positionnement CSS · Cours CSS</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .sidebar-session-label { color: var(--teal) !important; }
+    .sidebar-item.active { color: var(--teal) !important; border-left-color: var(--teal) !important; background: var(--teal-dim) !important; }
+    .section-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.25) !important; }
+    .session-badge { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,.12), transparent 60%) !important; }
+    .exercise-num { color: var(--teal) !important; background: var(--teal-dim) !important; border-color: rgba(45,212,191,.3) !important; }
+    .topbar-brand .badge { background: var(--teal) !important; }
+    .glossary dt { color: var(--teal) !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours CSS</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="basic-css.html">CSS de Base</a>
+      <a href="design.html">Design CSS</a>
+      <a href="units.html">Unités</a>
+      <a href="pseudo-classes-elements.html">Pseudo-classes</a>
+      <a href="colors.html">Couleurs</a>
+      <a href="styling-forms.html">Formulaires</a>
+      <a href="box-model.html">Box Model</a>
+      <a href="flexbox.html">Flexbox</a>
+      <a href="typography.html">Typographie</a>
+      <a href="accessibility.html">Accessibilité</a>
+      <a href="positioning.html" class="active">Position</a>
+      <a href="attribute-selectors.html">Attributs</a>
+      <a href="responsive-design.html">Responsive</a>
+      <a href="variables.html">Variables</a>
+      <a href="grid.html">Grid</a>
+      <a href="animations.html">Animations</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label t11">Positionnement</div>
+      <a href="#t11-display"  class="sidebar-item"><span class="sidebar-num">01</span>Display</a>
+      <a href="#t11-static"   class="sidebar-item"><span class="sidebar-num">02</span>Position & top/right/bottom/left</a>
+      <a href="#t11-relative" class="sidebar-item"><span class="sidebar-num">03</span>Position relative</a>
+      <a href="#t11-absolute" class="sidebar-item"><span class="sidebar-num">04</span>Position absolute</a>
+      <a href="#t11-fixed"    class="sidebar-item"><span class="sidebar-num">05</span>Position fixed</a>
+      <a href="#t11-sticky"   class="sidebar-item"><span class="sidebar-num">06</span>Position sticky</a>
+      <a href="#t11-zindex"   class="sidebar-item"><span class="sidebar-num">07</span>z-index & empilement</a>
+      <a href="#t11-float"    class="sidebar-item"><span class="sidebar-num">08</span>Float & clear</a>
+      <a href="#t11-exo"      class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#t11-bilan"    class="sidebar-item"><span class="sidebar-num">10</span>Glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="attribute-selectors.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">Sélecteurs d'attributs →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Positionnement</div>
+      <h1>Positionnement CSS</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Display · Position · z-index · Contexte d'empilement · Float</p>
+      <div class="session-meta">
+        <span class="meta-tag">CSS3</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 DISPLAY ══ -->
+    <div id="t11-display">
+      <div class="section-header"><span class="section-num">01</span><h2>Display : types de boîtes</h2></div>
+      <p>La propriété <code>display</code> définit le <strong>type de boîte</strong> d'un élément. Il s'agit de la propriété la plus fondamentale pour la mise en page. Chaque élément HTML possède une valeur <code>display</code> par défaut déterminée par sa nature (block pour les conteneurs, inline pour le texte, etc.).</p>
+
+      <h3>Référence complète — <code>display</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>block</code></td><td>L'élément occupe toute la largeur disponible, commence sur une nouvelle ligne. width/height respectées.</td><td>Sections, titres, paragraphes, conteneurs</td></tr>
+            <tr><td><code>inline</code></td><td>L'élément s'écoule dans le texte, n'occupe que l'espace de son contenu. width/height ignorés.</td><td>Liens, texte, balises de style (span, strong, em)</td></tr>
+            <tr><td><code>inline-block</code></td><td>Comme inline (pas de nouvelle ligne) mais accepte width/height comme block.</td><td>Boutons, cartes, éléments d'interface alignés</td></tr>
+            <tr><td><code>none</code></td><td>L'élément est retiré du flux et n'est pas affiché. Inaccessible aux lecteurs d'écran.</td><td>Masquage complet d'éléments</td></tr>
+            <tr><td><code>contents</code></td><td>La boîte de l'élément est supprimée : seuls ses enfants sont affichés. Utile pour les grilles flexbox/grid.</td><td>Contournement des conteneurs superflus</td></tr>
+            <tr><td><code>flow-root</code></td><td>Crée un nouveau contexte de formatage de bloc (BFC). Contient les floats et les marges.</td><td>Alternative moderne au clearfix</td></tr>
+            <tr><td><code>flex</code></td><td>Établit un conteneur flexbox en bloc (occupe toute la largeur).</td><td>Mise en page flexible unidimensionnelle</td></tr>
+            <tr><td><code>inline-flex</code></td><td>Conteneur flexbox en ligne (taille selon son contenu).</td><td>Barres d'outils flexibles inline</td></tr>
+            <tr><td><code>grid</code></td><td>Établit un conteneur grid en bloc.</td><td>Mise en page bidimensionnelle</td></tr>
+            <tr><td><code>inline-grid</code></td><td>Conteneur grid en ligne.</td><td>Grilles dans le flux du texte</td></tr>
+            <tr><td><code>table</code>, <code>inline-table</code>, <code>table-row</code>, <code>table-cell</code>, <code>table-caption</code>, <code>table-column</code>, <code>table-column-group</code>, <code>table-header-group</code>, <code>table-footer-group</code>, <code>table-row-group</code></td><td>Valeurs dérivées de CSS table. Reproduisent le comportement des balises de tableau HTML.</td><td>Compatibilité, mise en page tabulaire sans HTML table</td></tr>
+            <tr><td><code>list-item</code></td><td>L'élément se comporte comme un élément de liste (avec puce).</td><td>Éléments de liste personnalisés</td></tr>
+            <tr><td><code>run-in</code></td><td>L'élément s'intègre dans le bloc suivant s'il est inline (pris en charge limitée).</td><td>Typographie avancée</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* DISPLAY: BLOCK */
+.block { display: block; }
+/* Par défaut : div, p, h1-h6, ul, ol, li, section, article, nav */
+
+/* DISPLAY: INLINE */
+.inline { display: inline; }
+/* Par défaut : span, a, strong, em, code, label */
+
+/* DISPLAY: INLINE-BLOCK */
+.inline-block {
+  display: inline-block;
+  width: 150px;
+  height: 50px;
+}
+
+/* DISPLAY: NONE */
+.hidden { display: none; }     /* retiré du flux */
+.invisible { visibility: hidden; } /* conservé mais masqué */</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">display: none vs visibility: hidden</div>
+          <p><code>display: none</code> retire complètement l'élément du flux — il n'occupe aucun espace et est inaccessible aux lecteurs d'écran. <code>visibility: hidden</code> le masque visuellement tout en conservant son emplacement dans le flux, mais reste invisible pour les lecteurs d'écran. Pour un contenu masqué visuellement mais accessible, utilisez la classe <code>.sr-only</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 POSITION & top/right/bottom/left ══ -->
+    <div id="t11-static">
+      <div class="section-header"><span class="section-num">02</span><h2>position et top/right/bottom/left</h2></div>
+      <p>La propriété <code>position</code> définit le mode de positionnement d'un élément dans le document. Associée aux propriétés <code>top</code>, <code>right</code>, <code>bottom</code> et <code>left</code>, elle permet de contrôler précisément l'emplacement des éléments.</p>
+
+      <h3>Référence complète — <code>position</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>static</code></td><td>Flux normal du document. Les propriétés top, right, bottom, left, z-index sont ignorées. Valeur par défaut.</td><td>Éléments sans besoin de positionnement spécifique</td></tr>
+            <tr><td><code>relative</code></td><td>L'élément reste dans le flux normal mais peut être décalé visuellement via top/right/bottom/left. Sert de point d'ancrage pour les enfants en absolute.</td><td>Décalage visuel fin, ancrage d'éléments absolus</td></tr>
+            <tr><td><code>absolute</code></td><td>L'élément est retiré du flux. Positionné par rapport à l'ancêtre positionné le plus proche (relative, absolute, fixed, sticky).</td><td>Badges, superpositions, menus déroulants, centrage</td></tr>
+            <tr><td><code>fixed</code></td><td>L'élément est retiré du flux. Positionné par rapport au viewport. Reste fixe pendant le défilement.</td><td>Barres de navigation, bannières de cookies, boutons flottants</td></tr>
+            <tr><td><code>sticky</code></td><td>Alterne entre relative et fixed : relatif jusqu'à un seuil défini par top, puis se fixe. Reste dans le flux.</td><td>En-têtes de sections collants, barres latérales</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>auto</code></td><td>Positionnement automatique — valeur par défaut. Laisse le navigateur calculer la position.</td><td>Positionnement par défaut</td></tr>
+            <tr><td><code>&lt;length&gt;</code></td><td>Distance absolue depuis le bord de référence. Ex: <code>0</code>, <code>20px</code>, <code>1.5rem</code>. Peut être négative.</td><td>Positionnement précis</td></tr>
+            <tr><td><code>&lt;percentage&gt;</code></td><td>Pourcentage de la hauteur (top/bottom) ou largeur (left/right) du bloc contenant. Ex: <code>50%</code>.</td><td>Centrage proportionnel</td></tr>
+            <tr><td><code>inherit</code></td><td>Hérite de la valeur calculée du parent.</td><td>Forcer l'héritage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">/* position: static — défaut, pas d'effet de top/left */
+.static-element { position: static; }
+
+/* position: relative — décalé visuellement, espace conservé */
+.relative-box {
+  position: relative;
+  top: 20px;
+  left: 30px;
+}
+
+/* position: absolute — retiré du flux */
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Centrage parfait avec absolute */
+.center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Overlay occupant tout le parent */
+.overlay {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0,.5);
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ══ 03 POSITION RELATIVE ══ -->
+    <div id="t11-relative">
+      <div class="section-header"><span class="section-num">03</span><h2>Position: relative</h2></div>
+      <p>L'élément demeure dans le flux normal (son emplacement d'origine est conservé), mais il peut être décalé visuellement à l'aide des propriétés <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>. Plus important encore, <code>position: relative</code> sert de point d'ancrage pour les éléments enfants en <code>position: absolute</code>.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.relative-box {
+  position: relative;
+  top: 20px;
+  left: 30px;
+}
+
+.relative-up {
+  position: relative;
+  top: -10px; /* valeurs négatives autorisées */
+}
+
+/* Point d'ancrage pour enfant absolute */
+.parent-anchor {
+  position: relative;
+}
+.child-absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+}</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Fonction essentielle de position: relative</div>
+          <p>Au-delà du décalage visuel, <code>position: relative</code> est principalement utilisé pour créer un contexte de positionnement. Un élément en <code>position: absolute</code> se positionne par rapport à l'ancêtre positionné le plus proche. En l'absence d'un ancêtre positionné, l'élément absolu remonte jusqu'au viewport.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 POSITION ABSOLUTE ══ -->
+    <div id="t11-absolute">
+      <div class="section-header"><span class="section-num">04</span><h2>Position: absolute</h2></div>
+      <p>L'élément est retiré du flux normal : il n'occupe plus d'espace dans son parent et peut se superposer aux autres éléments. Il se positionne par rapport à l'ancêtre positionné le plus proche (relative, absolute, fixed ou sticky).</p>
+
+      <div class="code-preview-split interactive">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body">
+            <div class="code-editor" contenteditable="true" spellcheck="false">.parent {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background: #e8f4f8;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e63946;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2c3e50;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 4px;
+}</div>
+          </div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body" style="background:#fafafa;color:#1a1a2e;font-family:Georgia,serif;font-size:15px;line-height:1.7;padding:0;">
+            <div style="position:relative;width:100%;height:100px;background:#e8f4f8;border-radius:6px;">
+              <span style="font-size:.7rem;position:absolute;top:4px;left:8px;color:#555;">parent relative</span>
+              <div style="position:absolute;top:8px;right:8px;background:#e63946;color:white;padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700;">BADGE</div>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#2c3e50;color:white;padding:6px 14px;border-radius:4px;font-size:12px;">Centre</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Conséquence du retrait du flux</div>
+          <p>Un élément en <code>position: absolute</code> n'occupe plus d'espace dans son parent. Si le parent ne contient que des enfants absolus, sa hauteur sera de 0 (phénomène d'effondrement). Il convient de définir une hauteur explicite pour le parent ou d'utiliser du padding.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 POSITION FIXED ══ -->
+    <div id="t11-fixed">
+      <div class="section-header"><span class="section-num">05</span><h2>Position: fixed</h2></div>
+      <p>À l'instar de <code>absolute</code>, l'élément est retiré du flux. Toutefois, <strong>fixed</strong> se positionne toujours par rapport au <strong>viewport</strong>, indépendamment du défilement. Cette propriété est particulièrement adaptée aux barres de navigation, aux bannières de cookies et aux boutons flottants.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: #1a1a2e;
+  color: white;
+  z-index: 1000;
+}
+
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #3498db;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  cursor: pointer;
+  z-index: 999;
+}
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 1rem 1.5rem;
+  z-index: 1001;
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Compensation de la hauteur d'un élément fixed</div>
+          <p>Si vous fixez une barre de navigation en haut de la page, celle-ci sort du flux : le contenu remonte en dessous. Il convient d'ajouter une valeur de <code>padding-top</code> équivalente à la hauteur de la barre de navigation sur l'élément <code>&lt;body&gt;</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 POSITION STICKY ══ -->
+    <div id="t11-sticky">
+      <div class="section-header"><span class="section-num">06</span><h2>Position: sticky</h2></div>
+      <p>Un élément <strong>sticky</strong> alterne entre les comportements <code>relative</code> et <code>fixed</code> en fonction du défilement. Il se comporte comme un élément relatif jusqu'à ce qu'il atteigne un seuil défini (via <code>top</code>), puis se fixe comme un élément fixed. Il reste confiné aux limites de son parent.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.section-header {
+  position: sticky;
+  top: 80px;          /* seuil de déclenchement */
+  background: white;
+  z-index: 10;
+  padding: .75rem 0;
+  border-bottom: 2px solid #3498db;
+}
+
+.sidebar-sticky {
+  position: sticky;
+  top: 24px;
+}
+
+/* En-tête de tableau collant */
+thead th {
+  position: sticky;
+  top: 0;
+  background: #2c3e50;
+  color: white;
+  z-index: 5;
+}</pre></div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Conditions requises pour le fonctionnement de sticky</div>
+          <p>Quatre conditions doivent être réunies : ① Le parent doit avoir <code>overflow: visible</code> (pas hidden, scroll ou auto). ② Un seuil doit être défini via <code>top</code> (ou equivalent). ③ Le parent doit être plus grand que l'élément sticky. ④ L'élément sticky reste confiné aux limites de son parent.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 Z-INDEX ══ -->
+    <div id="t11-zindex">
+      <div class="section-header"><span class="section-num">07</span><h2>z-index et contexte d'empilement</h2></div>
+      <p>Lorsque des éléments positionnés se superposent, la propriété <code>z-index</code> contrôle l'ordre d'empilement sur l'axe Z. Plus la valeur est élevée, plus l'élément apparaît au-dessus des autres. Le <strong>contexte d'empilement</strong> est un concept fondamental : il crée un groupe d'éléments dont les z-index sont comparés entre eux, isolés des autres groupes.</p>
+
+      <h3>Référence complète — <code>z-index</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>auto</code></td><td>L'élément n'a pas de niveau d'empilement propre. Valeur par défaut. Ne crée pas de contexte d'empilement.</td><td>Éléments sans superposition</td></tr>
+            <tr><td><code>&lt;integer&gt;</code></td><td>Nombre entier (positif ou négatif). Plus la valeur est élevée, plus l'élément apparaît au-dessus. Ex: <code>1</code>, <code>100</code>, <code>9999</code>, <code>-1</code>.</td><td>Contrôle de la superposition</td></tr>
+            <tr><td><code>initial</code></td><td>Rétablit la valeur initiale (<code>auto</code>).</td><td>Réinitialisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Contexte d'empilement</h3>
+      <p>Un contexte d'empilement est créé par les propriétés suivantes :</p>
+      <ul>
+        <li><code>position: relative/absolute</code> avec <code>z-index</code> différent de <code>auto</code></li>
+        <li><code>position: fixed</code> ou <code>sticky</code> (créent toujours un contexte)</li>
+        <li><code>opacity</code> inférieure à 1</li>
+        <li><code>transform</code>, <code>filter</code>, <code>perspective</code>, <code>clip-path</code>, <code>mask</code> différents de <code>none</code></li>
+        <li><code>isolation: isolate</code></li>
+        <li><code>mix-blend-mode</code> différent de <code>normal</code></li>
+        <li><code>will-change</code> avec une propriété créant un contexte</li>
+        <li><code>contain: layout</code> ou <code>paint</code></li>
+      </ul>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.box1 { position: absolute; z-index: 1; background: #e74c3c; }
+.box2 { position: absolute; z-index: 2; background: #3498db; }
+.box3 { position: absolute; z-index: 3; background: #2ecc71; }
+
+/* Contexte d'empilement : l'enfant est limité au parent */
+.parent-layer {
+  position: relative;
+  z-index: 10;  /* crée un contexte d'empilement */
+}
+.child-layer {
+  position: absolute;
+  z-index: 999; /* 999 mais limité au contexte du parent */
+}
+/* Un enfant avec z-index: 999 ne peut pas dépasser
+   un élément avec z-index: 20 situé dans un autre contexte */
+
+/* isolement forcé */
+.isolated {
+  isolation: isolate;
+}</pre></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Ordre d'empilement par défaut</div>
+          <p>En l'absence de <code>z-index</code>, l'ordre d'empilement est : fond/bordures → éléments flottés → éléments inline → éléments positionnés (dans l'ordre d'apparition). Un élément positionné apparaissant plus tard se superpose à ses prédécesseurs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 FLOAT & CLEAR ══ -->
+    <div id="t11-float">
+      <div class="section-header"><span class="section-num">08</span><h2>Float et clear</h2></div>
+      <p>La propriété <code>float</code> faisait office de méthode principale de mise en page avant Flexbox et Grid. De nos jours, son usage est réservé à l'habillage de texte autour d'une image (son rôle originel). La propriété <code>clear</code> permet de stopper le flottement.</p>
+
+      <h3>Référence complète — <code>float</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Pas de flottement — valeur par défaut. L'élément reste dans le flux normal.</td><td>Élément standard</td></tr>
+            <tr><td><code>left</code></td><td>L'élément flotte à gauche de son conteneur. Le texte s'écoule à sa droite.</td><td>Images dans les articles, habillage de texte</td></tr>
+            <tr><td><code>right</code></td><td>L'élément flotte à droite de son conteneur. Le texte s'écoule à sa gauche.</td><td>Citations en encadré, images à droite</td></tr>
+            <tr><td><code>inline-start</code></td><td>Flotte du côté de début de ligne (gauche en LTR, droite en RTL).</td><td>Internationalisation</td></tr>
+            <tr><td><code>inline-end</code></td><td>Flotte du côté de fin de ligne (droite en LTR, gauche en RTL).</td><td>Internationalisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Référence complète — <code>clear</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Valeur</th><th>Description</th><th>Contexte d'utilisation</th></tr></thead>
+          <tbody>
+            <tr><td><code>none</code></td><td>Pas d'effet sur le flottement — valeur par défaut.</td><td>Élément standard</td></tr>
+            <tr><td><code>left</code></td><td>L'élément passe en dessous de tout élément flottant à gauche.</td><td>Reprendre le flux après un float: left</td></tr>
+            <tr><td><code>right</code></td><td>L'élément passe en dessous de tout élément flottant à droite.</td><td>Reprendre le flux après un float: right</td></tr>
+            <tr><td><code>both</code></td><td>L'élément passe en dessous de tout élément flottant (gauche et droite).</td><td>Reprendre le flux après n'importe quel float</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Technique du clearfix</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">CSS</span>
+          <button class="copy-btn">COPIER</button>
+        </div>
+        <div class="code-body"><pre data-lang="css">.float-left  { float: left;  margin-right: 1rem; }
+.float-right { float: right; margin-left: 1rem; }
+.clear-left  { clear: left; }
+.clear-right { clear: right; }
+.clear-both  { clear: both; }
+
+/* La technique du clearfix */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Usage moderne : habillage de texte */
+.article img {
+  float: left;
+  margin: 0 1.5rem 1rem 0;
+  max-width: 40%;
+  border-radius: 8px;
+}</pre></div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <div class="callout-title">Usage moderne de float</div>
+          <p>La propriété <code>float</code> doit être réservée à son rôle originel : permettre au texte de s'écouler autour d'un élément (images, citations). Pour les grilles, barres latérales et mise en page générale, utilisez Flexbox ou Grid.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="t11-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📐 Positionnement mis en pratique</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-position.html</code> avec un conteneur parent <code>position: relative</code> (400x300px, fond gris clair).</li>
+            <li>Placez 4 carrés de 80x80px de couleurs différentes aux 4 coins du parent en utilisant <code>position: absolute</code>.</li>
+            <li>Ajoutez un 5e carré centré parfaitement avec <code>top: 50%; left: 50%; transform: translate(-50%, -50%)</code>.</li>
+            <li>Créez une navbar simulée avec <code>position: sticky</code> qui se colle en haut au scroll.</li>
+            <li>Ajoutez un bouton "Retour en haut" <code>position: fixed</code> en bas à droite.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📰 Article avec image flottée</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo-float.html</code> avec un article : titre, 3 paragraphes et une image.</li>
+            <li>Faites flotter l'image à gauche avec <code>float: left</code>.</li>
+            <li>Ajoutez une citation <code>blockquote</code> flottée à droite.</li>
+            <li>Utilisez <code>clear: both</code> pour que le dernier paragraphe ne soit pas à côté.</li>
+            <li>Ajoutez un badge "Nouveau" avec <code>position: absolute</code> dans le coin supérieur droit.</li>
+            <li>Utilisez <code>display: inline-block</code> pour aligner 3 icônes horizontalement.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">📦 Contexte d'empilement</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez 3 conteneurs <code>position: relative</code> imbriqués.</li>
+            <li>Chacun contient un carré absolu avec un z-index différent (1, 2, 3).</li>
+            <li>Donnez au parent du milieu <code>z-index: 10</code> pour créer un contexte d'empilement.</li>
+            <li>Observez comment un enfant avec z-index: 999 reste sous un enfant avec z-index: 1 dans un parent avec z-index: 20.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">🔍</div>
+        <div class="callout-body">
+          <div class="callout-title">Exercice bonus</div>
+          <p>Créez un bouton qui affiche une infobulle (tooltip) au survol en utilisant <code>position: absolute</code> par rapport au bouton en <code>position: relative</code>. Utilisez <code>::after</code> pour la flèche.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz" data-session="t11">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- Projet fil rouge -->
+    <div class="callout analogy">
+      <div class="callout-icon">📁</div>
+      <div class="callout-body">
+        <div class="callout-title">Projet fil rouge — Portfolio Développeur</div>
+        <p>Ce chapitre contribue à la réalisation de votre portfolio personnel.</p>
+        <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Étape pratique : Fixez la barre de navigation en haut de la fenêtre (position: sticky). Ajoutez un bouton de retour en haut de page (position: fixed) qui apparaît après un certain défilement.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Objectif : Améliorer la navigation et l'expérience utilisateur sur le portfolio.</li>
+          <li style="margin-bottom:.3rem;font-size:.9rem;">Fichier cible : <code>css/style-portfolio.css</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══ 10 GLOSSAIRE ══ -->
+    <div id="t11-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Display : block, inline, inline-block, none, contents, flow-root</li>
+        <li>Position relative : décalé visuellement, sert d'ancrage</li>
+        <li>Position absolute : retiré du flux, positionné par rapport à l'ancêtre</li>
+        <li>Position fixed : retiré du flux, positionné par rapport au viewport</li>
+        <li>Position sticky : alterne entre relative et fixed au défilement</li>
+        <li>top/right/bottom/left : décalages avec length ou pourcentage</li>
+        <li>z-index et contexte d'empilement</li>
+        <li>Float : usage moderne pour l'habillage de texte</li>
+        <li>Clear et la technique du clearfix</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Display</dt><dd>Type de boîte : block (toute la largeur), inline (dans le texte), inline-block (dimensionnable).</dd>
+          <dt>Position static</dt><dd>Valeur par défaut. top/left/z-index ignorés.</dd>
+          <dt>Position relative</dt><dd>L'élément peut être décalé. Sert d'ancrage pour absolute.</dd>
+          <dt>Position absolute</dt><dd>Retiré du flux. Positionné par rapport à l'ancêtre positionné.</dd>
+          <dt>Position fixed</dt><dd>Retiré du flux. Positionné par rapport au viewport, indépendant du scroll.</dd>
+          <dt>Position sticky</dt><dd>Relative jusqu'au seuil (top), puis fixed.</dd>
+          <dt>z-index</dt><dd>Ordre d'empilement sur l'axe Z. Nécessite un positionnement différent de static.</dd>
+          <dt>Contexte d'empilement</dt><dd>Groupe d'éléments isolé où les z-index sont comparés localement.</dd>
+          <dt>Float</dt><dd>Fait flotter un élément pour que le texte s'écoule autour. Usage moderne : habillage.</dd>
+          <dt>Clear</dt><dd>Propriété qui stoppe le flottement (left, right, both).</dd>
+          <dt>Clearfix</dt><dd>Technique CSS pour contenir des floats dans un parent (display: table + clear: both).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Fiche suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Sélecteurs d'Attributs</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">[attr] · préfixe · suffixe · contient · projet inventaire</div>
+        </div>
+        <a href="attribute-selectors.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Attributs →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

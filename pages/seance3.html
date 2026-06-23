@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 3 — Texte, Titres &amp; Paragraphes · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--amber); background:var(--amber-dim); border-color:rgba(245,158,11,.25); }
+    .section-header    { border-bottom-color:rgba(245,158,11,.2); }
+    h3                 { color:var(--amber); }
+    .sidebar-item.active { color:var(--amber); border-left-color:var(--amber); background:var(--amber-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html" class="active">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s3">Séance 3</div>
+      <a href="#s3-hierarchie" class="sidebar-item"><span class="sidebar-num">01</span>Hiérarchie h1-h6</a>
+      <a href="#s3-paragraphes" class="sidebar-item"><span class="sidebar-num">02</span>Paragraphes &amp; sauts</a>
+      <a href="#s3-valeur" class="sidebar-item"><span class="sidebar-num">03</span>Mise en valeur</a>
+      <a href="#s3-citations" class="sidebar-item"><span class="sidebar-num">04</span>Citations</a>
+      <a href="#s3-code" class="sidebar-item"><span class="sidebar-num">05</span>Code &amp; préformaté</a>
+      <a href="#s3-abrev" class="sidebar-item"><span class="sidebar-num">06</span>Abréviations &amp; adresses</a>
+      <a href="#s3-modif" class="sidebar-item"><span class="sidebar-num">07</span>Contenu modifié</a>
+      <a href="#s3-hr" class="sidebar-item"><span class="sidebar-num">08</span>Séparateur &amp; entités</a>
+      <a href="#s3-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s3-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance2.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);">← Séance 2</a>
+      <a href="seance4.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--amber);margin-top:.5rem;">Séance 4 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s3">
+      <div class="session-badge s3">Séance 03 / 10</div>
+      <h1>Texte, Titres &amp; Paragraphes</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Hiérarchie h1-h6 • strong • em • mark • blockquote • code • pre • kbd • abbr • address</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h30</span><span class="meta-tag">10 sections</span><span class="meta-tag">4 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 HIÉRARCHIE ══ -->
+    <div id="s3-hierarchie">
+      <div class="section-header"><span class="section-num">01</span><h2>Hiérarchie des titres h1 à h6</h2></div>
+      <p>HTML propose <strong>6 niveaux de titres</strong>, de <code>&lt;h1&gt;</code> (le plus important) à <code>&lt;h6&gt;</code> (le moins important). Ils forment un plan de document comme les chapitres d'un livre.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle d'or</div>
+          <p><strong>Un seul &lt;h1&gt; par page</strong>. Ne sautez jamais de niveau : h1 → h2 → h3, jamais h1 → h3. Google utilise cette hiérarchie pour comprendre la structure de votre contenu.</p>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Hiérarchie des titres</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;h1&gt;Titre principal de la page&lt;/h1&gt;
+&lt;h2&gt;Chapitre 1&lt;/h2&gt;
+&lt;h3&gt;Sous-chapitre 1.1&lt;/h3&gt;
+&lt;h4&gt;Sous-sous-chapitre 1.1.1&lt;/h4&gt;
+&lt;h2&gt;Chapitre 2&lt;/h2&gt;
+&lt;h3&gt;Sous-chapitre 2.1&lt;/h3&gt;
+&lt;h3&gt;Sous-chapitre 2.2&lt;/h3&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h1>Titre principal de la page</h1>
+            <h2>Chapitre 1</h2>
+            <h3>Sous-chapitre 1.1</h3>
+            <h4>Sous-sous-chapitre 1.1.1</h4>
+            <h2>Chapitre 2</h2>
+            <h3>Sous-chapitre 2.1</h3>
+            <h3>Sous-chapitre 2.2</h3>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne pas utiliser les titres pour la taille du texte</div>
+          <p>Utilisez <code>&lt;h1&gt;</code> pour le titre principal, pas parce que vous voulez du gros texte. Le CSS (<code>font-size</code>) est fait pour la taille. Les titres sont pour la <strong>structure</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 PARAGRAPHES ══ -->
+    <div id="s3-paragraphes">
+      <div class="section-header"><span class="section-num">02</span><h2>Paragraphes &amp; sauts de ligne</h2></div>
+      <p>La balise <code>&lt;p&gt;</code> crée un paragraphe. Le navigateur ajoute automatiquement un espacement vertical entre deux paragraphes. Pour un simple retour à la ligne sans nouveau paragraphe, on utilise <code>&lt;br&gt;</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Paragraphes et sauts</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;p&gt;Ceci est un paragraphe normal.
+Le navigateur ignore le saut de ligne dans le code.&lt;/p&gt;
+
+&lt;p&gt;Ceci est un deuxième paragraphe
+qui parle d'autre chose.&lt;/p&gt;
+
+&lt;p&gt;12 rue des Fleurs&lt;br&gt;
+75001 Paris&lt;br&gt;
+France&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Ceci est un paragraphe normal. Le navigateur ignore le saut de ligne dans le code.</p>
+            <p>Ceci est un deuxième paragraphe qui parle d'autre chose.</p>
+            <p>12 rue des Fleurs<br>75001 Paris<br>France</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 MISE EN VALEUR ══ -->
+    <div id="s3-valeur">
+      <div class="section-header"><span class="section-num">03</span><h2>Mise en valeur du texte</h2></div>
+      <p>HTML offre plusieurs balises pour donner du <strong>sens</strong> à des portions de texte. Elles ne sont pas juste décoratives : elles ont une signification pour les moteurs de recherche et les lecteurs d'écran.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — strong, em, mark</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;p&gt;Le &lt;strong&gt;HTML&lt;/strong&gt; est le fondement du web.&lt;/p&gt;
+&lt;p&gt;J'&lt;em&gt;adore&lt;/em&gt; coder en HTML !&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;À retenir&lt;/mark&gt; : toute balise se ferme.&lt;/p&gt;
+&lt;p&gt;Appuyez sur &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;S&lt;/kbd&gt; pour sauvegarder.&lt;/p&gt;
+&lt;p&gt;Le code &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; crée un paragraphe.&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Le <strong>HTML</strong> est le fondement du web.</p>
+            <p>J'<em>adore</em> coder en HTML !</p>
+            <p><mark>À retenir</mark> : toute balise se ferme.</p>
+            <p>Appuyez sur <kbd>Ctrl</kbd> + <kbd>S</kbd> pour sauvegarder.</p>
+            <p>Le code <code>&lt;p&gt;</code> crée un paragraphe.</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Balise</th><th>Rendu</th><th>Sens</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;strong&gt;</code></td><td><strong>Gras</strong></td><td>Importance — lu plus fort par les lecteurs d'écran</td></tr>
+            <tr><td><code>&lt;em&gt;</code></td><td><em>Italique</em></td><td>Emphase — intonation différente</td></tr>
+            <tr><td><code>&lt;mark&gt;</code></td><td><mark>Surligné</mark></td><td>Pertinence dans un contexte</td></tr>
+            <tr><td><code>&lt;kbd&gt;</code></td><td><kbd>Ctrl</kbd></td><td>Touche de clavier</td></tr>
+            <tr><td><code>&lt;code&gt;</code></td><td><code>code</code></td><td>Code informatique inline</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 04 CITATIONS ══ -->
+    <div id="s3-citations">
+      <div class="section-header"><span class="section-num">04</span><h2>Citations</h2></div>
+      <p>Trois balises permettent de gérer les citations : <code>&lt;blockquote&gt;</code> pour les citations longues, <code>&lt;q&gt;</code> pour les citations courtes, et <code>&lt;cite&gt;</code> pour la source.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Citations</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Citation longue --&gt;
+&lt;blockquote cite="https://fr.wikiquote.org"&gt;
+  &lt;p&gt;"La créativité, c'est l'intelligence qui s'amuse."&lt;/p&gt;
+  &lt;footer&gt;— Albert Einstein&lt;/footer&gt;
+&lt;/blockquote&gt;
+
+&lt;!-- Citation courte --&gt;
+&lt;p&gt;Il a dit : &lt;q&gt;Le HTML est facile !&lt;/q&gt;&lt;/p&gt;
+
+&lt;!-- Source de citation --&gt;
+&lt;p&gt;Voir &lt;cite&gt;HTML5 for Web Designers&lt;/cite&gt; de Jeremy Keith.&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <blockquote><p>"La créativité, c'est l'intelligence qui s'amuse."</p><footer>— Albert Einstein</footer></blockquote>
+            <p>Il a dit : <q>Le HTML est facile !</q></p>
+            <p>Voir <cite>HTML5 for Web Designers</cite> de Jeremy Keith.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 CODE ══ -->
+    <div id="s3-code">
+      <div class="section-header"><span class="section-num">05</span><h2>Code &amp; préformaté</h2></div>
+      <p>Pour afficher du code source, HTML fournit plusieurs balises selon le contexte : <code>&lt;code&gt;</code> pour le code inline, <code>&lt;pre&gt;</code> pour conserver les espaces et retours à la ligne, <code>&lt;kbd&gt;</code> pour les touches clavier, et <code>&lt;samp&gt;</code> pour la sortie d'un programme.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Code et préformaté</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Code inline --&gt;
+&lt;p&gt;Utilisez &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; pour un paragraphe.&lt;/p&gt;
+
+&lt;!-- Préformaté (conserve espaces et retours) --&gt;
+&lt;pre&gt;
+  function hello() {
+    console.log("Bonjour !");
+  }
+&lt;/pre&gt;
+
+&lt;!-- Combinaison code + pre pour du code source --&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang="fr"&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;Exemple&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;!-- Samp : sortie d'un programme --&gt;
+&lt;p&gt;&lt;samp&gt;Erreur 404 : fichier non trouvé&lt;/samp&gt;&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Utilisez <code>&lt;p&gt;</code> pour un paragraphe.</p>
+            <pre style="font-family:monospace;background:#eee;padding:.5em;border-radius:4px;font-size:.85em;">  function hello() {
+    console.log("Bonjour !");
+  }</pre>
+            <p><samp>Erreur 404 : fichier non trouvé</samp></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 ABRÉVIATIONS ══ -->
+    <div id="s3-abrev">
+      <div class="section-header"><span class="section-num">06</span><h2>Abréviations &amp; Adresses</h2></div>
+      <p><code>&lt;abbr&gt;</code> permet de marquer une abréviation ou un acronyme avec l'attribut <code>title</code> pour la signification complète. <code>&lt;address&gt;</code> sert à marquer les coordonnées de l'auteur ou du site.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Abbr et Address</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Abréviation avec infobulle --&gt;
+&lt;p&gt;Le &lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;
+est le langage du web.&lt;/p&gt;
+
+&lt;p&gt;L'&lt;abbr title="Organisation des Nations Unies"&gt;ONU&lt;/abbr&gt;
+a été fondée en 1945.&lt;/p&gt;
+
+&lt;!-- Adresse de contact --&gt;
+&lt;address&gt;
+  &lt;strong&gt;Jean Dupont&lt;/strong&gt;&lt;br&gt;
+  12 rue des Fleurs&lt;br&gt;
+  75001 Paris&lt;br&gt;
+  France&lt;br&gt;
+  &lt;a href="mailto:jean@exemple.com"&gt;jean@exemple.com&lt;/a&gt;
+&lt;/address&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Le <abbr title="HyperText Markup Language">HTML</abbr> est le langage du web.</p>
+            <p>L'<abbr title="Organisation des Nations Unies">ONU</abbr> a été fondée en 1945.</p>
+            <address style="font-style:normal;font-size:.9em;color:#555;">
+              <strong>Jean Dupont</strong><br>
+              12 rue des Fleurs<br>
+              75001 Paris<br>
+              France<br>
+              <a href="mailto:jean@exemple.com">jean@exemple.com</a>
+            </address>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 CONTENU MODIFIÉ ══ -->
+    <div id="s3-modif">
+      <div class="section-header"><span class="section-num">07</span><h2>Contenu modifié : del, ins, small</h2></div>
+      <p>Ces balises indiquent des modifications dans le texte : <code>&lt;del&gt;</code> pour ce qui a été supprimé, <code>&lt;ins&gt;</code> pour ce qui a été ajouté, <code>&lt;small&gt;</code> pour les notes secondaires.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — del, ins, small</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Texte supprimé et ajouté --&gt;
+&lt;p&gt;Prix : &lt;del&gt;100&amp;nbsp;€&lt;/del&gt;
+&lt;ins&gt;80&amp;nbsp;€&lt;/ins&gt; (promotion !)&lt;/p&gt;
+
+&lt;!-- Note secondaire --&gt;
+&lt;p&gt;&lt;small&gt;&amp;copy; 2024 Mon Site.
+Tous droits réservés.&lt;/small&gt;&lt;/p&gt;
+
+&lt;!-- Combinaison --&gt;
+&lt;p&gt;Ancienne version : &lt;del&gt;HTML 4.01&lt;/del&gt;
+&lt;ins&gt;HTML5&lt;/ins&gt;&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;Mis à jour le 15 mars 2024&lt;/small&gt;&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Prix : <del>100&nbsp;€</del> <ins>80&nbsp;€</ins> (promotion !)</p>
+            <p><small>© 2024 Mon Site. Tous droits réservés.</small></p>
+            <p>Ancienne version : <del>HTML 4.01</del> <ins>HTML5</ins></p>
+            <p><small>Mis à jour le 15 mars 2024</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 SÉPARATEUR ══ -->
+    <div id="s3-hr">
+      <div class="section-header"><span class="section-num">08</span><h2>Séparateur &amp; entités spéciales</h2></div>
+      <p>La balise orpheline <code>&lt;hr&gt;</code> (horizontal rule) crée une séparation thématique entre deux sections. Combinée aux entités HTML, elle permet de structurer proprement le contenu.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — hr et entités</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;h2&gt;Section 1&lt;/h2&gt;
+&lt;p&gt;Contenu de la première section.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2&gt;Section 2&lt;/h2&gt;
+&lt;p&gt;Contenu de la deuxième section.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;!-- Entités spéciales pour la typographie --&gt;
+&lt;p&gt;Guillemets français : &amp;laquo; Bonjour &amp;raquo;&lt;/p&gt;
+&lt;p&gt;Tiret cadratin : &amp;mdash; pour les incises&lt;/p&gt;
+&lt;p&gt;Apostrophe typographique : &amp;rsquo; (plutôt que ')&lt;/p&gt;
+&lt;p&gt;Multiplication : 3 &amp;times; 4 = 12&lt;/p&gt;
+&lt;p&gt;Exposant : m&amp;sup2; (mètre carré)&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h2>Section 1</h2>
+            <p>Contenu de la première section.</p>
+            <hr>
+            <h2>Section 2</h2>
+            <p>Contenu de la deuxième section.</p>
+            <hr>
+            <p>Guillemets français : « Bonjour »</p>
+            <p>Tiret cadratin : &mdash; pour les incises</p>
+            <p>Apostrophe typographique : &rsquo; (plutôt que ')</p>
+            <p>Multiplication : 3 &times; 4 = 12</p>
+            <p>Exposant : m&sup2; (mètre carré)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s3-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Page avec structure de titres</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>seance3-exo1.html</code> avec la structure HTML5.</li>
+            <li>Utilisez un <code>&lt;h1&gt;</code> "Ma page de présentation".</li>
+            <li>Ajoutez 3 sections avec <code>&lt;h2&gt;</code> : "Qui suis-je", "Mes compétences", "Mes hobbies".</li>
+            <li>Chaque section doit avoir au moins un <code>&lt;h3&gt;</code>.</li>
+            <li>Utilisez <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code> et <code>&lt;mark&gt;</code> dans les paragraphes.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✏️ Article de blog avec citations</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez un court article sur un sujet qui vous passionne.</li>
+            <li>Incluez une citation longue avec <code>&lt;blockquote&gt;</code> et une citation courte avec <code>&lt;q&gt;</code>.</li>
+            <li>Ajoutez un <code>&lt;hr&gt;</code> entre l'introduction et le corps.</li>
+            <li>Utilisez <code>&lt;abbr&gt;</code> pour au moins deux acronymes.</li>
+            <li>Ajoutez une adresse de contact avec <code>&lt;address&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔧 Code et entités</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page qui explique une balise HTML (par exemple <code>&lt;a&gt;</code>).</li>
+            <li>Affichez la balise littéralement en utilisant <code>&amp;lt;</code> et <code>&amp;gt;</code>.</li>
+            <li>Utilisez <code>&lt;pre&gt;&lt;code&gt;</code> pour montrer un exemple de code.</li>
+            <li>Utilisez <code>&lt;kbd&gt;</code> pour les raccourcis clavier.</li>
+            <li>Utilisez <code>&lt;samp&gt;</code> pour une sortie de programme.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🔄 Contenu modifié</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une page "Notes de version" (changelog).</li>
+            <li>Utilisez <code>&lt;del&gt;</code> pour les fonctionnalités supprimées.</li>
+            <li>Utilisez <code>&lt;ins&gt;</code> pour les nouvelles fonctionnalités.</li>
+            <li>Utilisez <code>&lt;small&gt;</code> pour les notes de bas de page.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="03">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s3-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Hiérarchie des titres h1-h6 avec règle du h1 unique</li>
+        <li>Paragraphes &lt;p&gt; et sauts de ligne &lt;br&gt;</li>
+        <li>Balises de mise en valeur : strong, em, mark</li>
+        <li>Citations : blockquote, q, cite</li>
+        <li>Code : code, pre, kbd, samp</li>
+        <li>Abréviations abbr et adresse address</li>
+        <li>Contenu modifié : del, ins, small</li>
+        <li>Séparateur hr et entités typographiques</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Hiérarchie des titres</dt><dd>Ordre logique h1→h6. Un seul h1, jamais de saut de niveau.</dd>
+          <dt>Paragraphe</dt><dd>Bloc de texte créé par &lt;p&gt;. Espacement automatique entre les paragraphes.</dd>
+          <dt>&lt;strong&gt;</dt><dd>Importance forte. Rendu en gras mais sens ≠ style.</dd>
+          <dt>&lt;em&gt;</dt><dd>Emphase. Rendu en italique. Change l'intonation pour les lecteurs d'écran.</dd>
+          <dt>&lt;blockquote&gt;</dt><dd>Citation longue d'une source externe. Peut contenir d'autres éléments.</dd>
+          <dt>&lt;pre&gt;</dt><dd>Texte préformaté. Conserve les espaces et retours à la ligne exacts.</dd>
+          <dt>&lt;abbr&gt;</dt><dd>Marque une abréviation avec son expansion dans l'attribut title.</dd>
+          <dt>&lt;del&gt; / &lt;ins&gt;</dt><dd>Indiquent respectivement du contenu supprimé ou ajouté.</dd>
+          <dt>&lt;hr&gt;</dt><dd>Séparation thématique entre sections. Balise orpheline.</dd>
+          <dt>Entité typographique</dt><dd>Code pour les caractères spéciaux : &amp;laquo;, &amp;raquo;, &amp;times;, &amp;sup2;.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 4 — Listes &amp; Liens</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">ul, ol, dl, liens externes, internes, ancres, attributs target/rel</div>
+        </div>
+        <a href="seance4.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 4 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

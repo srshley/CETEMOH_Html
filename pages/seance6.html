@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 6 — Tableaux HTML · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--blue); background:var(--blue-dim); border-color:rgba(59,130,246,.25); }
+    .section-header    { border-bottom-color:rgba(59,130,246,.2); }
+    h3                 { color:var(--blue); }
+    .sidebar-item.active { color:var(--blue); border-left-color:var(--blue); background:var(--blue-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html" class="active">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label" style="color:var(--blue);">Séance 6</div>
+      <a href="#s6-basique" class="sidebar-item"><span class="sidebar-num">01</span>Table basique</a>
+      <a href="#s6-thead" class="sidebar-item"><span class="sidebar-num">02</span>Thead, Tbody, Tfoot</a>
+      <a href="#s6-th" class="sidebar-item"><span class="sidebar-num">03</span>Th &amp; scope</a>
+      <a href="#s6-colspan" class="sidebar-item"><span class="sidebar-num">04</span>Colspan</a>
+      <a href="#s6-rowspan" class="sidebar-item"><span class="sidebar-num">05</span>Rowspan</a>
+      <a href="#s6-caption" class="sidebar-item"><span class="sidebar-num">06</span>Caption &amp; résumé</a>
+      <a href="#s6-styler" class="sidebar-item"><span class="sidebar-num">07</span>Styler les tableaux</a>
+      <a href="#s6-a11y" class="sidebar-item"><span class="sidebar-num">08</span>Accessibilité</a>
+      <a href="#s6-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s6-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance5.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--green);">← Séance 5</a>
+      <a href="seance7.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--blue);margin-top:.5rem;">Séance 7 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 06 / 10</div>
+      <h1>Tableaux HTML</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Table • tr • td • th • colspan • rowspan • caption • thead • tbody • tfoot • accessibilité</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 TABLE BASIQUE ══ -->
+    <div id="s6-basique">
+      <div class="section-header"><span class="section-num">01</span><h2>Tableau basique : &lt;table&gt;, &lt;tr&gt;, &lt;td&gt;</h2></div>
+      <p>Un tableau HTML se construit ligne par ligne. <code>&lt;table&gt;</code> est le conteneur, <code>&lt;tr&gt;</code> (table row) chaque ligne, <code>&lt;td&gt;</code> (table data) chaque cellule.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Table basique</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ligne 1, Cellule 1&lt;/td&gt;
+    &lt;td&gt;Ligne 1, Cellule 2&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ligne 2, Cellule 1&lt;/td&gt;
+    &lt;td&gt;Ligne 2, Cellule 2&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ligne 3, Cellule 1&lt;/td&gt;
+    &lt;td&gt;Ligne 3, Cellule 2&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;">Ligne 1, Cellule 1</td><td style="border:1px solid #ccc;padding:.4em .7em;">Ligne 1, Cellule 2</td></tr>
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;">Ligne 2, Cellule 1</td><td style="border:1px solid #ccc;padding:.4em .7em;">Ligne 2, Cellule 2</td></tr>
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;">Ligne 3, Cellule 1</td><td style="border:1px solid #ccc;padding:.4em .7em;">Ligne 3, Cellule 2</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 THEAD/TBODY/TFOOT ══ -->
+    <div id="s6-thead">
+      <div class="section-header"><span class="section-num">02</span><h2>Thead, Tbody, Tfoot</h2></div>
+      <p>Ces trois éléments structurent le tableau en en-tête, corps et pied. Ils améliorent la sémantique, permettent la répétition de l'en-tête à l'impression, et aident les lecteurs d'écran.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — thead, tbody, tfoot</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Produit&lt;/th&gt;
+      &lt;th&gt;Quantité&lt;/th&gt;
+      &lt;th&gt;Prix&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pommes&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;2.50 €&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Bananes&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1.80 €&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;td colspan="2"&gt;Total&lt;/td&gt;
+      &lt;td&gt;4.30 €&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <thead><tr><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Produit</th><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Quantité</th><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Prix</th></tr></thead>
+              <tbody><tr><td style="border:1px solid #ccc;padding:.4em .7em;">Pommes</td><td style="border:1px solid #ccc;padding:.4em .7em;">3</td><td style="border:1px solid #ccc;padding:.4em .7em;">2.50 €</td></tr><tr><td style="border:1px solid #ccc;padding:.4em .7em;">Bananes</td><td style="border:1px solid #ccc;padding:.4em .7em;">6</td><td style="border:1px solid #ccc;padding:.4em .7em;">1.80 €</td></tr></tbody>
+              <tfoot><tr><td colspan="2" style="border:1px solid #ccc;padding:.4em .7em;font-weight:bold;">Total</td><td style="border:1px solid #ccc;padding:.4em .7em;font-weight:bold;">4.30 €</td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 TH & SCOPE ══ -->
+    <div id="s6-th">
+      <div class="section-header"><span class="section-num">03</span><h2>Th &amp; scope</h2></div>
+      <p><code>&lt;th&gt;</code> (table header) remplace <code>&lt;td&gt;</code> pour les cellules d'en-tête. L'attribut <code>scope</code> indique si l'en-tête s'applique à une colonne (<code>col</code>) ou une ligne (<code>row</code>). Essentiel pour l'accessibilité.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — th et scope</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Nom&lt;/th&gt;
+      &lt;th scope="col"&gt;Âge&lt;/th&gt;
+      &lt;th scope="col"&gt;Ville&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Jean&lt;/th&gt;
+      &lt;td&gt;28&lt;/td&gt;
+      &lt;td&gt;Paris&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Marie&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+      &lt;td&gt;Lyon&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <thead><tr><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Nom</th><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Âge</th><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Ville</th></tr></thead>
+              <tbody><tr><th scope="row" style="border:1px solid #ccc;padding:.4em .7em;font-weight:bold;">Jean</th><td style="border:1px solid #ccc;padding:.4em .7em;">28</td><td style="border:1px solid #ccc;padding:.4em .7em;">Paris</td></tr><tr><th scope="row" style="border:1px solid #ccc;padding:.4em .7em;font-weight:bold;">Marie</th><td style="border:1px solid #ccc;padding:.4em .7em;">32</td><td style="border:1px solid #ccc;padding:.4em .7em;">Lyon</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 COLSPAN ══ -->
+    <div id="s6-colspan">
+      <div class="section-header"><span class="section-num">04</span><h2>Colspan — fusion de colonnes</h2></div>
+      <p><code>colspan="N"</code> étend une cellule sur N colonnes. Utile pour les titres de groupes, les totaux, ou les entêtes communes.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Colspan</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th colspan="2"&gt;Coordonnées&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Email&lt;/td&gt;
+    &lt;td&gt;contact@exemple.com&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Téléphone&lt;/td&gt;
+    &lt;td&gt;+33 1 23 45 67 89&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <tr><th colspan="2" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;text-align:center;">Coordonnées</th></tr>
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;font-weight:bold;">Email</td><td style="border:1px solid #ccc;padding:.4em .7em;">contact@exemple.com</td></tr>
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;font-weight:bold;">Téléphone</td><td style="border:1px solid #ccc;padding:.4em .7em;">+33 1 23 45 67 89</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 ROWSPAN ══ -->
+    <div id="s6-rowspan">
+      <div class="section-header"><span class="section-num">05</span><h2>Rowspan — fusion de lignes</h2></div>
+      <p><code>rowspan="N"</code> étend une cellule sur N lignes. Les cellules des lignes "absorbées" ne doivent plus apparaître dans le code.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Rowspan</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th rowspan="2"&gt;Période&lt;/th&gt;
+    &lt;th&gt;Matin&lt;/th&gt;
+    &lt;th&gt;Après-midi&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;HTML&lt;/td&gt;
+    &lt;td&gt;CSS&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th rowspan="2"&gt;Saison 2&lt;/th&gt;
+    &lt;td&gt;JavaScript&lt;/td&gt;
+    &lt;td&gt;PHP&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Bases de données&lt;/td&gt;
+    &lt;td&gt;Frameworks&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <tr><th rowspan="2" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;text-align:center;vertical-align:middle;">Période</th><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Matin</th><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Après-midi</th></tr>
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;">HTML</td><td style="border:1px solid #ccc;padding:.4em .7em;">CSS</td></tr>
+              <tr><th rowspan="2" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;text-align:center;vertical-align:middle;">Saison 2</th><td style="border:1px solid #ccc;padding:.4em .7em;">JavaScript</td><td style="border:1px solid #ccc;padding:.4em .7em;">PHP</td></tr>
+              <tr><td style="border:1px solid #ccc;padding:.4em .7em;">Bases de données</td><td style="border:1px solid #ccc;padding:.4em .7em;">Frameworks</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 06 CAPTION ══ -->
+    <div id="s6-caption">
+      <div class="section-header"><span class="section-num">06</span><h2>Caption &amp; résumé</h2></div>
+      <p><code>&lt;caption&gt;</code> donne un titre au tableau, visible par tous. Il doit être le premier enfant de <code>&lt;table&gt;</code>. Pour un résumé plus long (invisible), on utilise <code>summary</code> (déprécié en HTML5 — préférez un paragraphe avec <code>aria-describedby</code>).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Caption</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;caption&gt;Ventes du premier trimestre 2024&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Mois&lt;/th&gt;
+      &lt;th scope="col"&gt;CA HT&lt;/th&gt;
+      &lt;th scope="col"&gt;TVA&lt;/th&gt;
+      &lt;th scope="col"&gt;CA TTC&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Janvier&lt;/th&gt;
+      &lt;td&gt;12 000 €&lt;/td&gt;
+      &lt;td&gt;2 400 €&lt;/td&gt;
+      &lt;td&gt;14 400 €&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Février&lt;/th&gt;
+      &lt;td&gt;15 000 €&lt;/td&gt;
+      &lt;td&gt;3 000 €&lt;/td&gt;
+      &lt;td&gt;18 000 €&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Mars&lt;/th&gt;
+      &lt;td&gt;18 000 €&lt;/td&gt;
+      &lt;td&gt;3 600 €&lt;/td&gt;
+      &lt;td&gt;21 600 €&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <caption style="font-style:italic;color:#555;margin-bottom:.3em;text-align:left;">Ventes du premier trimestre 2024</caption>
+              <thead><tr><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Mois</th><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">CA HT</th><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">TVA</th><th scope="col" style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">CA TTC</th></tr></thead>
+              <tbody><tr><th scope="row" style="border:1px solid #ccc;padding:.4em .7em;">Janvier</th><td style="border:1px solid #ccc;padding:.4em .7em;">12 000 €</td><td style="border:1px solid #ccc;padding:.4em .7em;">2 400 €</td><td style="border:1px solid #ccc;padding:.4em .7em;">14 400 €</td></tr><tr><th scope="row" style="border:1px solid #ccc;padding:.4em .7em;">Février</th><td style="border:1px solid #ccc;padding:.4em .7em;">15 000 €</td><td style="border:1px solid #ccc;padding:.4em .7em;">3 000 €</td><td style="border:1px solid #ccc;padding:.4em .7em;">18 000 €</td></tr><tr><th scope="row" style="border:1px solid #ccc;padding:.4em .7em;">Mars</th><td style="border:1px solid #ccc;padding:.4em .7em;">18 000 €</td><td style="border:1px solid #ccc;padding:.4em .7em;">3 600 €</td><td style="border:1px solid #ccc;padding:.4em .7em;">21 600 €</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 STYLER ══ -->
+    <div id="s6-styler">
+      <div class="section-header"><span class="section-num">07</span><h2>Styler les tableaux avec CSS</h2></div>
+      <p>Le tableau brut n'a pas de bordure visible. On utilise CSS pour ajouter des bordures, des couleurs alternées, et améliorer la lisibilité. Les classes CSS prédéfinies <code>.table-wrap</code> et <code>.table-demo</code> sont disponibles.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Table stylée</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;table&gt;
+  &lt;caption&gt;Horaires d'ouverture&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Jour&lt;/th&gt;
+      &lt;th scope="col"&gt;Matin&lt;/th&gt;
+      &lt;th scope="col"&gt;Après-midi&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Lundi&lt;/th&gt;
+      &lt;td&gt;9h - 12h&lt;/td&gt;
+      &lt;td&gt;14h - 18h&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Mardi&lt;/th&gt;
+      &lt;td&gt;9h - 12h&lt;/td&gt;
+      &lt;td&gt;14h - 18h&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Mercredi&lt;/th&gt;
+      &lt;td&gt;9h - 12h&lt;/td&gt;
+      &lt;td&gt;14h - 18h&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Jeudi&lt;/th&gt;
+      &lt;td&gt;9h - 12h&lt;/td&gt;
+      &lt;td&gt;14h - 18h&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Vendredi&lt;/th&gt;
+      &lt;td&gt;9h - 12h&lt;/td&gt;
+      &lt;td&gt;14h - 17h&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <table style="width:100%;border-collapse:collapse;font-size:.85em;">
+              <caption style="font-style:italic;color:#555;margin-bottom:.3em;text-align:left;">Horaires d'ouverture</caption>
+              <thead><tr><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Jour</th><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Matin</th><th style="border:1px solid #ccc;padding:.4em .7em;background:#e8f0fe;">Après-midi</th></tr></thead>
+              <tbody>
+                <tr style="background:#f9f9f9;"><th style="border:1px solid #ccc;padding:.4em .7em;">Lundi</th><td style="border:1px solid #ccc;padding:.4em .7em;">9h - 12h</td><td style="border:1px solid #ccc;padding:.4em .7em;">14h - 18h</td></tr>
+                <tr><th style="border:1px solid #ccc;padding:.4em .7em;">Mardi</th><td style="border:1px solid #ccc;padding:.4em .7em;">9h - 12h</td><td style="border:1px solid #ccc;padding:.4em .7em;">14h - 18h</td></tr>
+                <tr style="background:#f9f9f9;"><th style="border:1px solid #ccc;padding:.4em .7em;">Mercredi</th><td style="border:1px solid #ccc;padding:.4em .7em;">9h - 12h</td><td style="border:1px solid #ccc;padding:.4em .7em;">14h - 18h</td></tr>
+                <tr><th style="border:1px solid #ccc;padding:.4em .7em;">Jeudi</th><td style="border:1px solid #ccc;padding:.4em .7em;">9h - 12h</td><td style="border:1px solid #ccc;padding:.4em .7em;">14h - 18h</td></tr>
+                <tr style="background:#f9f9f9;"><th style="border:1px solid #ccc;padding:.4em .7em;">Vendredi</th><td style="border:1px solid #ccc;padding:.4em .7em;">9h - 12h</td><td style="border:1px solid #ccc;padding:.4em .7em;">14h - 17h</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 ACCESSIBILITÉ ══ -->
+    <div id="s6-a11y">
+      <div class="section-header"><span class="section-num">08</span><h2>Accessibilité des tableaux</h2></div>
+      <p>Un tableau accessible repose sur trois piliers : <strong>scope</strong> sur les th, un <strong>caption</strong> ou un résumé textuel, et une <strong>structure logique</strong> avec thead/tbody/tfoot.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Lecteurs d'écran et tableaux</div>
+          <p>Les lecteurs d'écran annoncent "Tableau de 3 colonnes et 5 lignes" puis lisent les en-têtes à chaque changement de cellule. Sans scope, l'utilisateur perd le contexte. Sans caption, il ne sait pas ce que représente le tableau.</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">N'utilisez pas les tableaux pour la mise en page</div>
+          <p>Les tableaux sont faits pour des <strong>données tabulaires</strong> (horaires, prix, statistiques). Pas pour créer des colonnes ou des layouts. Utilisez CSS Grid ou Flexbox pour la mise en page.</p>
+        </div>
+      </div>
+      <div class="compare">
+        <div class="compare-card good">
+          <div class="compare-label">✅ Usage correct</div>
+          <p style="font-size:.85rem;">Horaires, fiches de paie, classements, calendriers, inventaires, données financières.</p>
+        </div>
+        <div class="compare-card bad">
+          <div class="compare-label">❌ Usage incorrect</div>
+          <p style="font-size:.85rem;">Mise en page en colonnes, barre de navigation, galerie d'images, formulaire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s6-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Emploi du temps</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau représentant votre emploi du temps.</li>
+            <li>Colonnes : Lundi au Vendredi. Lignes : 8h-10h, 10h-12h, 13h-15h, 15h-17h.</li>
+            <li>Utilisez <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;th scope="col"&gt;</code> et <code>&lt;th scope="row"&gt;</code>.</li>
+            <li>Ajoutez un <code>&lt;caption&gt;</code> "Emploi du temps Semaine".</li>
+            <li>Fusionnez les cellules de pause déjeuner avec <code>rowspan</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✏️ Facture</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau de facture avec : Produit, Qté, Prix unitaire, Total.</li>
+            <li>Ajoutez 5 produits. Utilisez <code>colspan</code> pour la ligne de total.</li>
+            <li>Ajoutez <code>&lt;tfoot&gt;</code> avec le total général.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Classement</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un classement de 5 sports ou jeux vidéo.</li>
+            <li>Colonnes : Rang, Nom, Score, Durée.</li>
+            <li>Utilisez <code>scope</code> correctement sur tous les <code>&lt;th&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="06">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s6-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Tableau basique : table, tr, td</li>
+        <li>Structuration sémantique : thead, tbody, tfoot</li>
+        <li>Cellules d'en-tête th et attribut scope</li>
+        <li>Fusion de colonnes : colspan</li>
+        <li>Fusion de lignes : rowspan</li>
+        <li>Caption : titre visible du tableau</li>
+        <li>Styler les tableaux : bordures, alternance de couleurs</li>
+        <li>Accessibilité : scope, caption, thead/tbody/tfoot</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>table</dt><dd>Conteneur principal du tableau.</dd>
+          <dt>tr</dt><dd>Table row — une ligne du tableau.</dd>
+          <dt>td</dt><dd>Table data — cellule de donnée.</dd>
+          <dt>th</dt><dd>Table header — cellule d'en-tête. Gras et centré par défaut.</dd>
+          <dt>scope</dt><dd>Indique la portée de l'en-tête : "col" (colonne) ou "row" (ligne).</dd>
+          <dt>colspan</dt><dd>Fusionne N colonnes horizontalement.</dd>
+          <dt>rowspan</dt><dd>Fusionne N lignes verticalement.</dd>
+          <dt>caption</dt><dd>Titre du tableau. Premier enfant de &lt;table&gt;.</dd>
+          <dt>thead</dt><dd>En-tête du tableau. Contient les th.</dd>
+          <dt>tbody</dt><dd>Corps du tableau avec les td.</dd>
+          <dt>tfoot</dt><dd>Pied du tableau. Souvent utilisé pour les totaux.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 7 — Formulaires : Bases</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Form, input, label, button, select, textarea, fieldset, legend</div>
+        </div>
+        <a href="seance7.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 7 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>

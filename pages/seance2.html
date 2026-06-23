@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 2 — Syntaxe &amp; Structure HTML · Cours HTML</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .section-num       { color:var(--teal); background:var(--teal-dim); border-color:rgba(45,212,191,.25); }
+    .section-header    { border-bottom-color:rgba(45,212,191,.2); }
+    h3                 { color:var(--teal); }
+    .sidebar-item.active { color:var(--teal); border-left-color:var(--teal); background:var(--teal-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours HTML</div>
+    <nav class="topbar-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html" class="active">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label s2">Séance 2</div>
+      <a href="#s2-balises" class="sidebar-item"><span class="sidebar-num">01</span>Balises ouvrante/fermante</a>
+      <a href="#s2-elements" class="sidebar-item"><span class="sidebar-num">02</span>Éléments &amp; imbrication</a>
+      <a href="#s2-attributs" class="sidebar-item"><span class="sidebar-num">03</span>Attributs globaux</a>
+      <a href="#s2-comment" class="sidebar-item"><span class="sidebar-num">04</span>Commentaires HTML</a>
+      <a href="#s2-entites" class="sidebar-item"><span class="sidebar-num">05</span>Entités HTML</a>
+      <a href="#s2-orphelins" class="sidebar-item"><span class="sidebar-num">06</span>Balises orphelines</a>
+      <a href="#s2-indent" class="sidebar-item"><span class="sidebar-num">07</span>Indentation &amp; lisibilité</a>
+      <a href="#s2-w3c" class="sidebar-item"><span class="sidebar-num">08</span>Validation W3C</a>
+      <a href="#s2-exo" class="sidebar-item"><span class="sidebar-num">09</span>Exercices</a>
+      <a href="#s2-bilan" class="sidebar-item"><span class="sidebar-num">10</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="seance1.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--blue);">← Séance 1</a>
+      <a href="seance3.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--teal);margin-top:.5rem;">Séance 3 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- HERO -->
+    <div class="session-hero s2">
+      <div class="session-badge s2">Séance 02 / 10</div>
+      <h1>Syntaxe &amp; Structure HTML</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Balises • Éléments • Attributs • Commentaires • Entités • Indentation • W3C</p>
+      <div class="session-meta">
+        <span class="meta-tag">HTML5</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">10 sections</span><span class="meta-tag">3 exercices</span>
+      </div>
+    </div>
+
+    <!-- ══ 01 BALISES ══ -->
+    <div id="s2-balises">
+      <div class="section-header"><span class="section-num">01</span><h2>Balises ouvrantes et fermantes</h2></div>
+      <p>Le HTML se compose d'instructions entre chevrons <code>&lt; &gt;</code> appelées <strong>balises</strong>. La grande majorité des balises fonctionnent par paires : ouvrante et fermante.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">📦</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : les boîtes</div>
+          <p>Imaginez que chaque balise est une boîte. La boîte s'ouvre <code>&lt;p&gt;</code>, on met du contenu dedans, puis on la referme <code>&lt;/p&gt;</code>. Sans fermeture, la boîte reste ouverte et le contenu "déborde".</p>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Balises ouvrantes et fermantes</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Balise ouvrante : &lt;nom&gt; --&gt;
+&lt;p&gt;Ceci est un paragraphe.&lt;/p&gt;
+&lt;!-- Balise fermante : &lt;/nom&gt; (slash avant le nom) --&gt;
+
+&lt;h1&gt;Titre principal&lt;/h1&gt;
+&lt;h2&gt;Sous-titre&lt;/h2&gt;
+&lt;a href="https://exemple.com"&gt;Lien cliquable&lt;/a&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Ceci est un paragraphe.</p>
+            <h1>Titre principal</h1>
+            <h2>Sous-titre</h2>
+            <a href="#">Lien cliquable</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 ÉLÉMENTS IMBRICATION ══ -->
+    <div id="s2-elements">
+      <div class="section-header"><span class="section-num">02</span><h2>Éléments et imbrication</h2></div>
+      <p>Un <strong>élément</strong> = balise ouvrante + contenu + balise fermante. Les éléments peuvent être <strong>imbriqués</strong> les uns dans les autres. C'est ce qui crée la structure arborescente du document HTML.</p>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Règle impérative : Nidification correcte</div>
+          <p>On ferme d'abord le dernier ouvert : <code>&lt;strong&gt;&lt;em&gt;Texte&lt;/em&gt;&lt;/strong&gt;</code> ✓<br>
+          On ne croise pas : <code>&lt;strong&gt;&lt;em&gt;Texte&lt;/strong&gt;&lt;/em&gt;</code> ✗</p>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Imbrication correcte</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Imbrication correcte : on ferme du plus récent au plus ancien --&gt;
+&lt;p&gt;Ce texte contient un &lt;strong&gt;mot important &lt;em&gt;et très important&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;!-- Liste imbriquée dans un paragraphe n'est PAS valide --&gt;
+&lt;div&gt;
+  &lt;h2&gt;Titre de section&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Ce texte contient un <strong>mot important <em>et très important</em></strong>.</p>
+            <div><h2>Titre de section</h2><ul><li>Item 1</li><li>Item 2</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 ATTRIBUTS ══ -->
+    <div id="s2-attributs">
+      <div class="section-header"><span class="section-num">03</span><h2>Attributs globaux</h2></div>
+      <p>Les <strong>attributs</strong> se placent dans la balise ouvrante et fournissent des informations supplémentaires. Le format est : <code>nom="valeur"</code>.</p>
+      <div class="tag-anatomy">
+        <div class="tag-anatomy-code">
+          <span class="tac-open">&lt;</span><span class="tac-tag">a</span>
+          <span class="tac-attr">&nbsp;href</span><span class="tac-eq">=</span><span class="tac-val">"https://exemple.com"</span>
+          <span class="tac-attr">&nbsp;class</span><span class="tac-eq">=</span><span class="tac-val">"lien-externe"</span>
+          <span class="tac-open">&gt;</span>
+          <span class="tac-text">&nbsp;Visitez&nbsp;</span>
+          <span class="tac-close">&lt;/</span><span class="tac-tag">a</span><span class="tac-close">&gt;</span>
+        </div>
+        <div class="tag-labels">
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#61AFEF;"></div>
+            <div class="tag-label-name" style="color:#61AFEF;">Balise ouvrante</div>
+            <div class="tag-label-desc">Débute l'élément</div>
+          </div>
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#E5C07B;"></div>
+            <div class="tag-label-name" style="color:#E5C07B;">Attribut + Valeur</div>
+            <div class="tag-label-desc">Toujours dans la balise ouvrante</div>
+          </div>
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#ABB2BF;"></div>
+            <div class="tag-label-name" style="color:#ABB2BF;">Contenu</div>
+            <div class="tag-label-desc">Texte ou autres éléments</div>
+          </div>
+          <div class="tag-label-item">
+            <div class="tag-label-dot" style="background:#9CDCFE;"></div>
+            <div class="tag-label-name" style="color:#9CDCFE;">Balise fermante</div>
+            <div class="tag-label-desc">Slash / obligatoire</div>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribut</th><th>Exemple</th><th>Utilité</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td><code>id="header"</code></td><td>Identifiant unique — ancre, CSS, JS</td></tr>
+            <tr><td><code>class</code></td><td><code>class="btn rouge"</code></td><td>Classe CSS — peut être partagée</td></tr>
+            <tr><td><code>title</code></td><td><code>title="Info bulle"</code></td><td>Texte d'info au survol</td></tr>
+            <tr><td><code>style</code></td><td><code>style="color:red"</code></td><td>CSS inline (à éviter si possible)</td></tr>
+            <tr><td><code>lang</code></td><td><code>lang="en"</code></td><td>Langue du contenu de l'élément</td></tr>
+            <tr><td><code>data-*</code></td><td><code>data-user="42"</code></td><td>Données personnalisées pour JS</td></tr>
+            <tr><td><code>hidden</code></td><td><code>hidden</code></td><td>Masque l'élément (booléen)</td></tr>
+            <tr><td><code>tabindex</code></td><td><code>tabindex="0"</code></td><td>Ordre de tabulation au clavier</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 04 COMMENTAIRES ══ -->
+    <div id="s2-comment">
+      <div class="section-header"><span class="section-num">04</span><h2>Commentaires HTML</h2></div>
+      <p>Les commentaires sont invisibles dans le navigateur mais visibles dans le code source. Ils servent à laisser des notes, documenter son code, ou désactiver temporairement des blocs.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Commentaires</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Ceci est un commentaire --&gt;
+&lt;p&gt;Ce texte est visible.&lt;/p&gt;
+
+&lt;!--
+  Commentaire
+  multi-lignes
+  pour documenter une section
+--&gt;
+
+&lt;!-- Désactiver temporairement du code : --&gt;
+&lt;!--
+&lt;p&gt;Ce paragraphe est masqué.&lt;/p&gt;
+&lt;img src="ancienne-photo.jpg" alt="Ancienne photo"&gt;
+--&gt;
+
+&lt;!-- TODO: ajouter le formulaire de contact ici --&gt;
+
+&lt;p&gt;&lt;!-- commentaire au milieu d'une balise --&gt;Suite du texte&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>Ce texte est visible.</p>
+            <p>Suite du texte</p>
+            <p style="font-family:Arial,sans-serif;font-size:.8rem;color:#888;font-style:italic;">(Les commentaires sont invisibles — faites Ctrl+U pour voir le code source)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 05 ENTITÉS ══ -->
+    <div id="s2-entites">
+      <div class="section-header"><span class="section-num">05</span><h2>Entités HTML</h2></div>
+      <p>Certains caractères sont "réservés" par HTML. Pour les afficher littéralement, on utilise des entités commençant par <code>&amp;</code> et finissant par <code>;</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Entités courantes</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Chevrons (pour afficher &lt; sans créer une balise) --&gt;
+&lt;p&gt;La balise paragraphe : &amp;lt;p&amp;gt;&lt;/p&gt;
+
+&lt;!-- Esperluette --&gt;
+&lt;p&gt;Rock &amp;amp; Roll&lt;/p&gt;
+
+&lt;!-- Espace insécable (empêche la coupure) --&gt;
+&lt;p&gt;M.&amp;nbsp;Dupont a 29&amp;nbsp;€.&lt;/p&gt;
+
+&lt;!-- Symboles courants --&gt;
+&lt;p&gt;&amp;copy; 2024 Tous droits réservés.&lt;/p&gt;
+&lt;p&gt;Il fait 37&amp;deg;C aujourd'hui.&lt;/p&gt;
+&lt;p&gt;Contact &amp;mdash; nous écrire&lt;/p&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>La balise paragraphe : &lt;p&gt;</p>
+            <p>Rock &amp; Roll</p>
+            <p>M.&nbsp;Dupont a 29&nbsp;€.</p>
+            <p>© 2024 Tous droits réservés.</p>
+            <p>Il fait 37°C aujourd'hui.</p>
+            <p>Contact &mdash; nous écrire</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Entité</th><th>Caractère</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>&amp;lt;</code></td><td><strong>&lt;</strong></td><td>Chevron ouvrant</td></tr>
+            <tr><td><code>&amp;gt;</code></td><td><strong>&gt;</strong></td><td>Chevron fermant</td></tr>
+            <tr><td><code>&amp;amp;</code></td><td><strong>&amp;</strong></td><td>Esperluette</td></tr>
+            <tr><td><code>&amp;nbsp;</code></td><td>(espace)</td><td>Espace insécable</td></tr>
+            <tr><td><code>&amp;copy;</code></td><td><strong>©</strong></td><td>Copyright</td></tr>
+            <tr><td><code>&amp;euro;</code></td><td><strong>€</strong></td><td>Euro</td></tr>
+            <tr><td><code>&amp;deg;</code></td><td><strong>°</strong></td><td>Degré</td></tr>
+            <tr><td><code>&amp;mdash;</code></td><td><strong>—</strong></td><td>Tiret cadratin</td></tr>
+            <tr><td><code>&amp;quot;</code></td><td><strong>"</strong></td><td>Guillemet double</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 06 BALISES ORPHELINES ══ -->
+    <div id="s2-orphelins">
+      <div class="section-header"><span class="section-num">06</span><h2>Balises orphelines</h2></div>
+      <p>Les <strong>balises orphelines</strong> (void elements) n'ont pas de contenu et donc pas de balise fermante. Elles s'arrêtent d'un seul coup.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Balises orphelines</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;!-- Saut de ligne --&gt;
+&lt;p&gt;12 rue des Fleurs&lt;br&gt;75001 Paris&lt;/p&gt;
+
+&lt;!-- Séparateur horizontal --&gt;
+&lt;hr&gt;
+
+&lt;!-- Image --&gt;
+&lt;img src="photo.jpg" alt="Description"&gt;
+
+&lt;!-- Input --&gt;
+&lt;input type="text" placeholder="Votre nom"&gt;
+
+&lt;!-- Meta --&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="description" content="Mon site"&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <p>12 rue des Fleurs<br>75001 Paris</p>
+            <hr>
+            <input type="text" placeholder="Votre nom" style="border:1px solid #ccc;padding:.3em .5em;font-size:.9em;border-radius:4px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 07 INDENTATION ══ -->
+    <div id="s2-indent">
+      <div class="section-header"><span class="section-num">07</span><h2>Indentation &amp; lisibilité</h2></div>
+      <p>Le navigateur <strong>ignore</strong> les espaces et retours à la ligne dans le code HTML. Mais pour le développeur, l'indentation est essentielle. Un code bien indenté se lit comme un livre.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Raccourci VS Code</div>
+          <p>Sélectionnez tout (Ctrl+A) puis <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> pour formater automatiquement tout le document.</p>
+        </div>
+      </div>
+      <div class="compare">
+        <div class="compare-card good">
+          <div class="compare-label">✅ Bien indenté</div>
+          <code style="font-size:.75rem;display:block;white-space:pre;line-height:1.7;">&lt;ul&gt;<br>  &lt;li&gt;HTML<br>    &lt;ul&gt;<br>      &lt;li&gt;Balises&lt;/li&gt;<br>      &lt;li&gt;Attributs&lt;/li&gt;<br>    &lt;/ul&gt;<br>  &lt;/li&gt;<br>  &lt;li&gt;CSS&lt;/li&gt;<br>&lt;/ul&gt;</code>
+        </div>
+        <div class="compare-card bad">
+          <div class="compare-label">❌ Mal indenté</div>
+          <code style="font-size:.75rem;display:block;white-space:pre;line-height:1.7;">&lt;ul&gt;<br>&lt;li&gt;HTML<br>&lt;ul&gt;<br>&lt;li&gt;Balises&lt;/li&gt;<br>&lt;li&gt;Attributs&lt;/li&gt;<br>&lt;/ul&gt;<br>&lt;/li&gt;<br>&lt;li&gt;CSS&lt;/li&gt;<br>&lt;/ul&gt;</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 08 VALIDATION W3C ══ -->
+    <div id="s2-w3c">
+      <div class="section-header"><span class="section-num">08</span><h2>Validation W3C</h2></div>
+      <p>Le <strong>W3C</strong> (World Wide Web Consortium) fournit un validateur officiel pour vérifier que votre code HTML est correct. Un code valide = meilleur SEO, meilleure accessibilité, moins de bugs.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Validateur en ligne</div>
+          <p>Rendez-vous sur <strong>validator.w3.org</strong>. Trois options : saisir une URL, uploader un fichier, ou coller le code directement. Corrigez les erreurs une par une — le validateur indique la ligne exacte de chaque problème.</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes détectées par le validateur</div>
+          <p>Balise non fermée · Attribut sans guillemets · Mauvais ordre d'imbrication · Doctype manquant · Tag inconnu · Valeur d'attribut invalide. VS Code surligne aussi ces erreurs en rouge.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 09 EXERCICES ══ -->
+    <div id="s2-exo">
+      <div class="section-header"><span class="section-num">09</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">✏️ Structure commentée</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un fichier <code>seance2-exo1.html</code> avec la structure HTML5 complète.</li>
+            <li>Ajoutez un commentaire avant chaque section : <code>&lt;!-- HEADER --&gt;</code>, <code>&lt;!-- CONTENU --&gt;</code>, etc.</li>
+            <li>Ajoutez un <code>&lt;h1&gt;</code> avec un <code>id="top"</code>.</li>
+            <li>Ajoutez 3 paragraphes utilisant des entités : <code>&amp;copy;</code>, <code>&amp;mdash;</code>, <code>&amp;nbsp;</code> et <code>&amp;lt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔧 Attributs globaux</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un <code>&lt;div&gt;</code> avec <code>class="container"</code> et <code>id="main"</code>.</li>
+            <li>À l'intérieur, mettez un <code>&lt;p&gt;</code> avec un attribut <code>title</code> donnant une info bulle.</li>
+            <li>Ajoutez un <code>&lt;span&gt;</code> avec <code>data-user-id="123"</code>.</li>
+            <li>Ajoutez un élément avec <code>hidden</code> — vérifiez qu'il n'apparaît pas.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Validation W3C</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Allez sur <strong>validator.w3.org</strong>.</li>
+            <li>Sélectionnez "Validate by File Upload" et choisissez votre fichier.</li>
+            <li>Lisez les erreurs et corrigez-les une par une.</li>
+            <li>Répétez jusqu'à obtenir "Passed validation".</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09b — Quiz -->
+    <div class="quiz" data-session="02">
+      <div class="quiz-title">Quiz</div>
+      <div class="quiz-questions"></div>
+      <button class="quiz-submit">Vérifier</button>
+      <div class="quiz-score"></div>
+    </div>
+
+    <!-- ══ 10 BILAN ══ -->
+    <div id="s2-bilan">
+      <div class="section-header"><span class="section-num">10</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Balises ouvrantes et fermantes — fonctionnement en paires</li>
+        <li>Éléments et imbrication correcte (fermer du plus récent au plus ancien)</li>
+        <li>Attributs globaux : id, class, title, style, lang, data-*, hidden, tabindex</li>
+        <li>Commentaires HTML pour documenter et désactiver du code</li>
+        <li>Entités HTML : &amp;lt;, &amp;gt;, &amp;amp;, &amp;nbsp;, &amp;copy;, &amp;deg;, &amp;mdash;</li>
+        <li>Balises orphelines : br, hr, img, input, meta</li>
+        <li>Indentation et formatage automatique VS Code</li>
+        <li>Validation W3C pour un code conforme aux standards</li>
+      </ul>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Balise ouvrante</dt><dd>Démarre un élément. Format : <code>&lt;nom&gt;</code>.</dd>
+          <dt>Balise fermante</dt><dd>Termine un élément. Format : <code>&lt;/nom&gt;</code> avec un slash.</dd>
+          <dt>Élément</dt><dd>Balise ouvrante + contenu + balise fermante = un bloc complet.</dd>
+          <dt>Imbrication</dt><dd>Placement d'un élément à l'intérieur d'un autre. Les éléments s'emboîtent.</dd>
+          <dt>Attribut</dt><dd>Information dans la balise ouvrante. Format : nom="valeur".</dd>
+          <dt>Commentaire HTML</dt><dd>Note invisible dans le navigateur. <code>&lt;!-- texte --&gt;</code>.</dd>
+          <dt>Entité HTML</dt><dd>Code commençant par &amp; pour afficher un caractère réservé.</dd>
+          <dt>Balise orpheline</dt><dd>Balise sans contenu ni fermeture. Aussi appelée void element.</dd>
+          <dt>W3C Validator</dt><dd>Outil officiel pour vérifier la conformité du code HTML aux normes.</dd>
+          <dt>Indentation</dt><dd>Décalage visuel pour représenter la hiérarchie des éléments imbriqués.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Prochaine séance</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 3 — Texte, Titres &amp; Paragraphes</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Hiérarchie h1-h6, strong, em, mark, blockquote, code, pre, kbd</div>
+        </div>
+        <a href="seance3.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#0D1117;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Séance 3 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+</body>
+</html>
