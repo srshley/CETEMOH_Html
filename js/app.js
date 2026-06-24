@@ -116,7 +116,12 @@ document.addEventListener('click', (e) => {
 
 
 // ── Search bar ──────────────────────────────────────────────────────
-window.__BASE = window.location.pathname.startsWith('/CETEMOH_Web') ? '/CETEMOH_Web' : '';
+window.__BASE = (function(){
+  var p = window.location.pathname;
+  if (p.startsWith('/CETEMOH_Web')) return '/CETEMOH_Web';
+  if (p.startsWith('/CETEMOH_Html')) return '/CETEMOH_Html';
+  return '';
+})();
 const _searchData = [
   // ── HTML (pages/) ──
   { t:'Client/Serveur', u:'pages/seance1.html#s1-client', s:'S1·01' },
@@ -1627,4 +1632,46 @@ document.querySelectorAll('.code-body pre').forEach(pre => {
     editor.addEventListener('input', updatePreview);
     updatePreview();
   });
+})();
+
+
+// ── Presentation mode ──────────────────────────────────────────────────
+(function initPresentationMode() {
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = (window.__BASE || '') + '/css/presentation.css';
+  document.head.appendChild(link);
+
+  var saved = localStorage.getItem('cetemoh-presentation');
+  if (saved === 'on') document.body.classList.add('presentation-mode');
+
+  var topbar = document.querySelector('.topbar');
+  if (!topbar) return;
+
+  var btn = document.createElement('button');
+  btn.className = 'presentation-toggle';
+  btn.setAttribute('aria-label', 'Activer/désactiver le mode présentation');
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Pr\u00e9sentation';
+
+  if (document.body.classList.contains('presentation-mode')) {
+    btn.classList.add('active');
+  }
+
+  btn.addEventListener('click', function() {
+    document.body.classList.toggle('presentation-mode');
+    var isActive = document.body.classList.contains('presentation-mode');
+    btn.classList.toggle('active', isActive);
+    localStorage.setItem('cetemoh-presentation', isActive ? 'on' : 'off');
+    if (isActive) window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  var hamburger = topbar.querySelector('.hamburger');
+  var themeToggle = topbar.querySelector('.theme-toggle');
+  if (hamburger) {
+    hamburger.parentNode.insertBefore(btn, hamburger);
+  } else if (themeToggle) {
+    themeToggle.parentNode.insertBefore(btn, themeToggle.nextSibling);
+  } else {
+    topbar.appendChild(btn);
+  }
 })();
