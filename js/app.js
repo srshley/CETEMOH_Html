@@ -336,7 +336,6 @@ const _searchData = [
 
   const wrap = document.createElement('div');
   wrap.className = 'search-wrap';
-  wrap.style.position = 'relative';
   wrap.innerHTML = `<input type="text" placeholder="Rechercher..." id="search-input" spellcheck="false" autocomplete="off">
     <span class="search-icon">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -344,7 +343,6 @@ const _searchData = [
 
   const dd = document.createElement('div');
   dd.id = 'search-dropdown';
-  dd.style.cssText = 'display:none;position:absolute;top:100%;left:0;right:0;z-index:1000;background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-top:4px;max-height:360px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.15)';
 
   const hamburger = topbar.querySelector('.hamburger');
   if (hamburger) { hamburger.parentNode.insertBefore(wrap, hamburger); }
@@ -364,18 +362,29 @@ const _searchData = [
   }
 
   function _escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function siteUrl(path) {
+    if (window.__BASE) return window.__BASE + '/' + path;
+    const href = window.location.href;
+    if (window.location.protocol === 'file:') {
+      const root = href.includes('/pages/') ? href.split('/pages/')[0] + '/' : href.replace(/[^/]*$/, '');
+      return new URL(path, root).href;
+    }
+    const currentPath = window.location.pathname;
+    const root = currentPath.includes('/pages/') ? currentPath.split('/pages/')[0] + '/' : currentPath.replace(/[^/]*$/, '');
+    return root + path;
+  }
   function renderDropdown(q) {
     const trimmed = q.toLowerCase().trim();
-    if (!trimmed) { dd.style.display = 'none'; return; }
+    if (!trimmed) { dd.hidden = true; return; }
     let results = _searchData.filter(i => i.t.toLowerCase().includes(trimmed)).slice(0, 10);
-    if (!results.length) { dd.style.display = 'none'; return; }
+    if (!results.length) { dd.hidden = true; return; }
     dd.innerHTML = results.map(i =>
-      `<div class="search-dd-item" style="padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;transition:background .12s" onmouseenter="this.style.background='var(--bg3)'" onmouseleave="this.style.background=''" onmousedown="event.preventDefault();window.location.href=window.__BASE+'/'+'${i.u}'">
-        <span style="font-size:.9rem">${_escHtml(i.t)}</span>
-        <span style="font-size:.68rem;color:var(--text3);font-family:'JetBrains Mono',monospace;background:var(--bg3);border-radius:4px;padding:1px 6px">${i.s}</span>
-      </div>`
+      `<a class="search-dd-item" href="${siteUrl(i.u)}">
+        <span class="search-dd-title">${_escHtml(i.t)}</span>
+        <span class="search-dd-scope">${i.s}</span>
+      </a>`
     ).join('');
-    dd.style.display = 'block';
+    dd.hidden = false;
   }
 
   input.addEventListener('input', () => {
@@ -389,10 +398,10 @@ const _searchData = [
     if (hint) hint.textContent = v ? cnt + ' résultat(s)' : 'Filtrage par recherche...';
   });
 
-  input.addEventListener('keydown', e => { if (e.key === 'Escape') { dd.style.display = 'none'; input.blur(); } });
-  input.addEventListener('blur', () => { hideTimer = setTimeout(() => dd.style.display = 'none', 200); });
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') { dd.hidden = true; input.blur(); } });
+  input.addEventListener('blur', () => { hideTimer = setTimeout(() => dd.hidden = true, 200); });
   input.addEventListener('focus', () => { clearTimeout(hideTimer); if (input.value.trim()) renderDropdown(input.value); });
-  document.addEventListener('click', e => { if (!wrap.contains(e.target)) dd.style.display = 'none'; });
+  document.addEventListener('click', e => { if (!wrap.contains(e.target)) dd.hidden = true; });
 })();
 
 
@@ -435,7 +444,7 @@ if (fill) {
   let ticking = false;
 
   const update = () => {
-    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const total = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
     const target = (window.scrollY / total) * 100;
 
     current += (target - current) * 0.1;
@@ -1224,7 +1233,7 @@ document.querySelectorAll('.quiz').forEach(quizEl => {
   else { href = 'pages/glossaire-html.html'; label = 'Glossaire HTML'; }
   const a = document.createElement('a');
   a.href = href; a.textContent = label;
-  a.style.marginLeft = 'auto'; a.style.fontWeight = '600';
+  a.className = 'topbar-nav-extra';
   nav.appendChild(a);
 })();
 
@@ -1506,58 +1515,63 @@ const revealEls = document.querySelectorAll(
   '.session-card, .home-hero, .callout, .grid-2 > div'
 );
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion && 'IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
 
-    entry.target.animate(
-      [
-        { opacity: 0, transform: 'translateY(30px) scale(.98)' },
-        { opacity: 1, transform: 'translateY(0) scale(1)' }
-      ],
-      {
-        duration: 600,
-        easing: 'cubic-bezier(.2,.8,.2,1)',
-        fill: 'forwards'
-      }
-    );
+      entry.target.animate(
+        [
+          { opacity: 0, transform: 'translateY(30px) scale(.98)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)' }
+        ],
+        {
+          duration: 600,
+          easing: 'cubic-bezier(.2,.8,.2,1)',
+          fill: 'forwards'
+        }
+      );
 
-    revealObserver.unobserve(entry.target);
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.willChange = 'transform, opacity';
+    revealObserver.observe(el);
   });
-}, { threshold: 0.12 });
-
-revealEls.forEach(el => {
-  el.style.opacity = '0';
-  el.style.willChange = 'transform, opacity';
-  revealObserver.observe(el);
-});
+}
 
 
 // ── Magnetic hover effect ──────────────────────────────────────────
-document.querySelectorAll('.session-card').forEach(card => {
-  let raf = null;
+if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  document.querySelectorAll('.session-card').forEach(card => {
+    let raf = null;
 
-  card.addEventListener('mousemove', (e) => {
-    if (raf) cancelAnimationFrame(raf);
+    card.addEventListener('mousemove', (e) => {
+      if (raf) cancelAnimationFrame(raf);
 
-    raf = requestAnimationFrame(() => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      raf = requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-      card.style.transform = `
-        perspective(600px)
-        rotateX(${y * -6}deg)
-        rotateY(${x * 6}deg)
-        scale(1.03)
-      `;
+        card.style.transform = `
+          perspective(600px)
+          rotateX(${y * -6}deg)
+          rotateY(${x * 6}deg)
+          scale(1.03)
+        `;
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
     });
   });
-
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
-  });
-});
+}
 
 
 // ── Syntax highlighting ────────────────────────────────────────────

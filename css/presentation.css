@@ -20,7 +20,7 @@ body.presentation-mode .topbar {
   position: fixed;
   z-index: 100;
   top: 0; left: 0; right: 0;
-  background: color-mix(in srgb, var(--bg1) 85%, transparent);
+  background: var(--bg2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
@@ -195,7 +195,7 @@ body.presentation-mode .course-tabs {
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg2);
-  color: var(--text1);
+  color: var(--text);
   font-family: 'Syne', sans-serif;
   font-size: .7rem;
   font-weight: 600;
