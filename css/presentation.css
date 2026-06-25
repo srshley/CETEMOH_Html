@@ -2,6 +2,7 @@
 
 body.presentation-mode {
   scroll-behavior: smooth;
+  overflow: hidden;
 }
 
 body.presentation-mode .layout {
@@ -16,7 +17,7 @@ body.presentation-mode .progress-bar {
   display: none !important;
 }
 
-/* ── Topbar: auto-cachée au survol ── */
+/* ── Topbar: auto-cache ── */
 body.presentation-mode .topbar {
   position: fixed;
   z-index: 100;
@@ -35,7 +36,10 @@ body.presentation-mode .topbar:focus-within {
   opacity: 1;
   pointer-events: auto;
 }
-body.presentation-mode .topbar-brand { font-size: .75rem; }
+
+body.presentation-mode .topbar-brand {
+  font-size: .75rem;
+}
 body.presentation-mode .topbar-nav {
   display: flex !important;
   gap: .15rem;
@@ -51,6 +55,9 @@ body.presentation-mode .topbar-nav a {
   flex-shrink: 0;
   border-radius: 4px;
 }
+body.presentation-mode .topbar-nav a:hover {
+  background: var(--bg3);
+}
 
 body.presentation-mode .content {
   padding: 0 !important;
@@ -63,28 +70,24 @@ body.presentation-mode .content-inner {
   padding: 0 !important;
 }
 
-/* ── Diapos : plein écran, centrage vertical par padding ── */
+/* ── Slides ── */
 body.presentation-mode .session-hero,
 body.presentation-mode .home-hero,
 body.presentation-mode .glossary-hero,
-body.presentation-mode .content-inner > div[id] {
+body.presentation-mode .content-inner > div[id],
+body.presentation-mode .content-inner > .course-content {
   min-height: 100vh;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 10vh 2rem;
-  border-bottom: 1px solid var(--border);
-  box-sizing: border-box;
-}
-
-/* ── Hero centré ── */
-body.presentation-mode .session-hero,
-body.presentation-mode .home-hero,
-body.presentation-mode .glossary-hero {
-  text-align: center;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+  box-sizing: border-box;
 }
 
 body.presentation-mode .session-hero h1,
@@ -96,11 +99,23 @@ body.presentation-mode .session-hero p,
 body.presentation-mode .home-hero p {
   font-size: clamp(1.1rem, 2vw, 1.5rem);
 }
-body.presentation-mode .session-meta { justify-content: center; }
+body.presentation-mode .home-hero .hero-subtitle {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  margin-bottom: .5rem;
+}
+body.presentation-mode .session-meta {
+  justify-content: center;
+}
 
-/* ── Sections normales : contenu fluide ── */
-body.presentation-mode .content-inner > div[id] {
-  display: block;
+/* ── Contenu des slides: aligné à gauche, centré verticalement ── */
+body.presentation-mode .content-inner > div[id]:not(.session-hero):not(.home-hero):not(.glossary-hero) {
+  align-items: center;
+  text-align: center;
+}
+body.presentation-mode .content-inner > div[id]:not(.session-hero):not(.home-hero):not(.glossary-hero) > * {
+  text-align: left;
+  max-width: 800px;
+  width: 100%;
 }
 
 /* ── Typographie ── */
@@ -116,18 +131,23 @@ body.presentation-mode li {
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   line-height: 1.8;
 }
-body.presentation-mode .section-header { margin-bottom: 1.5rem; }
+body.presentation-mode .section-header {
+  margin-bottom: 1.5rem;
+}
 body.presentation-mode .section-num {
   font-size: 1.2rem;
   width: 2.8rem;
   height: 2.8rem;
 }
 
+/* ── Composants ── */
 body.presentation-mode .grid-2 {
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
-body.presentation-mode .grid-card { padding: 1.5rem; }
+body.presentation-mode .grid-card {
+  padding: 1.5rem;
+}
 body.presentation-mode .callout {
   padding: 1.5rem 2rem;
   font-size: 1.1rem;
@@ -136,8 +156,12 @@ body.presentation-mode .code-preview-split {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-body.presentation-mode .code-block { font-size: .9rem; }
-body.presentation-mode pre { font-size: .9rem; }
+body.presentation-mode .code-block {
+  font-size: .9rem;
+}
+body.presentation-mode pre {
+  font-size: .9rem;
+}
 body.presentation-mode .session-cards,
 body.presentation-mode .topic-cards {
   display: grid;
@@ -182,14 +206,20 @@ body.presentation-mode .course-tabs {
 
 /* ── Mobile ── */
 @media (max-width: 899px) {
+  body.presentation-mode {
+    overflow: auto;
+  }
   body.presentation-mode .session-hero,
   body.presentation-mode .home-hero,
   body.presentation-mode .glossary-hero,
-  body.presentation-mode .content-inner > div[id] {
+  body.presentation-mode .content-inner > div[id],
+  body.presentation-mode .content-inner > .course-content {
     min-height: auto;
+    height: auto;
     padding: 2rem 1rem;
+    justify-content: flex-start;
   }
-  body.presentation-mode .content-inner > div[id] {
+  body.presentation-mode .content-inner > div[id]:not(.session-hero):not(.home-hero):not(.glossary-hero) {
     margin: .75rem .5rem;
     max-width: calc(100% - 1rem);
     background: var(--bg2);
@@ -197,14 +227,9 @@ body.presentation-mode .course-tabs {
     border-radius: 12px;
     padding: 1.5rem;
   }
-  body.presentation-mode .session-hero,
-  body.presentation-mode .home-hero,
-  body.presentation-mode .glossary-hero {
-    padding: 1.5rem 1rem;
-    margin: .75rem .5rem;
-    max-width: calc(100% - 1rem);
+  body.presentation-mode .grid-2 {
+    grid-template-columns: 1fr;
   }
-  body.presentation-mode .grid-2 { grid-template-columns: 1fr; }
   body.presentation-mode .topbar {
     opacity: 1;
     pointer-events: auto;
@@ -217,7 +242,13 @@ body.presentation-mode .course-tabs {
     margin-top: .2rem;
   }
   body.presentation-mode .session-cards,
-  body.presentation-mode .topic-cards { grid-template-columns: 1fr; }
-  body.presentation-mode .code-preview-split { grid-template-columns: 1fr; }
-  body.presentation-mode .callout { padding: 1rem 1.25rem; }
+  body.presentation-mode .topic-cards {
+    grid-template-columns: 1fr;
+  }
+  body.presentation-mode .code-preview-split {
+    grid-template-columns: 1fr;
+  }
+  body.presentation-mode .callout {
+    padding: 1rem 1.25rem;
+  }
 }
