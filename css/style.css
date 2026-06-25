@@ -134,15 +134,16 @@ body { overflow-x: hidden; width: 100%; }
 
 /* ── Top bar ── */
 .topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  grid-column: 1 / -1;
   height: 56px;
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 clamp(.75rem, 2vw, 1.5rem);
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
   z-index: 100;
   backdrop-filter: blur(12px);
 }
@@ -360,7 +361,7 @@ body { overflow-x: hidden; width: 100%; }
 /* ── Main content ── */
 .content {
   grid-row: 2;
-  padding: calc(3rem + 56px) clamp(1.5rem, 4vw, 4rem) 6rem;
+  padding: 3rem clamp(1.5rem, 4vw, 4rem) 6rem;
   margin-left: 0;
   width: 100%;
   transition: margin-left .3s ease, width .3s ease;
@@ -1245,7 +1246,7 @@ td code, th code {
   .sidebar { width: 280px; }
   .sidebar-toggle { display: none; }
   .hamburger { display: block; }
-  .content { padding: calc(1.5rem + 56px) 1rem 3rem; }
+  .content { padding: 1.5rem 1rem 3rem; }
   .sidebar.open ~ .content { margin-left: 0; width: 100%; }
   .trio { grid-template-columns: 1fr; }
   .compare { grid-template-columns: 1fr; }
@@ -2956,7 +2957,7 @@ textarea:focus-visible,
   }
 
   .content {
-    padding: calc(1.25rem + 56px) clamp(.9rem, 4vw, 1.5rem) 3rem;
+    padding: 1.25rem clamp(.9rem, 4vw, 1.5rem) 3rem;
   }
 
   .section-header {
