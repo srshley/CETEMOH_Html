@@ -1,8 +1,7 @@
-/* ── Mode Présentation ──────────────────────────────────────────────── */
+/* ── Mode Présentation ────────────────────────────────────────────────── */
 
 body.presentation-mode {
   scroll-behavior: smooth;
-  overflow: hidden;
 }
 
 body.presentation-mode .layout {
@@ -17,44 +16,47 @@ body.presentation-mode .progress-bar {
   display: none !important;
 }
 
-/* ── Topbar: auto-cache ── */
 body.presentation-mode .topbar {
   position: fixed;
   z-index: 100;
   top: 0; left: 0; right: 0;
   background: var(--bg2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  padding: .25rem .75rem;
+  padding: .35rem 1rem;
   height: auto;
-  gap: .4rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease;
-}
-body.presentation-mode .topbar:hover,
-body.presentation-mode .topbar:focus-within {
-  opacity: 1;
-  pointer-events: auto;
+  gap: .5rem;
 }
 
 body.presentation-mode .topbar-brand {
-  font-size: .75rem;
+  font-size: .85rem;
+  flex-shrink: 0;
 }
+
 body.presentation-mode .topbar-nav {
   display: flex !important;
-  gap: .15rem;
+  gap: .2rem;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   flex: 1;
+  order: 10;
 }
-body.presentation-mode .topbar-nav::-webkit-scrollbar { display: none; }
+
+body.presentation-mode .topbar-nav::-webkit-scrollbar {
+  display: none;
+}
+
 body.presentation-mode .topbar-nav a {
-  font-size: .6rem;
-  padding: .1rem .35rem;
+  font-size: .65rem;
+  padding: .15rem .45rem;
   white-space: nowrap;
   flex-shrink: 0;
   border-radius: 4px;
+  letter-spacing: -.01em;
 }
+
 body.presentation-mode .topbar-nav a:hover {
   background: var(--bg3);
 }
@@ -64,6 +66,7 @@ body.presentation-mode .content {
   margin: 0 !important;
   max-width: 100% !important;
 }
+
 body.presentation-mode .content-inner {
   max-width: 100% !important;
   margin: 0 !important;
@@ -77,17 +80,21 @@ body.presentation-mode .glossary-hero,
 body.presentation-mode .content-inner > div[id],
 body.presentation-mode .content-inner > .course-content {
   min-height: 100vh;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 4rem 2rem;
-  max-width: 1000px;
+  padding: 5rem 2rem;
+  max-width: 1200px;
   margin: 0 auto;
   border-bottom: 1px solid var(--border);
-  box-sizing: border-box;
+  position: relative;
+}
+
+body.presentation-mode .session-hero,
+body.presentation-mode .home-hero,
+body.presentation-mode .glossary-hero {
+  text-align: center;
+  align-items: center;
 }
 
 body.presentation-mode .session-hero h1,
@@ -95,73 +102,75 @@ body.presentation-mode .home-hero h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1.2;
 }
+
 body.presentation-mode .session-hero p,
 body.presentation-mode .home-hero p {
   font-size: clamp(1.1rem, 2vw, 1.5rem);
 }
+
 body.presentation-mode .home-hero .hero-subtitle {
   font-size: clamp(1rem, 1.5vw, 1.2rem);
   margin-bottom: .5rem;
 }
+
 body.presentation-mode .session-meta {
   justify-content: center;
 }
 
-/* ── Contenu des slides: aligné à gauche, centré verticalement ── */
-body.presentation-mode .content-inner > div[id]:not(.session-hero):not(.home-hero):not(.glossary-hero) {
-  align-items: center;
-  text-align: center;
-}
-body.presentation-mode .content-inner > div[id]:not(.session-hero):not(.home-hero):not(.glossary-hero) > * {
-  text-align: left;
-  max-width: 800px;
-  width: 100%;
-}
-
-/* ── Typographie ── */
+/* ── Typography ── */
 body.presentation-mode h2 {
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   margin-top: 0;
 }
+
 body.presentation-mode h3 {
   font-size: clamp(1.3rem, 2.5vw, 2rem);
 }
+
 body.presentation-mode p,
 body.presentation-mode li {
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   line-height: 1.8;
 }
+
 body.presentation-mode .section-header {
   margin-bottom: 1.5rem;
 }
+
 body.presentation-mode .section-num {
   font-size: 1.2rem;
   width: 2.8rem;
   height: 2.8rem;
 }
 
-/* ── Composants ── */
+/* ── Components ── */
 body.presentation-mode .grid-2 {
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
+
 body.presentation-mode .grid-card {
   padding: 1.5rem;
 }
+
 body.presentation-mode .callout {
   padding: 1.5rem 2rem;
   font-size: 1.1rem;
 }
+
 body.presentation-mode .code-preview-split {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+
 body.presentation-mode .code-block {
-  font-size: .9rem;
+  font-size: .95rem;
 }
+
 body.presentation-mode pre {
-  font-size: .9rem;
+  font-size: .95rem;
 }
+
 body.presentation-mode .session-cards,
 body.presentation-mode .topic-cards {
   display: grid;
@@ -169,6 +178,7 @@ body.presentation-mode .topic-cards {
   gap: 1rem;
   margin-top: 1rem;
 }
+
 body.presentation-mode .course-tabs {
   padding-top: 2rem;
   justify-content: center;
@@ -176,7 +186,7 @@ body.presentation-mode .course-tabs {
   width: 100%;
 }
 
-/* ── Bouton toggle ── */
+/* ── Toggle button ── */
 .presentation-toggle {
   display: inline-flex;
   align-items: center;
@@ -194,10 +204,12 @@ body.presentation-mode .course-tabs {
   white-space: nowrap;
   flex-shrink: 0;
 }
+
 .presentation-toggle:hover {
   background: var(--border);
   border-color: var(--text3);
 }
+
 .presentation-toggle.active {
   background: var(--teal);
   border-color: var(--teal);
@@ -206,19 +218,16 @@ body.presentation-mode .course-tabs {
 
 /* ── Mobile ── */
 @media (max-width: 899px) {
-  body.presentation-mode {
-    overflow: auto;
-  }
   body.presentation-mode .session-hero,
   body.presentation-mode .home-hero,
   body.presentation-mode .glossary-hero,
   body.presentation-mode .content-inner > div[id],
   body.presentation-mode .content-inner > .course-content {
     min-height: auto;
-    height: auto;
     padding: 2rem 1rem;
     justify-content: flex-start;
   }
+
   body.presentation-mode .content-inner > div[id]:not(.session-hero):not(.home-hero):not(.glossary-hero) {
     margin: .75rem .5rem;
     max-width: calc(100% - 1rem);
@@ -227,27 +236,38 @@ body.presentation-mode .course-tabs {
     border-radius: 12px;
     padding: 1.5rem;
   }
+
+  body.presentation-mode .session-hero,
+  body.presentation-mode .home-hero,
+  body.presentation-mode .glossary-hero {
+    padding: 1.5rem 1rem;
+  }
+
   body.presentation-mode .grid-2 {
     grid-template-columns: 1fr;
   }
+
   body.presentation-mode .topbar {
-    opacity: 1;
-    pointer-events: auto;
     padding: .3rem .6rem;
+    gap: .3rem;
     flex-wrap: wrap;
   }
+
   body.presentation-mode .topbar-nav {
     order: 20;
     flex-basis: 100%;
     margin-top: .2rem;
   }
+
   body.presentation-mode .session-cards,
   body.presentation-mode .topic-cards {
     grid-template-columns: 1fr;
   }
+
   body.presentation-mode .code-preview-split {
     grid-template-columns: 1fr;
   }
+
   body.presentation-mode .callout {
     padding: 1rem 1.25rem;
   }
