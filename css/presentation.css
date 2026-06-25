@@ -4,52 +4,12 @@ body.presentation-mode {
   scroll-behavior: smooth;
 }
 
-body.presentation-mode .layout {
-  max-width: 100% !important;
-}
-
 body.presentation-mode .sidebar,
 body.presentation-mode .sidebar-toggle,
 body.presentation-mode .hamburger,
 body.presentation-mode #progress-bar,
 body.presentation-mode .progress-bar {
   display: none !important;
-}
-
-/* ── Topbar: auto-cachée au survol ── */
-body.presentation-mode .topbar {
-  position: fixed;
-  z-index: 100;
-  top: 0; left: 0; right: 0;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  padding: .25rem .75rem;
-  height: auto;
-  gap: .4rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease;
-}
-body.presentation-mode .topbar:hover,
-body.presentation-mode .topbar:focus-within {
-  opacity: 1;
-  pointer-events: auto;
-}
-body.presentation-mode .topbar-brand { font-size: .75rem; }
-body.presentation-mode .topbar-nav {
-  display: flex !important;
-  gap: .15rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  flex: 1;
-}
-body.presentation-mode .topbar-nav::-webkit-scrollbar { display: none; }
-body.presentation-mode .topbar-nav a {
-  font-size: .6rem;
-  padding: .1rem .35rem;
-  white-space: nowrap;
-  flex-shrink: 0;
-  border-radius: 4px;
 }
 
 body.presentation-mode .content {
@@ -63,28 +23,23 @@ body.presentation-mode .content-inner {
   padding: 0 !important;
 }
 
-/* ── Diapos : plein écran, centrage vertical par padding ── */
 body.presentation-mode .session-hero,
 body.presentation-mode .home-hero,
 body.presentation-mode .glossary-hero,
 body.presentation-mode .content-inner > div[id] {
   min-height: 100vh;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 10vh 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12vh 1.5rem;
   border-bottom: 1px solid var(--border);
   box-sizing: border-box;
 }
 
-/* ── Hero centré ── */
 body.presentation-mode .session-hero,
 body.presentation-mode .home-hero,
 body.presentation-mode .glossary-hero {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 body.presentation-mode .session-hero h1,
@@ -98,12 +53,6 @@ body.presentation-mode .home-hero p {
 }
 body.presentation-mode .session-meta { justify-content: center; }
 
-/* ── Sections normales : contenu fluide ── */
-body.presentation-mode .content-inner > div[id] {
-  display: block;
-}
-
-/* ── Typographie ── */
 body.presentation-mode h2 {
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   margin-top: 0;
@@ -152,7 +101,39 @@ body.presentation-mode .course-tabs {
   width: 100%;
 }
 
-/* ── Bouton toggle ── */
+body.presentation-mode .topbar {
+  position: fixed;
+  z-index: 100;
+  top: 0; left: 0; right: 0;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: .2rem .5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+body.presentation-mode .topbar:hover,
+body.presentation-mode .topbar:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+}
+body.presentation-mode .topbar-brand { font-size: .75rem; }
+body.presentation-mode .topbar-nav {
+  display: flex !important;
+  gap: .15rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+body.presentation-mode .topbar-nav::-webkit-scrollbar { display: none; }
+body.presentation-mode .topbar-nav a {
+  font-size: .6rem;
+  padding: .1rem .35rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
 .presentation-toggle {
   display: inline-flex;
   align-items: center;
@@ -180,7 +161,6 @@ body.presentation-mode .course-tabs {
   color: #fff;
 }
 
-/* ── Mobile ── */
 @media (max-width: 899px) {
   body.presentation-mode .session-hero,
   body.presentation-mode .home-hero,
@@ -204,7 +184,6 @@ body.presentation-mode .course-tabs {
     margin: .75rem .5rem;
     max-width: calc(100% - 1rem);
   }
-  body.presentation-mode .grid-2 { grid-template-columns: 1fr; }
   body.presentation-mode .topbar {
     opacity: 1;
     pointer-events: auto;
@@ -216,6 +195,7 @@ body.presentation-mode .course-tabs {
     flex-basis: 100%;
     margin-top: .2rem;
   }
+  body.presentation-mode .grid-2 { grid-template-columns: 1fr; }
   body.presentation-mode .session-cards,
   body.presentation-mode .topic-cards { grid-template-columns: 1fr; }
   body.presentation-mode .code-preview-split { grid-template-columns: 1fr; }

@@ -1651,6 +1651,17 @@ document.querySelectorAll('.code-body pre').forEach(pre => {
 
 // ── Presentation mode ──────────────────────────────────────────────────
 (function initPresentationMode() {
+  function fsReq() {
+    var e = document.documentElement;
+    (e.requestFullscreen || e.webkitRequestFullscreen || e.msRequestFullscreen).call(e);
+  }
+  function fsExit() {
+    (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen).call(document);
+  }
+  function fsEl() {
+    return document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+  }
+
   var link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = (window.__BASE || '') + '/css/presentation.css';
@@ -1671,12 +1682,25 @@ document.querySelectorAll('.code-body pre').forEach(pre => {
     btn.classList.add('active');
   }
 
+  function setMode(on) {
+    document.body.classList.toggle('presentation-mode', on);
+    btn.classList.toggle('active', on);
+    localStorage.setItem('cetemoh-presentation', on ? 'on' : 'off');
+    if (on) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   btn.addEventListener('click', function() {
-    document.body.classList.toggle('presentation-mode');
-    var isActive = document.body.classList.contains('presentation-mode');
-    btn.classList.toggle('active', isActive);
-    localStorage.setItem('cetemoh-presentation', isActive ? 'on' : 'off');
-    if (isActive) window.scrollTo({ top: 0, behavior: 'smooth' });
+    var on = !document.body.classList.contains('presentation-mode');
+    setMode(on);
+    if (on) { try { fsReq(); } catch(e) {} }
+    else { try { fsExit(); } catch(e) {} }
+  });
+
+  document.addEventListener('fullscreenchange', function sync() {
+    if (!fsEl() && document.body.classList.contains('presentation-mode')) setMode(false);
+  });
+  document.addEventListener('webkitfullscreenchange', function sync() {
+    if (!fsEl() && document.body.classList.contains('presentation-mode')) setMode(false);
   });
 
   var hamburger = topbar.querySelector('.hamburger');
