@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 4 — Boucles · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html" class="active">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 4 — Boucles</div>
+      <a href="#s4-principe" class="sidebar-item"><span class="sidebar-num">01</span>Le principe des boucles</a>
+      <a href="#s4-for"      class="sidebar-item"><span class="sidebar-num">02</span>La boucle for</a>
+      <a href="#s4-while"    class="sidebar-item"><span class="sidebar-num">03</span>while et do...while</a>
+      <a href="#s4-foreach"  class="sidebar-item"><span class="sidebar-num">04</span>foreach</a>
+      <a href="#s4-break"    class="sidebar-item"><span class="sidebar-num">05</span>break et continue</a>
+      <a href="#s4-pieges"   class="sidebar-item"><span class="sidebar-num">06</span>Les pièges classiques</a>
+      <a href="#s4-exo"      class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s4-bilan"    class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance3.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 3</a>
+      <a href="seance5.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 5 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 04 / 14</div>
+      <h1>Boucles</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">for · while · do...while · foreach · break / continue · pièges classiques</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Comprendre le principe d'une boucle et le concept de répétition contrôlée</li>
+          <li>Écrire une boucle <code>for</code> : initialisation, test, incrément</li>
+          <li>Choisir entre <code>while</code> et <code>do...while</code> selon le moment du test</li>
+          <li>Parcourir un tableau avec <code>foreach</code> (valeurs et clés)</li>
+          <li>Contrôler le flux avec <code>break</code> et <code>continue</code>, et éviter les pièges classiques</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 1 — Introduction au PHP (syntaxe, <code>echo</code>)</li>
+          <li>Séance 2 — Variables, types &amp; opérateurs</li>
+          <li>Séance 3 — Conditions (<code>if</code> / <code>else</code>)</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 PRINCIPE ══════════ -->
+    <div id="s4-principe">
+      <div class="section-header"><span class="section-num">01</span><h2>Le principe des boucles</h2></div>
+      <p>Une boucle permet d'exécuter <strong>le même bloc de code plusieurs fois</strong>, sans le recopier. On décrit une seule fois l'opération à répéter, et on laisse PHP la répéter tant qu'une condition de continuation reste vraie. C'est le principe de la <strong>répétition contrôlée</strong> : la répétition n'est jamais sauvage, elle est pilotée par un test et, le plus souvent, par un compteur qui avance à chaque tour.</p>
+      <p>Chaque passage dans la boucle s'appelle une <strong>itération</strong>. La boucle s'arrête dès que la condition de continuation devient fausse. PHP propose trois familles de boucles : <code>for</code> quand on connaît le nombre de tours, <code>while</code> / <code>do...while</code> quand on ne le connaît pas à l'avance, et <code>foreach</code> pour parcourir les éléments d'un tableau.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🏃</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le coureur sur une piste</div>
+          <p>Le coureur fait des tours de piste. Le <strong>test</strong>, c'est le coup de sifflet : tant qu'il n'a pas sonné, le coureur continue. Chaque tour de piste est une itération. Si le coureur oublie d'avancer sur la piste, il tourne indéfiniment : c'est la boucle infinie.</p>
+        </div>
+      </div>
+      <p>À chaque tour, le même schéma se répète : PHP <strong>évalue le test</strong> ; s'il est vrai, il <strong>exécute le corps</strong> de la boucle, puis <strong>fait avancer le compteur</strong>, puis revient au test. La boucle est donc une condition qui se répète : tout ce que vous avez appris sur les conditions de la séance 3 s'applique ici.</p>
+    </div>
+
+    <!-- ══════════ 02 FOR ══════════ -->
+    <div id="s4-for">
+      <div class="section-header"><span class="section-num">02</span><h2>La boucle for</h2></div>
+      <p>La boucle <code>for</code> concentre les trois étapes du schéma sur une seule ligne : <code>for ($i = 0; $i &lt; N; $i++) { … }</code>. C'est la boucle à utiliser dès qu'on sait combien de fois le bloc doit s'exécuter : afficher une table de multiplication, générer une série de nombres, numéroter des lignes.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Table de multiplication de 2</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  for ($i = 1; $i &lt;= 10; $i++) {
+    echo "2 x $i = " . (2 * $i) . "&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>2 x 1 = 2<br>2 x 2 = 4<br>2 x 3 = 6<br>2 x 4 = 8<br>2 x 5 = 10<br>2 x 6 = 12<br>2 x 7 = 14<br>2 x 8 = 16<br>2 x 9 = 18<br>2 x 10 = 20</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Les trois parties du <code>for</code></div>
+          <p><strong>1. Initialisation</strong> — exécutée <em>une seule fois</em> avant le premier tour : <code>$i = 1</code>.<br>
+          <strong>2. Test</strong> — évalué avant chaque tour : tant qu'il vaut <code>true</code>, on continue (<code>$i &lt;= 10</code>).<br>
+          <strong>3. Incrément</strong> — exécuté après chaque tour : c'est lui qui fait avancer le compteur (<code>$i++</code>).</p>
+        </div>
+      </div>
+      <p>L'ordre des tours est toujours <strong>test → corps → incrément</strong> : le compteur est vérifié <em>avant</em> d'être incrémenté. La variable de compteur est une variable ordinaire : vous pouvez la nommer <code>$i</code>, <code>$index</code> ou <code>$numero_ligne</code>, et l'utiliser dans le corps du bloc.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Compter à l'envers</span>
+        </div>
+        <ol>
+          <li>Dans <code>decompte.php</code>, écrivez une boucle <code>for</code> qui affiche <code>10 9 8 … 1 Décollage !</code> en partant de <code>$i = 10</code> et en <strong>descendant</strong> de 1 à chaque tour.</li>
+          <li>Prévoyez combien de tours exécute <code>for ($i = 0; $i &lt; 0; $i++)</code> avant de la tester avec un <code>echo</code> dans le corps.</li>
+          <li>Transformez votre décompte en <code>while</code> équivalent : même sortie, trois lignes de moins ?</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  for ($i = 10; $i &gt;= 1; $i--) {
+    echo $i . " ";
+  }
+  echo "Décollage !&lt;br&gt;";
+
+  // 0 tour : le test est faux dès le départ, le corps n'entre jamais
+  for ($i = 0; $i &lt; 0; $i++) { echo "jamais affiché"; }
+
+  $i = 10;
+  while ($i &gt;= 1) { echo $i . " "; $i--; }   // équivalent while
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 WHILE / DO-WHILE ══════════ -->
+    <div id="s4-while">
+      <div class="section-header"><span class="section-num">03</span><h2>while et do...while</h2></div>
+      <p>Quand le nombre de tours n'est pas connu à l'avance, on utilise <code>while</code>. Sa syntaxe est simple : <code>while (condition) { … }</code>. Le bloc est exécuté <strong>tant que</strong> la condition est vraie, et la condition est testée <em>avant</em> chaque tour. À vous de faire évoluer une variable dans le corps pour que la condition finisse par être fausse.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — while</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $solde   = 120;
+  $retrait = 40;
+  $mois    = 0;
+
+  while ($solde &gt; 0) {
+    $solde -= $retrait;
+    $mois++;
+    echo "Mois $mois : solde $solde EUR&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Mois 1 : solde 80 EUR<br>Mois 2 : solde 40 EUR<br>Mois 3 : solde 0 EUR</p></div>
+        </div>
+      </div>
+      <p>Le <code>do...while</code> ressemble à <code>while</code>, mais le test est placé <strong>à la fin</strong> du bloc : <code>do { … } while (condition);</code>. Le bloc s'exécute donc <strong>au moins une fois</strong>, même si la condition est déjà fausse. C'est la boucle idéale pour un menu, une saisie utilisateur ou toute action qu'on veut tenter au moins une fois.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — do...while</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $essais = 0;
+
+  do {
+    echo "Tentative " . ($essais + 1) . "&lt;br&gt;";
+    $essais++;
+  } while ($essais &lt; 3);
+
+  // condition deja fausse au depart :
+  // le bloc est execute une fois quand meme
+  $code = 999;
+  do {
+    echo "Ce message s'affiche une seule fois";
+  } while ($code &lt; 10);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Tentative 1<br>Tentative 2<br>Tentative 3<br>Ce message s'affiche une seule fois</p></div>
+        </div>
+      </div>
+      <h3>Le moment du test change tout</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Boucle</th><th>Moment du test</th><th>Minimum d'exécutions</th></tr></thead>
+          <tbody>
+            <tr><td><code>for</code></td><td>avant chaque tour</td><td>0 (si le test est faux dès le départ)</td></tr>
+            <tr><td><code>while</code></td><td>avant chaque tour</td><td>0 (si la condition est fausse dès le départ)</td></tr>
+            <tr><td><code>do...while</code></td><td>après chaque tour</td><td>1, quoi qu'il arrive</td></tr>
+            <tr><td><code>foreach</code></td><td>sur le nombre d'éléments</td><td>0 (si le tableau est vide)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 FOREACH ══════════ -->
+    <div id="s4-foreach">
+      <div class="section-header"><span class="section-num">04</span><h2>foreach : parcourir un tableau</h2></div>
+      <p><code>foreach</code> est la boucle dédiée aux tableaux. Au lieu de gérer un indice, elle récupère automatiquement chaque élément : <code>foreach ($tableau as $valeur)</code>. Sur un tableau associatif, on peut aussi récupérer la clé en même temps que la valeur : <code>foreach ($tableau as $cle =&gt; $valeur)</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — foreach sur un panier</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $panier = [
+    "pain" =&gt; 2.50,
+    "lait" =&gt; 1.20,
+    "cafe" =&gt; 4.90
+  ];
+
+  foreach ($panier as $produit =&gt; $prix) {
+    echo $produit . " : " . $prix . " EUR&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>pain : 2.5 EUR<br>lait : 1.2 EUR<br>cafe : 4.9 EUR</p></div>
+        </div>
+      </div>
+      <p>Sur un tableau indexé, la clé est simplement l'indice : <code>foreach ($fruits as $index =&gt; $fruit)</code> donne <code>$index</code> = 0, 1, 2… Si on n'a pas besoin de la clé, on écrit <code>foreach ($fruits as $fruit)</code> : c'est plus court et plus lisible.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Préférez <code>foreach</code> à <code>for</code> sur les tableaux</div>
+          <p>Un <code>foreach</code> ne peut pas se « dépasser » : il s'arrête exactement à la fin du tableau, quel que soit son nombre d'éléments. Un <code>for</code> mal écrit (mauvaise borne) provoque un décalage ou une erreur « undefined offset ». Réservez le <code>for</code> aux séquences numériques : <code>for ($i = 1; $i &lt;= 10; $i++)</code>.</p>
+        </div>
+      </div>
+      <p>Point crucial : sans le savoir, on écrase souvent des données. Par défaut, <code>foreach ($t as $v)</code> travaille sur une <strong>copie</strong> de chaque élément — modifier <code>$v</code> ne change pas le tableau. Pour modifier en place, ajoutez l'esperluette : <code>foreach ($t as &amp;$v)</code>, puis <code>unset($v);</code> juste après la boucle (sinon la variable « fantôme » continue de pointer le dernier élément et le modifie par accident). Autre piège : modifier la <em>structure</em> du tableau (ajouter/supprimer des clés) <em>pendant</em> un <code>foreach</code> donne des résultats imprévisibles — utilisez alors une boucle <code>for</code> parcourue à l'envers.</p>
+    </div>
+
+    <!-- ══════════ 05 BREAK / CONTINUE ══════════ -->
+    <div id="s4-break">
+      <div class="section-header"><span class="section-num">05</span><h2>break et continue</h2></div>
+      <p>Deux instructions permettent de contrôler le déroulement d'une boucle. <code>break</code> <strong>arrête</strong> la boucle et passe à la suite du script. <code>continue</code> <strong>saute</strong> le reste du corps de la boucle et passe directement à l'itération suivante. Dans une boucle <code>for</code>, l'incrément est malgré tout exécuté après un <code>continue</code> ; dans un <code>while</code>, attention : tout ce qui suit le <code>continue</code> est ignoré, y compris l'incrément manuel.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — break et continue</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  for ($i = 1; $i &lt;= 10; $i++) {
+    if ($i % 2 !== 0) {
+      continue;          // on ignore les nombres impairs
+    }
+    if ($i &gt; 6) {
+      break;             // on stoppe au-dela de 6
+    }
+    echo "$i ";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>2 4 6</p></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Instruction</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><code>break;</code></td><td>sort immédiatement de la boucle la plus proche ; le script reprend juste après</td></tr>
+            <tr><td><code>continue;</code></td><td>abandonne le tour en cours et passe à l'itération suivante</td></tr>
+            <tr><td><code>break 2;</code></td><td>sort de deux boucles imbriquées à la fois</td></tr>
+            <tr><td><code>continue 2;</code></td><td>passe au tour suivant de la boucle extérieure</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Dans une boucle imbriquée, <code>break</code> et <code>continue</code> n'agissent que sur <strong>la boucle la plus proche</strong>. Pour agir sur deux niveaux d'un coup, on précise un nombre : <code>break 2</code>.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Le continue qui fige la page</span>
+        </div>
+        <ol>
+          <li>Dans <code>continue_while.php</code>, écrivez un <code>while ($i &lt;= 5)</code> qui contient <code>if ($i === 3) continue;</code> <strong>avant</strong> le <code>$i++</code>. Que se passe-t-il au troisième tour ? (Sauvegardez votre travail avant de lancer.)</li>
+          <li>Déplacez l'incrément <em>avant</em> le <code>continue</code> : la boucle termine et affiche <code>1 2 4 5</code> (les nombres de 1 à 5 sauf 3).</li>
+          <li>Rejouez le même exercice avec un <code>for</code> : pourquoi le <code>continue</code> y est-il moins dangereux ?</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  //  boucle infinie : $i vaut 3 pour toujours, le $i++ du bas est sauté
+  $i = 1;
+  while ($i &lt;= 5) {
+    if ($i === 3) { continue; }   // passe directement au test suivant
+    echo $i . " ";
+    $i++;
+  }
+
+  // ✅ version sûre : on incrémente avant de continuer
+  $i = 1;
+  while ($i &lt;= 5) {
+    if ($i === 3) { $i++; continue; }
+    echo $i . " ";
+    $i++;
+  }
+  // Avec un for, l'incrément est géré par la boucle elle-même :
+  // continue déclenche quand même $i++, pas de figeage possible.
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 PIÈGES ══════════ -->
+    <div id="s4-pieges">
+      <div class="section-header"><span class="section-num">06</span><h2>Les pièges classiques</h2></div>
+      <p>Trois erreurs reviennent dans presque tous les scripts qui utilisent des boucles. La première est la <strong>boucle infinie</strong> : on oublie l'incrément (<code>$i++</code>) et la condition ne devient jamais fausse, la page se fige. La deuxième est l'<strong>erreur de borne</strong> (<em>off-by-one</em>) : le compteur s'arrête un tour trop tôt ou un tour trop tard. La troisième est la <strong>boucle imbriquée</strong> mal maîtrisée : le tour intérieur est réexécuté intégralement à chaque tour extérieur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Erreur de borne (off-by-one)</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // Version correcte : 5 tours (1 a 5)
+  for ($i = 1; $i &lt;= 5; $i++) {
+    echo "$i ";
+  }
+  echo "&lt;br&gt;";
+
+  // Version hors limite : 4 tours seulement (1 a 4)
+  for ($i = 1; $i &lt; 5; $i++) {
+    echo "$i ";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>1 2 3 4 5<br>1 2 3 4</p></div>
+        </div>
+      </div>
+      <p>Les boucles imbriquées permettent de construire des grilles et des figures. La boucle <strong>extérieure</strong> contrôle les lignes, la boucle <strong>intérieure</strong> contrôle les colonnes.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Boucles imbriquées : mini-grille</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  for ($ligne = 1; $ligne &lt;= 4; $ligne++) {
+    $etoiles = "";
+    for ($col = 1; $col &lt;= $ligne; $col++) {
+      $etoiles .= "* ";
+    }
+    echo rtrim($etoiles) . "&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>*<br>* *<br>* * *<br>* * * *</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">La boucle infinie</div>
+          <p>Un <code>while ($solde &gt; 0)</code> dont on oublie de retirer de l'argent ne s'arrête jamais : <code>while (true) { … }</code> est la forme la plus dangereuse. PHP a un <strong>timeout</strong> (souvent 30 à 60 secondes) qui coupe l'exécution, mais la page reste bloquée pendant ce temps. Relisez toujours votre incrément : <code>$i++</code>, <code>$solde -= 5</code>… Et méfiez-vous du <code>continue</code> placé avant l'incrément manuel d'un <code>while</code> : il rend la boucle infinie.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s4-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🔢 Compte à rebours</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_rebours.php</code> avec <code>$compteur = 10;</code>.</li>
+            <li>Avec une boucle <code>for</code>, affichez 10, 9, 8… jusqu'à 1, sur une seule ligne.</li>
+            <li>Ajoutez un message « Décollage ! » après la boucle.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> partez de 10 et utilisez <code>$compteur--</code> comme incrément : la condition <code>$compteur &gt;= 1</code> gère la fin.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🧮 Table de multiplication</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Affichez la table de 7, de 1 à 10, sous la forme <code>7 x 1 = 7</code>.</li>
+            <li>Affichez ensuite les tables de 3 et de 4 avec une <strong>boucle imbriquée</strong>.</li>
+            <li>Vérifiez qu'une ligne s'affiche par ligne de tableau (utilisez <code>&lt;br&gt;</code>).</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> la boucle extérieure gère le multiplicateur, l'intérieure le multiplicande de 1 à 10.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🛒 Panier et total</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau associatif <code>$panier</code> avec trois produits et leur prix.</li>
+            <li>Parcourez-le avec <code>foreach ($panier as $produit =&gt; $prix)</code> et affichez chaque ligne.</li>
+            <li>Calculez le total du panier dans <code>$total</code> puis affichez-le.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> accumulez dans <code>$total += $prix;</code> à chaque tour, puis formatez avec <code>number_format()</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🔎 Filtre à nombres</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Parcourez un tableau de nombres de 1 à 20 avec <code>for</code>.</li>
+            <li>Utilisez <code>continue</code> pour ignorer les multiples de 3 et <code>break</code> pour vous arrêter à 15.</li>
+            <li>Enregistrez dans un tableau <code>$retenus</code> les nombres affichés.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> le reste de la division s'obtient avec <code>$i % 3 === 0</code> : c'est vrai quand <code>$i</code> est un multiple de 3.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s4-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Le principe d'une boucle : répéter un bloc tant qu'une condition est vraie</li>
+        <li>Le concept de répétition contrôlée : test, corps, incrément</li>
+        <li>La notion d'itération (un tour de boucle)</li>
+        <li>La syntaxe <code>for ($i = 0; $i &lt; N; $i++)</code> et ses trois parties</li>
+        <li>La différence entre <code>while</code> (test avant) et <code>do...while</code> (test après)</li>
+        <li><code>foreach</code> sur un tableau indexé ou associatif (valeur et clé)</li>
+        <li>Le rôle de <code>break</code> et <code>continue</code>, y compris dans les boucles imbriquées</li>
+        <li>Les trois pièges : boucle infinie, erreur de borne, imbrication</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier l'incrément (<code>$i++</code>) dans un <code>while</code> → boucle infinie et page figée.</li>
+            <li>Se tromper de borne : <code>$i &lt; 5</code> donne 4 tours, <code>$i &lt;= 5</code> en donne 5.</li>
+            <li>Placer un <code>continue</code> avant l'incrément manuel d'un <code>while</code> → boucle infinie.</li>
+            <li>Modifier le compteur dans le corps du bloc <em>et</em> dans l'incrément → la boucle saute des tours.</li>
+            <li>Utiliser un <code>for</code> mal borné sur un tableau au lieu d'un <code>foreach</code> → erreurs « undefined offset ».</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Boucle</dt><dd>Structure qui répète un bloc de code tant qu'une condition reste vraie.</dd>
+          <dt>Itération</dt><dd>Un tour complet de la boucle (test, corps, incrément).</dd>
+          <dt>Répétition contrôlée</dt><dd>Répétition pilotée par un test et un compteur, jamais infinie par accident.</dd>
+          <dt>Initialisation</dt><dd>Instruction exécutée une seule fois avant le premier tour.</dd>
+          <dt>Incrément</dt><dd>Instruction exécutée après chaque tour pour faire avancer le compteur.</dd>
+          <dt>for</dt><dd>Boucle pour un nombre de tours connu, avec compteur intégré.</dd>
+          <dt>while</dt><dd>Boucle testée avant chaque tour : peut ne jamais s'exécuter.</dd>
+          <dt>do...while</dt><dd>Boucle testée après chaque tour : s'exécute au moins une fois.</dd>
+          <dt>foreach</dt><dd>Boucle dédiée au parcours des éléments d'un tableau.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 5 — Fonctions</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Déclaration, paramètres, return, portée des variables</div>
+        </div>
+        <a href="seance5.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 5 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="04">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

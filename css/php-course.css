@@ -1,0 +1,44 @@
+/* ═══════════════════════════════════════════════
+   Cours PHP — styles spécifiques aux 14 séances
+   (chargé après css/style.css, n'affecte pas les
+   parcours HTML / CSS)
+   ═══════════════════════════════════════════════ */
+
+/* ── Topbar : les 14 liens séances défilent horizontalement
+   au lieu d'être coupés sur desktop ── */
+.topbar      { height:auto; min-height:56px; }
+.topbar-nav  { flex:1 1 auto; justify-content:flex-start; overflow-x:auto; scrollbar-width:none; gap:.5rem; margin:0 .75rem; padding:.4rem .25rem; }
+.topbar-nav::-webkit-scrollbar { display:none; }
+.topbar-nav a { flex-shrink:0; white-space:nowrap; font-size:.8rem; padding:.3rem .55rem; }
+
+/* ── Exos flash (exercices intercalés pendant le cours) ── */
+.exo-flash       { margin:1.5rem 0; padding:1rem 1.25rem; background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--purple); border-radius:var(--radius); break-inside:avoid; }
+.exo-flash-head  { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
+.exo-flash-badge { font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:.08em; color:var(--purple); background:var(--purple-dim); border:1px solid rgba(139,92,246,.3); border-radius:99px; padding:.15rem .55rem; }
+.exo-flash-title { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; }
+.exo-flash ol    { margin:.5rem 0 0; padding-left:1.2rem; font-size:.92rem; }
+.exo-flash li    { margin:.25rem 0; }
+.exo-flash details { margin-top:.7rem; }
+.exo-flash summary { cursor:pointer; font-family:'Syne',sans-serif; font-weight:600; font-size:.85rem; color:var(--purple); }
+.exo-flash summary:hover { text-decoration:underline; }
+.exo-flash details pre { margin-top:.6rem; padding:.75rem .9rem; background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius); overflow-x:auto; font-family:'JetBrains Mono',monospace; font-size:.78rem; line-height:1.6; color:#ABB2BF; white-space:pre; }
+
+/* ── Barre de progression : collée tout en haut de la fenêtre,
+   au-dessus de la topbar, pour ne plus trancher le contenu
+   qui défile en dessous ── */
+#progress-bar      { top: 0; z-index: 101; height: 3px; background: transparent; }
+#progress-fill     { background: linear-gradient(90deg, var(--purple), var(--blue)); box-shadow: 0 1px 6px rgba(139,92,246,.5); }
+.topbar { box-shadow: 0 6px 24px rgba(0,0,0,.28); }
+[data-theme="light"] .topbar { box-shadow: 0 2px 12px rgba(0,0,0,.10); }
+
+/* ── Quiz : il est hors de .layout → on le recentre dans la
+   colonne de lecture au lieu du bord à bord actuel ── */
+.quiz { width:min(100% - 1.5rem, var(--content-max)); margin:2rem auto 3rem; }
+@media (min-width:901px) { .quiz { margin-bottom:4rem; } }
+
+/* ── Petits écrans ── */
+@media (max-width:640px) {
+  .exo-flash { padding:.85rem 1rem; }
+  .exo-flash ol, .exo-flash details pre { font-size:.8rem; }
+  .quiz { margin-top:1rem; }
+}

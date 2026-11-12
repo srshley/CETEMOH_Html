@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 12 — Bases de données avec PDO · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html" class="active">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 12 — Bases de données (PDO)</div>
+      <a href="#s12-bdd"      class="sidebar-item"><span class="sidebar-num">01</span>Une base de données, c'est quoi ?</a>
+      <a href="#s12-connexion" class="sidebar-item"><span class="sidebar-num">02</span>Se connecter avec PDO</a>
+      <a href="#s12-prepare"  class="sidebar-item"><span class="sidebar-num">03</span>Requêtes préparées</a>
+      <a href="#s12-lire"     class="sidebar-item"><span class="sidebar-num">04</span>Lire les résultats</a>
+      <a href="#s12-ecrire"   class="sidebar-item"><span class="sidebar-num">05</span>Écrire des données</a>
+      <a href="#s12-erreurs"  class="sidebar-item"><span class="sidebar-num">06</span>Erreurs &amp; transactions</a>
+      <a href="#s12-exo"      class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s12-bilan"    class="sidebar-item"><span class="sidebar-num">08</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance11.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 11</a>
+      <a href="seance13.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 13 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 12 / 14</div>
+      <h1>Bases de données avec PDO</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">MySQL · PDO · requêtes préparées · fetch / fetchAll · INSERT / UPDATE / DELETE · transactions</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Comprendre tables, lignes, colonnes et le rôle du SQL</li>
+          <li>Ouvrir une connexion MySQL avec <code>new PDO(...)</code> et un DSN</li>
+          <li>Exécuter des requêtes préparées (<code>prepare</code> / <code>execute</code>)</li>
+          <li>Lire les résultats avec <code>fetch</code>, <code>fetchAll</code> et les modes FETCH_*</li>
+          <li>Insérer, modifier et supprimer des lignes en toute sécurité</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis & durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 7 — Tableaux (les résultats arrivent en tableaux)</li>
+          <li>MySQL démarré dans XAMPP (phpMyAdmin accessible)</li>
+          <li>Durée estimée : <strong>2 heures</strong></li>
+          <li>4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 BDD ══════════ -->
+    <div id="s12-bdd">
+      <div class="section-header"><span class="section-num">01</span><h2>Une base de données, c'est quoi ?</h2></div>
+      <p>Une base de données est un système <strong>structuré et persistant</strong> : les données survivent à la fin du script (a contrario des variables), et elles sont organisées pour être retrouvées vite, même à des millions de lignes. L'objet central est la <strong>table</strong> : un tableau fictif avec des <strong>colonnes</strong> fixes (les champs) et autant de <strong>lignes</strong> (les enregistrements) qu'il y a de données.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">SQL — la table « eleves »</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="sql">table : eleves
++----+--------+---------+-------+
+| id | nom    | prenom  | note  |
++----+--------+---------+-------+
+| 1  | Martin | Alice   | 15    |
+| 2  | Dupont | Karim   | 12    |
+| 3  | Verne  | Sofiane | 18    |
++----+--------+---------+-------+</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>4 colonnes, 3 lignes.<br>Chaque ligne est un élève,<br>retrouvé par son <code>id</code>.</p></div>
+        </div>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">🗂️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le classeur Excel</div>
+          <p>Une base de données ressemble à un <strong>classeur Excel géant et ultra-organisé</strong> : le classeur contient des feuilles (<em>tables</em>), chaque feuille a des colonnes (<em>champs</em>) et des lignes (<em>enregistrements</em>). La grande différence : on interroge le classeur en langage <strong>SQL</strong> (« donne-moi les élèves avec une note &gt; 10 »), et les accès simultanés sont gérés pour vous.</p>
+        </div>
+      </div>
+      <p>Avec <strong>XAMPP</strong>, le serveur MySQL se lance depuis le panneau de contrôle, et l'outil <strong>phpMyAdmin</strong> (http://localhost/phpmyadmin) permet de créer les bases, les tables et de les examiner à la main. C'est là que nous créerons la base <code>ecole</code> et la table <code>eleves</code> utilisées dans toute la séance.</p>
+    </div>
+
+    <!-- ══════════ 02 CONNEXION ══════════ -->
+    <div id="s12-connexion">
+      <div class="section-header"><span class="section-num">02</span><h2>Se connecter avec PDO</h2></div>
+      <p><strong>PDO</strong> (PHP Data Objects) est l'interface standard de PHP pour parler aux bases de données. On crée un objet de connexion en passant un <strong>DSN</strong> (Data Source Name) qui décrit où se trouve la base, plus l'utilisateur et le mot de passe. Avec XAMPP, l'utilisateur par défaut est <code>root</code> sans mot de passe.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — connexion PDO</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  try {
+    $pdo = new PDO(
+      "mysql:host=localhost;dbname=ecole;charset=utf8mb4",
+      "root",          // utilisateur
+      "",              // mot de passe (vide sous XAMPP)
+      [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]
+    );
+    echo "Connexion réussie.";
+  } catch (PDOException $e) {
+    echo "Erreur de connexion : " . $e-&gt;getMessage();
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Connexion réussie.</p></div>
+        </div>
+      </div>
+      <h3>Anatomie du DSN</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Morceau</th><th>Rôle</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>mysql:host=...</code></td><td>Le type de base et l'adresse du serveur</td><td><code>mysql:host=localhost</code></td></tr>
+            <tr><td><code>dbname=...</code></td><td>La base choisie</td><td><code>dbname=ecole</code></td></tr>
+            <tr><td><code>charset=...</code></td><td>L'encodage (les accents !)</td><td><code>charset=utf8mb4</code></td></tr>
+            <tr><td>2e argument</td><td>Nom d'utilisateur MySQL</td><td><code>"root"</code></td></tr>
+            <tr><td>3e argument</td><td>Mot de passe MySQL</td><td><code>""</code> (XAMPP)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">L'option <code>ERRMODE_EXCEPTION</code></div>
+          <p>Passée en 4e argument, <code>PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION</code> fait lever une exception en cas d'erreur SQL (<em>PDOException</em>) — au lieu de rester silencieux. Vos <code>try/catch</code> (section 06) deviennent efficaces partout.</p>
+        </div>
+      </div>
+      <p>Le compte <code>root</code> sans mot de passe est un confort de <strong>XAMPP</strong> : sur un vrai serveur, créez un utilisateur MySQL dédié auquel vous accordez l'accès à une seule base (<code>GRANT SELECT, INSERT ON ecole.* TO 'web'@'localhost'</code>) — un script compromis ne pourra alors rien toucher d'autre. Évitez aussi de rouvrir une connexion à chaque page : construisez <code>$pdo</code> une seule fois dans <code>connexion.php</code> et rechargez-le partout avec <code>require</code>, pour centraliser le coût de connexion et les identifiants.</p>
+    </div>
+
+    <!-- ══════════ 03 PRÉPARÉES ══════════ -->
+    <div id="s12-prepare">
+      <div class="section-header"><span class="section-num">03</span><h2>Requêtes préparées</h2></div>
+      <p>Une requête préparée envoie le <strong>squelette SQL</strong> à la base avec des emplacements <code>:param</code> (<em>placeholders</em>), puis les valeurs séparément. La base sait ainsi ce qui est code et ce qui est donnée : aucune valeur ne peut détourner la requête.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — SELECT préparé</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $seuil = $_GET["seuil"] ?? 10;
+
+  $stmt = $pdo-&gt;prepare(
+    "SELECT * FROM eleves WHERE note &gt; :seuil ORDER BY nom");
+  $stmt-&gt;bindValue(":seuil", $seuil, PDO::PARAM_INT);
+  $stmt-&gt;execute();
+
+  foreach ($stmt as $ligne) {
+    echo $ligne["nom"] . " " . $ligne["note"] . "&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Martin 15<br>Verne 18</p><p style="color:var(--text2);font-size:.8rem;">(si seuil = 10)</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">JAMAIS de variables concaténées dans le SQL</div>
+          <p>Écrivez <strong>jamais</strong> <code>"SELECT * FROM eleves WHERE id = $id"</code> : un internaute qui met <code>id=1 OR 1=1</code> dans l'URL récupère <em>toute</em> la table — c'est l'injection SQL, faille #1 des sites PHP. Les requêtes préparées rendent cette attaque impossible : la valeur reste une valeur, elle ne réécrit jamais la requête.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Le seuil qui n'avale pas la table</span>
+        </div>
+        <ol>
+          <li>Créez <code>flash_seuil.php</code> : réutilisez la connexion <code>$pdo</code> du cours et préparez <code>SELECT nom, note FROM eleves WHERE note &gt; :seuil</code>.</li>
+          <li>Liez <code>$_GET["seuil"] ?? 10</code> avec <code>bindValue(":seuil", ..., PDO::PARAM_INT)</code>, exécutez et affichez chaque ligne.</li>
+          <li>Prévoyez le résultat de <code>?seuil=1%20OR%201=1</code> puis vérifiez : avec <code>PARAM_INT</code>, la valeur devient l'entier 1 — le squelette SQL, lui, n'a pas bougé d'un caractère.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $seuil = $_GET["seuil"] ?? 10;
+  $stmt = $pdo-&gt;prepare("SELECT nom, note FROM eleves WHERE note &gt; :seuil");
+  $stmt-&gt;bindValue(":seuil", $seuil, PDO::PARAM_INT);
+  $stmt-&gt;execute();
+  foreach ($stmt as $l) {
+    echo $l["nom"] . " — " . $l["note"] . "&lt;br&gt;";
+  }
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 LIRE ══════════ -->
+    <div id="s12-lire">
+      <div class="section-header"><span class="section-num">04</span><h2>Lire les résultats</h2></div>
+      <p>Après <code>execute()</code>, le <em>statement</em> contient les lignes renvoyées. On les récupère avec <code>fetch()</code> (une ligne à la fois) ou <code>fetchAll()</code> (tout d'un coup). Le <strong>mode</strong> décide la forme : tableau associatif (<code>FETCH_ASSOC</code>) ou objet (<code>FETCH_OBJ</code>).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Méthode</th><th>Ce qu'elle renvoie</th></tr></thead>
+          <tbody>
+            <tr><td><code>fetch()</code></td><td><strong>une</strong> ligne (null si plus rien) — idéal pour un seul résultat</td></tr>
+            <tr><td><code>fetchAll()</code></td><td><strong>toutes</strong> les lignes dans un tableau</td></tr>
+            <tr><td><code>fetchColumn()</code></td><td>la 1re colonne de la 1re ligne — idéal pour un <code>COUNT</code></td></tr>
+            <tr><td><code>rowCount()</code></td><td>le nombre de lignes touchées (SELECT, INSERT, UPDATE…)</td></tr>
+            <tr><td><code>FETCH_ASSOC</code></td><td>mode : tableau associatif <code>$ligne["nom"]</code></td></tr>
+            <tr><td><code>FETCH_OBJ</code></td><td>mode : objet anonyme <code>$ligne-&gt;nom</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — fetchAll + FETCH_ASSOC</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $stmt = $pdo-&gt;query(
+    "SELECT nom, note FROM eleves WHERE note &gt;= 15");
+  $lignes = $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+  echo "Élèves brillants :&lt;br&gt;";
+  foreach ($lignes as $e) {
+    echo "· " . $e["nom"] . " (" . $e["note"] . "/20)&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Élèves brillants :<br>· Martin (15/20)<br>· Verne (18/20)</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 ÉCRIRE ══════════ -->
+    <div id="s12-ecrire">
+      <div class="section-header"><span class="section-num">05</span><h2>Écrire des données</h2></div>
+      <p>Trois verbes SQL modifient la table : <code>INSERT</code> (ajouter), <code>UPDATE</code> (modifier), <code>DELETE</code> (supprimer). Les requêtes préparées sont obligatoires dès qu'une valeur vient du visiteur — et gardez en tête qu'un <code>UPDATE</code> sans <code>WHERE</code> modifie <strong>toutes</strong> les lignes, sans exception.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — INSERT / UPDATE / DELETE</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // INSERT : ajouter un élève
+  $stmt = $pdo-&gt;prepare(
+    "INSERT INTO eleves (nom, prenom, note)
+     VALUES (:nom, :prenom, :note)");
+  $stmt-&gt;execute([
+    ":nom" =&gt; "Bernard", ":prenom" =&gt; "Léo", ":note" =&gt; 14
+  ]);
+  echo "Ajouté avec l'id " . $pdo-&gt;lastInsertId() . "&lt;br&gt;";
+
+  // UPDATE : remonter la note de Léo
+  $stmt = $pdo-&gt;prepare(
+    "UPDATE eleves SET note = :note WHERE nom = :nom");
+  $stmt-&gt;execute([":note" =&gt; 16, ":nom" =&gt; "Bernard"]);
+
+  // DELETE : le retirer
+  $stmt = $pdo-&gt;prepare(
+    "DELETE FROM eleves WHERE nom = :nom");
+  $stmt-&gt;execute([":nom" =&gt; "Bernard"]);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Ajouté avec l'id 4</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Le <code>WHERE</code> qui manque</div>
+          <p><code>"UPDATE eleves SET note = 20"</code> sans <code>WHERE</code> met 20 à <strong>tous</strong> les élèves. Idem pour un <code>DELETE FROM</code> sans condition : tout s'envole. Avant d'exécuter, relisez la clause <code>WHERE</code> ; et pour afficher « modification enregistrée », fiez-vous à <code>$stmt-&gt;rowCount()</code> : il renvoie le nombre de lignes touchées par le dernier <code>INSERT</code> / <code>UPDATE</code> / <code>DELETE</code>.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Insérer, mettre à jour, mesurer</span>
+        </div>
+        <ol>
+          <li>Créez <code>flash_ecrire.php</code> : un <code>INSERT</code> vers <code>eleves</code> (nom, prénom, note) avec un seul <code>execute([...])</code> — sans <code>bindValue</code>.</li>
+          <li>Affichez <code>$pdo-&gt;lastInsertId()</code>, puis passez la note de cet élève à 18 via un <code>UPDATE ... WHERE id = :id</code> préparé et affichez <code>$stmt-&gt;rowCount()</code>.</li>
+          <li>Prévoyez ce qu'affichera un <strong>second</strong> <code>UPDATE</code> identique (note déjà à 18), puis vérifiez : MySQL ne compte que les lignes <em>réellement changées</em>.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $ins = $pdo-&gt;prepare("INSERT INTO eleves (nom, prenom, note) VALUES (:n, :p, :note)");
+  $ins-&gt;execute([":n" =&gt; "Pastor", ":p" =&gt; "Julie", ":note" =&gt; 17]);
+  $id = $pdo-&gt;lastInsertId();
+  $up = $pdo-&gt;prepare("UPDATE eleves SET note = :note WHERE id = :id");
+  $up-&gt;execute([":note" =&gt; 18, ":id" =&gt; $id]);
+  echo "id " . $id . ", lignes modifiées : " . $up-&gt;rowCount();
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 ERREURS ══════════ -->
+    <div id="s12-erreurs">
+      <div class="section-header"><span class="section-num">06</span><h2>Gérer les erreurs &amp; transactions</h2></div>
+      <p>Avec <code>ERRMODE_EXCEPTION</code>, toute erreur SQL lève une <strong>PDOException</strong> : c'est à vous de la catcher pour donner un message utile sans exposer les détails techniques (connexion, structure de la base…). Ensuite, les <strong>transactions</strong> garantissent l'atomicité : soit toutes les requêtes du bloc aboutissent, soit <strong>aucune</strong> ne s'applique.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — transaction</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  try {
+    $pdo-&gt;beginTransaction();
+
+    // Virement interne : les deux UPDATE font un tout
+    $pdo-&gt;prepare(
+      "UPDATE comptes SET solde = solde - 100 WHERE id = 1"
+    )-&gt;execute();
+    $pdo-&gt;prepare(
+      "UPDATE comptes SET solde = solde + 100 WHERE id = 2"
+    )-&gt;execute();
+    $pdo-&gt;commit();     // applique TOUT
+    echo "Transfert effectué.";
+  } catch (PDOException $e) {
+    $pdo-&gt;rollBack();   // annule TOUT
+    echo "Erreur : transfert annulé.";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Transfert effectué.</p><p style="color:var(--text2);font-size:.8rem;">(ou « Erreur : transfert annulé. » si un UPDATE échoue)</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi un rollback ?</div>
+          <p>Si le premier <code>UPDATE</code> réussit et le second échoue, l'argent serait parti sans arriver : données corrompues. La transaction « arme » la base — rien n'est réellement écrit tant que <code>commit()</code> n'est pas appelé. En cas d'erreur, <code>rollBack()</code> efface tout le chemin déjà parcouru.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s12-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🔌 Connexion blindée</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>connexion.php</code> : <code>new PDO</code> vers une base <code>ecole</code>, avec <code>charset=utf8mb4</code> et <code>ERRMODE_EXCEPTION</code>.</li>
+            <li>Entourez le tout d'un <code>try/catch</code> qui affiche « Base indisponible » en cas d'échec.</li>
+            <li>Testez avec une mauvaise base (<code>dbname=fausse</code>) : le message doit apparaître.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> le DSN complet est fourni dans la séance — seul le nom de la base change.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📋 Liste préparée</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Dans un formulaire GET avec un champ <code>seuil</code>, préparez un <code>SELECT * FROM eleves WHERE note &gt;= :seuil</code>.</li>
+            <li>Affichez chaque élève trouvé sous la forme <code>nom prenom — note/20</code>.</li>
+            <li>Comptez-les avec <code>rowCount()</code> et affichez « N élèves ».</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> passez le seuil via <code>execute([":seuil" =&gt; ...])</code>, jamais par concaténation.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">➕ Ajout d'élève</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un formulaire POST (nom, prénom, note) qui <code>INSERT</code> via une requête préparée.</li>
+            <li>Affichez l'identifiant créé avec <code>$pdo-&gt;lastInsertId()</code>.</li>
+            <li>Ajoutez la gestion d'erreur : message approprié si l'insertion échoue, et confirmation si <code>rowCount()</code> vaut 1.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> le même <code>try/catch</code> englobe l'exécution et la confirmation.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🏦 Transaction</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une table <code>comptes (id, solde)</code> avec quelques lignes via phpMyAdmin.</li>
+            <li>Reprenez le code de virement de la séance : les deux <code>UPDATE</code> doivent se faire dans une transaction.</li>
+            <li>Simulez une panne (écrivez sur une colonne inexistante) pour vérifier que <code>rollBack()</code> remet les soldes d'origine.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> placez toutes les requêtes entre <code>beginTransaction()</code> et <code>commit()</code> / <code>rollBack()</code> — pas une de plus.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s12-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Tables, colonnes, lignes : le vocabulaire des bases de données</li>
+        <li>MySQL + phpMyAdmin sous XAMPP</li>
+        <li>Se connecter avec <code>new PDO(dsn, user, pass)</code> et un DSN <code>host</code>/<code>dbname</code>/<code>charset</code>, en <code>try/catch</code></li>
+        <li>Préparer et exécuter : <code>prepare</code>, <code>bindValue</code>, <code>execute</code></li>
+        <li>Lire avec <code>fetch</code>, <code>fetchAll</code>, <code>rowCount</code> et les modes FETCH_*</li>
+        <li>Écrire avec INSERT / UPDATE / DELETE et observer <code>rowCount</code></li>
+        <li>Protéger un bloc d'opérations : beginTransaction / commit / rollback</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Concaténer une variable dans le SQL → injection SQL, table entière exposée.</li>
+            <li>Oublier le <code>WHERE</code> dans un <code>UPDATE</code> ou <code>DELETE</code> → toute la table modifiée ou vidée.</li>
+            <li>Mauvais nom de base dans le DSN, ou <code>charset</code> absent → accents cassés.</li>
+            <li>Ne pas catcher la <code>PDOException</code> → page cassée et détails techniques visibles.</li>
+            <li>Confondre <code>fetch</code> (une ligne) et <code>fetchAll</code> (toutes) puis itérer sur la mauvaise variable.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Base de données</dt><dd>Système de stockage structuré et persistant de données.</dd>
+          <dt>Table</dt><dd>Feuille de la base : colonnes fixes, lignes multiples.</dd>
+          <dt>SQL</dt><dd>Langage d'interrogation (SELECT, INSERT, UPDATE, DELETE).</dd>
+          <dt>PDO</dt><dd>Interface standard PHP pour les bases de données.</dd>
+          <dt>DSN</dt><dd>Chaîne d'identification : type, hôte, base, encodage.</dd>
+          <dt>Requête préparée</dt><dd>SQL envoyée avec des placeholders <code>:x</code>, valeurs séparées.</dd>
+          <dt>fetch / fetchAll</dt><dd>Renvoie une ligne / toutes les lignes du résultat.</dd>
+          <dt>Transaction</dt><dd>Bloc tout-ou-rien : commit applique, rollback annule.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 13 — Programmation orientée objet</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Classes, objets, propriétés, méthodes : organiser son code comme un pro</div>
+        </div>
+        <a href="seance13.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 13 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="12">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

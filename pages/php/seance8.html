@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 8 — Chaînes & expressions régulières · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html" class="active">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 8 — Chaînes &amp; regex</div>
+      <a href="#s8-base"      class="sidebar-item"><span class="sidebar-num">01</span>Fonctions de base</a>
+      <a href="#s8-chercher"  class="sidebar-item"><span class="sidebar-num">02</span>Chercher &amp; remplacer</a>
+      <a href="#s8-decouper"  class="sidebar-item"><span class="sidebar-num">03</span>Découper &amp; joindre</a>
+      <a href="#s8-extraire"  class="sidebar-item"><span class="sidebar-num">04</span>Extraire &amp; formater</a>
+      <a href="#s8-regex"     class="sidebar-item"><span class="sidebar-num">05</span>Les expressions régulières</a>
+      <a href="#s8-validation" class="sidebar-item"><span class="sidebar-num">06</span>Validation avec filter_var</a>
+      <a href="#s8-exo"       class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s8-bilan"     class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance7.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 7</a>
+      <a href="seance9.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 9 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 08 / 14</div>
+      <h1>Chaînes &amp; expressions régulières</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">strlen · str_replace · explode / implode · substr · preg_match · filter_var</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Manipuler une chaîne : mesurer, changer la casse, nettoyer</li>
+          <li>Chercher, remplacer, découper et joindre des morceaux de texte</li>
+          <li>Extraire des sous-chaînes et formater des valeurs pour l'affichage</li>
+          <li>Comprendre le principe d'une expression régulière et ses métacaractères</li>
+          <li>Valider un e-mail ou une URL avec <code>filter_var</code></li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 2 — Variables, types &amp; opérateurs (les chaînes y sont introduites)</li>
+          <li>Séance 5 — Fonctions (pour les callbacks de <code>preg_replace_callback</code>)</li>
+          <li>Séance 7 — Tableaux (<code>explode</code> / <code>implode</code> relient les deux mondes)</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 FONCTIONS DE BASE ══════════ -->
+    <div id="s8-base">
+      <div class="section-header"><span class="section-num">01</span><h2>Fonctions de base</h2></div>
+      <p>Toute chaîne a une longueur, une casse, et souvent des espaces parasites en début ou fin. Cinq fonctions couvrent ces opérations élémentaires : elles ne modifient jamais la chaîne d'origine, elles <strong>renvoient une nouvelle chaîne</strong> à stocker dans une variable.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Mesurer, changer la casse, nettoyer</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $saisie = "  sarA Ben ali  ";
+
+  $propre = trim(strtolower($saisie));
+  echo "Longueur : " . strlen($propre) . "&lt;br&gt;";
+  echo "Nom : " . ucfirst($propre) . "&lt;br&gt;";
+  echo "Code produit : " . strtoupper($propre);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Longueur : 12<br>Nom : Sara ben ali<br>Code produit : SARA BEN ALI</p></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fonction</th><th>Rôle</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>strlen($s)</code></td><td>renvoie la longueur de la chaîne</td><td><code>strlen("PHP")</code> → <code>3</code></td></tr>
+            <tr><td><code>strtoupper($s)</code></td><td>tout en majuscules</td><td><code>strtoupper("ok")</code> → <code>"OK"</code></td></tr>
+            <tr><td><code>strtolower($s)</code></td><td>tout en minuscules</td><td><code>strtolower("OK")</code> → <code>"ok"</code></td></tr>
+            <tr><td><code>ucfirst($s)</code></td><td>première lettre en majuscule</td><td><code>ucfirst("ali")</code> → <code>"Ali"</code></td></tr>
+            <tr><td><code>trim($s)</code></td><td>supprime espaces (aux deux bouts)</td><td><code>trim("  a  ")</code> → <code>"a"</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Les chaînes sont immuables</div>
+          <p><code>strtolower($s)</code> ne change pas <code>$s</code> : il renvoie une copie. Pour garder le résultat, affectez-le : <code>$s = strtolower($s);</code>. Cette règle vaut pour presque toutes les fonctions de chaînes — contrairement aux fonctions de tri de tableaux (<code>sort</code>), qui agissent par référence.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Nettoyer une saisie</span>
+        </div>
+        <ol>
+          <li>Déclarez dans <code>exo_chaine.php</code> la saisie mal rangée <code>$saisie = "  le php  ";</code>.</li>
+          <li>Prévoyez ce qu'affiche <code>strlen($saisie)</code> — espaces compris ! — puis vérifiez.</li>
+          <li>Nettoyez avec <code>trim()</code> puis <code>ucfirst()</code>, et affichez la chaîne propre et sa nouvelle longueur.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $saisie = "  le php  ";
+  echo strlen($saisie) . "&lt;br&gt;";
+  $propre = ucfirst(trim($saisie));
+  echo $propre . " (" . strlen($propre) . ")";
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 CHERCHER & REMPLACER ══════════ -->
+    <div id="s8-chercher">
+      <div class="section-header"><span class="section-num">02</span><h2>Chercher &amp; remplacer</h2></div>
+      <p>Pour tester la présence d'un mot : <code>strpos</code> renvoie la position de la première occurrence (0 = premier caractère, <code>false</code> si absent) et <code>str_contains</code> renvoie directement un booléen. Pour substituer : <code>str_replace</code> remplace toutes les occurrences, et <code>substr_replace</code> remplace une portion selon sa position et sa longueur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — strpos, str_contains, str_replace</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $phrase = "Le chat dort sur le tapis";
+
+  if (str_contains($phrase, "chat")) {
+    echo "Le mot chat figure dans la phrase&lt;br&gt;";
+  }
+  $pos = strpos($phrase, "dort");
+  echo "Position de 'dort' : $pos&lt;br&gt;";
+
+  echo str_replace("chat", "chien", $phrase) . "&lt;br&gt;";
+
+  echo substr_replace($phrase, "MAT", 3, 4);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Le mot chat figure dans la phrase<br>Position de 'dort' : 8<br>Le chien dort sur le tapis<br>Le MAT dort sur le tapis</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Le piège du <code>0</code> dans <code>strpos</code></div>
+          <p><code>strpos("PHP", "P")</code> renvoie <code>0</code>… qui est falsy ! Tester <code>if (strpos($s, $x))</code> rate les occurrences au premier caractère. Utilisez toujours <code>if (strpos($s, $x) !== false)</code>, ou mieux : <code>str_contains()</code> (PHP 8), qui renvoie un vrai booléen.</p>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>str_replace</code> accepte des tableaux</div>
+          <p><code>str_replace(["a", "e", "i"], "", $texte)</code> remplace les trois lettres d'un coup ; <code>str_replace(["old1", "old2"], ["new1", "new2"], $texte)</code> aligne chaque recherche sur son remplacement. La casse est respectée : pour ignorer la casse, utilisez <code>str_ireplace</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 DÉCOUPER & JOINDRE ══════════ -->
+    <div id="s8-decouper">
+      <div class="section-header"><span class="section-num">03</span><h2>Découper &amp; joindre</h2></div>
+      <p><code>explode($separateur, $chaine)</code> découpe une chaîne en tableau ; <code>implode($collant, $tableau)</code> fait l'inverse. C'est le pont entre les chaînes et les tableaux de la séance 7 : une ligne CSV, une URL segmentée, une liste de tags — tout se manipule en tableau une fois explosé.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — explode, implode, str_split</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $csv = "Ali;Maths;15";
+
+  $champs = explode(";", $csv);
+  echo $champs[0] . " a eu " . $champs[2] . "&lt;br&gt;";
+  echo implode(" | ", $champs) . "&lt;br&gt;";
+
+  $code = "A7XC";
+  print_r(str_split($code));
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Ali a eu 15<br>Ali | Maths | 15<br>Array ( [0] =&gt; A [1] =&gt; 7 [2] =&gt; X [3] =&gt; C )</p></div>
+        </div>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">🧩</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le colis et le frigo</div>
+          <p><code>explode</code> reçoit un colis livré d'un seul tenant et le décompose sur une étagère : chaque morceau devient une case du tableau, facile à atteindre individuellement. <code>implode</code> fait l'inverse : il reconstitue le tout en une seule pièce, avec le séparateur de votre choix. Même colis, simplement rangé différemment.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 EXTRAIRE & FORMATER ══════════ -->
+    <div id="s8-extraire">
+      <div class="section-header"><span class="section-num">04</span><h2>Extraire &amp; formater</h2></div>
+      <p><code>substr($s, $debut, $longueur)</code> extrait une sous-chaîne : <code>$debut</code> peut être négatif pour compter depuis la fin. Pour l'affichage, <code>number_format</code> règle décimales et séparateurs, et <code>sprintf</code> injecte des valeurs dans un gabarit (<code>%s</code> chaîne, <code>%d</code> entier, <code>%.2f</code> flottant à 2 décimales).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — substr, number_format, sprintf</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $ref = "CMD-2026-0142";
+  echo "Sous-chaîne : " . substr($ref, 4, 4) . "&lt;br&gt;";   // 2026
+  echo "Fin : " . substr($ref, -4) . "&lt;br&gt;";             // 0142
+  $montant = 1234567.891;
+  echo number_format($montant, 2, ",", " ") . "&lt;br&gt;";
+  echo sprintf("%s a %d ans, moyenne %.2f", "Sara", 19, 14.567);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Sous-chaîne : 2026<br>Fin : 0142<br>1 234 567,89<br>Sara a 19 ans, moyenne 14.57</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>sprintf</code> plutôt que la concaténation</div>
+          <p>Dès que vous assemblez plus de deux valeurs, <code>sprintf</code> gagne en lisibilité <em>et</em> en sûreté : le gabarit montre la phrase finale d'un seul regard, et chaque spécificateur (<code>%d</code>, <code>%.2f</code>) force un format précis — <code>%d</code> sur une valeur non numérique donnera 0 au lieu d'une erreur d'affichage.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 REGEX ══════════ -->
+    <div id="s8-regex">
+      <div class="section-header"><span class="section-num">05</span><h2>Les expressions régulières</h2></div>
+      <p>Une expression régulière (regex) décrit un <strong>motif</strong> : « quatre chiffres, un tiret, deux lettres ». En PHP (fonctions <code>preg_*</code>, moteur PCRE), le motif s'écrit entre délimiteurs, le plus souvent des slashes : <code>/motif/</code>. <code>preg_match</code> teste la première correspondance, <code>preg_match_all</code> les trouve toutes, <code>preg_replace</code> les remplace.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — preg_match et preg_replace</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $tel = "06-12-34-56-78";
+
+  // deux chiffres, tiret, deux chiffres
+  if (preg_match("/^\d{2}-\d{2}/", $tel)) {
+    echo "Format de debut correct&lt;br&gt;";
+  }
+  preg_match_all("/\d{2}/", $tel, $trouves);
+  echo "Paires trouvees : " . count($trouves[0]) . "&lt;br&gt;";
+
+  echo preg_replace("/\d/", "*", $tel);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Format de debut correct<br>Paires trouvees : 5<br>**-**-**-**-**</p></div>
+        </div>
+      </div>
+      <h3>Les métacaractères essentiels</h3>
+      <p>Quand un caractère ordinaire (lettre, chiffre) se lit tel quel, un <strong>métacaractère</strong> code une idée : « n'importe quelle lettre », « répété un ou plusieurs fois », « début de ligne »… Pour chercher un métacaractère <em>littéral</em>, on le précède d'un antislash : <code>\.</code> cherche un vrai point.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Motif</th><th>Signification</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>.</code></td><td>n'importe quel caractère (sauf retour à la ligne)</td><td><code>/.at/</code> trouve <code>bat</code>, <code>cat</code>, <code>1at</code></td></tr>
+            <tr><td><code>*</code></td><td>l'élément précédent, répété 0 fois ou plus</td><td><code>/ab*c/</code> trouve <code>ac</code>, <code>abc</code>, <code>abbc</code></td></tr>
+            <tr><td><code>+</code></td><td>l'élément précédent, répété 1 fois ou plus</td><td><code>/ab+c/</code> trouve <code>abc</code>, <code>abbc</code> mais pas <code>ac</code></td></tr>
+            <tr><td><code>?</code></td><td>l'élément précédent, 0 ou 1 fois (optionnel)</td><td><code>/colou?r/</code> trouve <code>color</code> et <code>colour</code></td></tr>
+            <tr><td><code>[abc]</code></td><td>un caractère de l'ensemble (ou plage <code>[0-9a-z]</code>)</td><td><code>/[A-Z]{3}/</code> trouve <code>CMD</code></td></tr>
+            <tr><td><code>^</code> <code>$</code></td><td>début / fin de la chaîne</td><td><code>/^\d\d$/</code> : exactement deux chiffres</td></tr>
+            <tr><td><code>\d</code></td><td>un chiffre (équivalent <code>[0-9]</code>)</td><td><code>/\d{4}/</code> : quatre chiffres consécutifs</td></tr>
+            <tr><td><code>\w</code></td><td>un caractère de mot (lettre, chiffre, <code>_</code>)</td><td><code>/\w+/</code> : un mot entier</td></tr>
+            <tr><td><code>\s</code></td><td>un espace blanc (espace, tabulation…)</td><td><code>/\s+/</code> : un ou plusieurs espaces</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Protégez le motif en PHP</div>
+          <p>Un motif entre guillemets doubles traite <code>\d</code> comme une séquence d'échappement de PHP (« d »), ce qui peut déformer le motif. Écrivez vos regex en <strong>chaînes à guillemets simples</strong> : <code>'/\d{4}/'</code> — ainsi l'antislash est transmis intact au moteur PCRE.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Un motif simple</span>
+        </div>
+        <ol>
+          <li>Dans <code>exo_regex.php</code>, écrivez un motif qui accepte exactement <strong>trois lettres majuscules</strong> (début et fin ancrés).</li>
+          <li>Prévoyez si <code>"CMD"</code> et <code>"cmd9"</code> passent ce test, puis vérifiez avec <code>preg_match()</code>.</li>
+          <li>Comptez avec <code>preg_match_all('/\d/', $texte, $m)</code> le nombre de chiffres contenus dans <code>"A1 B22"</code>.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $code = "CMD";
+  echo preg_match('/^[A-Z]{3}$/', $code) ? "OK" : "KO";
+  preg_match_all('/\d/', "A1 B22", $m);
+  echo "&lt;br&gt;" . count($m[0]) . " chiffres";
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 FILTER_VAR ══════════ -->
+    <div id="s8-validation">
+      <div class="section-header"><span class="section-num">06</span><h2>Validation avec filter_var</h2></div>
+      <p>Écrire à la main une regex qui valide tous les e-mails valides est quasi impossible. PHP fournit <code>filter_var($valeur, FILTRE)</code> : une validation prête à l'emploi pour l'e-mail, l'URL, l'entier… Elle renvoie la valeur validée ou <code>false</code>. On l'utilisera encore davantage à la séance suivante, avec les formulaires.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — FILTER_VALIDATE_EMAIL / URL</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $email = "sara.benali@cecemoh.ma";
+
+  if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "E-mail valide&lt;br&gt;";
+  }
+  $url = "https://cecemoh.ma/cours/php";
+  echo filter_var($url, FILTER_VALIDATE_URL)
+       ? "URL valide"
+       : "URL invalide";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>E-mail valide<br>URL valide</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Regex ou <code>filter_var</code> ?</div>
+          <p>Règle simple : si un filtre standard existe (e-mail, URL, entier, flottant, IP), utilisez <code>filter_var</code> — le motif est maintenu par PHP lui-même. Gardez les regex pour les formats <em>métier</em> sans filtre natif : code postal, numéro de commande, matricule interne…</p>
+        </div>
+      </div>
+      <p>Gare à la valeur de retour : <code>filter_var()</code> renvoie la donnée <strong>validée</strong> et non un simple booléen. Un entier légitime comme <code>0</code> est bien accepté par <code>FILTER_VALIDATE_INT</code>, mais le résultat <code>0</code> est falsy : testez l'échec avec <code>=== false</code>, sinon un « 0 » parfaitement valide sera confondu avec un refus. Il existe aussi la variante <code>FILTER_SANITIZE_*</code> qui, au lieu de valider, <em>nettoie</em> la chaîne — <code>FILTER_SANITIZE_EMAIL</code> retire par exemple les caractères interdits dans un e-mail.</p>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s8-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🧼 Nettoie et met en forme</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_nom.php</code> avec une saisie aux abords sales : <code>"  jeAn dUPont  "</code>.</li>
+            <li>Affichez le nom nettoyé, avec majuscule initiale : <code>Jean dupont</code>.</li>
+            <li>Affichez ensuite sa version majuscule complète et sa longueur.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> enchaînez <code>trim</code> → <code>strtolower</code> → <code>ucfirst</code> ; chaque fonction renvoie une copie, donc affectez le résultat.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🏷️ Liste de tags</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Partez d'une chaîne <code>$tags = "php, mysql, html, css"</code>.</li>
+            <li>Explosez-la en tableau, puis affichez chaque tag numéroté : <code>1. php</code>…</li>
+            <li>Rejoignez les tags avec <code>implode(" + ", ...)</code> sans les espaces après virgule.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>trim</code> chaque élément du tableau résultat avec <code>array_map('trim', $t)</code> avant de joindre.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">📮 Regex de code postal</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez un motif qui valide exactement 5 chiffres consécutifs : début et fin de chaîne imposés.</li>
+            <li>Testez <code>"75011"</code> (valide), <code>"7501a"</code> (invalide) et <code>"123456"</code> (invalide).</li>
+            <li>Affichez « Valide » ou « Invalide » pour chacun des trois tests.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>'/^\d{5}$/'</code> — ancrez début <code>^</code> et fin <code>$</code>, sinon <code>"123456"</code> passera.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">✉️ Validation de coordonnées</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau <code>$donnee</code> avec un e-mail, une URL et un âge.</li>
+            <li>Validez chacun les filtres <code>FILTER_VALIDATE_EMAIL</code>, <code>FILTER_VALIDATE_URL</code> et <code>FILTER_VALIDATE_INT</code>.</li>
+            <li>Affichez une ligne par champ : « E-mail : valide / invalide ».</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> bouclez <code>foreach</code> sur le tableau et testez <code>filter_var($v, $filtre) === false</code> pour repérer un échec.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s8-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Mesurer et recadrer une chaîne : <code>strlen</code>, <code>trim</code>, casse</li>
+        <li>Chercher sans piège : <code>strpos</code> avec <code>!== false</code>, <code>str_contains</code></li>
+        <li>Remplacer : <code>str_replace</code> (même en tableau) et <code>substr_replace</code></li>
+        <li>Le pont chaîne ↔ tableau : <code>explode</code> / <code>implode</code> / <code>str_split</code></li>
+        <li>Extraire et formater : <code>substr</code>, <code>number_format</code>, <code>sprintf</code></li>
+        <li>Un motif regex : métacaractères <code>.</code> <code>*</code> <code>+</code> <code>?</code> <code>[]</code> <code>^</code> <code>$</code> <code>\d</code> <code>\w</code> <code>\s</code></li>
+        <li>Les fonctions PCRE : <code>preg_match</code>, <code>preg_match_all</code>, <code>preg_replace</code></li>
+        <li>La validation standard avec <code>filter_var</code> et ses filtres</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Tester <code>if (strpos(...))</code> → la position 0 est traitée comme un échec.</li>
+            <li>Oublier les ancres <code>^</code> et <code>$</code> → le motif valide une chaîne qui n'a que le bon format.</li>
+            <li>Écrire une regex entre guillemets doubles → <code>\d</code> est avalé par PHP avant PCRE.</li>
+            <li>Chercher un point avec <code>/./</code> → ça matche tout ; écrivez un vrai point <code>/\./</code>.</li>
+            <li>Confondre <code>*</code> et <code>+</code> → <code>*</code> accepte l'absence, <code>+</code> exige au moins une occurrence.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Longueur</dt><dd>Nombre de caractères d'une chaîne, via <code>strlen</code>.</dd>
+          <dt>Casse</dt><dd>Distinction minuscules / majuscules ; modifiée par <code>strto*</code> et <code>ucfirst</code>.</dd>
+          <dt>Position</dt><dd>Indice du premier caractère d'une occurrence, renvoyé par <code>strpos</code> (0-based).</dd>
+          <dt>Explode / Implode</dt><dd>Découpe une chaîne en tableau / rejoint un tableau en chaîne.</dd>
+          <dt>Substring</dt><dd>Extrait de chaîne renvoyé par <code>substr</code> à partir d'une position et d'une longueur.</dd>
+          <dt>Motif (pattern)</dt><dd>Description formelle d'un format de texte, encadré par des délimiteurs <code>/…/</code>.</dd>
+          <dt>Métacaractère</dt><dd>Caractère spécial d'une regex (<code>.</code>, <code>+</code>, <code>\d</code>…) codant une classe ou une répétition.</dd>
+          <dt>Filtre</dt><dd>Validation prête à l'emploi appliquée par <code>filter_var</code> (e-mail, URL, entier…).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 9 — Formulaires</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">$_GET, $_POST, validation, sécurité et réaffichage des saisies</div>
+        </div>
+        <a href="seance9.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 9 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="08">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

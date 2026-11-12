@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 7 — Tableaux avancés & fonctions array · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html" class="active">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 7 — Tableaux avancés</div>
+      <a href="#s7-panorama"  class="sidebar-item"><span class="sidebar-num">01</span>Panorama des fonctions array</a>
+      <a href="#s7-tri"       class="sidebar-item"><span class="sidebar-num">02</span>Trier un tableau</a>
+      <a href="#s7-filtre"    class="sidebar-item"><span class="sidebar-num">03</span>Filtrer &amp; transformer</a>
+      <a href="#s7-fusion"    class="sidebar-item"><span class="sidebar-num">04</span>Fusionner &amp; découper</a>
+      <a href="#s7-chercher"  class="sidebar-item"><span class="sidebar-num">05</span>Chercher &amp; vérifier</a>
+      <a href="#s7-json"      class="sidebar-item"><span class="sidebar-num">06</span>Tableaux &amp; JSON</a>
+      <a href="#s7-exo"       class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s7-bilan"     class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance6.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 6</a>
+      <a href="seance8.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 8 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 07 / 14</div>
+      <h1>Tableaux avancés &amp; fonctions array</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">sort · array_filter · array_map · array_merge · in_array · json_encode</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Connaître les grandes familles de fonctions <code>array_*</code></li>
+          <li>Trier un tableau avec <code>sort</code>, <code>asort</code>, <code>ksort</code> et <code>usort</code></li>
+          <li>Filtrer, transformer et réduire avec <code>array_filter</code>, <code>array_map</code>, <code>array_reduce</code></li>
+          <li>Fusionner, découper et dédoublonner un tableau</li>
+          <li>Chercher une valeur ou une clé, et convertir un tableau en JSON</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 6 — Tableaux (indexés, associatifs, multidimensionnels)</li>
+          <li>Séance 5 — Fonctions (pour comprendre les callbacks)</li>
+          <li>Séance 4 — Boucles <code>foreach</code></li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 PANORAMA ══════════ -->
+    <div id="s7-panorama">
+      <div class="section-header"><span class="section-num">01</span><h2>Panorama des fonctions array_*</h2></div>
+      <p>PHP propose plus de 80 fonctions dédiées aux tableaux. Pas besoin de les connaître toutes par cœur : il faut surtout repérer les <strong>cinq familles</strong> qui couvrent 95 % des besoins du quotidien. Chaque fonction suit une convention claire : elle reçoit le tableau en premier (ou dernier) argument et renvoie soit un nouveau tableau, soit un booléen quand elle modifie le tableau original.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Catégorie</th><th>Fonctions principales</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>Parcourir</td><td><code>foreach</code>, <code>array_keys</code>, <code>array_values</code>, <code>count</code></td><td>Extraire les clés, les valeurs, compter les éléments</td></tr>
+            <tr><td>Filtrer</td><td><code>array_filter</code>, <code>array_slice</code>, <code>array_unique</code></td><td>Ne garder qu'une partie des éléments</td></tr>
+            <tr><td>Trier</td><td><code>sort</code>, <code>rsort</code>, <code>asort</code>, <code>ksort</code>, <code>usort</code></td><td>Réordonner les éléments selon un critère</td></tr>
+            <tr><td>Transformer</td><td><code>array_map</code>, <code>array_reduce</code>, <code>array_flip</code>, <code>array_reverse</code></td><td>Produire un nouveau tableau à partir de l'ancien</td></tr>
+            <tr><td>Chercher</td><td><code>in_array</code>, <code>array_search</code>, <code>array_key_exists</code></td><td>Tester la présence d'une valeur ou d'une clé</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Deux conventions à ne pas confondre</div>
+          <p>Les fonctions de tri (<code>sort</code>, <code>asort</code>…) agissent <strong>par référence</strong> : elles modifient le tableau passé en argument et renvoient un booléen. Les autres (<code>array_map</code>, <code>array_slice</code>…) renvoient un <strong>nouveau tableau</strong> sans toucher à l'original. Écrire <code>$t = sort($t);</code> est une erreur : <code>sort</code> renvoie <code>true</code>, pas le tableau trié.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 TRIER ══════════ -->
+    <div id="s7-tri">
+      <div class="section-header"><span class="section-num">02</span><h2>Trier un tableau</h2></div>
+      <p>Les quatre fonctions de base se distinguent par deux questions : tri-t-on sur les <strong>valeurs</strong> ou les <strong>clés</strong> ? et dans quel <strong>ordre</strong> ? Les tableaux indexés utilisent <code>sort</code> / <code>rsort</code> ; les tableaux associatifs utilisent <code>asort</code> (sur valeurs) ou <code>ksort</code> (sur clés).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — sort sur une liste de prix</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $prix = [12.99, 4.50, 29.90, 7.25];
+  sort($prix);
+  foreach ($prix as $p) {
+    echo "$p EUR&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>4.5 EUR<br>7.25 EUR<br>12.99 EUR<br>29.9 EUR</p></div>
+        </div>
+      </div>
+      <p>Sur un tableau associatif, <code>asort</code> trie sur les valeurs en conservant les clés, tandis que <code>ksort</code> trie sur les clés. Pour un ordre <strong>personnalisé</strong> (par exemple trier par longueur), on passe une fonction de comparaison à <code>usort</code> : elle retourne négatif, 0 ou positif selon l'ordre voulu.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — asort, ksort et usort</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $stock = ["cerise" =&gt; 8, "pomme" =&gt; 3, "kiwi" =&gt; 12];
+  asort($stock);   // trie sur les valeurs
+  foreach ($stock as $produit =&gt; $n) {
+    echo "$produit : $n&lt;br&gt;";
+  }
+  $mots = ["kiwi", "banane", "poire"];
+  usort($mots, fn($a, $b) =&gt; strlen($a) - strlen($b));
+  echo implode(", ", $mots);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>pomme : 3<br>cerise : 8<br>kiwi : 12<br>kiwi, poire, banane</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">sort réindexe, asort conserve</div>
+          <p><code>sort()</code> détruit les clés d'origine et renumérote à partir de 0 : le lien entre une clé et sa valeur est perdu. Sur un tableau associatif, utilisez toujours <code>asort</code> ou <code>ksort</code>, qui conservent l'association clé → valeur. C'est l'une des erreurs les plus fréquentes sur les tableaux PHP.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Trier sans perdre les clés</span>
+        </div>
+        <ol>
+          <li>Déclarez dans <code>exo_tri.php</code> un tableau associatif <code>$eleves</code> liant trois noms d'élèves à leur moyenne.</li>
+          <li>Prévoyez l'ordre obtenu par <code>sort($eleves)</code>, puis par <code>asort($eleves)</code>, et vérifiez lequel garde le lien nom → moyenne.</li>
+          <li>Retournez le tri décroissant avec <code>arsort()</code> et affichez chaque ligne « nom : moyenne ».</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $eleves = ["Ali" =&gt; 12, "Sara" =&gt; 15, "Karim" =&gt; 9];
+  asort($eleves);
+  foreach ($eleves as $nom =&gt; $moy) {
+    echo "$nom : $moy&lt;br&gt;";
+  }
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 FILTRER & TRANSFORMER ══════════ -->
+    <div id="s7-filtre">
+      <div class="section-header"><span class="section-num">03</span><h2>Filtrer &amp; transformer</h2></div>
+      <p>Trois fonctions forment le trio « carte » des tableaux : <code>array_filter</code> garde les éléments qui satisfont un test, <code>array_map</code> transforme chaque élément, et <code>array_reduce</code> condense tout le tableau en une seule valeur (un total, une concaténation, un maximum…). Les trois utilisent un <strong>callback</strong>, souvent une fonction fléchée.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — filter, map, reduce sur un panier</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $panier = [19.99, 35.00, 7.50, 120.00];
+  // 1. Garder les articles a plus de 20 EUR
+  $chers = array_filter($panier, fn($p) =&gt; $p &gt; 20);
+  echo count($chers) . " articles chers&lt;br&gt;";
+  // 2. Appliquer la TVA a chaque prix
+  $ttc = array_map(fn($p) =&gt; $p * 1.2, $panier);
+  echo "Premier prix TTC : " . $ttc[0] . "&lt;br&gt;";
+  // 3. Total du panier
+  $total = array_reduce($panier, fn($acc, $p) =&gt; $acc + $p, 0);
+  echo "Total : $total EUR";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>2 articles chers<br>Premier prix TTC : 23.988<br>Total : 182.49 EUR</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>array_filter</code> conserve les clés d'origine</div>
+          <p>Contrairement à <code>sort</code>, <code>array_filter</code> ne réindexe pas : filtrer <code>[10, 20, 30]</code> sur « &gt; 15 » donne un tableau dont les clés sont 1 et 2. Un <code>foreach</code> dessus fonctionne parfaitement, mais si vous avez besoin d'indices consécutifs (JSON, boucle <code>for</code>), ajoutez <code>array_values($resultat)</code> après le filtre. Et sans callback, <code>array_filter($t)</code> supprime simplement tous les éléments « falsy » (<code>0</code>, <code>""</code>, <code>null</code>, <code>[]</code>) — pratique pour nettoyer un formulaire, piégeux si le zéro est une valeur légitime.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 FUSIONNER & DÉCOUPER ══════════ -->
+    <div id="s7-fusion">
+      <div class="section-header"><span class="section-num">04</span><h2>Fusionner &amp; découper</h2></div>
+      <p><code>array_merge</code> concatène plusieurs tableaux (les clés numériques sont renumérotées, les clés texte sont écrasées en cas de doublon). <code>array_combine</code> fabrique un tableau associatif à partir d'un tableau de clés et d'un tableau de valeurs de même longueur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — merge et combine</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $info1 = ["nom" =&gt; "Ali", "age" =&gt; 25];
+  $info2 = ["ville" =&gt; "Rabat"];
+  echo json_encode(array_merge($info1, $info2));
+  echo "&lt;br&gt;";  $noms = ["Ali", "Sara", "Karim"];
+  $ages = [25, 31, 19];
+  echo json_encode(array_combine($noms, $ages));
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>{"nom":"Ali","age":25,"ville":"Rabat"}<br>{"Ali":25,"Sara":31,"Karim":19}</p></div>
+        </div>
+      </div>
+      <p>Pour extraire une portion de tableau, <code>array_slice($t, $debut, $nb)</code> renvoie une copie sans toucher à l'original, tandis que <code>array_splice</code> <strong>retire</strong> la portion du tableau source (et peut la remplacer). <code>array_unique</code> supprime les doublons de valeurs.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — slice, splice, unique</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $journees = ["sam", "dim", "lun", "mar", "mer"];
+  $weekend = array_slice($journees, 0, 2);
+  echo implode(" ", $weekend) . "&lt;br&gt;";   // sam dim
+  array_splice($journees, 0, 2);          // retire sam, dim
+  echo implode(" ", $journees) . "&lt;br&gt;";  // lun mar mer
+  $notes = [12, 15, 12, 9, 15];
+  echo implode(" ", array_unique($notes)); // 12 15 9
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>sam dim<br>lun mar mer<br>12 15 9</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>array_unique</code> conserve les clés</div>
+          <p>Comme <code>array_filter</code>, <code>array_unique</code> garde les clés du premier doublon rencontré : <code>[12, 15, 12]</code> devient <code>[0 =&gt; 12, 1 =&gt; 15]</code>. Chaînez avec <code>array_values()</code> pour réindexer avant un <code>json_encode</code> ou une boucle <code>for</code>, sinon le JSON produit un objet au lieu d'un tableau.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Fusionner et découper</span>
+        </div>
+        <ol>
+          <li>Dans <code>exo_fusion.php</code>, fusionnez <code>[10, 12]</code> et <code>[15]</code> avec <code>array_merge()</code> et affichez le <code>count()</code> du résultat.</li>
+          <li>Découpez ce tableau avec <code>array_slice($toutes, 1)</code> et affichez la portion obtenue.</li>
+          <li>Prévoyez ce que renvoie <code>array_unique([10, 12, 10])</code>, puis vérifiez en affichant les valeurs avec <code>implode()</code>.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $toutes = array_merge([10, 12], [15]);
+  echo count($toutes) . "&lt;br&gt;";
+  echo implode(",", array_slice($toutes, 1)) . "&lt;br&gt;";
+  echo implode(",", array_unique([10, 12, 10]));
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 CHERCHER & VÉRIFIER ══════════ -->
+    <div id="s7-chercher">
+      <div class="section-header"><span class="section-num">05</span><h2>Chercher &amp; vérifier</h2></div>
+      <p><code>in_array($v, $t)</code> teste la présence d'une valeur, <code>array_search($v, $t)</code> renvoie la clé du premier élément trouvé (<code>false</code> sinon), et <code>array_key_exists($k, $t)</code> teste la présence d'une clé. Ces trois fonctions sont le socle de la validation de données entrantes.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — in_array, array_search, array_key_exists</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $roles  = ["admin", "editeur", "lecteur"];
+  $cleFam = ["Alice" =&gt; "0612", "Mehdi" =&gt; "0789"];
+  if (in_array("admin", $roles)) {
+    echo "Role admin present&lt;br&gt;";
+  }
+  $pos = array_search("Mehdi", array_keys($cleFam));
+  echo "Position de Mehdi : $pos&lt;br&gt;";
+
+  if (array_key_exists("Alice", $cleFam)) {
+    echo "Alice : " . $cleFam["Alice"];
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Role admin present<br>Position de Mehdi : 1<br>Alice : 0612</p></div>
+        </div>
+      </div>
+      <p>Passons au comparatif des trois outils de vérification : à première vue <code>isset</code> et <code>array_key_exists</code> semblent interchangeables, mais leur comportement diverge sur les valeurs <code>null</code> et sur le type de comparaison des valeurs. Quand vous validez une entrée utilisateur (venant d'un formulaire), ajoutez systématiquement le troisième argument strict à <code>in_array</code> : sans lui, <code>in_array("12", [12])</code> vaut <code>true</code>, puisque la chaîne <code>"12"</code> « égale » l'entier 12 en comparaison lâche. La forme <code>in_array($v, $t, true)</code> exige la même valeur <em>et</em> le même type.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Outil</th><th>Ce qu'il vérifie</th><th>Comportement face à null</th><th>Cas d'usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>isset($t["k"])</code></td><td>la clé existe <em>et</em> n'est pas <code>null</code></td><td>vaut <code>false</code> si la valeur est <code>null</code></td><td>tests rapides sur des variables / superglobales</td></tr>
+            <tr><td><code>array_key_exists("k", $t)</code></td><td>la clé existe, valeur y compris <code>null</code></td><td>vaut <code>true</code> même si la valeur est <code>null</code></td><td>vérifier strictement la présence d'une clé</td></tr>
+            <tr><td><code>in_array($v, $t)</code></td><td>la valeur existe parmi les éléments</td><td>compare avec <code>==</code> (ou <code>===</code> en mode strict)</td><td>valider une option parmi une liste blanche</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Méfiez-vous d'<code>array_search()</code> : elle renvoie la <strong>clé</strong> du premier élément trouvé, donc <code>0</code> — une valeur falsy — si la cible est en tête du tableau, et <code>false</code> seulement si elle est absente. Testez toujours avec <code>!== false</code>, sinon une clé <code>0</code> légitime est confondue avec un échec. Comme <code>in_array()</code>, elle compare lâchement par défaut : passez <code>true</code> en troisième argument pour imposer le même type.</p>
+    </div>
+
+    <!-- ══════════ 06 JSON ══════════ -->
+    <div id="s7-json">
+      <div class="section-header"><span class="section-num">06</span><h2>Tableaux &amp; JSON</h2></div>
+      <p>JSON est le format universel d'échange : API, cookies, fichiers de configuration. <code>json_encode($tableau)</code> transforme un tableau en chaîne JSON ; <code>json_decode($json, true)</code> fait l'inverse, et le second argument <code>true</code> demande un <strong>tableau associatif</strong> plutôt qu'un objet.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — json_encode / json_decode</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $eleve = ["nom" =&gt; "Sara", "notes" =&gt; [12, 15, 9]];
+  $json = json_encode($eleve);
+  echo $json . "&lt;br&gt;";
+  $tab = json_decode($json, true);
+  echo $tab["nom"] . " : " . $tab["notes"][1];
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>{"nom":"Sara","notes":[12,15,9]}<br>Sara : 15</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Toujours vérifier avec <code>json_last_error</code></div>
+          <p>En cas d'échec, <code>json_encode</code> et <code>json_decode</code> renvoient tous deux <code>null</code>… sans message d'erreur. Interrogez <code>json_last_error_msg()</code> juste après l'appel : un JSON mal formé décodé sans vérification produit un tableau <code>null</code> dont l'exploitation plante plus loin, ce qui rend le bug très difficile à localiser. Dernier détail : la conversion ne capture que chaînes, nombres, booléens, sous-tableaux et <code>null</code> — pas les fonctions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s7-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📈 Classement des prix</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_prix.php</code> avec un tableau de six prix non triés.</li>
+            <li>Affichez-les du moins cher au plus cher, puis du plus cher au moins cher.</li>
+            <li>Reconstruisez le même tableau associatif avec des noms de produits et triez-le <strong>sur les valeurs</strong> sans perdre les clés.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>sort</code> / <code>rsort</code> pour la liste, puis <code>asort</code> pour l'associatif — <code>sort</code> réindexerait les clés.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🛒 Panier filtré</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Partez d'un panier : tableau associatif produit → prix (au moins 5 lignes).</li>
+            <li>Avec <code>array_filter</code>, gardez les articles à moins de 10 EUR.</li>
+            <li>Avec <code>array_map</code>, calculez le prix TTC (+20 %) des articles restants.</li>
+            <li>Avec <code>array_reduce</code>, affichez le total TTC, formaté avec <code>number_format</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> enchaînez <code>array_reduce(array_map(...), ...)</code> — le résultat d'une fonction est un tableau utilisable par la suivante.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔎 Liste blanche</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Définissez une liste blanche de pages autorisées : <code>["accueil", "profil", "contact"]</code>.</li>
+            <li>Une variable <code>$page</code> simule une entrée utilisateur (testez <code>"profil"</code> puis <code>"pirate"</code>).</li>
+            <li>Affichez « Page autorisée » ou « Accès refusé » avec <code>in_array</code> en mode strict.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>in_array($page, $blanc, true)</code> — le mode strict évite les égalités de type surprenantes.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">💾 Sauvegarde JSON</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau multidimensionnel : deux élèves, chacun avec nom, classe et tableau de notes.</li>
+            <li>Encodez-le en JSON et affichez la chaîne obtenue.</li>
+            <li>Décodez-la en tableau associatif, puis affichez la moyenne de chaque élève.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> passez <code>true</code> en second argument de <code>json_decode</code>, et testez <code>json_last_error_msg()</code> avant d'exploiter le résultat.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s7-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Les cinq familles de fonctions <code>array_*</code> et leurs conventions</li>
+        <li>Trier valeur ou clé : <code>sort</code>, <code>rsort</code>, <code>asort</code>, <code>arsort</code>, <code>ksort</code></li>
+        <li>Un tri personnalisé avec <code>usort</code> et une fonction de comparaison</li>
+        <li>Filtrer, transformer, réduire : <code>array_filter</code>, <code>array_map</code>, <code>array_reduce</code></li>
+        <li>Fusionner et découper : <code>array_merge</code>, <code>array_combine</code>, <code>array_slice</code>, <code>array_splice</code>, <code>array_unique</code></li>
+        <li>Chercher : <code>in_array</code> (strict), <code>array_search</code>, <code>array_key_exists</code>, <code>isset</code></li>
+        <li>Convertir vers et depuis JSON avec vérification de <code>json_last_error</code></li>
+        <li>Les pièges clés : <code>sort</code> réindexe, <code>array_filter</code>/<code>array_unique</code> conservent les clés</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Écrire <code>$t = sort($t);</code> → <code>$t</code> devient <code>true</code>, le tableau est perdu.</li>
+            <li>Utiliser <code>sort</code> sur un tableau associatif → les clés produit → prix sont détruites.</li>
+            <li>Oublier que <code>array_filter</code> conserve les clés → un JSON qui devient un objet.</li>
+            <li>Decoder un JSON sans vérifier <code>json_last_error</code> → plantage différé sur un <code>null</code>.</li>
+            <li>Utiliser <code>isset($t["k"])</code> pour vérifier une clé de valeur <code>null</code> → faux négatif ; utilisez <code>array_key_exists</code>.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Callback</dt><dd>Fonction passée en argument à une autre fonction (souvent une fléchée <code>fn()</code>).</dd>
+          <dt>array_filter</dt><dd>Garde les éléments qui satisfont un test ; conserve les clés d'origine.</dd>
+          <dt>array_map</dt><dd>Applique une transformation à chaque élément et renvoie un nouveau tableau.</dd>
+          <dt>array_reduce</dt><dd>Condense le tableau en une seule valeur via un accumulateur.</dd>
+          <dt>array_merge</dt><dd>Concatène plusieurs tableaux ; les clés texte en doublon sont écrasées.</dd>
+          <dt>array_slice / array_splice</dt><dd>Extraire une portion (copie) / retirer et remplacer une portion (modification).</dd>
+          <dt>array_key_exists</dt><dd>Vérifie la présence d'une clé, même si sa valeur est <code>null</code>.</dd>
+          <dt>json_encode / json_decode</dt><dd>Convertit un tableau en chaîne JSON, et inversement (avec <code>true</code> pour un tableau associatif).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 8 — Chaînes &amp; expressions régulières</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">strlen, explode, sprintf, preg_match : tout sur les textes en PHP</div>
+        </div>
+        <a href="seance8.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 8 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="07">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 6 — Tableaux · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html" class="active">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 6 — Tableaux</div>
+      <a href="#s6-principe"   class="sidebar-item"><span class="sidebar-num">01</span>Qu'est-ce qu'un tableau ?</a>
+      <a href="#s6-assoc"      class="sidebar-item"><span class="sidebar-num">02</span>Tableaux associatifs</a>
+      <a href="#s6-multi"      class="sidebar-item"><span class="sidebar-num">03</span>Tableaux multidimensionnels</a>
+      <a href="#s6-parcours"   class="sidebar-item"><span class="sidebar-num">04</span>Parcourir un tableau</a>
+      <a href="#s6-modifier"   class="sidebar-item"><span class="sidebar-num">05</span>Ajouter / modifier / supprimer</a>
+      <a href="#s6-conversion" class="sidebar-item"><span class="sidebar-num">06</span>Fonctions de conversion</a>
+      <a href="#s6-exo"        class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s6-bilan"      class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance5.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 5</a>
+      <a href="seance7.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 7 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 06 / 14</div>
+      <h1>Tableaux</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">indexés · associatifs · multidimensionnels · parcours · manipulation · conversions</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Regrouper plusieurs valeurs dans une seule variable avec <code>array</code></li>
+          <li>Créer des tableaux indexés, associatifs et multidimensionnels</li>
+          <li>Parcourir un tableau avec <code>foreach</code> et mesurer sa taille avec <code>count()</code></li>
+          <li>Ajouter, modifier et supprimer des éléments</li>
+          <li>Convertir chaînes ↔ tableaux et exporter en JSON</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 2 — Variables, types &amp; opérateurs</li>
+          <li>Séance 4 — Boucles (<code>foreach</code> en particulier)</li>
+          <li>Séance 5 — Fonctions (<code>count</code>, <code>implode</code>…)</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 PRINCIPE ══════════ -->
+    <div id="s6-principe">
+      <div class="section-header"><span class="section-num">01</span><h2>Qu'est-ce qu'un tableau ?</h2></div>
+      <p>Un tableau (<code>array</code>) stocke <strong>plusieurs valeurs dans une seule variable</strong>. Au lieu de déclarer <code>$fruit1</code>, <code>$fruit2</code>, <code>$fruit3</code>, on écrit un seul <code>$fruits</code> qui contient tout. Chaque valeur repose dans un compartiment repéré par une <strong>clé</strong> ; l'ensemble des clés et des valeurs forme le tableau.</p>
+      <p>Le cas le plus simple est le <strong>tableau indexé</strong> : les clés sont des numéros attribués automatiquement, à partir de <strong>0</strong>. La première valeur est donc à l'indice 0, la deuxième à l'indice 1, et ainsi de suite.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Tableau indexé</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $fruits = ["pomme", "banane"];
+
+  echo $fruits[0];           // pomme
+  echo "&lt;br&gt;" . $fruits[1];  // banane
+
+  $fruits[] = "cerise";      // ajout automatique a la fin
+  echo "&lt;br&gt;" . count($fruits); // 3
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>pomme<br>banane<br>3</p></div>
+        </div>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">🗄️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la boîte à compartiments numérotés</div>
+          <p>Un tableau est une <strong>boîte divisée en compartiments numérotés</strong> : chaque compartiment contient une valeur, et son numéro (la clé) permet d'y mettre la main directement. Le premier compartiment porte le numéro <strong>0</strong> — une convention qui surprendra au début, mais que l'on retrouve dans presque tous les langages.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 ASSOCIATIFS ══════════ -->
+    <div id="s6-assoc">
+      <div class="section-header"><span class="section-num">02</span><h2>Tableaux associatifs</h2></div>
+      <p>Dans un tableau <strong>associatif</strong>, on choisit soi-même les clés au lieu de laisser PHP les numéroter. C'est la forme idéale pour décrire <strong>un objet du monde réel</strong> — un utilisateur, un produit, un paramétrage — : chaque clé porte un nom explicite (<code>"nom"</code>, <code>"age"</code>, <code>"prix"</code>) et sa valeur lui répond.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Tableau associatif</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $personne = [
+    "nom"   =&gt; "Alice",
+    "age"   =&gt; 30,
+    "ville" =&gt; "Rabat"
+  ];
+
+  echo $personne["nom"];          // Alice
+  echo "&lt;br&gt;" . $personne["age"]; // 30
+
+  $personne["age"] = 31;          // modification
+  echo "&lt;br&gt;" . $personne["age"]; // 31
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Alice<br>30<br>31</p></div>
+        </div>
+      </div>
+      <p>La flèche <code>=&gt;</code> se lit « a pour valeur » : <code>"age" =&gt; 30</code> se lit « la clé <em>age</em> a pour valeur 30 ». Un même tableau peut mélanger chaînes et nombres : le type du contenu n'a aucune importance.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Choisissez des clés explicites</div>
+          <p>Préférez <code>$personne["age"]</code> à <code>$personne[1]</code> : le code se lit tout seul et reste compréhensible six mois plus tard. Des clés nommées comme des variables courantes (<code>nom</code>, <code>prix</code>, <code>email</code>) rendent un script relié à une base de données beaucoup plus facile à maintenir.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Fiche produit</span>
+        </div>
+        <ol>
+          <li>Déclarez dans <code>exo_assoc.php</code> un tableau associatif <code>$produit</code> avec trois clés : <code>"nom"</code>, <code>"prix"</code> et <code>"stock"</code>.</li>
+          <li>Affichez <code>$produit["nom"]</code> puis <code>$produit["prix"]</code>, séparés par un <code>&lt;br&gt;</code>.</li>
+          <li>Ajoutez une clé <code>"remise"</code> de valeur <code>10</code> : prévoyez ce que renverra <code>count($produit)</code> (4 ?) puis vérifiez.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $produit = ["nom" =&gt; "Clavier", "prix" =&gt; 45, "stock" =&gt; 7];
+  echo $produit["nom"] . "&lt;br&gt;" . $produit["prix"];
+  $produit["remise"] = 10;
+  echo "&lt;br&gt;" . count($produit);
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 MULTIDIMENSIONNELS ══════════ -->
+    <div id="s6-multi">
+      <div class="section-header"><span class="section-num">03</span><h2>Tableaux multidimensionnels</h2></div>
+      <p>Un tableau peut <strong>contenir d'autres tableaux</strong> : on parle de tableau à plusieurs dimensions, ou « tableau de tableaux ». C'est la structure naturelle d'un catalogue de produits, d'une liste d'utilisateurs, d'une grille horaire : une liste où chaque ligne est elle-même un tableau associatif.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Catalogue à deux dimensions</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $catalogue = [
+    ["nom" =&gt; "Clavier", "prix" =&gt; 45],
+    ["nom" =&gt; "Souris",  "prix" =&gt; 25],
+    ["nom" =&gt; "Ecran",   "prix" =&gt; 180]
+  ];
+
+  foreach ($catalogue as $produit) {
+    echo $produit["nom"] . " : " . $produit["prix"] . " EUR&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Clavier : 45 EUR<br>Souris : 25 EUR<br>Ecran : 180 EUR</p></div>
+        </div>
+      </div>
+      <p>Les tableaux multidimensionnels sont massivement utilisés avec <code>foreach</code> : la boucle extérieure donne une ligne entière (ici <code>$produit</code>), et on lit ses champs comme un tableau associatif ordinaire.</p>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">L'accès imbriqué, crochet après crochet</div>
+          <p>Pour atteindre une valeur en profondeur, on empile les crochets de l'extérieur vers l'intérieur : <code>$catalogue[1]["prix"]</code> désigne <em>le prix</em> (clé <code>"prix"</code>) <em>du deuxième produit</em> (indice 1). Lire de gauche à droite : « la deuxième ligne, puis la colonne prix ».</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 PARCOURS ══════════ -->
+    <div id="s6-parcours">
+      <div class="section-header"><span class="section-num">04</span><h2>Parcourir un tableau</h2></div>
+      <p>Le principe est l'outil roi : <code>foreach</code> lit chaque élément, du premier au dernier, sans risque de dépasser la fin. Deux formes existent : <strong>valeur seule</strong> (<code>as $valeur</code>) et <strong>clé + valeur</strong> (<code>as $cle =&gt; $valeur</code>). La fonction <code>count()</code> renvoie quant à elle le nombre d'éléments.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Méthode</th><th>Ce qu'elle fait</th></tr></thead>
+          <tbody>
+            <tr><td><code>foreach ($t as $v)</code></td><td>parcourt chaque valeur du tableau, une par un</td></tr>
+            <tr><td><code>foreach ($t as $k =&gt; $v)</code></td><td>parcourt chaque paire clé / valeur</td></tr>
+            <tr><td><code>count($t)</code></td><td>renvoie le nombre d'éléments du tableau</td></tr>
+            <tr><td><code>array_keys($t)</code></td><td>renvoie un tableau contenant toutes les clés</td></tr>
+            <tr><td><code>array_values($t)</code></td><td>renvoie un tableau contenant toutes les valeurs</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — foreach, count, clés et valeurs</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $user = ["nom" =&gt; "Ali", "age" =&gt; 25, "role" =&gt; "admin"];
+
+  echo count($user) . " champs&lt;br&gt;";
+  echo implode(", ", array_keys($user)) . "&lt;br&gt;";
+  echo implode(", ", array_values($user)) . "&lt;br&gt;";
+
+  foreach ($user as $cle =&gt; $valeur) {
+    echo "$cle = $valeur&lt;br&gt;";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>3 champs<br>nom, age, role<br>Ali, 25, admin<br>nom = Ali<br>age = 25<br>role = admin</p></div>
+        </div>
+      </div>
+      <p>Sur un tableau indexé, la forme clé + valeur donne l'indice dans <code>$cle</code> : pratique pour numéroter des lignes (<code>"Élément " . ($cle + 1)</code>). Si la clé ne sert à rien, la forme valeur seule est plus lisible.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Clés, valeurs et total</span>
+        </div>
+        <ol>
+          <li>Déclarez dans <code>exo_parcours.php</code> un tableau associatif <code>$notes</code> reliant trois matières à leur note.</li>
+          <li>Parcourez-le avec <code>foreach ($notes as $matiere =&gt; $note)</code> et affichez « Maths : 12 » sur chaque ligne.</li>
+          <li>Additionnez les notes dans un accumulateur : prévoyez la somme et le <code>count($notes)</code> avant de vérifier.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $notes = ["Maths" =&gt; 12, "Français" =&gt; 15, "HP" =&gt; 9];
+  $total = 0;
+  foreach ($notes as $matiere =&gt; $note) {
+    echo "$matiere : $note&lt;br&gt;";
+    $total += $note;
+  }
+  echo count($notes) . " notes, total $total";
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 MODIFIER ══════════ -->
+    <div id="s6-modifier">
+      <div class="section-header"><span class="section-num">05</span><h2>Ajouter / modifier / supprimer</h2></div>
+      <p>Un tableau est <strong>modifiable à tout moment</strong>. La syntaxe courte <code>$t[] = $x</code> ajoute un élément à la fin sans se soucier des indices. Écrire dans une clé existante la modifie ; <code>unset()</code> supprime un élément ou un tableau entier. Les fonctions <code>array_push</code>, <code>array_pop</code>, <code>array_shift</code> et <code>array_unshift</code> agissent sur les deux extrémités.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Manipuler un tableau</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $taches = ["Nettoyer", "Coder", "Dormir"];
+
+  array_push($taches, "Lire");      // ajoute a la fin
+  array_unshift($taches, "Boire");  // ajoute au debut
+  $derniere = array_pop($taches);   // retire la derniere
+  $premiere = array_shift($taches); // retire la premiere
+
+  echo implode(" | ", $taches);
+  echo "&lt;br&gt;Retirees : $derniere et $premiere";
+
+  unset($taches[0]);                // supprime par cle
+  echo "&lt;br&gt;Restantes : " . count($taches);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Nettoyer | Coder | Dormir<br>Retirees : Lire et Boire<br>Restantes : 2</p></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Instruction</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><code>$t[] = "x";</code></td><td>ajoute un élément à la fin, avec le prochain indice disponible</td></tr>
+            <tr><td><code>$t[$cle] = "y";</code></td><td>modifie l'élément existant (ou le crée à cette clé)</td></tr>
+            <tr><td><code>array_push($t, "x")</code></td><td>ajoute à la fin — équivalent à la syntaxe courte</td></tr>
+            <tr><td><code>array_unshift($t, "x")</code></td><td>ajoute au début et renumérote les indices</td></tr>
+            <tr><td><code>array_pop($t)</code></td><td>retire et renvoie le dernier élément</td></tr>
+            <tr><td><code>array_shift($t)</code></td><td>retire et renvoie le premier élément</td></tr>
+            <tr><td><code>unset($t[$cle])</code></td><td>supprime l'élément, sans réindexer le reste</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Après <code>unset($taches[0])</code>, les indices ne se recalculent pas : le tableau peut présenter un « trou » (clés 1, 2 sans 0). C'est sans conséquence pour <code>foreach</code>, mais il faut le savoir si on compte les clés à la main.</p>
+    </div>
+
+    <!-- ══════════ 06 CONVERSIONS ══════════ -->
+    <div id="s6-conversion">
+      <div class="section-header"><span class="section-num">06</span><h2>Fonctions de conversion</h2></div>
+      <p>Il arrive souvent qu'une donnée arrive sous forme de chaîne (un paramètre d'URL, un CSV) et doive devenir un tableau, ou l'inverse. <code>explode()</code> découpe une chaîne en tableau, <code>implode()</code> recolle un tableau en chaîne. <code>in_array()</code> et <code>array_key_exists()</code> vérifient l'appartenance, et <code>json_encode()</code> transforme une valeur PHP en chaîne JSON.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Chaînes, tableaux et JSON</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // explode / implode
+  $csv = "PHP,HTML,CSS";
+  $langages = explode(",", $csv);
+  echo $langages[1];                        // HTML
+  echo "&lt;br&gt;" . implode(" + ", $langages);  // PHP + HTML + CSS
+
+  // tests d'appartenance
+  $roles = ["admin", "lecteur"];
+  echo "&lt;br&gt;" . (in_array("admin", $roles) ? "role connu" : "role inconnu");
+
+  $config = ["theme" =&gt; "sombre", "taille" =&gt; 14];
+  echo "&lt;br&gt;" . (array_key_exists("taille", $config) ? "cle presente" : "cle absente");
+
+  // export JSON
+  echo "&lt;br&gt;" . json_encode($config);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>HTML<br>PHP + HTML + CSS<br>role connu<br>cle presente<br>{"theme":"sombre","taille":14}</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi le JSON ?</div>
+          <p><code>json_encode()</code> est le pont vers le monde extérieur : envoyer des données à <strong>JavaScript</strong>, stocker une configuration dans un fichier, répondre à une requête API. La fonction réciproque, <code>json_decode()</code>, transforme la chaîne JSON en tableau PHP. Notez les guillemets doubles produits autour des clés : c'est le format JSON convenu.</p>
+        </div>
+      </div>
+      <p>Attention : <code>explode()</code> ne nettoie rien — découper <code>"a, b"</code> avec la virgule seule donne <code>["a", " b"]</code>, un espace restant collé au deuxième élément. Passez alors <code>trim()</code> sur chaque morceau (par exemple <code>array_map('trim', $t)</code>) ou prenez <code>", "</code> comme séparateur. <code>explode()</code> accepte aussi un troisième argument qui <strong>limite le nombre de découpages</strong>, utile pour laisser intact le reste d'une ligne à plusieurs champs.</p>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s6-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🛒 Panier de courses</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_courses.php</code> avec un tableau indexé de 5 articles.</li>
+            <li>Affichez chaque article avec <code>foreach</code>, précédé de son numéro (1 à 5).</li>
+            <li>Affichez le nombre total d'articles avec <code>count()</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> la forme <code>foreach ($courses as $indice =&gt; $article)</code> vous donne l'indice ; ajoutez 1 pour un affichage humain.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🧑 Fiche étudiant</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau associatif <code>$etudiant</code> avec les clés <code>"nom"</code>, <code>"age"</code> et <code>"email"</code>.</li>
+            <li>Affichez chaque clé et sa valeur avec <code>foreach</code> sous la forme <code>nom = Alice</code>.</li>
+            <li>Modifiez <code>"age"</code>, puis ajoutez une clé <code>"moyenne"</code> et vérifiez avec <code>array_key_exists()</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>$etudiant["age"] = 21;</code> modifie la valeur ; <code>$etudiant["moyenne"] = 14.5;</code> crée la clé.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">📚 Catalogue et total</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez un tableau multidimensionnel de 3 produits, chacun avec <code>"nom"</code> et <code>"prix"</code>.</li>
+            <li>Bouclez dessus avec <code>foreach</code> pour afficher « nom : prix EUR » par produit.</li>
+            <li>Calculez le total de tous les prix et affichez-le.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> dans la boucle, <code>$produit["prix"]</code> suffit ; accumulez avec <code>$total += $produit["prix"];</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🔄 CSV ↔ tableau</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Partez de la chaîne <code>$csv = "PHP,HTML,CSS,SQL";</code> et découpez-la avec <code>explode()</code>.</li>
+            <li>Vérifiez que "CSS" fait partie de la liste avec <code>in_array()</code>.</li>
+            <li>Recollez le tableau en chaîne avec <code>implode()</code> séparée par « &middot; », puis exportez-la en JSON avec <code>json_encode()</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>implode(" &middot; ", $langages)</code> ; pour le JSON, <code>json_encode($langages)</code> renvoie <code>["PHP","HTML","CSS","SQL"]</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s6-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Regrouper plusieurs valeurs dans une seule variable avec un <code>array</code></li>
+        <li>Les tableaux indexés, dont les clés commencent à 0</li>
+        <li>Les tableaux associatifs et l'accès par clé nommée</li>
+        <li>Les tableaux multidimensionnels et l'accès imbriqué <code>$t[0]["prix"]</code></li>
+        <li>Parcourir avec <code>foreach</code> (valeur, puis clé =&gt; valeur)</li>
+        <li><code>count()</code>, <code>array_keys()</code>, <code>array_values()</code></li>
+        <li>Ajouter (<code>$t[] = </code>), modifier (<code>$t[$k] =</code>), supprimer (<code>unset</code>, <code>array_pop</code>…)</li>
+        <li>Convertir entre chaînes et tableaux (<code>explode</code> / <code>implode</code>) et exporter en JSON</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier que les indices commencent à <strong>0</strong> : sur un tableau de 3 éléments, le dernier est <code>$t[2]</code>.</li>
+            <li>Lire <code>$t[3]</code> hors limites → avertissement « undefined array key ».</li>
+            <li>Utiliser <code>$t["nom"]</code> sur un tableau indexé (ou l'inverse) → la clé n'existe pas.</li>
+            <li>Croire que <code>unset()</code> réindexe le tableau : il laisse un « trou » dans les clés.</li>
+            <li>Confondre l'élément et son indice dans <code>foreach ($t as $v)</code> : <code>$v</code> est la valeur, pas le numéro.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Tableau</dt><dd>Variable contenant une collection de valeurs, repérées par des clés.</dd>
+          <dt>Tableau indexé</dt><dd>Tableau dont les clés sont des numéros automatiques (0, 1, 2…).</dd>
+          <dt>Tableau associatif</dt><dd>Tableau dont les clés sont personnalisées, choisies par le développeur.</dd>
+          <dt>Multidimensionnel</dt><dd>Tableau contenant d'autres tableaux (tableau de tableaux).</dd>
+          <dt>Clé</dt><dd>Identifiant qui repère un élément dans le tableau.</dd>
+          <dt>unset()</dt><dd>Supprime une variable ou un élément particulier d'un tableau.</dd>
+          <dt>implode / explode</dt><dd>Convertit un tableau en chaîne, et une chaîne en tableau.</dd>
+          <dt>json_encode()</dt><dd>Sérialise une valeur PHP en chaîne JSON, exportable vers JavaScript.</dd>
+          <dt>in_array()</dt><dd>Teste si une valeur existe dans un tableau (renvoie un booléen).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 7 — Tableaux avancés &amp; fonctions array</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Tri, fusion, recherche : les fonctions array_* qui font tout le travail</div>
+        </div>
+        <a href="seance7.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 7 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="06">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

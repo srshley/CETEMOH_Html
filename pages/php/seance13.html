@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 13 — Programmation orientée objet · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html" class="active">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 13 — Programmation orientée objet</div>
+      <a href="#s13-classe"        class="sidebar-item"><span class="sidebar-num">01</span>Classes et objets</a>
+      <a href="#s13-props"         class="sidebar-item"><span class="sidebar-num">02</span>Propriétés, méthodes &amp; $this</a>
+      <a href="#s13-constructeur"  class="sidebar-item"><span class="sidebar-num">03</span>Constructeur &amp; getters/setters</a>
+      <a href="#s13-visibilite"    class="sidebar-item"><span class="sidebar-num">04</span>La visibilité</a>
+      <a href="#s13-static"        class="sidebar-item"><span class="sidebar-num">05</span>static, self &amp; interfaces</a>
+      <a href="#s13-heritage"      class="sidebar-item"><span class="sidebar-num">06</span>Héritage</a>
+      <a href="#s13-exo"           class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s13-bilan"         class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance12.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 12</a>
+      <a href="seance14.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 14 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 13 / 14</div>
+      <h1>Programmation orientée objet</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">classes &amp; objets · $this · constructeur · visibilité · static · interfaces · héritage</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Distinguer une <strong>classe</strong> (le plan) d'un <strong>objet</strong> (l'instance)</li>
+          <li>Écrire des propriétés et des méthodes, et manipuler <code>$this</code></li>
+          <li>Initialiser un objet avec <code>__construct</code>, sécuriser avec getters/setters</li>
+          <li>Choisir la bonne visibilité : <code>public</code>, <code>private</code>, <code>protected</code></li>
+          <li>Factoriser le code avec <code>static</code> et l'<strong>héritage</strong> (<code>extends</code>)</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 1-2 — syntaxe, variables, tableaux</li>
+          <li>Séance 3-4 — conditions et boucles</li>
+          <li>Séance 12 — bases de données (PDO : la POO y arrive à point)</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices + un quiz</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 CLASSES ET OBJETS ══════════ -->
+    <div id="s13-classe">
+      <div class="section-header"><span class="section-num">01</span><h2>Classes et objets</h2></div>
+      <p>La <strong>Programmation Orientée Objet</strong> (POO) regroupe dans une même entité les données d'un problème et les traitements qui s'y rapportent. Une <strong>classe</strong> est un modèle abstrait qui décrit ce que possèdent et savent faire ses instances ; un <strong>objet</strong> est une instance concrète de cette classe, créée avec <code>new</code>. À partir d'une même classe, on peut créer autant d'objets que nécessaire : chacun conserve ses propres valeurs tout en partageant le même code.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — class &amp; new</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  class Personne {
+  }
+
+  $a = new Personne();   // 1er objet
+  $b = new Personne();   // un 2e objet, indépendant
+  var_dump($a instanceof Personne);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>bool(true)</p></div>
+        </div>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">🏗️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le plan et la maison</div>
+          <p>La classe est le <strong>plan de l'architecte</strong> : elle définit où seront les pièces, mais personne ne peut y habiter. L'objet est la <strong>maison construite</strong> : concrète, habitable, avec ses propres meubles (ses valeurs). Un même plan permet de construire mille maisons différentes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 PROPRIÉTÉS & MÉTHODES ══════════ -->
+    <div id="s13-props">
+      <div class="section-header"><span class="section-num">02</span><h2>Propriétés, méthodes &amp; $this</h2></div>
+      <p>Une <strong>propriété</strong> est une variable déclarée dans la classe (ex. <code>public $nom;</code>). Une <strong>méthode</strong> est une fonction définie dans la classe. À l'intérieur d'une méthode, la variable magique <code>$this</code> désigne <strong>l'objet courant</strong> qui a appelé le code : c'est lui qu'on lit ou modifie.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — propriétés &amp; $this</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  class Personne {
+    public $nom = "Anonyme";
+    public $age = 0;
+
+    public function sePresenter() {
+      echo $this-&gt;nom . ", " . $this-&gt;age . " ans&lt;br&gt;";
+    }
+  }
+
+  $p1 = new Personne();
+  $p1-&gt;nom = "Amina";
+  $p1-&gt;age = 22;
+  $p1-&gt;sePresenter();
+
+  $p2 = new Personne();
+  $p2-&gt;nom = "Yassine";
+  $p2-&gt;age = 30;
+  $p2-&gt;sePresenter();
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Amina, 22 ans<br>Yassine, 30 ans</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Le dollar de $this</div>
+          <p>On écrit <code>$this-&gt;nom</code> <strong>sans</strong> second <code>$</code> devant la propriété : pas <code>$this-&gt;$nom</code> (ce qui serait une propriété variable). La flèche <code>-&gt;</code> se lit « l'attribut / la méthode de l'objet courant » : <code>$this-&gt;nom</code> ⇔ « le nom de cet objet-ci ».</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">La ville qui suit l'objet</span>
+        </div>
+        <ol>
+          <li>Dans <code>flash_this.php</code>, partez de la classe <code>Personne</code> du cours : ajoutez une propriété <code>public $ville = "Inconnue";</code> et une méthode <code>habite()</code> qui affiche « nom vit à ville ».</li>
+          <li>Créez deux objets, donnez à <code>$p1</code> seule une ville différente, appelez <code>habite()</code> sur chacun.</li>
+          <li>Prévoyez ce qu'affiche un troisième objet <code>$p3 = new Personne();</code> qu'on ne touche pas, puis vérifiez : chaque objet porte ses propres valeurs, le défaut de la classe pour le reste.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  class Personne {
+    public $nom = "Anonyme";
+    public $ville = "Inconnue";
+    public function habite() {
+      echo $this-&gt;nom . " vit à " . $this-&gt;ville . "&lt;br&gt;";
+    }
+  }
+  $p = new Personne();
+  $p-&gt;ville = "Oran";
+  $p-&gt;habite();   // "Anonyme vit à Oran"
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 CONSTRUCTEUR & GETTERS/SETTERS ══════════ -->
+    <div id="s13-constructeur">
+      <div class="section-header"><span class="section-num">03</span><h2>Le constructeur &amp; getters/setters</h2></div>
+      <p>La méthode <code>__construct()</code> est appelée <strong>automatiquement</strong> au moment du <code>new</code>. Elle sert à initialiser l'objet dès sa naissance. Quand une propriété devient <code>private</code>, l'extérieur y accède via un <strong>getter</strong> (<code>getNom()</code>) et la modifie via un <strong>setter</strong> (<code>setAge()</code>) qui peut appliquer des contrôles.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — __construct &amp; accessors</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  class Personne {
+    private $nom;
+    private $age;
+
+    public function __construct(string $nom, int $age) {
+      $this-&gt;nom = $nom;
+      $this-&gt;setAge($age);
+    }
+
+    public function getNom(): string { return $this-&gt;nom; }
+
+    public function setAge(int $age): void {
+      if ($age &gt;= 0) $this-&gt;age = $age;
+    }
+
+    public function getAge(): int { return $this-&gt;age; }
+  }
+
+  $p = new Personne("Sara", 25);
+  echo $p-&gt;getNom() . " a " . $p-&gt;getAge() . " ans";
+  $p-&gt;setAge(-5);          // refusé : l'ancienne valeur
+  echo " / " . $p-&gt;getAge();
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Sara a 25 ans / 25</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Pourquoi masquer les propriétés ?</div>
+          <p>Un setter est un <strong>guichet de contrôle</strong> : date de naissance impossible, âge négatif, e-mail invalide… tout est vérifié à un seul endroit au lieu d'être recopié dans tout le reste du programme.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 VISIBILITÉ ══════════ -->
+    <div id="s13-visibilite">
+      <div class="section-header"><span class="section-num">04</span><h2>La visibilité : public, private, protected</h2></div>
+      <p>La visibilité contrôle <strong>qui</strong> peut lire ou modifier un membre d'une classe. C'est le fondement de l'<em>encapsulation</em> : par défaut, on masque tout ce qui n'a pas besoin d'être vu de l'extérieur.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Visibilité</th><th>Dans la classe</th><th>Dans une sous-classe</th><th>Depuis l'extérieur</th></tr></thead>
+          <tbody>
+            <tr><td><code>public</code></td><td>Oui</td><td>Oui</td><td>Oui</td></tr>
+            <tr><td><code>protected</code></td><td>Oui</td><td>Oui</td><td>Non</td></tr>
+            <tr><td><code>private</code></td><td>Oui</td><td>Non</td><td>Non</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Tout en <code>public</code> ? Une bombe à retardement</div>
+          <p>Si n'importe quel code peut écrire <code>$compte-&gt;solde = -99999;</code>, aucune donnée n'est plus fiable. Déclarez <code>private</code> par défaut et exposez des méthodes utiles : l'objet garantit lui-même sa cohérence via ses setters et getters.</p>
+        </div>
+      </div>
+      <p>Écrivez toujours la visibilité <strong>explicitement</strong> devant chaque membre : une méthode déclarée sans mot-clé devient <code>public</code> sans prévenir — un trou d'encapsulation involontaire — et <code>var $nom;</code> est l'ancienne écriture d'une propriété publique, à laisser aux tutoriels des années 2000. Notez aussi que <code>private</code> est défini <em>par classe</em> et non <em>par objet</em> : dans une méthode de <code>Personne</code>, deux objets <code>Personne</code> peuvent lire mutuellement leurs propriétés privées — c'est ce qui permet d'écrire proprement une méthode de comparaison entre deux instances.</p>
+    </div>
+
+    <!-- ══════════ 05 STATIC, SELF & INTERFACES ══════════ -->
+    <div id="s13-static">
+      <div class="section-header"><span class="section-num">05</span><h2>static, self &amp; interfaces</h2></div>
+      <p>Un membre <code>static</code> appartient <strong>à la classe elle-même</strong>, pas à un objet : on l'appelle <code>Classe::methode()</code> sans faire de <code>new</code>, et il ne connaît <strong>pas</strong> <code>$this</code>. Réservez-le au <strong>transverse</strong> : compteurs, configuration, utilitaires. À l'intérieur, on référence la classe avec <code>self::</code>. Une <strong>interface</strong> définit quant à elle un contrat de méthodes publiques qu'une classe s'engage à implémenter avec <code>implements</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — static, self &amp; interface</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  interface Forme {
+    public function aire(): float;
+  }
+
+  class Cercle implements Forme {
+    const PI = 3.14159;
+    private static $nb = 0;
+
+    public function __construct(private float $r) {
+      self::$nb++;
+    }
+
+    public function aire(): float {
+      return self::PI * $this-&gt;r * $this-&gt;r;
+    }
+
+    public static function combien(): int {
+      return self::$nb;
+    }
+  }
+
+  $c1 = new Cercle(1.0);
+  $c2 = new Cercle(2.0);
+  echo round($c1-&gt;aire(), 2) . " / " . Cercle::combien();
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>3.14 / 2</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 HÉRITAGE ══════════ -->
+    <div id="s13-heritage">
+      <div class="section-header"><span class="section-num">06</span><h2>Héritage : extends et parent::</h2></div>
+      <p>Le mot-clé <code>extends</code> fait hériter d'une classe enfant toutes les propriétés et méthodes publiques ou protected de son parent. L'enfant peut <strong>redéfinir</strong> (override) une méthode, et revenir à celle du parent avec <code>parent::</code>. Un <code>protected</code> reste accessible à l'enfant sans être public.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — extends &amp; parent::</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  class Personne {
+    protected $nom;
+
+    public function __construct(string $nom) {
+      $this-&gt;nom = $nom;
+    }
+
+    public function sePresenter(): void {
+      echo "Je suis " . $this-&gt;nom;
+    }
+  }
+
+  class Etudiant extends Personne {
+    private $filiere;
+
+    public function __construct(string $nom, string $filiere) {
+      parent::__construct($nom);
+      $this-&gt;filiere = $filiere;
+    }
+
+    public function sePresenter(): void {
+      parent::sePresenter();
+      echo ", étudiant en " . $this-&gt;filiere;
+    }
+  }
+
+  $e = new Etudiant("Nadia", "GTR");
+  $e-&gt;sePresenter();
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Je suis Nadia, étudiant en GTR</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Héritage : " EST-UN "</div>
+          <p>Utilisez <code>extends</code> seulement quand la relation « un <em>Etudiant</em> <strong>est une</strong> <em>Personne</em> » est vraie (héritage « EST-UN »). Ce qui « se possède » (une voiture <em>a un</em> moteur) se modélise par une propriété, pas par un <code>extends</code> — cela évite les hiérarchies artificielles et profondes.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Enseignant hérite de Personne</span>
+        </div>
+        <ol>
+          <li>Dans <code>flash_heritage.php</code>, déclarez <code>Enseignant extends Personne</code> (la classe du début de section) <em>sans</em> redéclarer de constructeur, puis créez <code>new Enseignant("Alice")</code> : pourquoi est-ce que ça marche ?</li>
+          <li>Redéfinissez <code>sePresenter()</code> : appelez <code>parent::sePresenter()</code> puis complétez avec « , prof de GTR ».</li>
+          <li>Prévoyez le résultat de <code>$e-&gt;nom = "Bob";</code> écrit à l'extérieur de la classe, puis vérifiez : <code>$nom</code> est <code>protected</code>, l'héritage ne rend pas la propriété publique pour autant.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  class Enseignant extends Personne {
+    public function sePresenter(): void {
+      parent::sePresenter();
+      echo ", prof de GTR";
+    }
+  }
+  $e = new Enseignant("Alice");
+  $e-&gt;sePresenter();  // "Je suis Alice, prof de GTR"
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s13-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎂 Premier objet : classe Personne</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_personne.php</code> avec une classe <code>Personne</code> : propriétés <code>$nom</code> et <code>$age</code>.</li>
+            <li>Ajoutez une méthode <code>sePresenter()</code> qui affiche « Je suis <em>nom</em>, j'ai <em>age</em> ans ».</li>
+            <li>Instanciez deux objets avec des valeurs différentes, et appelez la méthode sur chacun.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> un objet par variable (<code>$p1</code>, <code>$p2</code>) — chaque <code>$this</code> désigne l'objet appelant.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔐 Compte bancaire encapsulé</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une classe <code>Compte</code> : propriété <code>private $solde</code>, constructeur avec un solde de départ.</li>
+            <li>Ajoutez <code>deposer($m)</code> refusant un montant négatif, et <code>retrait($m)</code> refusant de passer en négatif.</li>
+            <li>Ajoutez le getter <code>getSolde()</code>, puis testez : déposez 100, retirez 30, essayez de retirer 2000.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> les vérifications se font dans les méthodes, jamais à l'extérieur — c'est tout l'intérêt de <code>private</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">📐 Interface Forme &amp; implémentations</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Déclarez une interface <code>Forme</code> avec une méthode <code>aire(): float</code>.</li>
+            <li>Implémentez deux classes <code>Carre</code> (côté) et <code>Cercle</code> (rayon) qui respectent ce contrat.</li>
+            <li>Ajoutez dans <code>Cercle</code> une constante de classe <code>const PI = 3.14159;</code> utilisée par <code>aire()</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> dans une classe, la constante se référence avec <code>self::PI</code>, pas <code>$this-&gt;PI</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🎓 Famille Etudiant extends Personne</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Partez de la classe <code>Personne</code> (nom protégé, constructeur, <code>sePresenter()</code>).</li>
+            <li>Créez <code>Etudiant extends Personne</code> avec une <code>$filiere</code> privée et son constructeur appelant <code>parent::__construct($nom)</code>.</li>
+            <li>Surchargez <code>sePresenter()</code> : réutilisez <code>parent::sePresenter()</code> puis ajoutez « étudiant en <em>filiere</em> ».</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> la propriété <code>$nom</code> doit être <code>protected</code> (et non <code>private</code>) pour être utilisée par <code>Etudiant</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s13-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Distinguer la <strong>classe</strong> (plan) de l'<strong>objet</strong> (instance créée avec <code>new</code>)</li>
+        <li>Déclarer des propriétés et des méthodes, et utiliser <code>$this</code></li>
+        <li>Initialiser un objet avec <code>__construct()</code></li>
+        <li>Protéger les données avec <code>private</code> + getters / setters</li>
+        <li>Choisir entre <code>public</code>, <code>protected</code> et <code>private</code></li>
+        <li>Utiliser <code>static</code>, <code>self::</code> et les constantes de classe</li>
+        <li>Définir un contrat avec une <code>interface</code> et l'appliquer via <code>implements</code></li>
+        <li>Hériter avec <code>extends</code>, réutiliser le parent avec <code>parent::</code></li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier <code>new</code> et appeler la classe comme une fonction → erreur fatale.</li>
+            <li>Écrire <code>$this-&gt;$nom</code> (deux $) au lieu de <code>$this-&gt;nom</code>.</li>
+            <li>Accéder de l'extérieur à une propriété <code>private</code> → <em>Cannot access private property</em>.</li>
+            <li>Appeler une propriété au lieu de sa méthode : <code>$obj-&gt;getAge</code> sans <code>()</code> → <code>null</code> / erreur.</li>
+            <li>Hériter « parce que ça existe » : gardez <code>extends</code> pour de vraies relations « EST-UN ».</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Classe</dt><dd>Plan structuré décrivant propriétés et méthodes d'un type d'objets.</dd>
+          <dt>Objet</dt><dd>Instance d'une classe, créée avec <code>new</code>, avec ses propres valeurs.</dd>
+          <dt>$this</dt><dd>Référence à l'objet courant, utilisée dans les méthodes.</dd>
+          <dt>__construct</dt><dd>Méthode exécutée automatiquement à la création de l'objet.</dd>
+          <dt>Getter / Setter</dt><dd>Méthodes publiques de lecture / modification contrôlée d'une propriété privée.</dd>
+          <dt>Visibilité</dt><dd>Niveau d'accès d'un membre : <code>public</code>, <code>protected</code> ou <code>private</code>.</dd>
+          <dt>static</dt><dd>Membre qui appartient à la classe, appelé via <code>Classe::</code> sans instance.</dd>
+          <dt>Héritage</dt><dd>Mécanisme <code>extends</code> : une classe enfant récupère et enrichit le parent.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 14 — Sécurité &amp; bonnes pratiques</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">SQL injection, XSS, CSRF, password_hash : sécuriser ses données</div>
+        </div>
+        <a href="seance14.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 14 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="13">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

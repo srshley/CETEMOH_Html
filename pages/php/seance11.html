@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 11 — Sessions &amp; cookies · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html" class="active">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 11 — Sessions & cookies</div>
+      <a href="#s11-etat"     class="sidebar-item"><span class="sidebar-num">01</span>Le problème de l'état</a>
+      <a href="#s11-cookies"  class="sidebar-item"><span class="sidebar-num">02</span>Les cookies</a>
+      <a href="#s11-sessions" class="sidebar-item"><span class="sidebar-num">03</span>Les sessions</a>
+      <a href="#s11-panier"   class="sidebar-item"><span class="sidebar-num">04</span>Panier d'achat</a>
+      <a href="#s11-logout"   class="sidebar-item"><span class="sidebar-num">05</span>Déconnexion</a>
+      <a href="#s11-comparaison" class="sidebar-item"><span class="sidebar-num">06</span>Sessions vs Cookies</a>
+      <a href="#s11-exo"      class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s11-bilan"    class="sidebar-item"><span class="sidebar-num">08</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance10.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 10</a>
+      <a href="seance12.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 12 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 11 / 14</div>
+      <h1>Sessions &amp; cookies</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;"><code>$_SESSION</code> · <code>$_COOKIE</code> · <code>setcookie</code> · <code>session_start</code> · panier · déconnexion</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Comprendre pourquoi HTTP est un protocole « sans état »</li>
+          <li>Créer et relire un cookie avec <code>setcookie</code> et <code>$_COOKIE</code></li>
+          <li>Démarrer une session et stocker des données avec <code>$_SESSION</code></li>
+          <li>Construire un panier d'achat et une déconnexion propres</li>
+          <li>Choisir entre session et cookie selon la donnée stockée</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis & durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 7 — Tableaux (la session est un tableau)</li>
+          <li>Séance 9 — Formulaires (le login passe par <code>$_POST</code>)</li>
+          <li>Durée estimée : <strong>2 heures</strong></li>
+          <li>4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 ÉTAT ══════════ -->
+    <div id="s11-etat">
+      <div class="section-header"><span class="section-num">01</span><h2>Le problème de l'état</h2></div>
+      <p>HTTP est un protocole <strong>sans état</strong> (<em>stateless</em>) : chaque requête part de zéro. Quand un visiteur affiche <code>page2.php</code>, le serveur n'a absolument aucune mémoire de <code>page1.php</code> — pas de nom, pas de panier, pas de connexion. Chaque page semble se comporter comme si elle recevait un inconnu.</p>
+      <p>C'est un vrai problème pour tout site réel : « rester connecté », « conserver le panier », « se souvenir des préférences ». PHP y répond avec deux mécanismes de mémoire : les <strong>cookies</strong> (côté client) et les <strong>sessions</strong> (côté serveur).</p>
+      <div class="callout analogy">
+        <div class="callout-icon">👥</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : des visiteurs amnésiques</div>
+          <p>Chez un serveur PHP, chaque demande vient d'un <strong>visiteur amnésique</strong> : il arrive, pose une question, et oublie tout en repartant. Le <strong>cookie</strong> est le badge qu'on lui laisse en poche (il le rapporte à la visite suivante). La <strong>session</strong> est un casier numéroté au vestiaire : le visiteur garde la clef, le serveur garde les affaires.</p>
+        </div>
+      </div>
+      <p>Dans la suite de la séance, nous allons ouvrir ce casier et ce badge : d'abord les cookies (simples, visibles, limités), puis les sessions (côté serveur, plus sûres et plus vastes).</p>
+    </div>
+
+    <!-- ══════════ 02 COOKIES ══════════ -->
+    <div id="s11-cookies">
+      <div class="section-header"><span class="section-num">02</span><h2>Les cookies</h2></div>
+      <p>Un cookie est un petit texte envoyé au navigateur avec <code>setcookie("nom", valeur, expiration, '/')</code>. À chaque visite suivante, le navigateur le renvoie automatiquement et PHP le place dans la superglobale <code>$_COOKIE</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — setcookie + $_COOKIE</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    setcookie("theme", $_POST["theme"], time() + 3600, "/");
+  }
+
+  $theme = $_COOKIE["theme"] ?? "clair";
+  echo "Thème actuel : $theme";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Thème actuel : sombre</p><p style="color:var(--text2);font-size:.8rem;">(à la 2e visite après avoir choisi « sombre »)</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Un cookie remis… mais pas tout de suite</div>
+          <p><code>setcookie</code> ajoute un en-tête HTTP : il doit être appelé <strong>avant tout affichage</strong> (echo, HTML, espace avant <code>&lt;?php</code>…). Surtout : un cookie créé n'apparaît dans <code>$_COOKIE</code> qu'au <strong>rechargement suivant</strong>, car c'est le navigateur qui le renvoie — au premier affichage, il n'a pas encore été retourné.</p>
+        </div>
+      </div>
+      <h3>Les paramètres de <code>setcookie</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Paramètre</th><th>Rôle</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>Clé du cookie (obligatoire)</td><td><code>"theme"</code></td></tr>
+            <tr><td><code>value</code></td><td>Valeur renvoyée par le client</td><td><code>"sombre"</code></td></tr>
+            <tr><td><code>expires</code></td><td>Timestamp de péremption (0 = jusqu'à la fermeture du navigateur)</td><td><code>time() + 3600</code></td></tr>
+            <tr><td><code>path</code></td><td>Portée du cookie sur le site</td><td><code>"/"</code> (tout le site)</td></tr>
+            <tr><td><code>domain</code></td><td>Domaine couvert</td><td><code>"monsite.fr"</code></td></tr>
+            <tr><td><code>secure</code></td><td>N'envoie le cookie qu'en HTTPS</td><td><code>true</code></td></tr>
+            <tr><td><code>httponly</code></td><td>Interdit au JavaScript (anti-XSS)</td><td><code>true</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Supprimer = péremption passée</div>
+          <p>Un cookie se supprime en le réécrivant avec une expiration dans le passé : <code>setcookie("theme", "", time() - 3600, "/")</code>. Le navigateur l'abandonne de lui-même.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">La langue qui n'arrive qu'après</span>
+        </div>
+        <ol>
+          <li>Créez <code>langue.php</code> : si <code>$_GET["lang"]</code> est présent, appelez <code>setcookie("lang", $_GET["lang"], time() + 3600, "/")</code> avant le moindre echo.</li>
+          <li>Affichez ensuite <code>$_COOKIE["lang"] ?? "aucun cookie"</code> avec <code>htmlspecialchars</code>.</li>
+          <li>Prévoyez ce qu'affiche <code>langue.php?lang=en</code> au tout premier appel, puis vérifiez en rechargant la page : la valeur n'apparaît qu'au chargement suivant. Finissez en réécrivant le cookie avec <code>time() - 3600</code> pour le supprimer.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  if (isset($_GET["lang"])) {
+    setcookie("lang", $_GET["lang"], time() + 3600, "/");
+  }
+
+  echo "Langue : " . htmlspecialchars($_COOKIE["lang"] ?? "aucun cookie");
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 SESSIONS ══════════ -->
+    <div id="s11-sessions">
+      <div class="section-header"><span class="section-num">03</span><h2>Les sessions</h2></div>
+      <p>Une session stocke les données <strong>côté serveur</strong> (dans des fichiers sur le disque). Le navigateur ne reçoit qu'un identifiant — le <em>session ID</em> — placé dans un cookie <code>PHPSESSID</code> : c'est la clef du casier. Tant que <code>session_start()</code> s'exécute en haut de chaque page, <code>$_SESSION</code> continue à contenir les données de ce visiteur, d'une page à l'autre.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — login.php</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  session_start();
+
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $user = $_POST["user"] ?? "";
+    if ($user !== "") {
+      $_SESSION["user"] = $user;   // stocke le visiteur
+    }
+  }
+
+  if (isset($_SESSION["user"])) {
+    echo "Connecté en tant que " . $_SESSION["user"] . "&lt;br&gt;";
+    echo "ID de session : " . session_id();
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Connecté en tant que Alice<br>ID de session : pq4v2tnhd35sk7q1m6r8fge9c2</p></div>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — n'importe quelle page</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  session_start();
+
+  if (isset($_SESSION["user"])) {
+    echo "Bonjour " . $_SESSION["user"];
+  } else {
+    echo "Invité.";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Bonjour Alice</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>session_start()</code> avant tout affichage</div>
+          <p>Comme <code>setcookie</code>, <code>session_start()</code> envoie des en-têtes. Appelez-le <strong>tout en haut du fichier</strong>, avant tout <code>echo</code> ou balise HTML, sinon vous obtenez l'erreur <em>« headers already sent »</em> et la session ne démarre pas.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Deux pages, un seul casier</span>
+        </div>
+        <ol>
+          <li>Créez <code>ecris.php</code> : <code>session_start();</code> dès la première ligne, puis stockez <code>$_SESSION["couleur"] = "verte";</code> et affichez <code>session_id()</code>.</li>
+          <li>Créez <code>lit.php</code> avec le même <code>session_start()</code> en haut, qui affiche <code>$_SESSION["couleur"] ?? "rien en mémoire"</code>.</li>
+          <li>Prévoyez ce que rend <code>lit.php</code> juste après <code>ecris.php</code>, puis vérifiez ; retirez alors <code>session_start()</code> de <code>lit.php</code> : la page retombe sur « rien en mémoire », sans aucun message d'erreur — le piège est justement son silence.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  session_start();
+  $_SESSION["couleur"] = "verte";
+
+  echo "Enregistré : " . $_SESSION["couleur"] . "&lt;br&gt;";
+  echo "Clefs du casier : " . implode(", ", array_keys($_SESSION));
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 PANIER ══════════ -->
+    <div id="s11-panier">
+      <div class="section-header"><span class="section-num">04</span><h2>Exemple pratique : panier d'achat</h2></div>
+      <p>Le cas d'école des sessions : un e-commerce doit retenir les articles choisis pendant toute la navigation. Le panier est un <strong>tableau</strong> stocké dans <code>$_SESSION</code>, accessible sur chaque page, qui évolue au fil des clics.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — panier.php</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  session_start();
+  $_SESSION["panier"] = $_SESSION["panier"] ?? [];
+
+  if (isset($_GET["ajouter"])) {
+    $article = $_GET["ajouter"];
+    if (!in_array($article, $_SESSION["panier"])) {
+      $_SESSION["panier"][] = $article;
+    }
+  }
+
+  if (isset($_GET["vider"])) {
+    $_SESSION["panier"] = [];
+  }
+
+  if (empty($_SESSION["panier"])) {
+    echo "Panier vide.";
+  } else {
+    foreach ($_SESSION["panier"] as $article) {
+      echo "· $article&lt;br&gt;";
+    }
+    echo "Total : " . count($_SESSION["panier"]) . " article(s)";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>· Clavier mécanique<br>· Écran 27"<br>Total : 2 article(s)</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Initialiser avant d'écrire</div>
+          <p>Toujours initialiser le panier avant d'y écrire : <code>$_SESSION["panier"] = $_SESSION["panier"] ?? [];</code>. Un nouveau visiteur arrive sans aucune donnée stockée : lire <code>$_SESSION["panier"]</code> avant de le créer déclencherait une erreur <em>undefined index</em>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 DÉCONNEXION ══════════ -->
+    <div id="s11-logout">
+      <div class="section-header"><span class="section-num">05</span><h2>Déconnexion</h2></div>
+      <p>Se déconnecter, c'est <em>refermer le casier</em> et <em>jeter la clef</em>. Deux fonctions de base : <code>session_unset()</code> vide <code>$_SESSION</code> de toutes ses données, <code>session_destroy()</code> détruit la session côté serveur (données et clef). On efface en plus le cookie de session côté navigateur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — logout.php</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  session_start();
+
+  session_unset();          // vide $_SESSION
+  session_destroy();        // détruit la session côté serveur
+
+  // Supprime le cookie de session
+  setcookie("PHPSESSID", "", time() - 3600, "/");
+
+  echo "Vous êtes déconnecté.";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Vous êtes déconnecté.</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>session_destroy()</code> seul ne suffit pas</div>
+          <p><code>session_destroy()</code> agit uniquement <strong>côté serveur</strong>. Aussi : <code>$_SESSION</code> n'est vidé qu'au <strong>prochain chargement</strong>. Pour vider immédiatement les données visibles, appelez <code>session_unset()</code> avant — ou réassignez <code>$_SESSION = []</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 COMPARAISON ══════════ -->
+    <div id="s11-comparaison">
+      <div class="section-header"><span class="section-num">06</span><h2>Sessions vs Cookies</h2></div>
+      <p>Les deux outils répondent au même besoin de mémoire, mais ont des forces opposées. Retenez l'essentiel : <strong>le cookie est une donnée client</strong> (lisible, modifiable, envoyée en continu), <strong>la session est une donnée serveur</strong> protégée derrière un simple identifiant.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Critère</th><th>Cookie</th><th>Session</th></tr></thead>
+          <tbody>
+            <tr><td>Stockage</td><td>navigateur (client)</td><td>serveur (fichiers)</td></tr>
+            <tr><td>Durée</td><td>de quelques secondes à plus d'un an, programmée</td><td>jusqu'à la fermeture du navigateur, ou délai d'inactivité serveur</td></tr>
+            <tr><td>Taille max</td><td>≈ 4 Ko par cookie</td><td>limitée par le disque du serveur</td></tr>
+            <tr><td>Sécurité</td><td>lisible / modifiable par le client et le JS</td><td>données jamais transmises (ID seul voyage)</td></tr>
+            <tr><td>Cas d'usage typiques</td><td>préférences claires et non sensibles : thème, langue</td><td>connexion, panier, données sensibles</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Règles de sécurité des cookies</div>
+          <p>Toujours <code>httponly = true</code> pour empêcher le JavaScript de lire le cookie, et <code>secure = true</code> quand le site est en HTTPS : le cookie ne circule plus jamais en texte clair. Et ne stockez <strong>jamais</strong> de mot de passe — pas même encodé — dans un cookie.</p>
+        </div>
+      </div>
+      <p>Sur la durée, il y a une nuance que l'on rate souvent : le cookie <code>PHPSESSID</code> est créé <strong>sans date d'expiration</strong>, donc le navigateur l'efface quand il est totalement fermé — refermer un onglet ne suffit pas, et la session redevient vierge à la réouverture. Le serveur, lui, supprime les fichiers de session abandonnés au bout de <code>session.gc_maxlifetime</code> (1 440 secondes, soit 24 minutes, par défaut) : un visiteur inactif plus de 24 minutes est déconnecté sans prévenir. Règle pratique : une donnée qui doit survivre à la fermeture du navigateur (« se souvenir de moi ») ne se met pas dans <code>$_SESSION</code> mais dans un cookie persistant — avec <code>expires</code> daté, <code>httponly</code> et <code>secure</code>.</p>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s11-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🌗 Thème mémorisé</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_theme.php</code> avec un formulaire POST proposant "clair" / "sombre".</li>
+            <li>Au POST, stockez le choix dans un cookie d'un an, path "/".</li>
+            <li>Affichez le thème actuel depuis <code>$_COOKIE</code> (valeur par défaut : "clair") et testez en rechargeant.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>time() + 365 * 24 * 3600</code> vaut un an ; le cookie ne se relit qu'au chargement suivant.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔐 Mini-connexion</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_login.php</code> : un formulaire POST (pseudo + mot de passe).</li>
+            <li>Si le couple vaut "alice" / "azerty", stockez le pseudo dans <code>$_SESSION["user"]</code>.</li>
+            <li>Sur toute requête où <code>$_SESSION["user"]</code> existe déjà, affichez « Bienvenue {pseudo} » ; sinon, affichez le formulaire.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>session_start()</code> tout en haut du fichier, avant le moindre echo ou HTML.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🗄️ Compteur de visites</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_visites.php</code> : à chaque rechargement, incrémentez <code>$_SESSION["visites"]</code> (défaut : 1).</li>
+            <li>Affichez « Vous avez visité cette page N fois ».</li>
+            <li>Ajoutez un bouton « Remise à zéro » (GET) qui remet le compteur à 0.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> à chaque chargement, <code>$_SESSION["visites"] = ($_SESSION["visites"] ?? 0) + 1;</code> suffit.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🛒 Panier complet</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Reprenez le panier de la séance : ajoutez des articles via des liens <code>?ajouter=...</code>.</li>
+            <li>Ajoutez la suppression d'un article précis via <code>?retirer=...</code> (recherchez son index avec <code>array_search</code>, puis <code>unset</code>).</li>
+            <li>Ajoutez un lien <code>?vider=1</code> qui vide le panier, et affichez toujours son contenu + son total.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>array_search</code> peut retourner <code>false</code> : testez <code>!== false</code> avant d'appeler <code>unset</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s11-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Pourquoi HTTP est stateless et ce que ça implique</li>
+        <li>Créer / supprimer un cookie avec <code>setcookie</code>, puis le relire via <code>$_COOKIE</code></li>
+        <li>Les paramètres clés : <code>path</code>, <code>secure</code>, <code>httponly</code></li>
+        <li><code>session_start()</code> systématiquement en haut de page</li>
+        <li>Écrire, relire et modifier un tableau <code>$_SESSION</code></li>
+        <li>Construire un panier (ajouter, retirer, vider)</li>
+        <li>Se déconnecter avec <code>session_unset</code> + <code>session_destroy</code> (+ effacer le cookie)</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier <code>session_start()</code> → <code>$_SESSION</code> est vide sans warning clair.</li>
+            <li>Appeler <code>setcookie</code> ou <code>session_start</code> après un affichage → « headers already sent ».</li>
+            <li>Attendre la valeur du cookie tout de suite après <code>setcookie</code> → elle n'arrive qu'au chargement suivant.</li>
+            <li>Stocker un mot de passe (même encodé) dans un cookie lisible par le client.</li>
+            <li>Utiliser <code>session_destroy()</code> seul et croire que <code>$_SESSION</code> est vidée sur-le-champ.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Stateless</dt><dd>Protocole sans mémoire entre deux requêtes, comme HTTP.</dd>
+          <dt>Cookie</dt><dd>Petite donnée stockée chez le client, renvoyée à chaque requête.</dd>
+          <dt>setcookie</dt><dd>Envoie l'en-tête Set-Cookie ; à appeler avant tout affichage.</dd>
+          <dt>$_COOKIE</dt><dd>La superglobale qui contient les cookies renvoyés par le navigateur.</dd>
+          <dt>Session</dt><dd>Données stockées côté serveur, identifiées par un session ID.</dd>
+          <dt>session_id</dt><dd>Identifiant unique de la session, transporté par le cookie PHPSESSID.</dd>
+          <dt>session_unset</dt><dd>Vide le contenu de <code>$_SESSION</code>.</dd>
+          <dt>session_destroy</dt><dd>Détruit la session côté serveur (effet différé dans <code>$_SESSION</code>).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 12 — Bases de données avec PDO</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Connexion, requêtes préparées, transactions : parler à MySQL proprement</div>
+        </div>
+        <a href="seance12.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 12 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="11">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

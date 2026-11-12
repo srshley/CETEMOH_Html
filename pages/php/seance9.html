@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 9 — Formulaires · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html" class="active">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 9 — Formulaires</div>
+      <a href="#s9-html"      class="sidebar-item"><span class="sidebar-num">01</span>Le formulaire HTML</a>
+      <a href="#s9-donnees"   class="sidebar-item"><span class="sidebar-num">02</span>Récupérer les données</a>
+      <a href="#s9-valider"   class="sidebar-item"><span class="sidebar-num">03</span>Valider les saisies</a>
+      <a href="#s9-nettoyer"  class="sidebar-item"><span class="sidebar-num">04</span>Nettoyer &amp; échapper</a>
+      <a href="#s9-afficher"  class="sidebar-item"><span class="sidebar-num">05</span>Erreurs &amp; réaffichage</a>
+      <a href="#s9-getpost"   class="sidebar-item"><span class="sidebar-num">06</span>GET vs POST</a>
+      <a href="#s9-exo"       class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s9-bilan"     class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance8.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 8</a>
+      <a href="seance10.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 10 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 09 / 14</div>
+      <h1>Formulaires</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">form · $_GET / $_POST · validation · htmlspecialchars · réaffichage des erreurs</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Construire un formulaire HTML relié à un script PHP</li>
+          <li>Récupérer les saisies via les superglobales <code>$_GET</code> et <code>$_POST</code></li>
+          <li>Valider chaque champ côté serveur et nettoyer les valeurs reçues</li>
+          <li>Échapper les sorties avec <code>htmlspecialchars</code> pour bloquer le XSS</li>
+          <li>Réafficher un formulaire avec erreurs et valeurs conservées</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 2 — Variables &amp; tableaux</li>
+          <li>Séance 8 — Chaînes (<code>trim</code> et <code>filter_var</code> reviennent ici)</li>
+          <li>Notions de HTML de base (<code>form</code>, <code>input</code>, <code>label</code>)</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 LE FORMULAIRE HTML ══════════ -->
+    <div id="s9-html">
+      <div class="section-header"><span class="section-num">01</span><h2>Le formulaire HTML</h2></div>
+      <p>Un formulaire est un bloc HTML <code>&lt;form&gt;</code> qui regroupe des champs de saisie (<code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>) et les envoie vers une page cible au clic sur le bouton. Deux attributs du <code>&lt;form&gt;</code> pilotent l'envoi : <code>action</code> (la page qui recevra les données) et <code>method</code> (la façon de les transporter). Chaque champ doit impérativement porter un attribut <code>name</code> : c'est par ce nom que PHP retrouvera la valeur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — inscription.html</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form method="post" action="traitement.php"&gt;
+  &lt;label&gt;Nom
+    &lt;input type="text" name="nom" required&gt;
+  &lt;/label&gt;
+  &lt;label&gt;E-mail
+    &lt;input type="email" name="email" required&gt;
+  &lt;/label&gt;
+  &lt;label&gt;Classe
+    &lt;select name="classe"&gt;
+      &lt;option value="a2"&gt;Année 2&lt;/option&gt;
+      &lt;option value="a3"&gt;Année 3&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/label&gt;
+  &lt;button&gt;S'inscrire&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Formulaire d'inscription : trois champs (Nom, E-mail, Classe) et un bouton « S'inscrire ». À la soumission, le navigateur envoie <code>nom</code>, <code>email</code> et <code>classe</code> vers <code>traitement.php</code>.</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">method et action, pas à pas</div>
+          <p><strong><code>action</code></strong> : l'URL qui reçoit les données ; omise ou vide, c'est la page actuelle qui se reçoit elle-même — pratique pour valider et afficher dans le même fichier. <strong><code>method</code></strong> : <code>post</code> place les données dans le corps de la requête HTTP (invisible, pas de limite pratique) ; <code>get</code> les accroche à l'URL, visibles par tout le monde. Absent, le navigateur utilise <code>get</code> par défaut.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 RÉCUPÉRER LES DONNÉES ══════════ -->
+    <div id="s9-donnees">
+      <div class="section-header"><span class="section-num">02</span><h2>Récupérer les données</h2></div>
+      <p>Côté PHP, les données envoyées arrivent dans des <strong>superglobales</strong> : des tableaux associatifs toujours disponibles, dans toutes les portées. La clé est l'attribut <code>name</code> du champ, la valeur sa saisie. Tous les champs renvoyés sont des <strong>chaînes</strong> : un <code>&lt;input type="number"&gt;</code> fournit quand même <code>"25"</code>, qu'il faudra convertir ou valider.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — traitement.php</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nom    = $_POST["nom"];
+    $email  = $_POST["email"];
+    $classe = $_POST["classe"];
+
+    echo "Bonjour " . $nom . "&lt;br&gt;";
+    echo "Votre e-mail : " . $email . "&lt;br&gt;";
+    echo "Classe : " . $classe . " ";
+    echo "(type PHP : " . gettype($email) . ")";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Bonjour Ali<br>Votre e-mail : ali@mail.ma<br>Classe : a2 (type PHP : string)</p></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Superglobale</th><th>Méthode HTML</th><th>Visibilité des données</th></tr></thead>
+          <tbody>
+            <tr><td><code>$_GET</code></td><td><code>method="get"</code> (ou liens / URL directe)</td><td>visibles dans l'URL, partagables, historisées</td></tr>
+            <tr><td><code>$_POST</code></td><td><code>method="post"</code></td><td>invisibles dans l'URL, corps de la requête</td></tr>
+            <tr><td><code>$_REQUEST</code></td><td>les deux à la fois</td><td>fusion de <code>$_GET</code> et <code>$_POST</code> — usage déconseillé</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Le test de méthode d'abord</div>
+          <p>Encadrez toujours le traitement par <code>if ($_SERVER["REQUEST_METHOD"] === "POST")</code> : sans lui, la première visite de la page (sans soumission) déclencherait des erreurs « undefined index ». L'attribut <code>name</code> est le seul lien entre le HTML et la superglobale — un champ sans <code>name</code> n'est jamais envoyé à PHP.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Bonjour, inconnu</span>
+        </div>
+        <ol>
+          <li>Créez <code>recap.php</code> : un formulaire <code>GET</code> qui s'auto-envoie, avec deux champs <code>name="prenom"</code> et <code>name="ville"</code>.</li>
+          <li>Sous le formulaire, lisez les deux clés dans <code>$_GET</code> et affichez « Bonjour X, belle ville que Y ».</li>
+          <li>Prévoyez ce que rend la page ouverte sans aucune saisie, puis vérifiez : sans <code>??</code> PHP avertit « Undefined array key », et avec <code>gettype($prenom)</code> vous constaterez que la valeur reste toujours une <code>string</code>.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $prenom = $_GET["prenom"] ?? "visiteur";
+  $ville  = $_GET["ville"] ?? "inconnue";
+
+  echo "Bonjour $prenom, belle ville que $ville&lt;br&gt;";
+  echo "Type de prenom : " . gettype($prenom);
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 VALIDER ══════════ -->
+    <div id="s9-valider">
+      <div class="section-header"><span class="section-num">03</span><h2>Valider les saisies</h2></div>
+      <p>Les attributs HTML (<code>required</code>, <code>type="email"</code>) ne sont qu'un confort pour l'utilisateur : n'importe qui peut envoyer en Postman une requête forgée avec un e-mail vide ou absurde. La validation <strong>côté serveur</strong> est la seule qui compte. On y combine <code>isset</code> (la clé existe), <code>empty</code> (valeur vide), <code>trim</code> (espaces parasites) et <code>filter_var</code> (format).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Validation complète</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $erreurs = [];
+
+  $nom = trim($_POST["nom"] ?? "");
+  $email = trim($_POST["email"] ?? "");
+  $age = $_POST["age"] ?? "";
+
+  if ($nom === "") {
+    $erreurs["nom"] = "Le nom est obligatoire.";
+  }
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $erreurs["email"] = "E-mail invalide.";
+  }
+  if (!filter_var($age, FILTER_VALIDATE_INT, ["options" =&gt; ["min_range" =&gt; 14, "max_range" =&gt; 99]])) {
+    $erreurs["age"] = "L'âge doit être entre 14 et 99.";
+  }
+
+  echo count($erreurs) === 0 ? "Inscription OK" : "Erreurs : " . count($erreurs);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Erreurs : 1</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne JAMAIS faire confiance aux données client</div>
+          <p>Le navigateur exécute « votre » page, mais l'utilisateur contrôle sa machine : JavaScript désactivé, <code>maxlength</code> ignoré, attribut <code>required</code> contourné, requête forgée directement. Validez <strong>toujours</strong> côté serveur ce qui a des conséquences : comptes, prix, droits. La validation HTML n'est qu'une ergonomie, pas une sécurité.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>empty</code> vs <code>isset</code> vs <code>=== ""</code></div>
+          <p><code>isset</code> répond « la clé existe » (elle renvoie <code>false</code> seulement pour <code>null</code>) ; <code>empty</code> renvoie <code>true</code> pour <code>""</code>, <code>0</code>, <code>"0"</code>, <code>[]</code> et <code>null</code>. Pour un champ texte, <code>trim($v) === ""</code> reste le test le plus explicite : attention, un zéro saisi dans le formulaire serait jugé « vide » par <code>empty</code>.</p>
+        </div>
+      </div>
+      <p>Dernier piège à connaître sur <code>filter_var</code> en mode validation : elle renvoie <strong>la valeur convertie</strong> en cas de succès et <code>false</code> seulement en cas d'échec. Or <code>filter_var("0", FILTER_VALIDATE_INT)</code> rend l'entier <code>0</code>, une valeur « fausse » pour PHP : un test <code>if (!filter_var(…))</code> rejetterait donc à tort un zéro parfaitement légitime. Écrivez toujours <code>if (filter_var($v, FILTER_VALIDATE_INT) === false)</code> quand le zéro est une saisie possible, et récupérez la valeur retournée — c'est désormais un <code>int</code>, plus la chaîne du formulaire.</p>
+    </div>
+
+    <!-- ══════════ 04 NETTOYER / ÉCHAPPER ══════════ -->
+    <div id="s9-nettoyer">
+      <div class="section-header"><span class="section-num">04</span><h2>Nettoyer / échapper</h2></div>
+      <p>Deux mouvements différents, souvent confondus : <strong>nettoyer l'entrée</strong> — supprimer ce qui ne doit pas exister dans la saisie (<code>trim</code>, <code>strip_tags</code>) — et <strong>échapper la sortie</strong> — transformer les caractères dangereux en entités HTML <em>au moment d'afficher</em> (<code>htmlspecialchars</code>). Ce dernier point neutralise l'attaque XSS : un texte envoyé sous forme <code>&lt;script&gt;</code> ne s'exécute plus, il s'affiche tel quel.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Nettoyer puis échapper</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // Champ "nom" rempli par un visiteur malveillant :
+  $saisie = "Ali &lt;script&gt;alert('xss')&lt;/script&gt;";
+
+  $nom = strip_tags($saisie);     // retire les balises
+  $nom = trim($nom);
+  echo "Nettoyé avec strip_tags : $nom&lt;br&gt;";
+
+  // Recommandé : conserver la saisie, échapper à l'affichage
+  echo "Échappé avec htmlspecialchars : "
+     . htmlspecialchars($saisie, ENT_QUOTES);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Nettoyé avec strip_tags : Ali alert('xss')<br>Échappé avec htmlspecialchars : Ali &lt;script&gt;alert('xss')&lt;/script&gt;</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">XSS : la règle d'or de l'échappement</div>
+          <p>Une seule protection compte : <strong>dès qu'une donnée fournie par un utilisateur est affichée dans du HTML, passez-la par <code>htmlspecialchars($v, ENT_QUOTES, 'UTF-8')</code></strong>. Une balise <code>&lt;script&gt;</code> stockée puis affichée brute s'exécuterait pour chaque visiteur — vol de cookies, redirections, defacement. Nettoyez à la validation si besoin, mais échappez <em>à chaque sortie</em>, sans exception.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Une saisie, trois sorties</span>
+        </div>
+        <ol>
+          <li>Créez <code>nettoie.php</code> et déclarez <code>$saisie = '&lt;b&gt;Promo&lt;/b&gt; du "vendredi"';</code>.</li>
+          <li>Affichez la saisie sur trois lignes : en brut, puis avec <code>htmlspecialchars($saisie, ENT_QUOTES, 'UTF-8')</code>, puis avec <code>strip_tags($saisie)</code>.</li>
+          <li>Prévoyez laquelle affiche « Promo » <strong>en gras</strong> et laquelle montre <code>&amp;quot;</code> devant les guillemets, puis vérifiez avec « Afficher le code source » (Ctrl+U).</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $saisie = '&lt;b&gt;Promo&lt;/b&gt; du "vendredi"';
+
+  echo $saisie . "&lt;br&gt;";
+  echo htmlspecialchars($saisie, ENT_QUOTES, 'UTF-8') . "&lt;br&gt;";
+  echo strip_tags($saisie);
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 AFFICHER LES ERREURS & RÉAFFICHER ══════════ -->
+    <div id="s9-afficher">
+      <div class="section-header"><span class="section-num">05</span><h2>Afficher les erreurs &amp; réafficher les valeurs</h2></div>
+      <p>Lors du post de formulaire vers sa propre page, on affiche le formulaire à nouveau, <strong>mais enrichi</strong> : chaque message d'erreur sous son champ, et la saisie de l'utilisateur conserve ses valeurs (<code>value="…"</code>) pour qu'il n'ait pas à tout retaper. Les messages sont produits par la validation, stockés dans un tableau indexé par nom de champ.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — formulaire.php (page unique)</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $erreurs = [];
+  $nom   = "";
+  $email = "";
+
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nom   = trim($_POST["nom"] ?? "");
+    $email = trim($_POST["email"] ?? "");
+
+    if ($nom === "") {
+      $erreurs["nom"] = "Nom obligatoire.";
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $erreurs["email"] = "E-mail invalide.";
+    }
+  }
+?&gt;
+&lt;form method="post"&gt;
+  &lt;input type="text" name="nom"
+         value="&lt;?= htmlspecialchars($nom) ?&gt;"&gt;
+  &lt;?= $erreurs["nom"] ?? "" ?&gt;&lt;br&gt;
+  &lt;input type="text" name="email"
+         value="&lt;?= htmlspecialchars($email) ?&gt;"&gt;
+  &lt;?= $erreurs["email"] ?? "" ?&gt;&lt;br&gt;
+  &lt;button&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Le nom « Sara » est conservé dans son champ ; seul message affiché sous l'e-mail : « E-mail invalide. » — l'utilisateur corrige sans tout retaper.</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Une page, deux vies</div>
+          <p>Charger la page sans POST = <em>formulaire vide</em> ; charger la page après POST = <em>formulaire complété d'erreurs et de valeurs conservées</em>. Le même fichier gère les deux vies grâce au test de <code>REQUEST_METHOD</code>. Détail d'usage : un champ <code>type="password"</code> reste volontairement vide après un échec — pour des raisons de sécurité, il n'est jamais réaffiché.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 GET vs POST ══════════ -->
+    <div id="s9-getpost">
+      <div class="section-header"><span class="section-num">06</span><h2>GET vs POST</h2></div>
+      <p>Choisir la méthode, c'est choisir <em>comment</em> les données voyagent. Avec <code>GET</code>, la saisie devient des paramètres d'URL à la fin de l'adresse : visibles, partageables, bookmarkables — rafraîchir la page rejoue la même requête sans danger. Avec <code>POST</code>, les données voyagent dans le corps de la requête HTTP : invisibles dans l'URL et sans limite pratique de taille.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Critère</th><th>GET</th><th>POST</th></tr></thead>
+          <tbody>
+            <tr><td>Transport</td><td>paramètres accrochés à l'URL</td><td>corps de la requête HTTP</td></tr>
+            <tr><td>Visibilité</td><td>totale : barre d'adresse, historique, logs serveur</td><td>aucune dans l'URL</td></tr>
+            <tr><td>Taille</td><td>limitée (≈ 2 048 caractères dans la plupart des navigateurs)</td><td>pratiquement illimitée (configurée côté serveur)</td></tr>
+            <tr><td>Partage / indexation</td><td>URL partageable et bookmarkable</td><td>non — requête non rejouable en un clic</td></tr>
+            <tr><td>Usages types</td><td>recherche, filtres, navigation par paramètres</td><td>inscription, connexion, envoi de fichiers, paiement</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">POST pour tout ce qui est sensible</div>
+          <p>Règle mémorisable : <strong>GET lit, POST écrit</strong>. Un filtre de recherche, un tri, une pagination → GET (l'URL reste partageable). Une création, une modification, une connexion, un mot de passe — bref tout ce qui change d'état ou mérite la confidentialité → POST. Un mot de passe envoyé en GET apparaît en clair dans l'historique du navigateur et les logs du serveur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s9-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">👋 Bonjour, qui êtes-vous ?</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_bonjour.php</code> : un formulaire <code>GET</code> avec champs <code>prenom</code> et <code>age</code>.</li>
+            <li>À la soumission, affichez « Bonjour X, tu as Y ans ».</li>
+            <li>Observez l'URL : les valeurs y apparaissent. Testez <code>age = 99</code> sans limite.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> lisez <code>$_GET["prenom"]</code> et <code>$_GET["age"]</code> avec l'opérateur <code>??</code> pour éviter les erreurs de première visite.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">✅ Validation d'inscription</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Reprenez le formulaire <code>POST</code> d'inscription (nom, e-mail, âge) vers lui-même.</li>
+            <li>Validez : nom non vide, e-mail via <code>FILTER_VALIDATE_EMAIL</code>, âge entier entre 14 et 99.</li>
+            <li>Affichez chaque erreur sous son champ au lieu d'un bloc unique.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> un tableau <code>$erreurs[nomDuChamp] = message</code> indexé par champ, testé avec <code>isset($erreurs["nom"])</code> sous chaque <code>input</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🛡️ Tester le XSS</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Affichez la saisie d'un champ <code>message</code> en brut (sans échappement).</li>
+            <li>Envoyez dedans : <code>&lt;script&gt;alert('test')&lt;/script&gt;</code> — constatez l'exécution.</li>
+            <li>Refaites la même page avec <code>htmlspecialchars</code> : la balise s'affiche en texte.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> la différence est uniquement dans l'<em>affichage</em> — la saisie n'a pas changé, seul son échappement à la sortie change.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🔁 Formulaire réaffiché</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Faites un formulaire <code>POST</code> auto-expédiant (action vide) avec champ <code>question</code> et <code>réponse</code> en <code>textarea</code>.</li>
+            <li>Si la réponse est vide, réaffichez le formulaire avec l'erreur <em>et</em> la question déjà tapée.</li>
+            <li>Si tout est valide, affichez les deux valeurs échappées.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>value="&lt;?= htmlspecialchars($question) ?&gt;"</code> conserve la saisie — et <code>&lt;textarea&gt;&lt;?= htmlspecialchars($reponse) ?&gt;&lt;/textarea&gt;</code> fait de même pour l'élément texte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s9-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>La structure d'un <code>&lt;form&gt;</code> : <code>action</code>, <code>method</code> et l'attribut <code>name</code> de chaque champ</li>
+        <li>Récupérer les saisies : <code>$_GET</code>, <code>$_POST</code> (et pourquoi <code>$_REQUEST</code> est à éviter)</li>
+        <li>Le test de <code>REQUEST_METHOD</code> pour distinguer visites et soumissions</li>
+        <li>La validation serveur : <code>isset</code>, <code>empty</code>, <code>trim</code>, <code>filter_var</code></li>
+        <li>Le nettoyage des entrées (<code>strip_tags</code>) et l'échappement des sorties (<code>htmlspecialchars</code>)</li>
+        <li>Le réaffichage : erreurs par champ et valeurs conservées via <code>value=""</code></li>
+        <li>Quand utiliser GET (lire, filtrer) et quand utiliser POST (écrire, sensible)</li>
+        <li>La menace XSS et la règle : tout affichage de donnée utilisateur passe par l'échappement</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Accéder à <code>$_POST["champ"]</code> sans test de méthode ni <code>??</code> → « undefined index » à la première visite.</li>
+            <li>Oublier l'attribut <code>name</code> sur un champ → sa valeur n'arrive jamais dans la superglobale.</li>
+            <li>Se fier à <code>required</code> ou <code>type="email"</code> HTML comme seule sécurité.</li>
+            <li>Afficher une saisie sans <code>htmlspecialchars</code> → XSS possible sur chaque visiteur.</li>
+            <li>Envoyer un mot de passe (ou toute donnée sensible) en <code>GET</code> → il finit dans l'URL, l'historique et les logs.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Superglobale</dt><dd>Tableau PHP disponible partout : <code>$_GET</code>, <code>$_POST</code>, <code>$_SESSION</code>…</dd>
+          <dt>Méthode HTTP</dt><dd>Mode de transport de la requête : <code>GET</code> (URL) ou <code>POST</code> (corps).</dd>
+          <dt><code>$_SERVER["REQUEST_METHOD"]</code></dt><dd>Chaîne (<code>GET</code> / <code>POST</code>) permettant de détecter une soumission.</dd>
+          <dt>Validation</dt><dd>Contrôle côté serveur de la présence et du format de chaque saisie.</dd>
+          <dt>Désinfection</dt><dd>Nettoyage d'une saisie avant stockage : <code>trim</code>, <code>strip_tags</code>.</dd>
+          <dt>Échappement</dt><dd>Conversion des caractères spéciaux en entités HTML via <code>htmlspecialchars</code>.</dd>
+          <dt>XSS</dt><dd>Injection de script dans une page par une saisie affichée sans échappement.</dd>
+          <dt>Réaffichage</dt><dd>Retour du formulaire avec erreurs détaillées et valeurs conservées.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 10 — Fichiers &amp; uploads</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">file_get_contents, fopen, $_FILES : lire, écrire et recevoir des fichiers</div>
+        </div>
+        <a href="seance10.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 10 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="09">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

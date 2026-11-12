@@ -70,6 +70,16 @@
   --green-dim:  rgba(52,211,153,.08);
 
   --purple-dim: rgba(167,139,250,.08);
+
+  /* Darker accents for contrast on white background */
+  --teal:    #0D9488;
+  --amber:   #B45309;
+  --red:     #DC2626;
+  --red-dim: rgba(220,38,38,.12);
+  --green:   #059669;
+  --green-dim: rgba(5,150,105,.12);
+  --purple:  #7C3AED;
+  --purple-dim: rgba(124,58,237,.12);
 }
 
 /* ── Reset ── */
@@ -1323,7 +1333,12 @@ td code, th code {
 .preview-body h1 { font-size: 1.8em; margin: 0 0 .3em; color: #000; font-family: Arial, sans-serif; }
 .preview-body h2 { font-size: 1.3em; margin: .8em 0 .3em; color: #333; font-family: Arial, sans-serif; border-bottom: 1px solid #ddd; padding-bottom: .2em;}
 .preview-body h3 { font-size: 1.1em; color: #555; margin: .6em 0 .2em; font-family: Arial, sans-serif; }
-.preview-body p  { margin: .5em 0; }
+  .preview-body p  { margin: .5em 0; }
+  /* Force dark text inside previews: the global `p{color:var(--text)}` would
+     otherwise render light text on the white preview panel in dark mode. */
+  .preview-body p, .preview-body li, .preview-body td, .preview-body th,
+  .preview-body blockquote, .preview-body address, .preview-body figcaption,
+  .preview-body caption, .preview-body dd { color: #1f2937; }
 .preview-body a  { color: #0000ee; text-decoration: underline; }
 .preview-body a:visited { color: #551a8b; }
 .preview-body ul, .preview-body ol { padding-left: 1.8em; margin: .5em 0; }
@@ -2532,6 +2547,24 @@ body, .sidebar, .topbar, .content, .code-body, .code-editor, .preview-panel,
   border-left: 3px solid var(--text3) !important;
   opacity: .85;
 }
+/* PHP / non-editable preview blocks keep full opacity (left border accent only) */
+.code-preview-split.code-static {
+  opacity: 1 !important;
+  border-left: none !important;
+}
+/* Restore padding/contrast for the static (non-iframe) preview output */
+.code-preview-split.code-static .preview-body {
+  padding: 1.25rem 1.5rem;
+  color: #111827;
+  background: #eef1f6;
+}
+.code-preview-split.code-static .preview-body h1 { color: #0a0a0a; }
+.code-preview-split.code-static .preview-body h2 { color: #1a1a1a; }
+.code-preview-split.code-static .preview-body h3 { color: #333; }
+.code-preview-split.code-static .preview-panel {
+  background: #eef1f6;
+  border-color: var(--border2);
+}
 .code-static .code-body pre {
   user-select: none;
   cursor: default;
@@ -2704,7 +2737,9 @@ textarea:focus-visible,
   width: 100%;
   max-width: 100vw;
   min-width: 0;
-  overflow: hidden;
+  /* clip only horizontally so the search dropdown isn't cut off */
+  overflow-x: clip;
+  overflow-y: visible;
   padding-inline: clamp(.75rem, 2vw, 1.5rem);
 }
 
@@ -3120,3 +3155,56 @@ textarea:focus-visible,
     transition-duration: .01ms !important;
   }
 }
+
+/* ─────────────────────────────────────────────────
+   MOBILE POLISH
+   The topbar wraps to 2-3 rows on small screens:
+   --topbar-h (set by app.js) tracks its real height.
+───────────────────────────────────────────────── */
+
+/* Anchor offset & progress bar follow the real topbar height */
+html {
+  scroll-padding-top: calc(var(--topbar-h, 56px) + 16px);
+}
+
+#progress-bar {
+  top: var(--topbar-h, 56px);
+}
+
+@media (max-width: 900px) {
+  /* The hamburger opens the sidebar — the fixed edge tab is redundant
+     and overlaps reading content on phones */
+  .sidebar-toggle {
+    display: none;
+  }
+}
+
+/* Frees a whole topbar row on phones (search stays available on tablet) */
+@media (max-width: 640px) {
+  .topbar .search-wrap {
+    display: none;
+  }
+}
+
+/* Sidebar backdrop: dim the page while the sidebar is open */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 12, .55);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.sidebar-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 901px) {
+  .sidebar-backdrop {
+    display: none;
+  }
+}
+

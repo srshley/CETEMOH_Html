@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 10 — Fichiers &amp; uploads · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html" class="active">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 10 — Fichiers & uploads</div>
+      <a href="#s10-lire"     class="sidebar-item"><span class="sidebar-num">01</span>Lire un fichier</a>
+      <a href="#s10-ecrire"   class="sidebar-item"><span class="sidebar-num">02</span>Écrire dans un fichier</a>
+      <a href="#s10-modes"    class="sidebar-item"><span class="sidebar-num">03</span>Les modes d'ouverture</a>
+      <a href="#s10-fonctions" class="sidebar-item"><span class="sidebar-num">04</span>Fonctions de fichiers</a>
+      <a href="#s10-upload"   class="sidebar-item"><span class="sidebar-num">05</span>Upload de fichiers</a>
+      <a href="#s10-securite" class="sidebar-item"><span class="sidebar-num">06</span>Sécuriser les uploads</a>
+      <a href="#s10-exo"      class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s10-bilan"    class="sidebar-item"><span class="sidebar-num">08</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance9.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 9</a>
+      <a href="seance11.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 11 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 10 / 14</div>
+      <h1>Fichiers & uploads</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">file_get_contents · fopen / fgets / fwrite · modes d'ouverture · <code>$_FILES</code> · move_uploaded_file</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Intermédiaire</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Lire le contenu d'un fichier avec <code>file_get_contents</code> ou <code>fgets</code></li>
+          <li>Écrire et ajouter du texte avec <code>file_put_contents</code> et <code>fwrite</code></li>
+          <li>Comprendre les modes d'ouverture (<code>r</code>, <code>w</code>, <code>a</code>…)</li>
+          <li>Manipuler les fichiers : taille, dates, suppression, copie, renommage</li>
+          <li>Recevoir et sécuriser un fichier uploadé via <code>$_FILES</code></li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis & durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 6/7 — Tableaux (pour parcourir <code>scandir</code>)</li>
+          <li>Séance 9 — Formulaires et <code>$_POST</code> (<code>$_FILES</code> fonctionne pareil)</li>
+          <li>Durée estimée : <strong>2 heures</strong></li>
+          <li>4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 LIRE ══════════ -->
+    <div id="s10-lire">
+      <div class="section-header"><span class="section-num">01</span><h2>Lire un fichier</h2></div>
+      <p>PHP peut lire des fichiers présents sur le serveur : un journal d'erreurs, un fichier de configuration, des données exportées en CSV. La méthode la plus simple est <code>file_get_contents("fichier.txt")</code>, qui renvoie <strong>tout le contenu en une seule chaîne</strong>. Si le fichier n'existe pas, elle renvoie <code>false</code> (et un avertissement).</p>
+      <p>Pour un traitement <strong>ligne par ligne</strong> (utile pour de gros fichiers), on ouvre le fichier avec <code>fopen</code>, on le parcourt avec <code>fgets</code> puis on le ferme avec <code>fclose</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — file_get_contents</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $contenu = file_get_contents("notes.txt");
+
+  if ($contenu === false) {
+    echo "Fichier introuvable.";
+  } else {
+    echo $contenu;
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Réviser les boucles<br>Faire l'exercice 3<br>Questionnaire vendredi</p><p style="color:var(--text2);font-size:.8rem;">(contenu de notes.txt)</p></div>
+        </div>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">📓</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le cahier</div>
+          <p>Un fichier est un <strong>cahier</strong> : <code>fopen</code> l'ouvre, <code>fgets</code> lit une page (une ligne), <code>fwrite</code> écrit au stylo, et <code>fclose</code> referme le cahier. Ouvrir sans fermer, c'est laisser un livre traîner ouvert : le serveur garde des ressources mobilisées pour rien.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Le fichier introuvable</span>
+        </div>
+        <ol>
+          <li>Créez <code>devoirs.txt</code> avec trois lignes de texte, puis <code>lire_devoirs.php</code> qui affiche tout le contenu avec <code>file_get_contents</code>.</li>
+          <li>Comptez les retours à la ligne avec <code>substr_count($contenu, "\n")</code> et affichez le résultat sous le texte.</li>
+          <li>Prévoyez ce que rend le script si vous renommez le fichier en <code>devoirs1.txt</code>, puis vérifiez : sans test, un avertissement « Failed to open stream » s'affiche sur la page ; avec <code>$contenu === false</code>, c'est votre message « Fichier introuvable. » qui prend la main.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $contenu = file_get_contents("devoirs.txt");
+
+  if ($contenu === false) {
+    echo "Fichier introuvable.";
+  } else {
+    echo $contenu . "&lt;br&gt;Lignes : " . substr_count($contenu, "\n");
+  }
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 ÉCRIRE ══════════ -->
+    <div id="s10-ecrire">
+      <div class="section-header"><span class="section-num">02</span><h2>Écrire dans un fichier</h2></div>
+      <p>L'inverse de la lecture : <code>file_put_contents("fichier.txt", $texte)</code> écrit une chaîne dans un fichier. Sans troisième argument, il <strong>écrase</strong> le contenu existant. Avec le flag <code>FILE_APPEND</code>, il <strong>ajoute</strong> à la fin — parfait pour un journal (log).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — file_put_contents + fwrite</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // Écrase tout le contenu
+  file_put_contents("notes.txt", "Nouvelle liste\n");
+
+  // Ajoute à la fin
+  file_put_contents("notes.txt", "- Acheter du pain\n", FILE_APPEND);
+
+  // Version fopen : ouvrir en mode "a" (append)
+  $fp = fopen("notes.txt", "a");
+  fwrite($fp, "- Filmer le TP\n");
+  fclose($fp);
+
+  echo file_get_contents("notes.txt");
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Nouvelle liste<br>- Acheter du pain<br>- Filmer le TP</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title"><code>w</code> écrase, <code>a</code> ajoute</div>
+          <p>C'est la règle d'or des modes d'écriture : <code>w</code> est le taille-zéro (il vide le fichier à l'ouverture), <code>a</code> est le post-it collé à la fin (il ajoute sans toucher à l'existant). Avec <code>file_put_contents</code>, l'équivalent de <code>a</code> est le flag <code>FILE_APPEND</code> ; celui de <code>w</code>, c'est ne rien passer du tout.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 MODES ══════════ -->
+    <div id="s10-modes">
+      <div class="section-header"><span class="section-num">03</span><h2>Les modes d'ouverture</h2></div>
+      <p>Le second argument de <code>fopen</code> décide <strong>comment</strong> on accède au fichier : lecture seule, écriture, ajout, ou les deux à la fois. Choisir le mauvais mode est une source classique de perte de données.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mode</th><th>Signification</th><th>Si le fichier existe</th><th>Si le fichier est absent</th></tr></thead>
+          <tbody>
+            <tr><td><code>r</code></td><td>Lecture seule, curseur au début</td><td>gardé intact</td><td>erreur (<code>false</code>)</td></tr>
+            <tr><td><code>r+</code></td><td>Lecture + écriture</td><td>gardé intact</td><td>erreur (<code>false</code>)</td></tr>
+            <tr><td><code>w</code></td><td>Écriture seule</td><td><strong>vidé</strong> (écrasé)</td><td>créé</td></tr>
+            <tr><td><code>w+</code></td><td>Écriture + lecture</td><td><strong>vidé</strong> (écrasé)</td><td>créé</td></tr>
+            <tr><td><code>a</code></td><td>Écriture à la fin (append)</td><td>gardé intact</td><td>créé</td></tr>
+            <tr><td><code>a+</code></td><td>Ajout + lecture</td><td>gardé intact</td><td>créé</td></tr>
+            <tr><td><code>x</code></td><td>Création exclusive</td><td>erreur si déjà présent</td><td>créé</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Attention au mode <code>w</code></div>
+          <p>Dès que <code>fopen("rapport.txt", "w")</code> s'exécute, le fichier est <strong>déjà vidé</strong> — même si vous n'écrivez jamais rien après. Ouvrir par réflexe en <code>w</code> peut détruire un fichier de données en une ligne. Pour lire : <code>r</code>. Pour ajouter : <code>a</code>.</p>
+        </div>
+      </div>
+      <p>Deux nuances que les tableaux ne montrent pas. D'abord, les modes avec <code>+</code> ne placent <strong>pas</strong> le curseur à la fin : en <code>r+</code>, le fichier est gardé intact mais le curseur démarre au premier octet, donc <code>fwrite($fp, "bon")</code> sur « PHP est nulle » donne « bon est nulle » — pour ajouter du texte avec <code>+</code>, déplacez d'abord le curseur avec <code>fseek($fp, 0, SEEK_END)</code>. Ensuite, testez systématiquement le retour de <code>fopen</code> avec <code>if ($fp === false)</code> : en PHP 8, passer ce <code>false</code> à <code>fwrite</code> ou <code>fgets</code> provoque une <code>TypeError</code> qui interrompt la page. Le mode <code>x</code> est le seul qui refuse d'écrire si le fichier existe déjà : c'est le choix à retenir quand vous devez créer sans jamais écraser.</p>
+    </div>
+
+    <!-- ══════════ 04 FONCTIONS ══════════ -->
+    <div id="s10-fonctions">
+      <div class="section-header"><span class="section-num">04</span><h2>Fonctions de fichiers</h2></div>
+      <p>Au-delà de lire et écrire, PHP fournit une boîte à outils complète : interroger un fichier, le déplacer, le supprimer, lister un dossier. Voici les fonctions à connaître.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fonction</th><th>Rôle</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>file_exists($f)</code></td><td>Teste si le fichier existe</td><td><code>file_exists("notes.txt")</code></td></tr>
+            <tr><td><code>filesize($f)</code></td><td>Taille en octets</td><td><code>filesize("notes.txt")</code> → <code>34</code></td></tr>
+            <tr><td><code>filemtime($f)</code></td><td>Date de dernière modification (timestamp)</td><td><code>date("d/m/Y", filemtime("notes.txt"))</code></td></tr>
+            <tr><td><code>unlink($f)</code></td><td><strong>Supprime</strong> le fichier</td><td><code>unlink("old.txt")</code></td></tr>
+            <tr><td><code>rename($a, $b)</code></td><td>Renomme ou déplace</td><td><code>rename("a.txt", "dossiers/b.txt")</code></td></tr>
+            <tr><td><code>copy($a, $b)</code></td><td>Copie le fichier</td><td><code>copy("notes.txt", "sauvegarde.txt")</code></td></tr>
+            <tr><td><code>scandir($dir)</code></td><td>Liste les entrées d'un dossier</td><td><code>scandir("uploads")</code></td></tr>
+            <tr><td><code>mkdir($dir)</code></td><td>Crée un dossier</td><td><code>mkdir("logs")</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Les points de <code>scandir</code></div>
+          <p><code>scandir</code> renvoie toujours <code>.</code> (dossier courant) et <code>..</code> (dossier parent) — filtrez-les avec <code>$entree !== "." && $entree !== ".."</code>. Et stockez toujours les uploads dans un dossier dédié (<code>uploads/</code>), hors des scripts exécutés.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Inventaire du dossier</span>
+        </div>
+        <ol>
+          <li>Créez <code>inventaire.php</code> : parcourez <code>scandir(".")</code> avec <code>foreach</code> et filtrez <code>.</code> et <code>..</code>.</li>
+          <li>Affichez pour chaque entrée restante son nom, sa taille avec <code>filesize</code> et sa date de modification avec <code>date("d/m/Y", filemtime(…))</code> — un sous-dossier s'y glisse : remarquez la taille qu'il renvoie.</li>
+          <li>Prévoyez ce que renvoie <code>unlink("vieux.txt")</code> quand ce fichier n'existe pas, puis vérifiez : <code>false</code> et un avertissement — d'où le réflexe de tester <code>file_exists</code> avant de supprimer.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  foreach (scandir(".") as $entree) {
+    if ($entree === "." || $entree === "..") continue;
+    echo "$entree : " . filesize($entree) . " octets, modifié le "
+       . date("d/m/Y", filemtime($entree)) . "&lt;br&gt;";
+  }
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 UPLOAD ══════════ -->
+    <div id="s10-upload">
+      <div class="section-header"><span class="section-num">05</span><h2>Upload de fichiers</h2></div>
+      <p>Un formulaire peut envoyer un fichier avec l'attribut <code>enctype="multipart/form-data"</code> (obligatoire, et uniquement avec la méthode <code>POST</code>). PHP réceptionne le fichier dans la superglobale <code>$_FILES</code>. Le fichier est d'abord posé <strong>temporairement</strong> sur le serveur : c'est à vous de le déplacer vers sa destination finale.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">HTML — Formulaire d'upload</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="html">&lt;form method="post" action="upload.php"
+      enctype="multipart/form-data"&gt;
+  &lt;input type="file" name="photo"&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><form style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;"><input type="file" name="photo" style="font-size:.75rem;"><button type="button" style="padding:.3rem .7rem;background:var(--purple);color:#fff;border:none;border-radius:6px;">Envoyer</button></form><p style="color:var(--text2);font-size:.8rem;">Aucun fichier choisi</p></div>
+        </div>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — upload.php</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if ($_FILES["photo"]["error"] === UPLOAD_ERR_OK) {
+      echo "Nom reçu : " . $_FILES["photo"]["name"] . &quot;&lt;br&gt;&quot;;
+      echo "Taille : " . $_FILES["photo"]["size"] . " octets";
+    } else {
+      echo "Échec de l'upload.";
+    }
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Nom reçu : ma_photo.jpg<br>Taille : 24580 octets</p></div>
+        </div>
+      </div>
+      <p>Chaque entrée de <code>$_FILES</code> est un tableau associatif à cinq clés :</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Clé</th><th>Contenu</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>Nom original chez le client (fiable = non)</td><td><code>ma_photo.jpg</code></td></tr>
+            <tr><td><code>type</code></td><td>Type MIME <em>déclaré</em> par le navigateur</td><td><code>image/jpeg</code></td></tr>
+            <tr><td><code>tmp_name</code></td><td>Chemin du fichier temporaire sur le serveur</td><td><code>/tmp/phpA1b2</code></td></tr>
+            <tr><td><code>error</code></td><td>Code erreur (0 = <code>UPLOAD_ERR_OK</code>)</td><td><code>0</code>, <code>1</code>, <code>2</code>…</td></tr>
+            <tr><td><code>size</code></td><td>Taille réelle en octets</td><td><code>24580</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Le fichier temporaire disparaît</div>
+          <p>PHP détruit automatiquement le fichier de <code>tmp_name</code> à la fin du script. Si vous ne le déplacez pas avec <code>move_uploaded_file</code> pendant la requête, il est perdu. C'est pourquoi une vérification oubliée ne se « corrige » pas après coup.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 SÉCURISÉ ══════════ -->
+    <div id="s10-securite">
+      <div class="section-header"><span class="section-num">06</span><h2>Sécuriser les uploads</h2></div>
+      <p>Accepter un fichier, c'est accepter un code potentiellement dangereux sur votre serveur : un <code>.php</code> déguisé en image, une image de 2 Go qui sature le disque, un nom de fichier qui écrase un fichier existant. Comme <code>$_FILES["name"]</code> et <code>$_FILES["type"]</code> sont <strong>déclarés par le client</strong>, on ne les utilise jamais seuls.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Upload sécurisé</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $extensions = ["jpg", "jpeg", "png", "gif"];
+  $max = 2 * 1024 * 1024;   // 2 Mo
+
+  $ext = strtolower(pathinfo(
+    $_FILES["photo"]["name"], PATHINFO_EXTENSION));
+
+  if ($_FILES["photo"]["error"] !== UPLOAD_ERR_OK) {
+    echo "Erreur d'upload.";
+  } elseif (!in_array($ext, $extensions)) {
+    echo "Extension interdite ($ext).";
+  } elseif ($_FILES["photo"]["size"] > $max) {
+    echo "Fichier trop lourd (max 2 Mo).";
+  } else {
+    $nouveau = "uploads/" . uniqid() . "." . $ext;
+    move_uploaded_file($_FILES["photo"]["tmp_name"], $nouveau);
+    echo "Fichier enregistré : $nouveau";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Fichier enregistré : uploads/638d2f1c9a4b7.jpg</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Les 4 règles de survie</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li><strong>Ne jamais enregistrer directement</strong> le fichier dans le dossier web sans vérification.</li>
+            <li><strong>Vérifier l'extension + le type MIME</strong> côté serveur (avec <code>finfo</code>), pas le champ <code>type</code> seul.</li>
+            <li><strong>Toujours utiliser <code>move_uploaded_file</code></strong> : elle refuse tout fichier qui ne vient pas d'un upload légitime.</li>
+            <li><strong>Régénérer le nom</strong> (<code>uniqid</code>) : jamais le nom envoyé par le client, qui peut contenir des <code>../</code> ou écraser un fichier.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Un dossier dédié</div>
+          <p>Stockez les uploads dans un dossier spécifique (<code>uploads/</code>) en dehors des scripts exécutables, et refusez les extensions dangereuses (<code>php</code>, <code>phtml</code>, <code>php5</code>…) même si la liste blanche ne les contient pas — défense en profondeur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s10-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">📖 Journal de bord</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_journal.php</code>, écrivez « Premier contact » dans <code>journal.txt</code> avec <code>file_put_contents</code>.</li>
+            <li>Ajoutez ensuite une ligne datée avec <code>FILE_APPEND</code> puis <code>date("d/m H:i")</code>.</li>
+            <li>Relisez le fichier et affichez son contenu, puis sa taille avec <code>filesize</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> appelez <code>file_put_contents</code> deux fois — sans puis avec le flag <code>FILE_APPEND</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔢 Compteur de lignes</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Le fichier <code>eleves.txt</code> contient un nom par ligne. Ouvrez-le avec <code>fopen</code> en mode <code>r</code>.</li>
+            <li>Parcourez-le avec <code>fgets</code> et affichez chaque ligne numérotée.</li>
+            <li>Comptez les lignes et affichez « N élèves ».</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> utilisez un compteur <code>$i</code> incrémenté dans le <code>while</code>, et n'oubliez pas <code>fclose</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">♻️ Gestion de fichiers</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>source.txt</code>, copiez-le en <code>sauvegarde.txt</code> avec <code>copy</code>.</li>
+            <li>Renommez <code>sauvegarde.txt</code> en <code>archive_2026.txt</code> avec <code>rename</code>.</li>
+            <li>Supprimez <code>source.txt</code> avec <code>unlink</code>, puis vérifiez au moyen de <code>file_exists</code> et affichez l'état de chacun.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> après chaque étape, un <code>file_exists</code> confirmé par un echo rend l'exercice limpide.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">📤 Upload blindé</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez le formulaire d'upload du cours (avec <code>enctype="multipart/form-data"</code>).</li>
+            <li>Ajoutez les 3 contrôles : code d'erreur via <code>$_FILES["f"]["error"]</code>, extension dans la liste <code>["jpg", "png", "pdf"]</code>, taille <code><= 1 Mo</code>.</li>
+            <li>Si tout est bon, déplacez le fichier dans <code>uploads/</code> avec un nom régénéré par <code>uniqid()</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> ressortez l'extension avec <code>pathinfo(..., PATHINFO_EXTENSION)</code> et normalisez-la via <code>strtolower</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s10-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan & mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Lire un fichier d'un bloc (<code>file_get_contents</code>) ou ligne par ligne (<code>fgets</code>)</li>
+        <li>Écrire et ajouter du contenu (<code>file_put_contents</code>, <code>fwrite</code>, <code>FILE_APPEND</code>)</li>
+        <li>Choisir le bon mode d'ouverture : <code>r</code>, <code>w</code>, <code>a</code>… et savoir que <code>w</code> écrase</li>
+        <li>Interroger, copier, renommer, supprimer un fichier (<code>file_exists</code>, <code>unlink</code>…)</li>
+        <li>Lister un dossier avec <code>scandir</code></li>
+        <li>Recevoir un upload via <code>$_FILES</code> et lire ses 5 clés</li>
+        <li>Sécuriser un upload : extension, taille, <code>move_uploaded_file</code>, nom régénéré</li>
+        <li>Fermer chaque fichier ouvert avec <code>fclose</code></li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Ouvrir en mode <code>w</code> au lieu de <code>r</code> ou <code>a</code> → le fichier d'origine est vidé instantanément.</li>
+            <li>Oublier <code>fclose</code> → descripteurs de fichiers qui s'accumulent sur le serveur.</li>
+            <li>Oublier <code>enctype="multipart/form-data"</code> → <code>$_FILES</code> reste vide, seul le nom du fichier arrive.</li>
+            <li>Faire confiance à <code>$_FILES["type"]</code> ou au nom d'origine → faille de sécurité.</li>
+            <li>Copier <code>file_get_contents("inexistant.txt")</code> dans une page sans tester <code>file_exists</code> → avertissement à l'écran.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>fopen / fclose</dt><dd>Ouverture / fermeture d'un fichier, avec un mode d'accès.</dd>
+          <dt>fgets</dt><dd>Lit une ligne du fichier ouvert, avance le curseur.</dd>
+          <dt>fwrite</dt><dd>Écrit une chaîne dans le fichier ouvert.</dd>
+          <dt>FILE_APPEND</dt><dd>Flag de <code>file_put_contents</code> ajoutant à la fin au lieu d'écraser.</dd>
+          <dt>Mode d'ouverture</dt><dd>Argument de <code>fopen</code> (r, w, a…) précisant lecture / écriture.</dd>
+          <dt>unlink / rename / copy</dt><dd>Suppression / renommage-déplacement / copie d'un fichier.</dd>
+          <dt>$_FILES</dt><dd>Superglobale contenant les fichiers reçus via un formulaire d'upload.</dd>
+          <dt>move_uploaded_file</dt><dd>Déplace le fichier temporaire vers sa destination finale (contrôle l'origine).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 11 — Sessions & cookies</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">$_SESSION, $_COOKIE : garder la mémoire d'un visiteur entre deux pages</div>
+        </div>
+        <a href="seance11.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 11 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="10">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 1 — Introduction au PHP · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html" class="active">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 1 — Introduction au PHP</div>
+      <a href="#s1-intro"       class="sidebar-item"><span class="sidebar-num">01</span>Qu'est-ce que PHP ?</a>
+      <a href="#s1-syntax"      class="sidebar-item"><span class="sidebar-num">02</span>Syntaxe de base</a>
+      <a href="#s1-variables"   class="sidebar-item"><span class="sidebar-num">03</span>Variables &amp; types</a>
+      <a href="#s1-output"      class="sidebar-item"><span class="sidebar-num">04</span>echo, print, printf</a>
+      <a href="#s1-config"      class="sidebar-item"><span class="sidebar-num">05</span>Configuration &amp; outils</a>
+      <a href="#s1-pratiques"   class="sidebar-item"><span class="sidebar-num">06</span>Premières bonnes pratiques</a>
+      <a href="#s1-exo"         class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s1-bilan"       class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance2.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 2 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 01 / 14</div>
+      <h1>Introduction au PHP</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">Qu'est-ce que PHP · Syntaxe de base · Variables & types · Affichage · Outils & bonnes pratiques</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">3 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Comprendre ce qu'est PHP et son rôle côté serveur</li>
+          <li>Écrire un premier script PHP inséré dans du HTML</li>
+          <li>Déclarer des variables et identifier leur type</li>
+          <li>Afficher des données avec <code>echo</code>, <code>print</code> et <code>printf</code></li>
+          <li>Installer XAMPP, configurer VS Code et appliquer de bonnes pratiques</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Aucune connaissance préalable en PHP</li>
+          <li>Notions de base en HTML (balises, attributs)</li>
+          <li>Un éditeur de texte installé (VS Code)</li>
+          <li>Durée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 QU'EST-CE QUE PHP ══════════ -->
+    <div id="s1-intro">
+      <div class="section-header"><span class="section-num">01</span><h2>Qu'est-ce que PHP ?</h2></div>
+      <p><strong>PHP</strong> (acronyme récursif de <em>Hypertext Preprocessor</em>) est un langage de script <strong>côté serveur</strong> conçu pour le web. Le fichier <code>.php</code> est envoyé au serveur, le serveur exécute le code, puis renvoie au navigateur le résultat — uniquement du HTML. Le visiteur ne voit jamais le code source PHP : il ne reçoit que le « plat ».</p>
+      <p>Un site statique (HTML pur) sert toujours la même page à tout le monde. Un site dynamique utilise PHP pour construire une page différente à chaque requête : page de profil, panier e-commerce, listing d'articles, message d'erreur personnalisé…</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🍳</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le restaurant</div>
+          <p>Le navigateur est le client attablé, le serveur web est la cuisine, et <strong>PHP est le cuisinier</strong>. Le client envoie une commande (une requête HTTP) ; le cuisinier prépare le plat à partir des ingrédients stockés en réserve (la base de données) et sert l'assiette : du HTML. Le client ne voit jamais la recette, seulement le plat fini.</p>
+        </div>
+      </div>
+      <h3>Un langage parmi d'autres</h3>
+      <p>Chaque couche du web a son langage. Comprendre lequel fait quoi évite les confusions les plus courantes.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Langage</th><th>Exécution</th><th>Rôle principal</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><code>HTML</code></td><td>Navigateur</td><td>Structure et contenu de la page</td><td><code>&lt;h1&gt;Titre&lt;/h1&gt;</code></td></tr>
+            <tr><td><code>CSS</code></td><td>Navigateur</td><td>Présentation, couleurs, mise en page</td><td><code>.btn { color: red; }</code></td></tr>
+            <tr><td><code>JavaScript</code></td><td>Navigateur</td><td>Interactivité, animations, requêtes AJAX</td><td><code>document.querySelector()</code></td></tr>
+            <tr><td><code>PHP</code></td><td><strong>Serveur</strong></td><td>Logique métier, accès aux données, sessions</td><td><code>echo $total; ?></code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>La combinaison n'est donc pas une opposition : une page web moderne combine les quatre. PHP produit la structure, CSS la mise en forme, JavaScript l'interactivité, et PHP prépare les données côté serveur.</p>
+    </div>
+
+    <!-- ══════════ 02 SYNTAXE DE BASE ══════════ -->
+    <div id="s1-syntax">
+      <div class="section-header"><span class="section-num">02</span><h2>Syntaxe de base</h2></div>
+      <p>Un script PHP est délimité par la balise ouvrante <code>&lt;?php</code> et la balise fermante <code>?&gt;</code>. Tout ce qui se trouve <strong>entre</strong> ces deux balises est exécuté par le serveur ; tout ce qui est à l'extérieur est renvoyé tel quel au navigateur. Un fichier peut donc contenir du HTML et du PHP mélangés.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">PHP — Premier script</span><button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Premier script&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;?php
+    $message = "Bonjour depuis le serveur !";
+  ?&gt;
+  &lt;h1&gt;Bienvenue&lt;/h1&gt;
+  &lt;p&gt;&lt;?= $message ?&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body">
+            <h1>Bienvenue</h1>
+            <p>Bonjour depuis le serveur !</p>
+          </div>
+        </div>
+      </div>
+      <p>Le point-virgule <code>;</code> termine chaque instruction. Sans lui, PHP affiche une erreur de syntaxe. Les commentaires s'écrivent <code>//</code> en fin de ligne, <code>#</code> en fin de ligne, ou <code>/* … */</code> sur plusieurs lignes.</p>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Le tag court <code>&lt;?= … ?&gt;</code></div>
+          <p>La balise <code>&lt;?= … ?&gt;</code> est un raccourci d'<code>echo</code> : elle affiche une expression et se ferme automatiquement. Elle est idéale dans un template HTML :<br>
+          <code>&lt;p&gt;Bonjour &lt;?= $nom ?&gt;&lt;/p&gt;</code> est exactement équivalent à <code>&lt;p&gt;Bonjour &lt;?php echo $nom; ?&gt;&lt;/p&gt;</code>.</p>
+        </div>
+      </div>
+      <p>Autre point à comprendre dès maintenant : PHP s'exécute <strong>de haut en bas</strong>. Une variable utilisée avant sa déclaration vaut <code>null</code> (avec un avertissement), et un <code>echo</code> placé plus haut dans le fichier sera envoyé plus haut dans la page. Les blocs PHP et HTML se succèdent donc comme les scènes d'un script : le serveur les joue dans l'ordre et ne livre au navigateur que le résultat.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Balisage &amp; point-virgule</span>
+        </div>
+        <ol>
+          <li>Créez <code>mixte.php</code> : un titre <code>&lt;h1&gt;</code> en HTML, puis un bloc <code>&lt;?php … ?&gt;</code> qui déclare <code>$ville = "Nantes";</code>.</li>
+          <li>Affichez <code>$ville</code> plus bas avec le tag court <code>&lt;?= $ville ?&gt;</code> dans un <code>&lt;p&gt;</code>.</li>
+          <li>Retirez le point-virgule, rechargez : lisez l'erreur de syntaxe et son numéro de ligne, puis remettez-le.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $ville = "Nantes"; // sans le ; : Parse error … unexpected end of file
+?&gt;
+&lt;h1&gt;Ma ville&lt;/h1&gt;
+&lt;p&gt;Bonjour depuis &lt;?= $ville ?&gt;&lt;/p&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 VARIABLES & TYPES ══════════ -->
+    <div id="s1-variables">
+      <div class="section-header"><span class="section-num">03</span><h2>Variables &amp; types de données</h2></div>
+      <p>En PHP, une variable est un conteneur nommé qui commence <strong>obligatoirement</strong> par le symbole <code>$</code>. Son type n'est pas déclaré : il est <strong>déduit automatiquement</strong> de la valeur affectée (typage dynamique). Une variable affectée de l'entier <code>42</code> peut devenir la chaîne <code>"42"</code> le lendemain.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">PHP — Variables et gettype()</span><button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $entier  = 42;
+  $decimal = 3.14;
+  $texte   = "Bonjour PHP";
+  $vrai    = true;
+  $tab     = [1, 2, 3];
+
+  echo gettype($entier),  "&lt;br&gt;";   // integer
+  echo gettype($decimal), "&lt;br&gt;";   // double
+  echo gettype($texte),   "&lt;br&gt;";   // string
+  echo gettype($vrai),    "&lt;br&gt;";   // boolean
+  echo gettype($tab);                    // array
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>integer<br>double<br>string<br>boolean<br>array</p></div>
+        </div>
+      </div>
+      <p>La fonction <code>gettype()</code> renvoie le nom du type sous forme de chaîne. Pour un diagnostic complet (type + valeur + longueur), utilisez <code>var_dump()</code>, qui affiche le type et le contenu de la variable.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">PHP — var_dump()</span><button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $prix = 19.90;
+  $nom  = "Alice";
+
+  var_dump($prix);
+  var_dump($nom);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>float(19.9)<br>string(5) "Alice"</p></div>
+        </div>
+      </div>
+      <h3>Les six types à connaître</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Exemple</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>int</code></td><td><code>42</code>, <code>-7</code></td><td>Nombre entier, sans partie décimale</td></tr>
+            <tr><td><code>float</code></td><td><code>3.14</code></td><td>Nombre à virgule flottante</td></tr>
+            <tr><td><code>string</code></td><td><code>"PHP"</code>, <code>'PHP'</code></td><td>Chaîne de caractères</td></tr>
+            <tr><td><code>bool</code></td><td><code>true</code>, <code>false</code></td><td>Valeur logique, vaut 1 ou 0</td></tr>
+            <tr><td><code>array</code></td><td><code>[1, 2, 3]</code></td><td>Tableau indexé ou associatif</td></tr>
+            <tr><td><code>null</code></td><td><code>null</code></td><td>Aucune valeur / variable non initialisée</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Les noms de variables sont <strong>sensibles à la casse</strong> : <code>$age</code> et <code>$Age</code> sont deux variables différentes. Ils ne peuvent ni commencer par un chiffre ni contenir d'espace ; on préfère donc le <em>snake_case</em> : <code>$nom_utilisateur</code>.</p>
+      <p>Attention à la <strong>coercion</strong> : avec des guillemets, <code>"10"</code> est une chaîne de 2 caractères ; sans guillemets, <code>10</code> est un entier. PHP sait convertir une chaîne numérique quand on fait un calcul (<code>"14" + 1</code> donne bien <code>15</code>), mais il le fait <em>en silence</em> — et pas toujours comme on l'attend (<code>"14 petits" + 1</code> vaut <code>15</code> avec un avertissement). Vérifiez vos types avec <code>gettype()</code> plutôt que de les deviner.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">La variable qui change de type</span>
+        </div>
+        <ol>
+          <li>Déclarez <code>$note = "14";</code> puis affichez <code>gettype($note)</code> : quel type obtenez-vous ?</li>
+          <li>Écrivez <code>$note = $note + 1;</code> et refaites un <code>var_dump()</code> : le type a-t-il changé ? Pourquoi ?</li>
+          <li>Créez <code>$Note = "dix-huit";</code> et affichez les deux variables côte à côte : prouvez qu'elles sont indépendantes.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $note = "14";
+  var_dump($note);        // string(2) "14"
+  $note = $note + 1;
+  var_dump($note);        // int(15) — PHP a converti pour le calcul
+
+  $Note = "dix-huit";
+  echo $note . " / " . $Note;  // 15 / dix-huit — 2 variables distinctes
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 AFFICHAGE ══════════ -->
+    <div id="s1-output">
+      <div class="section-header"><span class="section-num">04</span><h2>Affichage : echo, print &amp; printf</h2></div>
+      <p>Trois fonctions permettent d'écrire une valeur dans la page : <code>echo</code> (la plus utilisée), <code>print</code> (similaire) et <code>printf()</code> (formatage avec des gabarits). <code>echo</code> accepte plusieurs arguments séparés par des virgules, et accepte n'importe quel type de valeur.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">PHP — echo, print, printf</span><button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $nom = "Alice";
+  $age = 25;
+
+  echo "Bonjour ", $nom, " !&lt;br&gt;";
+  print "Age : " . $age . "&lt;br&gt;";
+  printf("Nom : %s (%d ans)&lt;br&gt;", $nom, $age);
+  echo "Interpolation : $nom a $age ans";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Bonjour Alice !<br>Age : 25<br>Nom : Alice (25 ans)<br>Interpolation : Alice a 25 ans</p></div>
+        </div>
+      </div>
+      <p>Dans une chaîne entre <strong>guillemets doubles</strong>, PHP interprète les variables : on parle d'<em>interpolation</em>. Pour concaténer un calcul, on utilise l'opérateur point <code>.</code>. La fonction <code>printf()</code> utilise des gabarits : <code>%s</code> pour une chaîne, <code>%d</code> pour un entier, <code>%.2f</code> pour un décimal à deux chiffres.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Choisir entre <code>echo</code> et <code>print</code></div>
+          <p><code>echo</code> accepte plusieurs arguments et est légèrement plus rapide : c'est le choix par défaut. <code>print</code> renvoie toujours <code>1</code>, ce qui permet de l'utiliser dans une expression. Les deux se terminent par un point-virgule. Réservez <code>printf()</code> aux tableaux formatés (prix alignés, dates, pourcentages).</p>
+        </div>
+      </div>
+      <h3>Les accolades dans l'interpolation</h3>
+      <p>Dans une chaîne entre guillemets doubles, <code>"$nom a $age ans"</code> fonctionne pour des variables simples. Dès qu'il y a un tableau ou une propriété, il faut <strong>encercler l'expression d'accolades</strong> : <code>"{$eleve['note']}"</code> et non <code>"$eleve['note']"</code> (qui provoque une erreur de parsing). Réflexe à prendre tout de suite : les accolades marchent <em>toujours</em>.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Trois façons d'afficher la même fiche</span>
+        </div>
+        <ol>
+          <li>Avec <code>$produit = "souris";</code> et <code>$prix = 24.9;</code>, affichez « souris à 24.90 EUR » avec <code>printf()</code> (indices <code>%s</code> et <code>%.2f</code>).</li>
+          <li>Refaites le même rendu avec <code>echo</code> et une concaténation (<code>.</code>), puis avec une interpolation entre guillemets doubles.</li>
+          <li>Comparez : quelle méthode affiche <code>24.90</code> et non <code>24.9</code> ? Que se passe-t-il si vous passez <code>$prix</code> dans <code>%s</code> au lieu de <code>%.2f</code> ?</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $produit = "souris";
+  $prix    = 24.9;
+
+  printf("%s à %.2f EUR&lt;br&gt;", $produit, $prix);      // souris à 24.90 EUR
+  echo $produit . " à " . number_format($prix, 2) . " EUR&lt;br&gt;";
+  echo "{$produit} à " . sprintf('%.2f', $prix) . " EUR";
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 CONFIGURATION & OUTILS ══════════ -->
+    <div id="s1-config">
+      <div class="section-header"><span class="section-num">05</span><h2>Configuration &amp; outils</h2></div>
+      <p>Pour écrire du PHP, il faut un serveur web local et un éditeur de code. <strong>XAMPP</strong> installe en un clic Apache, PHP et MySQL : déposez vos fichiers dans <code>htdocs/</code> et ouvrez <code>http://localhost/mon-fichier.php</code>. Côté éditeur, <strong>VS Code</strong> avec l'extension <strong>PHP Intelephense</strong> (autocomplétion, diagnostics, navigation dans le code) devient indispensable dès la première séance.</p>
+      <p>La fonction <code>phpinfo()</code> affiche l'intégralité de la configuration PHP : version, extensions activées, directives du <code>php.ini</code>. Elle sert à vérifier que l'environnement est complet avant de commencer.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">PHP — phpinfo()</span><button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // info.php — à déposer dans htdocs/info.php
+  phpinfo();          // configuration complète de PHP
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">APERÇU</div>
+          <div class="preview-body">
+            <p>PHP Version 8.2.12 | System: Windows 10</p>
+            <p>Server API: Apache 2.4 Handler | Loaded Configuration File: C:\xampp\php\php.ini</p>
+            <p>… extensions chargées : Core, date, PDO, pdo_mysql, mysqli, gd, mbstring, curl…</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Point à vérifier</th><th>Où le trouver</th><th>Attendu en local</th></tr></thead>
+          <tbody>
+            <tr><td>Version de PHP</td><td><code>phpinfo()</code> → <em>PHP Version</em></td><td>PHP 8.x</td></tr>
+            <tr><td>Accès base de données</td><td>Section <em>PDO</em> / <em>mysqli</em></td><td>Extension chargée</td></tr>
+            <tr><td>Traitement d'images</td><td>Section <em>GD</em></td><td>Extension chargée</td></tr>
+            <tr><td>Encodage UTF-8</td><td>Section <em>mbstring</em></td><td>Extension chargée</td></tr>
+            <tr><td>Requêtes HTTP</td><td>Section <em>curl</em></td><td>Extension chargée</td></tr>
+            <tr><td>Limite de mémoire</td><td><code>php.ini</code> → <code>memory_limit</code></td><td><code>128M</code> minimum</td></tr>
+            <tr><td>Affichage des erreurs</td><td><code>php.ini</code> → <code>error_reporting</code></td><td><code>E_ALL</code> en développement</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 BONNES PRATIQUES ══════════ -->
+    <div id="s1-pratiques">
+      <div class="section-header"><span class="section-num">06</span><h2>Premières bonnes pratiques</h2></div>
+      <p>Un code lisible est un code qu'on relit sans hésiter. Quatre réflexes suffisent pour démarrer proprement : indenter avec <strong>4 espaces</strong> (jamais des tabulations mélangées), commenter les sections utiles, nommer les variables de façon explicite en <code>snake_case</code>, et garder un seul concept par ligne de code.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="code-lang">PHP — Script bien indenté</span><button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  /**
+   * Fiche produit
+   */
+
+  // Données de la fiche
+  $nom   = "Clavier mécanique";
+  $prix  = 79.90;
+  $stock = 12;
+
+  // Calcul du prix TTC
+  $tva   = 0.20;
+  $total = $prix * (1 + $tva);
+
+  // Affichage
+  echo "Produit : " . $nom . "&lt;br&gt;";
+  echo "Prix HT : " . $prix . " EUR&lt;br&gt;";
+  echo "Total TTC : " . round($total, 2) . " EUR&lt;br&gt;";
+  echo "Stock : " . $stock . " unites";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Produit : Clavier mécanique<br>Prix HT : 79.9 EUR<br>Total TTC : 95.88 EUR<br>Stock : 12 unites</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne fermez pas la balise <code>?&gt;</code> en fin de fichier</div>
+          <p>Si un fichier PHP se termine par <code>?&gt;</code>, PHP envoie les caractères qui suivent (souvent un saut de ligne final) <strong>directement au navigateur</strong>. Cela provoque des messages du type <em>headers already sent</em> et casse les sessions. La règle : on ouvre <code>&lt;?php</code> en début de fichier, on ne referme jamais la balise à la fin.</p>
+        </div>
+      </div>
+      <p>Enfin, pensez à la sécurité dès le départ : n'affichez jamais une saisie utilisateur brute dans la page, et préférez les quotes simples <code>'…'</code> quand la chaîne ne contient pas de variable à interpoler — c'est plus rapide et plus sûr.</p>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s1-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🚀 Mon premier script</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>hello.php</code> dans le dossier <code>htdocs/</code> de XAMPP.</li>
+            <li>Affichez un <code>&lt;h1&gt;</code> « Mon premier PHP » puis un <code>echo</code> « Bonjour ! ».</li>
+            <li>Ouvrez <code>http://localhost/hello.php</code> : le texte doit s'afficher dans la page, pas dans le code source.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> le HTML se place <em>autour</em> du bloc <code>&lt;?php … ?&gt;</code>, pas l'inverse.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🔤 Variables &amp; types</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Déclarez <code>$prenom</code>, <code>$age</code> et <code>$langage</code> avec des valeurs de types différents.</li>
+            <li>Affichez une phrase qui combine les trois (concaténation avec <code>.</code>).</li>
+            <li>Utilisez <code>var_dump()</code> sur chaque variable pour vérifier le type obtenu.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>var_dump()</code> affiche le type entre parenthèses, comme <code>string(5) "Alice"</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔍 Deviner les types</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez cinq variables : <code>$i = 10;</code>, <code>$d = 2.5;</code>, <code>$s = "10";</code>, <code>$b = false;</code>, <code>$a = [1, 2];</code>.</li>
+            <li>Prévoyez le résultat de <code>gettype()</code> pour chacune avant de lancer le script.</li>
+            <li>Affichez les cinq résultats et comparez avec vos prédictions.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>"10"</code> est une chaîne, pas un nombre : PHP ne devine pas l'intention.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🏷️ Fiche produit</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Déclarez <code>$nom</code>, <code>$prix_ht</code> (ex. 79.90) et <code>$tva</code> (0.20).</li>
+            <li>Calculez le prix TTC dans une variable <code>$total</code> puis affichez-le avec <code>round($total, 2)</code>.</li>
+            <li>Affichez le résultat dans une balise <code>&lt;p&gt;</code> et vérifiez qu'il vaut <code>95.88</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>$prix_ht * (1 + $tva)</code> — les parenthèses changent le résultat.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s1-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Ce qu'est PHP : un langage de script côté serveur qui produit du HTML</li>
+        <li>La différence de rôle entre HTML, CSS, JavaScript et PHP</li>
+        <li>La syntaxe <code>&lt;?php … ?&gt;</code> et le tag court <code>&lt;?= … ?&gt;</code></li>
+        <li>Les variables avec <code>$</code> et le typage dynamique</li>
+        <li>Les six types : <code>int</code>, <code>float</code>, <code>string</code>, <code>bool</code>, <code>array</code>, <code>null</code></li>
+        <li>L'affichage avec <code>echo</code>, <code>print</code> et <code>printf()</code></li>
+        <li>L'inspection du type avec <code>gettype()</code> et <code>var_dump()</code></li>
+        <li>L'environnement local : XAMPP, VS Code + PHP Intelephense, <code>phpinfo()</code></li>
+        <li>Les bonnes pratiques : indentation, commentaires, nommage, pas de <code>?&gt;</code> final</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier le point-virgule à la fin d'une instruction → erreur de syntaxe.</li>
+            <li>Oublier le <code>$</code> devant une variable → PHP la traite comme une constante et affiche « undefined variable ».</li>
+            <li>Écrire <code>&lt;?PHP</code> ou <code>&lt;?php</code> avec une faute de frappe → le code s'affiche en texte brut dans la page.</li>
+            <li>Fermer la balise <code>?&gt;</code> en fin de fichier → espaces parasites envoyés avant les headers.</li>
+            <li>Écrire <code>&lt;?php echo $x; ?&gt;</code> dans une balise <code>&lt;pre&gt;</code> sans échapper → le HTML est interprété au lieu d'être affiché.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>PHP</dt><dd>Hypertext Preprocessor — langage de script côté serveur orienté web.</dd>
+          <dt>Serveur web</dt><dd>Machine qui exécute le code PHP et renvoie le HTML au navigateur.</dd>
+          <dt>Balise PHP</dt><dd>Zone <code>&lt;?php … ?&gt;</code> délimitant le code exécuté par le serveur.</dd>
+          <dt>Variable</dt><dd>Conteneur nommé, précédé de <code>$</code>, qui stocke une valeur.</dd>
+          <dt>Typage dynamique</dt><dd>Le type d'une variable est déduit de sa valeur, jamais déclaré.</dd>
+          <dt>echo</dt><dd>Instruction affichant une ou plusieurs valeurs dans la page.</dd>
+          <dt>printf()</dt><dd>Fonction affichant une valeur formatée selon un gabarit (<code>%s</code>, <code>%d</code>).</dd>
+          <dt>XAMPP</dt><dd>Environnement local réunissant Apache, PHP et MySQL en une seule installation.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 2 — Variables, types &amp; opérateurs</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Casting, opérateurs arithmétiques, comparateurs et constantes</div>
+        </div>
+        <a href="seance2.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 2 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="01">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

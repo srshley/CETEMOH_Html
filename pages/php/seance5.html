@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 5 — Fonctions · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html" class="active">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 5 — Fonctions</div>
+      <a href="#s5-principe" class="sidebar-item"><span class="sidebar-num">01</span>Principe &amp; déclaration</a>
+      <a href="#s5-params"   class="sidebar-item"><span class="sidebar-num">02</span>Paramètres &amp; arguments</a>
+      <a href="#s5-return"   class="sidebar-item"><span class="sidebar-num">03</span>Valeur de retour</a>
+      <a href="#s5-portee"   class="sidebar-item"><span class="sidebar-num">04</span>Portée des variables</a>
+      <a href="#s5-natives"  class="sidebar-item"><span class="sidebar-num">05</span>Fonctions natives utiles</a>
+      <a href="#s5-closures" class="sidebar-item"><span class="sidebar-num">06</span>Closures &amp; fonctions fléchées</a>
+      <a href="#s5-exo"      class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s5-bilan"    class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance4.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 4</a>
+      <a href="seance6.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 6 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 05 / 14</div>
+      <h1>Fonctions</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">déclaration · paramètres · return · portée · fonctions natives · closures</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Comprendre le rôle d'une fonction : encapsuler un traitement réutilisable</li>
+          <li>Déclarer une fonction avec <code>function</code> et l'appeler</li>
+          <li>Passer des paramètres : obligatoires, par défaut, par référence, variadiques</li>
+          <li>Renvoyer un résultat avec <code>return</code> et maîtriser la portée des variables</li>
+          <li>Utiliser les fonctions natives et écrire des closures / fonctions fléchées</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 1 — Introduction au PHP (syntaxe, <code>echo</code>)</li>
+          <li>Séance 2 — Variables, types &amp; opérateurs</li>
+          <li>Séances 3 et 4 — Conditions et boucles</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 PRINCIPE ══════════ -->
+    <div id="s5-principe">
+      <div class="section-header"><span class="section-num">01</span><h2>Principe &amp; déclaration</h2></div>
+      <p>Une fonction est un <strong>bloc de code nommé et réutilisable</strong>. On l'écrit une fois, on l'appelle autant de fois que nécessaire, avec des données différentes. C'est le remède le plus simple à la duplication : au lieu de recopier dix fois le même calcul, on écrit une fonction et on l'appelle dix fois.</p>
+      <p>La déclaration suit toujours le même modèle : le mot-clé <code>function</code>, un nom en minuscules, des parenthèses qui accueillent les paramètres, puis un corps entre accolades. Une fonction déclarée ne fait <strong>rien</strong> tant qu'on ne l'appelle pas.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Première fonction</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  function saluer($nom) {
+    echo "Bonjour $nom !&lt;br&gt;";
+  }
+
+  saluer("Alice");
+  saluer("Bob");
+  saluer("Chloe");
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Bonjour Alice !<br>Bonjour Bob !<br>Bonjour Chloe !</p></div>
+        </div>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">☕</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la machine à café</div>
+          <p>Une fonction est une <strong>machine à café</strong> : on lui fournit des ingrédients (les <strong>entrées</strong>, c'est-à-dire les paramètres), elle effectue son traitement (le corps de la fonction), et elle rend un résultat (la <strong>sortie</strong>, le <code>return</code>). On ne reconstruit pas la machine à chaque tasse : on l'utilise, c'est tout.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 PARAMÈTRES ══════════ -->
+    <div id="s5-params">
+      <div class="section-header"><span class="section-num">02</span><h2>Paramètres &amp; arguments</h2></div>
+      <p>Le <strong>paramètre</strong> est la variable écrite dans la déclaration ; l'<strong>argument</strong> est la valeur réellement passée lors de l'appel. L'ordre compte : le premier argument alimente le premier paramètre. Un paramètre peut avoir une <strong>valeur par défaut</strong> : s'il manque à l'appel, cette valeur est utilisée.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Paramètres et valeur par défaut</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  function total($prix, $quantite = 1, $tva = 0.20) {
+    return $prix * $quantite * (1 + $tva);
+  }
+
+  echo total(10);           // 12
+  echo "&lt;br&gt;" . total(10, 2);    // 24
+  echo "&lt;br&gt;" . total(10, 2, 0); // 20
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>12<br>24<br>20</p></div>
+        </div>
+      </div>
+      <h3>Les quatre types de paramètres</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type de paramètre</th><th>Syntaxe</th><th>Comportement</th></tr></thead>
+          <tbody>
+            <tr><td>Obligatoire</td><td><code>function f($a)</code></td><td>l'appel doit fournir une valeur, sinon erreur fatale (<code>ArgumentCountError</code>)</td></tr>
+            <tr><td>Avec valeur par défaut</td><td><code>function f($a = 0)</code></td><td>valeur de repli si l'argument manque ; se place toujours après les obligatoires</td></tr>
+            <tr><td>Par référence</td><td><code>function f(&amp;$var)</code></td><td>la fonction modifie la variable d'origine et non une copie</td></tr>
+            <tr><td>Variadique</td><td><code>function f(...$args)</code></td><td>accepte un nombre illimité d'arguments, regroupés dans un tableau</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Avec <code>&amp;$var</code>, la modification effectuée dans la fonction persiste après l'appel ; avec <code>...$args</code>, tous les arguments supplémentaires arrivent sous forme de tableau que l'on peut parcourir avec <code>foreach</code>.</p>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Une fonction, trois appels</span>
+        </div>
+        <ol>
+          <li>Dans <code>poly.php</code>, écrivez <code>salutation($prenom = "invité", $politesse = "Bonjour")</code> qui <code>return</code> « $politesse, $prenom ! ». Appelez-la sans argument, avec un seul, puis avec deux.</li>
+          <li>Écrivez <code>moyenne(...$notes)</code> qui additionne les arguments reçus avec <code>array_sum()</code> et divise par <code>count()</code>. Que renvoie <code>moyenne(12, 15, 9)</code> ?</li>
+          <li>Déclarez <code>function f($a = 0, $b)</code> puis appelez-la avec un seul argument : lisez l'erreur <code>ArgumentCountError</code>. Pourquoi les valeurs par défaut doivent-elles toujours être déclarées en dernier ?</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  function salutation($prenom = "invité", $politesse = "Bonjour") {
+    return "$politesse, $prenom !";
+  }
+  echo salutation();                 // Bonjour, invité !
+  echo salutation("Alice");          // Bonjour, Alice !
+  echo salutation("Ali", "Salut");   // Salut, Ali !
+
+  function moyenne(...$notes) {
+    return array_sum($notes) / count($notes);
+  }
+  echo moyenne(12, 15, 9);           // 12 — les 3 arguments arrivent en tableau
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 RETURN ══════════ -->
+    <div id="s5-return">
+      <div class="section-header"><span class="section-num">03</span><h2>Valeur de retour</h2></div>
+      <p><code>return</code> renvoie une valeur à l'appelant. La fonction <strong>produit</strong> un résultat au lieu de l'afficher : c'est l'appelant qui décide quoi en faire, le stocker dans une variable, le combiner à un calcul ou l'afficher avec <code>echo</code>. On préfère donc <code>return</code> à <code>echo</code> dans la plupart des fonctions.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — return</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  function aireRectangle($largeur, $hauteur) {
+    return $largeur * $hauteur;
+  }
+
+  $surface = aireRectangle(5, 4);
+  echo "Surface : $surface m2";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Surface : 20 m2</p></div>
+        </div>
+      </div>
+      <p>Un <code>return</code> peut renvoyer n'importe quelle valeur : entier, chaîne, tableau… ou aucune valeur utile. Une fonction qui renvoie un booléen, comme <code>estValide($note)</code>, se combine très bien avec les conditions de la séance 3.</p>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Trois règles à retenir</div>
+          <p>1. Une fonction <strong>s'arrête dès qu'elle rencontre un <code>return</code></strong> : les instructions placées après ne sont jamais exécutées.<br>
+          2. Une fonction <strong>sans <code>return</code></strong> renvoie <code>null</code> sans le dire : si votre variable vaut <code>null</code>, cherchez d'abord un <code>return</code> oublié.<br>
+          3. <code>return</code> n'est pas <code>echo</code> : renvoyer met une valeur <em>à disposition</em>, afficher l'<em>imprime</em> à l'écran.</p>
+        </div>
+      </div>
+      <p>PHP permet d'<strong>annoncer le type de retour</strong> après la liste des paramètres : <code>function aire(float $l, float $h): float</code>. Si la fonction ne renvoie rien, écrivez <code>: void</code>. Le moteur vérifie alors à l'exécution : une <code>TypeError</code> trahit immédiatement une valeur mal renvoyée, au lieu d'un bug silencieux plus loin dans le script. C'est aussi une documentation vivante : en lisant la signature, on sait ce que la fonction attend et ce qu'elle produit.</p>
+    </div>
+
+    <!-- ══════════ 04 PORTÉE ══════════ -->
+    <div id="s5-portee">
+      <div class="section-header"><span class="section-num">04</span><h2>Portée des variables</h2></div>
+      <p>Chaque fonction a son propre « univers » : une variable créée à l'intérieur est <strong>locale</strong> et disparaît à la fin de l'appel. Deux variables qui portent le même nom — une globale et une locale — sont deux variables distinctes. Pour atteindre une variable globale depuis une fonction, on déclare <code>global $x;</code> au début du corps. Avec <code>static $x = 0;</code>, la variable est locale mais <strong>conservée entre les appels</strong>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — global et static</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $tva = 0.20;
+
+  function prixTTC($prixHT) {
+    global $tva;
+    return $prixHT * (1 + $tva);
+  }
+
+  function compteurVisites() {
+    static $visites = 0;
+    $visites++;
+    return $visites;
+  }
+
+  echo prixTTC(100);               // 120
+  echo "&lt;br&gt;" . compteurVisites(); // 1
+  echo "&lt;br&gt;" . compteurVisites(); // 2
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>120<br>1<br>2</p></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Portée</th><th>Mot-clé</th><th>Visible où ?</th></tr></thead>
+          <tbody>
+            <tr><td>Locale</td><td>(aucun)</td><td>uniquement dans la fonction où elle est créée</td></tr>
+            <tr><td>Globale</td><td><code>global $x;</code></td><td>dans la fonction, après l'import ; partout ailleurs par défaut</td></tr>
+            <tr><td>Statique</td><td><code>static $x = 0;</code></td><td>dans la fonction, avec mémoire entre les appels</td></tr>
+            <tr><td>Super-globales</td><td><code>$_GET</code>, <code>$_POST</code>, <code>$_SESSION</code></td><td>partout, y compris à l'intérieur des fonctions</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Préférez les paramètres à <code>global</code></div>
+          <p>Une fonction qui dépend de variables cachées (globales) devient imprévisible : on ne voit pas ce qu'elle utilise. Passez les valeurs en <strong>paramètres</strong> et renvoyez le résultat avec <code>return</code> : la fonction est alors autonome, prévisible et réutilisable. Gardez <code>static</code> pour les compteurs et les mémoires ponctuelles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 NATIVES ══════════ -->
+    <div id="s5-natives">
+      <div class="section-header"><span class="section-num">05</span><h2>Fonctions natives utiles</h2></div>
+      <p>PHP embarque des milliers de fonctions prêtes à l'emploi, par genre : <strong>tableaux</strong>, <strong>chaînes de caractères</strong>, <strong>nombres</strong>, <strong>dates</strong>. Pas besoin de réinventer la roue : avant d'écrire une fonction, cherchez si elle existe déjà. En voici huit que vous utiliserez dès la semaine prochaine.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fonction</th><th>Catégorie</th><th>Exemple d'appel</th></tr></thead>
+          <tbody>
+            <tr><td><code>count($tab)</code></td><td>tableau</td><td><code>count([10, 20, 30])</code> → 3</td></tr>
+            <tr><td><code>strlen($texte)</code></td><td>chaîne</td><td><code>strlen("Bonjour")</code> → 7</td></tr>
+            <tr><td><code>strtoupper($texte)</code></td><td>chaîne</td><td><code>strtoupper("ok")</code> → "OK"</td></tr>
+            <tr><td><code>number_format($n, 2)</code></td><td>nombre</td><td><code>number_format(1234.5, 2)</code> → "1,234.50"</td></tr>
+            <tr><td><code>date($format)</code></td><td>date</td><td><code>date("d/m/Y")</code> → "22/10/2026"</td></tr>
+            <tr><td><code>in_array($val, $tab)</code></td><td>tableau</td><td><code>in_array(20, [10, 20])</code> → true</td></tr>
+            <tr><td><code>implode($sep, $tab)</code></td><td>tableau</td><td><code>implode(", ", ["a", "b"])</code> → "a, b"</td></tr>
+            <tr><td><code>array_sum($tab)</code></td><td>tableau</td><td><code>array_sum([10, 20])</code> → 30</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Appel de fonctions natives</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $panier = ["Stylo", "Gomme", "Regle"];
+
+  echo "Articles : " . count($panier) . "&lt;br&gt;";
+  echo "Liste : " . implode(", ", $panier) . "&lt;br&gt;";
+  echo "En majuscules : " . strtoupper($panier[0]);
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Articles : 3<br>Liste : Stylo, Gomme, Regle<br>En majuscules : STYLO</p></div>
+        </div>
+      </div>
+      <p>La documentation officielle (php.net) documente chaque fonction : nom, paramètres, valeur de retour, exemples. Le réflexe « je vais vérifier sur php.net » vous fera gagner des heures.</p>
+    </div>
+
+    <!-- ══════════ 06 CLOSURES ══════════ -->
+    <div id="s5-closures">
+      <div class="section-header"><span class="section-num">06</span><h2>Closures &amp; fonctions fléchées</h2></div>
+      <p>Une fonction n'a pas besoin d'un nom : une <strong>fonction anonyme</strong> (closure) peut être stockée dans une variable, passée à une autre fonction, ou créée à la volée. Comme elle ne connaît pas les variables extérieures, elle doit les capter explicitement avec <code>use ($var)</code>. Les <strong>fonctions fléchées</strong> (PHP 7.4+) font la même chose en une ligne et captent automatiquement une variable du contexte.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Closure et fonction fléchée</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $notes = [8, 12, 16];
+  $marge = 2;
+
+  // function anonyme : capte $marge avec use
+  $bonifier = function ($note) use ($marge) {
+    return $note + $marge;
+  };
+
+  // fonction flechee : capte automatiquement $marge
+  $double = fn($n) =&gt; $n * 2;
+
+  echo implode(", ", array_map($bonifier, $notes));
+  echo "&lt;br&gt;" . implode(", ", array_map($double, $notes));
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>10, 14, 18<br>16, 24, 32</p></div>
+        </div>
+      </div>
+      <p>Les closures servent surtout de <strong>callbacks</strong> : on les passe à <code>array_map</code> (transformer chaque élément), <code>array_filter</code> (garder certains éléments), <code>usort</code> (trier avec une règle personnalisée). La fonction qui reçoit le callback se charge de l'appeler pour chaque élément.</p>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">La différence essentielle</div>
+          <p>La closure capte une variable par <code>use</code> et reçoit une <strong>copie</strong> de sa valeur au moment de la création. La fonction fléchée <code>fn($n) =&gt; $n * 2</code> capte tout le contexte <strong>automatiquement</strong>, par valeur elle aussi, et ne peut contenir qu'une seule expression — pas de bloc <code>{ }</code> ni d'instructions multiples.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Filtrer et transformer un panier</span>
+        </div>
+        <ol>
+          <li>Dans <code>closures.php</code>, partez de <code>$prix = [12.5, 3.9, 45.0, 8.0];</code>. Utilisez <code>array_filter()</code> avec une fonction fléchée pour ne garder que les prix supérieurs à 10.</li>
+          <li>Appliquez ensuite <code>array_map(fn($p) =&gt; $p * 1.2, …)</code> aux prix filtrés : vous obtenez le prix TTC (+20 %). Combien d'éléments affiche le résultat ?</li>
+          <li>Même transformation avec une closure classique <code>function ($p) use ($taux)</code> où <code>$taux = 1.2;</code>. Puis retirez le <code>use</code> : lisez l'erreur et expliquez ce qu'elle dit.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $prix  = [12.5, 3.9, 45.0, 8.0];
+  $taux  = 1.2;
+
+  $cherts = array_filter($prix, fn($p) =&gt; $p &gt; 10);      // 12.5 et 45.0 → 2 éléments
+  $ttc    = array_map(fn($p) =&gt; $p * 1.2, $cherts);      // 15 et 54
+
+  $ttc2   = array_map(function ($p) use ($taux) {        // équivalent closure
+    return $p * $taux;
+  }, $cherts);
+  // Sans use($taux) : Warning: Undefined variable $taux — la closure
+  // ne voit pas le monde extérieur par défaut.
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s5-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">➕ Calculer un périmètre</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_perimetre.php</code> avec une fonction <code>perimetre($longueur, $largeur)</code>.</li>
+            <li>La fonction renvoie le périmètre du rectangle : deux fois la somme de ses côtés.</li>
+            <li>Affichez le résultat de <code>perimetre(5, 3)</code> : il doit valoir 16. Testez aussi <code>perimetre(2.5, 4)</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>return ($longueur + $largeur) * 2;</code> — pensez à <code>return</code>, pas à <code>echo</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">🎓 Mention en fonction</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez <code>mention($note)</code> qui renvoie une chaîne : "Très bien" (≥16), "Bien" (≥14), "Passable" (≥10), "Insuffisant" sinon.</li>
+            <li>Affichez le résultat de <code>mention(15)</code> et de <code>mention(8)</code>.</li>
+            <li>Transformez le paramètre en <code>$note = 10</code> et vérifiez que <code>mention()</code> fonctionne sans argument.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> la fonction combine <code>if / elseif / else</code> et <code>return</code> — un <code>return</code> par branche.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔁 Compteur de visites</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>visites()</code> avec une variable <code>static $n = 0;</code> incrémentée puis renvoyée.</li>
+            <li>Appelez la fonction trois fois et affichez chaque valeur : 1, 2, 3.</li>
+            <li>Retirez le mot-clé <code>static</code> et observez le compteur repartir à 1 à chaque appel.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> <code>static</code> n'initialise la variable qu'au premier appel ; PHP la conserve ensuite entre les appels.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">📦 Moyenne variadique</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez <code>moyenne(...$notes)</code> qui renvoie la moyenne de tous les arguments passés.</li>
+            <li>Testez avec <code>moyenne(10, 12, 14)</code> : le résultat doit valoir 12.</li>
+            <li>Affichez la moyenne formatée avec <code>number_format($moyenne, 2)</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> avec <code>...$notes</code>, les arguments arrivent sous forme de tableau — utilisez <code>array_sum()</code> et <code>count()</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s5-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Déclarer une fonction avec <code>function</code> et l'appeler par son nom</li>
+        <li>La différence entre paramètre (déclaration) et argument (appel)</li>
+        <li>Les paramètres obligatoires, avec valeur par défaut, par référence et variadiques</li>
+        <li>Renvoyer une valeur avec <code>return</code>, et le <code>null</code> produits sans <code>return</code></li>
+        <li>La portée locale / globale / statique des variables</li>
+        <li>Les super-globales accessibles partout, y compris dans les fonctions</li>
+        <li>Les fonctions natives les plus courantes : <code>count</code>, <code>strlen</code>, <code>implode</code>, <code>date</code>…</li>
+        <li>Les closures avec <code>use</code> et les fonctions fléchées <code>fn() =&gt;</code> en callback</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier le <code>return</code> puis s'étonner que le résultat vaille <code>null</code>.</li>
+            <li>Placer un paramètre avec valeur par défaut <em>avant</em> un paramètre obligatoire → erreur fatale.</li>
+            <li>Utiliser <code>global</code> partout au lieu de passer des paramètres.</li>
+            <li>Écrire du code après un <code>return</code> : il n'est jamais exécuté (code mort).</li>
+            <li>Redéclarer une fonction au nom déjà pris → « Cannot redeclare » (une fonction est unique).</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Fonction</dt><dd>Bloc de code nommé, exécutable à volonté avec des données différentes.</dd>
+          <dt>Paramètre</dt><dd>Variable déclarée dans la signature de la fonction.</dd>
+          <dt>Argument</dt><dd>Valeur réellement passée lors de l'appel de la fonction.</dd>
+          <dt>return</dt><dd>Termine la fonction et renvoie une valeur à l'appelant.</dd>
+          <dt>Portée</dt><dd>Zone du code où une variable est visible.</dd>
+          <dt>static</dt><dd>Variable locale conservée entre les appels de la fonction.</dd>
+          <dt>Closure</dt><dd>Fonction anonyme, stockable dans une variable, capte son contexte avec <code>use</code>.</dd>
+          <dt>Fonction fléchée</dt><dd>Syntaxe courte <code>fn($n) =&gt; expression</code> qui capte le contexte automatiquement.</dd>
+          <dt>Callback</dt><dd>Fonction passée en argument à une autre fonction (<code>array_map</code>, <code>usort</code>…).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 6 — Tableaux</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Indexés, associatifs, multidimensionnels : stocker et parcourir des collections</div>
+        </div>
+        <a href="seance6.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 6 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="05">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

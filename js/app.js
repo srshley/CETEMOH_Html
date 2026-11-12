@@ -45,6 +45,29 @@ const courseData = {
       { label: 'Grid', href: 'pages/css-topics/grid.html' },
       { label: 'Animations', href: 'pages/css-topics/animations.html' },
     ]
+  },
+  php: {
+    brand: 'Cours PHP',
+    highlight: 'PHP',
+    subtitle: 'Pour apprenants avec quelques bases en HTML',
+    desc: 'Un cours structuré en 14 séances progressives pour maîtriser le langage PHP — de la syntaxe aux bases de données et à la sécurité.',
+    tags: ['Syntaxe', 'Variables', 'Types', 'Conditions', 'Boucles', 'Fonctions', 'Tableaux', 'Chaînes', 'Formulaires', 'Fichiers', 'Sessions', 'Bases de données', 'POO', 'Sécurité'],
+    nav: [
+      { label: 'Séance 1', href: 'pages/php/seance1.html' },
+      { label: 'Séance 2', href: 'pages/php/seance2.html' },
+      { label: 'Séance 3', href: 'pages/php/seance3.html' },
+      { label: 'Séance 4', href: 'pages/php/seance4.html' },
+      { label: 'Séance 5', href: 'pages/php/seance5.html' },
+      { label: 'Séance 6', href: 'pages/php/seance6.html' },
+      { label: 'Séance 7', href: 'pages/php/seance7.html' },
+      { label: 'Séance 8', href: 'pages/php/seance8.html' },
+      { label: 'Séance 9', href: 'pages/php/seance9.html' },
+      { label: 'Séance 10', href: 'pages/php/seance10.html' },
+      { label: 'Séance 11', href: 'pages/php/seance11.html' },
+      { label: 'Séance 12', href: 'pages/php/seance12.html' },
+      { label: 'Séance 13', href: 'pages/php/seance13.html' },
+      { label: 'Séance 14', href: 'pages/php/seance14.html' },
+    ]
   }
 };
 
@@ -470,6 +493,9 @@ const sections = [...sidebarLinks]
   .filter(Boolean);
 
 if (sections.length) {
+  const topbarEl = document.querySelector('.topbar');
+  const topbarH = topbarEl ? topbarEl.offsetHeight : 56;
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -486,7 +512,7 @@ if (sections.length) {
       }
     });
   }, {
-    rootMargin: '-56px 0px -70% 0px',
+    rootMargin: `-${topbarH}px 0px -70% 0px`,
     threshold: 0
   });
 
@@ -499,16 +525,39 @@ const sidebar = document.querySelector('.sidebar');
 const hamburger = document.querySelector('.hamburger');
 const sidebarToggle = document.querySelector('.sidebar-toggle');
 
+// Keep --topbar-h in sync: used by the progress bar & anchor scroll offset
+// (the topbar wraps to 2-3 rows on small screens).
+function syncTopbarHeight() {
+  const topbar = document.querySelector('.topbar');
+  if (!topbar) return;
+  document.documentElement.style.setProperty(
+    '--topbar-h', Math.round(topbar.offsetHeight) + 'px'
+  );
+}
+window.addEventListener('resize', syncTopbarHeight);
+window.addEventListener('load', syncTopbarHeight);
+syncTopbarHeight();
+setTimeout(syncTopbarHeight, 350); // re-measure after web fonts settle
+
+// Dimmed backdrop shown while the sidebar is open (mobile / tablet)
+const sidebarBackdrop = document.createElement('div');
+sidebarBackdrop.className = 'sidebar-backdrop';
+document.body.appendChild(sidebarBackdrop);
+
 function openSidebar() {
   if (sidebar) sidebar.classList.add('open');
+  sidebarBackdrop.classList.add('show');
 }
 
 function closeSidebar() {
   if (sidebar) sidebar.classList.remove('open');
+  sidebarBackdrop.classList.remove('show');
 }
 
 function toggleSidebar() {
-  if (sidebar) sidebar.classList.toggle('open');
+  if (!sidebar) return;
+  sidebar.classList.toggle('open');
+  sidebarBackdrop.classList.toggle('show', sidebar.classList.contains('open'));
 }
 
 if (sidebarToggle) {
@@ -518,6 +567,10 @@ if (sidebarToggle) {
 if (hamburger) {
   hamburger.addEventListener('click', toggleSidebar);
 }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSidebar();
+});
 
 document.addEventListener('click', (e) => {
   if (!sidebar) return;
@@ -1148,12 +1201,170 @@ function getSessions() {
         { q: 'Que fait "animation-fill-mode: forwards;" ?', options:['Conserve l\'\u00e9tat final apr\u00e8s l\'animation','Rejoue l\'animation en avant','Applique l\'\u00e9tat initial avant l\'animation'], correct:0 },
         { q: 'Quelle propri\u00e9t\u00e9 est plus performante pour les animations (ne d\u00e9clenche pas de reflow) ?', options:['transform et opacity','width et height','margin et padding'], correct:0 }
       ]
+    },
+
+    // ===================== PHP =====================
+    'php-01': {
+      title: 'Introduction au PHP',
+      questions: [
+        { q: 'Que signifie PHP ?', options: ['Hypertext Preprocessor', 'Personal Home Page Tools', 'Pre Hypertext Processor'], correct: 0 },
+        { q: 'PHP s\'exécute côté...', options: ['Serveur', 'Client (navigateur)', 'Les deux simultanément'], correct: 0 },
+        { q: 'Quelle extension pour un fichier PHP ?', options: ['.php', '.html', '.phtml'], correct: 0 },
+        { q: 'Comment démarrer un bloc de code PHP ?', options: ['<?php', '<php', '<?'], correct: 0 },
+        { q: 'Quelle structure affiche du texte ?', options: ['echo', 'print_text', 'display'], correct: 0 },
+        { q: 'PHP est un langage...', options: ['Côté serveur', 'De balisage uniquement', 'Côté client uniquement'], correct: 0 }
+      ]
+    },
+    'php-02': {
+      title: 'Variables, types & opérateurs',
+      questions: [
+        { q: 'Comment déclare-t-on une variable en PHP ?', options: ['$nom = 1;', 'var nom = 1;', 'variable nom = 1;'], correct: 0 },
+        { q: 'Quel symbole précède toujours une variable ?', options: ['$', '#', '@'], correct: 0 },
+        { q: 'Le type de la valeur 42 est...', options: ['integer', 'string', 'boolean'], correct: 0 },
+        { q: 'Le type de la valeur "hello" est...', options: ['string', 'integer', 'float'], correct: 0 },
+        { q: 'Une constante se définit avec...', options: ['define()', 'const =', 'set()'], correct: 0 },
+        { q: '$x = "5"; est de type...', options: ['string', 'integer', 'float'], correct: 0 }
+      ]
+    },
+    'php-03': {
+      title: 'Conditions & boucles',
+      questions: [
+        { q: 'L\'instruction if permet de...', options: ['Tester une condition', 'Répéter un bloc', 'Déclarer une variable'], correct: 0 },
+        { q: 'L\'instruction switch compare...', options: ['Une valeur à plusieurs cas', 'Des boucles', 'Des tableaux'], correct: 0 },
+        { q: 'La boucle for sert à...', options: ['Répéter un bloc un nombre défini de fois', 'Afficher du texte', 'Déclarer une classe'], correct: 0 },
+        { q: 'break dans une boucle...', options: ['Arrête la boucle', 'Passe à l\'itération suivante', 'Ne fait rien'], correct: 0 },
+        { q: 'while exécute le bloc tant que...', options: ['La condition est vraie', 'Le compteur est atteint', 'Toujours'], correct: 0 },
+        { q: 'foreach itère sur...', options: ['Des tableaux', 'Des entiers', 'Des chaînes'], correct: 0 }
+      ]
+    },
+    'php-04': {
+      title: 'Fonctions',
+      questions: [
+        { q: 'Le mot-clé function définit...', options: ['Une fonction', 'Une variable', 'Une classe'], correct: 0 },
+        { q: 'L\'instruction return...', options: ['Renvoie une valeur', 'Ne renvoie rien', 'Déclare un type'], correct: 0 },
+        { q: 'Un paramètre de fonction est...', options: ['Une valeur passée à l\'appel', 'Une variable globale', 'Une constante'], correct: 0 },
+        { q: 'Une variable locale est visible...', options: ['Dans la fonction seulement', 'Partout', 'Globalement'], correct: 0 },
+        { q: 'Une fonction anonyme est...', options: ['Sans nom', 'Avec un return', 'Récursive'], correct: 0 },
+        { q: 'La récursivité désigne...', options: ['Une fonction qui s\'appelle elle-même', 'Une boucle for', 'Une classe'], correct: 0 }
+      ]
+    },
+    'php-05': {
+      title: 'Tableaux indexés',
+      questions: [
+        { q: 'Un tableau indexé utilise...', options: ['Des index numériques', 'Des clés string', 'Des objets'], correct: 0 },
+        { q: 'On accède à un élément via...', options: ['$t[0]', '$t{\'0\'}', '$t->0'], correct: 0 },
+        { q: 'count($t) renvoie...', options: ['Le nombre d\'éléments', 'La somme', 'Le dernier index'], correct: 0 },
+        { q: 'Ajouter en fin de tableau se fait avec...', options: ['array_push', 'push', 'append'], correct: 0 },
+        { q: 'On crée un tableau avec...', options: ['array() ou []', 'new Array()', 'list()'], correct: 0 },
+        { q: 'On parcourt un tableau avec...', options: ['foreach', 'for each', 'loop'], correct: 0 }
+      ]
+    },
+    'php-06': {
+      title: 'Tableaux associatifs & avancés',
+      questions: [
+        { q: 'Un tableau associatif utilise...', options: ['Des clés string', 'Des index numériques', 'Des booléens'], correct: 0 },
+        { q: 'On accède à une valeur via...', options: ['$t[\'cle\']', '$t->cle', '$t.cle'], correct: 0 },
+        { q: 'implode() transforme...', options: ['Un tableau en chaîne', 'Une chaîne en tableau', 'Rien'], correct: 0 },
+        { q: 'explode() transforme...', options: ['Une chaîne en tableau', 'Un tableau en chaîne', 'Une copie'], correct: 0 },
+        { q: 'array_map() applique...', options: ['Une fonction à chaque élément', 'Un tri', 'Un filtre'], correct: 0 },
+        { q: 'array_filter() ...', options: ['Retire des éléments selon un test', 'Ajoute des éléments', 'Trie le tableau'], correct: 0 }
+      ]
+    },
+    'php-07': {
+      title: 'Formulaires & superglobales',
+      questions: [
+        { q: '$_POST contient...', options: ['Les données d\'un formulaire POST', 'Les données GET', 'Les cookies'], correct: 0 },
+        { q: '$_GET contient...', options: ['Les données de l\'URL', 'Les fichiers uploadés', 'Les sessions'], correct: 0 },
+        { q: 'method="post" envoie les données...', options: ['Dans le corps de la requête', 'Dans l\'URL', 'Dans un cookie'], correct: 0 },
+        { q: 'method="get" envoie les données...', options: ['Dans l\'URL', 'Dans le corps', 'En session'], correct: 0 },
+        { q: 'htmlspecialchars() sert à...', options: ['Sécuriser l\'affichage HTML', 'Crypter', 'Valider un email'], correct: 0 },
+        { q: 'isset() vérifie...', options: ['Qu\'une variable est définie', 'Le type', 'La valeur exacte'], correct: 0 }
+      ]
+    },
+    'php-08': {
+      title: 'Fichiers & upload',
+      questions: [
+        { q: 'fopen() permet d\'...', options: ['Ouvrir un fichier', 'Créer une variable', 'Ouvrir une base'], correct: 0 },
+        { q: 'fwrite() écrit...', options: ['Dans un fichier', 'À l\'écran', 'En base de données'], correct: 0 },
+        { q: 'fclose() ferme...', options: ['Le fichier ouvert', 'La session', 'La connexion BDD'], correct: 0 },
+        { q: 'Un upload de fichier utilise...', options: ['$_FILES', '$_POST', '$_GET'], correct: 0 },
+        { q: 'file_get_contents() lit...', options: ['Le contenu d\'un fichier', 'Sa taille', 'Son type'], correct: 0 },
+        { q: 'is_uploaded_file() vérifie...', options: ['Qu\'un fichier vient d\'un upload', 'Son extension', 'Sa taille'], correct: 0 }
+      ]
+    },
+    'php-09': {
+      title: 'Sessions & cookies',
+      questions: [
+        { q: 'session_start() démarre...', options: ['Une session', 'Un fichier', 'Un cookie'], correct: 0 },
+        { q: '$_SESSION stocke...', options: ['Les données de session', 'Les cookies', 'Les données POST'], correct: 0 },
+        { q: 'On crée un cookie avec...', options: ['setcookie()', 'cookie_set()', 'new Cookie()'], correct: 0 },
+        { q: 'Une session expire généralement...', options: ['À la fermeture du navigateur', 'Jamais', 'Après un an'], correct: 0 },
+        { q: '$_COOKIE contient...', options: ['Les cookies reçus', 'Les sessions', 'Les fichiers'], correct: 0 },
+        { q: 'Pour lire $_SESSION il faut...', options: ['Appeler session_start() avant', 'Ne rien faire', 'Un include'], correct: 0 }
+      ]
+    },
+    'php-10': {
+      title: 'Programmation Orientée Objet',
+      questions: [
+        { q: 'Le mot-clé class définit...', options: ['Un modèle d\'objet', 'Une fonction', 'Une variable'], correct: 0 },
+        { q: 'Le mot-clé new crée...', options: ['Une instance (objet)', 'Une classe', 'Un fichier'], correct: 0 },
+        { q: '$this désigne...', options: ['L\'objet courant', 'La classe', 'Une variable globale'], correct: 0 },
+        { q: 'extends permet...', options: ['L\'héritage', 'L\'instanciation', 'La déclaration'], correct: 0 },
+        { q: 'Un membre private est accessible...', options: ['Dans la classe seulement', 'Partout', 'De l\'extérieur'], correct: 0 },
+        { q: 'Une interface est...', options: ['Un contrat de méthodes', 'Une classe concrète', 'Une variable'], correct: 0 }
+      ]
+    },
+    'php-11': {
+      title: 'Bases de données MySQL (PDO)',
+      questions: [
+        { q: 'PDO signifie...', options: ['PHP Data Objects', 'PHP Database', 'Private Data Objects'], correct: 0 },
+        { q: 'On sécurise une requête avec...', options: ['Des requêtes préparées', 'De la concaténation', 'eval()'], correct: 0 },
+        { q: 'new PDO() crée...', options: ['Une connexion à la BDD', 'Une table', 'Une requête'], correct: 0 },
+        { q: 'execute() exécute...', options: ['Une requête préparée', 'Un fichier', 'Une classe'], correct: 0 },
+        { q: 'lastInsertId() renvoie...', options: ['L\'id inséré', 'Le nombre de lignes', 'Une erreur'], correct: 0 },
+        { q: 'L\'injection SQL est évitée par...', options: ['Les requêtes préparées', 'htmlspecialchars', 'trim()'], correct: 0 }
+      ]
+    },
+    'php-12': {
+      title: 'Sécurité PHP',
+      questions: [
+        { q: 'Les attaques XSS sont évitées par...', options: ['htmlspecialchars', 'md5', 'base64'], correct: 0 },
+        { q: 'Les mots de passe sont stockés via...', options: ['password_hash', 'md5', 'Texte en clair'], correct: 0 },
+        { q: 'password_verify() compare...', options: ['Un hash et une saisie', 'Deux hash', 'Du texte'], correct: 0 },
+        { q: 'Les attaques CSRF sont évitées par...', options: ['Un token', 'Un cookie', 'Une session'], correct: 0 },
+        { q: 'Une injection SQL provient de...', options: ['Concaténation non préparée', 'PDO', '$_GET'], correct: 0 },
+        { q: 'Valider une entrée consiste à...', options: ['Vérifier son type et format', 'Lui faire confiance', 'L\'ignorer'], correct: 0 }
+      ]
+    },
+    'php-13': {
+      title: 'CMS simple',
+      questions: [
+        { q: 'Un CMS sert à...', options: ['Gérer du contenu web', 'Compiler du code', 'Crypter des fichiers'], correct: 0 },
+        { q: 'Le routage consiste à...', options: ['Associer une URL à une page', 'Styler la page', 'Se connecter à la BDD'], correct: 0 },
+        { q: 'Un template est...', options: ['Un gabarit de présentation', 'Une classe', 'Une table'], correct: 0 },
+        { q: 'include() charge...', options: ['Un fichier', 'Une classe', 'Une fonction'], correct: 0 },
+        { q: 'require() diffère d\'include() car...', options: ['Il provoque une erreur fatale si le fichier manque', 'Il est identique', 'Il ignore l\'erreur'], correct: 0 },
+        { q: 'Séparer logique et présentation est...', options: ['Une bonne pratique', 'Inutile', 'Lent'], correct: 0 }
+      ]
+    },
+    'php-14': {
+      title: 'Projet complet',
+      questions: [
+        { q: 'Un projet PHP combine souvent...', options: ['Formulaires, BDD et fichiers', 'HTML seul', 'CSS seul'], correct: 0 },
+        { q: 'La planification se fait...', options: ['Avant le code', 'Jamais', 'Après le déploiement'], correct: 0 },
+        { q: 'Le déploiement désigne...', options: ['La mise en production', 'Le dev local', 'Un test'], correct: 0 },
+        { q: 'Un README sert à...', options: ['Documenter le projet', 'Compiler', 'Styler'], correct: 0 },
+        { q: 'HTTPS est recommandé pour...', options: ['Sécuriser les échanges', 'La vitesse', 'Le SEO'], correct: 0 },
+        { q: 'Un fichier .env sert à...', options: ['Stocker la config secrète', 'Du CSS', 'Des logs'], correct: 0 }
+      ]
     }
   };
 }
 
 
-const _course = window.location.pathname.includes('/css/') || window.location.pathname.includes('/css-topics/') ? 'css' : 'html';
+const _course = window.location.pathname.includes('/css/') ||
+  window.location.pathname.includes('/css-topics/') ? 'css' :
+  window.location.pathname.includes('/php/') ? 'php' : 'html';
 
 document.querySelectorAll('.quiz').forEach(quizEl => {
   const sessionId = quizEl.dataset.session || 'unknown';
@@ -1382,6 +1593,21 @@ document.addEventListener('keydown', (e) => {
 
     const initCode = pre.textContent;
     let primaryLang = pre.dataset.lang || 'html';
+
+    // ── Read-only (non-editable) languages: PHP, etc. ──
+    // Keep the <pre> as a static reference block and leave the preview
+    // panel showing the expected output already written in the HTML.
+    // Info is shown on hover (title) instead of a persistent block.
+    const editableLangs = ['html', 'css', 'js'];
+    if (!editableLangs.includes(primaryLang)) {
+      split.classList.add('code-static');
+      const codeBlock = split.querySelector('.code-block');
+      const tip = 'Code ' + primaryLang.toUpperCase() + ' de référence — non modifiable. '
+        + 'Copiez ce code dans un fichier .' + primaryLang + ' sur votre serveur (ex. XAMPP) puis ouvrez-le via http://localhost. '
+        + 'Le panneau de droite montre le rendu produit par ce script.';
+      if (codeBlock) codeBlock.setAttribute('title', tip);
+      return;
+    }
 
     // ── Left panel: tab bar + 3 editors ──
     const codeBody = pre.parentNode;

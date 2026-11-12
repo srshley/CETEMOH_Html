@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 3 — Conditions · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html" class="active">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 3 — Conditions</div>
+      <a href="#s3-principe"  class="sidebar-item"><span class="sidebar-num">01</span>Le principe des conditions</a>
+      <a href="#s3-if"        class="sidebar-item"><span class="sidebar-num">02</span>if / else</a>
+      <a href="#s3-elseif"   class="sidebar-item"><span class="sidebar-num">03</span>elseif</a>
+      <a href="#s3-switch"    class="sidebar-item"><span class="sidebar-num">04</span>switch</a>
+      <a href="#s3-logique"   class="sidebar-item"><span class="sidebar-num">05</span>Opérateurs logiques</a>
+      <a href="#s3-ternaire"  class="sidebar-item"><span class="sidebar-num">06</span>Ternaire & null coalescing</a>
+      <a href="#s3-exo"       class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s3-bilan"     class="sidebar-item"><span class="sidebar-num">08</span>Bilan & glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;">
+      <a href="seance2.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--text2);">← Séance 2</a>
+      <a href="seance4.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Séance 4 →</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 03 / 14</div>
+      <h1>Conditions</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">if / else · elseif · switch · opérateurs logiques · ternaire</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Débutant</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Comprendre le rôle d'une condition dans un script PHP</li>
+          <li>Écrire des blocs <code>if</code>, <code>else</code> et <code>elseif</code></li>
+          <li>Utiliser <code>switch</code> pour comparer une valeur à plusieurs cas</li>
+          <li>Combiner plusieurs tests avec <code>&amp;&amp;</code>, <code>||</code> et <code>!</code></li>
+          <li>Choisir entre <code>if</code> et l'opérateur ternaire</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis & durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 1 — Introduction au PHP (syntaxe, <code>echo</code>)</li>
+          <li>Séance 2 — Variables, types & opérateurs</li>
+          <li>Durée estimée : <strong>2 heures</strong></li>
+          <li>2 exos flash + 4 exercices guidés + un quiz de 6 questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 PRINCIPE ══════════ -->
+    <div id="s3-principe">
+      <div class="section-header"><span class="section-num">01</span><h2>Le principe des conditions</h2></div>
+      <p>Une condition permet d'exécuter un bloc de code <strong>uniquement si</strong> un test logique est vrai. C'est le cœur de la prise de décision côté serveur : « si la note est supérieure à 10, affiche la mention ».</p>
+      <p>En PHP, un test renvoie une valeur booléenne : <code>true</code> ou <code>false</code>. Ces deux valeurs sont des constantes : <code>true</code> vaut 1, <code>false</code> vaut 0.</p>
+      <div class="callout analogy">
+        <div class="callout-icon">🚦</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : le feu de signalisation</div>
+          <p>Le test est le feu. S'il est vert (<code>true</code>), on avance : le code s'exécute. S'il est rouge (<code>false</code>), on s'arrête : le bloc est ignoré et PHP passe à la suite.</p>
+        </div>
+      </div>
+      <h3>Les opérateurs de comparaison</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Opérateur</th><th>Signification</th><th>Exemple</th><th>Résultat</th></tr></thead>
+          <tbody>
+            <tr><td><code>==</code></td><td>Égalité (valeur)</td><td><code>"10" == 10</code></td><td><code>true</code></td></tr>
+            <tr><td><code>===</code></td><td>Égalité stricte (valeur + type)</td><td><code>"10" === 10</code></td><td><code>false</code></td></tr>
+            <tr><td><code>!=</code> / <code>&lt;&gt;</code></td><td>Différence</td><td><code>5 != 6</code></td><td><code>true</code></td></tr>
+            <tr><td><code>!==</code></td><td>Différence stricte</td><td><code>5 !== "5"</code></td><td><code>true</code></td></tr>
+            <tr><td><code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></td><td>Comparaison</td><td><code>18 &gt;= 18</code></td><td><code>true</code></td></tr>
+            <tr><td><code>&lt;=&gt;</code></td><td>Comparaison espace (3 valeurs)</td><td><code>1 &lt;=&gt; 2</code></td><td><code>-1</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Préférez toujours <code>===</code></div>
+          <p>Avec <code>==</code>, PHP convertit les types avant de comparer : <code>"0" == false</code> vaut <code>true</code>, <code>"abc" == 0</code> vaut aussi <code>true</code> (car <code>"abc"</code> vaut 0 en comparaison). Ces conversions ont provoqué des failles de sécurité. La comparaison stricte supprime l'ambiguïté.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 IF / ELSE ══════════ -->
+    <div id="s3-if">
+      <div class="section-header"><span class="section-num">02</span><h2>if et else</h2></div>
+      <p>Le bloc <code>if</code> s'exécute si le test est vrai, sinon c'est le bloc <code>else</code> qui s'exécute. Les accolades <code>{ }</code> délimitent le bloc ; les point-virgules terminent les instructions.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — if / else</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $age = 20;
+
+  if ($age &gt;= 18) {
+    echo "Vous êtes majeur.";
+  } else {
+    echo "Vous êtes mineur.";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Vous êtes majeur.</p></div>
+        </div>
+      </div>
+      <div class="callout note">
+        <div class="callout-icon">📝</div>
+        <div class="callout-body">
+          <div class="callout-title">Sans accolades, un seul statement</div>
+          <p>Si vous oubliez les accolades, seule la première instruction du bloc est conditionnée :<br>
+          <code>if ($x) echo "a"; echo "b";</code> affiche <code>b</code> inconditionnellement. Écrivez toujours les accolades, même pour une ligne.</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Le piège sans accolades</span>
+        </div>
+        <ol>
+          <li>Créez <code>accolades.php</code> avec <code>$connecte = false;</code> puis, sans accolades : <code>if ($connecte) echo "Bienvenue !"; echo "Au revoir.";</code>. Prévoyez ce qui s'affiche, puis vérifiez.</li>
+          <li>Passez <code>$connecte = true;</code> : les deux messages s'affichent — pourquoi le résultat est-il identique au cas précédent ?</li>
+          <li>Ajoutez les accolades autour des deux <code>echo</code> et re-testez les deux valeurs : un seul message doit s'afficher à la fois.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $connecte = false;
+
+  // SANS accolades : seul le 1er echo est conditionné
+  if ($connecte) echo "Bienvenue !"; echo "Au revoir.";   // affiche toujours "Au revoir."
+
+  // AVEC accolades : les deux instructions appartiennent au bloc
+  if ($connecte) {
+    echo "Bienvenue !";
+  } else {
+    echo "Au revoir.";
+  }
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 03 ELSEIF ══════════ -->
+    <div id="s3-elseif">
+      <div class="section-header"><span class="section-num">03</span><h2>elseif : plusieurs cas</h2></div>
+      <p><code>elseif</code> permet d'enchaîner plusieurs tests. Dès qu'un test renvoie <code>true</code>, les suivants ne sont <strong>pas évalués</strong> : on sort de la cascade. L'ordre des tests est donc important, du plus restrictif au plus général.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — elseif</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $note = 14;
+
+  if ($note &gt;= 16) {
+    echo "Très bien";
+  } elseif ($note &gt;= 14) {
+    echo "Bien";
+  } elseif ($note &gt;= 10) {
+    echo "Moyen";
+  } else {
+    echo "Insuffisant";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Bien</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 SWITCH ══════════ -->
+    <div id="s3-switch">
+      <div class="section-header"><span class="section-num">04</span><h2>switch : comparer une valeur</h2></div>
+      <p>Quand on compare <strong>la même variable</strong> à plusieurs valeurs possibles, <code>switch</code> est plus lisible qu'une cascade de <code>elseif</code>. Il utilise une comparaison <strong>stricte</strong> (<code>===</code>).</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — switch</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $jour = "lundi";
+
+  switch ($jour) {
+    case "lundi":
+      echo "Début de semaine";
+      break;
+    case "samedi":
+    case "dimanche":
+      echo "Week-end";
+      break;
+    default:
+      echo "Jour ordinaire";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Début de semaine</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">L'oubli du <code>break</code></div>
+          <p>Sans <code>break</code>, l'exécution « tombe » dans le cas suivant (<em>fallthrough</em>) et imprime plusieurs messages. C'est une source fréquente de bugs. Exception : le <em>fallthrough</em> volontaire, où l'on regroupe des cas (comme <code>samedi</code> et <code>dimanche</code> ci-dessus) en omettant volontairement le <code>break</code> sur le premier.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 OPÉRATEURS LOGIQUES ══════════ -->
+    <div id="s3-logique">
+      <div class="section-header"><span class="section-num">05</span><h2>Opérateurs logiques</h2></div>
+      <p>Les opérateurs logiques combinent plusieurs tests : <code>&amp;&amp;</code> (et), <code>||</code> (ou), <code>!</code> (non). Ils sont dit « à court-circuit » : si le premier test suffit à décider, le second n'est pas évalué.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — && || !</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $age = 20;
+  $permis = true;
+
+  if ($age &gt;= 18 &amp;&amp; $permis) {
+    echo "Vous pouvez conduire.";
+  }
+
+  if ($age &lt; 18 || !$permis) {
+    echo "Conduite interdite.";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Vous pouvez conduire.</p></div>
+        </div>
+      </div>
+      <h3>Valeurs « truthy » et « falsy »</h3>
+      <p>PHP ne demande pas un booléen strict : toute valeur peut être évaluée comme vraie ou fausse.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Falsy (faux)</th><th>Truthy (vrai)</th></tr></thead>
+          <tbody>
+            <tr><td>booléen</td><td><code>false</code></td><td><code>true</code></td></tr>
+            <tr><td>entier</td><td><code>0</code></td><td>tout le reste</td></tr>
+            <tr><td>float</td><td><code>0.0</code></td><td>tout le reste</td></tr>
+            <tr><td>chaîne</td><td><code>""</code> et <code>"0"</code></td><td>tout le reste</td></tr>
+            <tr><td>tableau</td><td><code>[]</code> (vide)</td><td>non vide</td></tr>
+            <tr><td>null</td><td><code>null</code></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Vrai ou faux ?</span>
+        </div>
+        <ol>
+          <li>Dans <code>truthy.php</code>, écrivez <code>if ("0") { echo "vrai"; } else { echo "faux"; }</code>. Prévoyez le résultat avant d'exécuter.</li>
+          <li>Testez la même structure avec <code>0</code>, <code>"00"</code>, <code>[0]</code> et <code>null</code> : relevez les deux réponses surprenantes.</li>
+          <li>Enchaînez avec un court-circuit : <code>var_dump(false && $x);</code> sans définir <code>$x</code> — pourquoi n'y a-t-il aucune erreur ?</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  // Surprenants : "0" est falsy alors que "00" est truthy ; [0] est truthy bien que "vide"
+  var_dump((bool)"0");    // false
+  var_dump((bool)"00");   // true
+  var_dump((bool)[0]);    // true — un tableau non vide est toujours vrai
+
+  var_dump(false && $x);  // bool(false) — $x n'est jamais évaluée (court-circuit)
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 TERNAIRE ══════════ -->
+    <div id="s3-ternaire">
+      <div class="section-header"><span class="section-num">06</span><h2>Ternaire &amp; null coalescing</h2></div>
+      <p>L'opérateur ternaire <code>condition ? valeur_si_vrai : valeur_si_faux</code> condense un <code>if/else</code> en une expression. L'opérateur de coalescence <code>??</code> renvoie une valeur de repli si celle de gauche est <code>null</code> ou non définie.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — Ternaire et ??</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $stock = 0;
+  $message = $stock &gt; 0 ? "En stock" : "Rupture";
+
+  $pseudo = $_GET["pseudo"] ?? "Invité";
+
+  echo $message;   // Rupture
+  echo "&lt;br&gt;" . $pseudo;  // Invité
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Rupture<br>Invité</p></div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Ternaire ou if ?</div>
+          <p>Utilisez le ternaire pour un choix simple qui produit une <strong>valeur</strong>. Gardez le <code>if</code> dès qu'il y a plusieurs instructions, une structure complexe, ou que la lisibilité prime. Trop de ternaires imbriqués deviennent illisibles.</p>
+        </div>
+      </div>
+      <p>Deux variantes à connaître : le ternaire « court » <code>$a ?: $b</code> renvoie <code>$a</code> si elle est truthy, sinon <code>$b</code> (attention, <code>0 ?: 5</code> vaut bien <code>5</code>), et l'affectation par coalescence <code>$pseudo ??= "Invité";</code> n'affecte la valeur que si <code>$pseudo</code> est <code>null</code> ou non définie. Retenez la nuance : <code>??</code> teste « défini et non null », alors que <code>?:</code> teste « truthy » — un <code>""</code> ou un <code>0</code> passe avec <code>??</code> mais bascule sur le repli avec <code>?:</code>.</p>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s3-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">🎂 Vérifier la majorité</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_majeur.php</code> avec une variable <code>$age = 17;</code>.</li>
+            <li>Affichez « Vous êtes majeur » si <code>$age &gt;= 18</code>, « Vous êtes mineur » sinon.</li>
+            <li>Testez avec <code>$age = 20</code> : le message doit changer.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> un seul <code>if</code> suffit, pas besoin de <code>elseif</code>.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">📊 Mention à une note</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>À partir d'une <code>$note</code> (0–20), affichez la mention : Très bien (≥16), Bien (≥14), Moyen (≥10), Insuffisant sinon.</li>
+            <li>Utilisez une cascade <code>if/elseif/else</code>, du seuil le plus haut au plus bas.</li>
+            <li>Affichez aussi la mention <em>encadrée</em> dans une balise <code>&lt;strong&gt;</code>.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> l'ordre des tests détermine le résultat — commencez par 16.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🔐 Accès autorisé</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Une zone est accessible si l'utilisateur est connecté <code>ET</code> son rôle est <code>"admin"</code>.</li>
+            <li>Affichez « Accès autorisé » ou « Accès refusé ».</li>
+            <li>Ajoutez une troisième condition : si l'utilisateur est banni, l'accès est refusé même s'il est admin.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> combinez <code>&amp;&amp;</code> et <code>||</code>, et placez le test du bannissement en premier.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🗓️ Jour de la semaine</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez un <code>switch</code> sur une variable <code>$jour</code> (lundi → dimanche).</li>
+            <li>Affichez « Week-end » pour samedi et dimanche (regroupez les deux cas), « Travail » en semaine.</li>
+            <li>Ajoutez un <code>default</code> qui affiche « Jour inconnu ».</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> deux <code>case</code> qui partagent le même corps n'ont besoin d'un <code>break</code> qu'à la fin.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s3-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Le rôle d'une condition : exécuter un bloc selon un test vrai/faux</li>
+        <li><code>if</code> / <code>else</code> / <code>elseif</code> et l'ordre d'évaluation</li>
+        <li><code>switch</code>, <code>case</code>, <code>break</code> et <code>default</code></li>
+        <li>Les opérateurs de comparaison, dont <code>===</code> et <code>!==</code></li>
+        <li>Les opérateurs logiques <code>&amp;&amp;</code>, <code>||</code>, <code>!</code> et le court-circuit</li>
+        <li>Les valeurs truthy / falsy</li>
+        <li>L'opérateur ternaire et l'opérateur de coalescence <code>??</code></li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Oublier le <code>break</code> dans un <code>switch</code> → plusieurs messages affichés.</li>
+            <li>Utiliser <code>==</code> au lieu de <code>===</code> → conversions de types inattendues.</li>
+            <li>Oublier les accolades → une seule instruction conditionnée.</li>
+            <li>Placer un test trop général avant un test restrictif → la cascade s'arrête trop tôt.</li>
+            <li>Écrire <code>if ($x = 5)</code> (affectation) au lieu de <code>if ($x == 5)</code> → toujours vrai.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Condition</dt><dd>Test logique dont le résultat détermine l'exécution d'un bloc.</dd>
+          <dt>if / else</dt><dd>Contrôle conditionnel à deux branches : vrai ou faux.</dd>
+          <dt>elseif</dt><dd>Branche supplémentaire evaluée si les précédentes sont fausses.</dd>
+          <dt>switch</dt><dd>Structure comparant une valeur à une liste de cas.</dd>
+          <dt>break</dt><dd>Instruction qui sort du <code>switch</code> et évite le fallthrough.</dd>
+          <dt>Opérateur ternaire</dt><dd>Expression <code>? :</code> remplaçant un <code>if/else</code> simple.</dd>
+          <dt>Null coalescing</dt><dd>Opérateur <code>??</code> fournissant une valeur de repli.</dd>
+          <dt>Truthy / Falsy</dt><dd>Valeurs que PHP convertit implicitement en vrai ou faux.</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Séance suivante</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Séance 4 — Boucles</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">for, while, foreach : répéter un traitement N fois</div>
+        </div>
+        <a href="seance4.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Séance 4 →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="03">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>

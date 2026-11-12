@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séance 14 — Sécurité & bonnes pratiques · Cours PHP</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/php-course.css?v=3">
+  <style>
+    .section-num       { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.25); }
+    .section-header    { border-bottom-color:rgba(139,92,246,.2); }
+    h3                 { color:var(--purple); }
+    .sidebar-item.active { color:var(--purple); border-left-color:var(--purple); background:var(--purple-dim); }
+    .session-badge    { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .exercise-num      { color:var(--purple); background:var(--purple-dim); border-color:rgba(139,92,246,.3); }
+    .sidebar-session-label { color:var(--purple); }
+    .topbar-brand .badge { background:var(--purple); }
+    .glossary dt { color:var(--purple); }
+    .session-hero::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,.12), transparent 60%); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="topbar">
+    <div class="topbar-brand"><span class="badge">&lt;/&gt;</span> Cours PHP</div>
+    <nav class="topbar-nav">
+      <a href="../../index.html">Accueil</a>
+      <a href="seance1.html">Séance 1</a>
+      <a href="seance2.html">Séance 2</a>
+      <a href="seance3.html">Séance 3</a>
+      <a href="seance4.html">Séance 4</a>
+      <a href="seance5.html">Séance 5</a>
+      <a href="seance6.html">Séance 6</a>
+      <a href="seance7.html">Séance 7</a>
+      <a href="seance8.html">Séance 8</a>
+      <a href="seance9.html">Séance 9</a>
+      <a href="seance10.html">Séance 10</a>
+      <a href="seance11.html">Séance 11</a>
+      <a href="seance12.html">Séance 12</a>
+      <a href="seance13.html">Séance 13</a>
+      <a href="seance14.html" class="active">Séance 14</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </header>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-session-label">Séance 14 — Sécurité &amp; bonnes pratiques</div>
+      <a href="#s14-menaces"   class="sidebar-item"><span class="sidebar-num">01</span>Pourquoi la sécurité ?</a>
+      <a href="#s14-sql"       class="sidebar-item"><span class="sidebar-num">02</span>Injections SQL</a>
+      <a href="#s14-xss"       class="sidebar-item"><span class="sidebar-num">03</span>XSS &amp; échappement</a>
+      <a href="#s14-csrf"      class="sidebar-item"><span class="sidebar-num">04</span>CSRF &amp; tokens</a>
+      <a href="#s14-mdp"       class="sidebar-item"><span class="sidebar-num">05</span>Mots de passe</a>
+      <a href="#s14-validation" class="sidebar-item"><span class="sidebar-num">06</span>Validation &amp; checklist</a>
+      <a href="#s14-exo"       class="sidebar-item"><span class="sidebar-num">07</span>Exercices</a>
+      <a href="#s14-bilan"     class="sidebar-item"><span class="sidebar-num">08</span>Bilan &amp; glossaire</a>
+    </div>
+    <div style="padding:1rem 1.25rem;border-top:1px solid var(--border);">
+      <a href="../../index.html" style="display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--purple);">Retour aux séances</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" aria-label="Menu latéral">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <main class="content">
+   <div class="content-inner">
+
+    <!-- ══════════ HERO ══════════ -->
+    <div class="session-hero">
+      <div class="session-badge">Séance 14 / 14</div>
+      <h1>Sécurité &amp; bonnes pratiques</h1>
+      <p style="color:var(--text2);margin:.5rem 0 0;font-size:1.05rem;">injection SQL · XSS · CSRF · password_hash · validation des entrées · checklist finale</p>
+      <div class="session-meta">
+        <span class="meta-tag">PHP</span><span class="meta-tag">Avancé</span>
+        <span class="meta-tag">~2h</span><span class="meta-tag">8 sections</span><span class="meta-tag">2 exos flash</span><span class="meta-tag">4 exercices</span><span class="meta-tag">1 quiz</span>
+      </div>
+    </div>
+
+    <!-- ══════════ OBJECTIFS ══════════ -->
+    <div class="grid-2" style="margin:2rem 0;">
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">🎯 Objectifs de la séance</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Reconnaître les 3 attaques majeures : <strong>SQLi</strong>, <strong>XSS</strong>, <strong>CSRF</strong></li>
+          <li>Éliminer les injections SQL avec les <strong>requêtes préparées</strong></li>
+          <li>Neutraliser le HTML hostile avec <code>htmlspecialchars()</code></li>
+          <li>Protéger les formulaires avec un <strong>token CSRF</strong> en session</li>
+          <li>Stocker les mots de passe avec <code>password_hash</code> / <code>password_verify</code></li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h3 style="margin-top:0;color:var(--purple);">⏱️ Prérequis &amp; durée</h3>
+        <ul style="font-size:.9rem;margin:0;padding-left:1.1rem;">
+          <li>Séance 9 — formulaires et <code>$_POST</code></li>
+          <li>Séance 10 — sessions (<code>$_SESSION</code>)</li>
+          <li>Séance 12 — PDO et requêtes SQL</li>
+          <li>Durée estimée : <strong>2 heures</strong> · 4 exercices + un quiz de fin de cours</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 POURQUOI LA SÉCURITÉ ══════════ -->
+    <div id="s14-menaces">
+      <div class="section-header"><span class="section-num">01</span><h2>Pourquoi la sécurité ? Les 3 grandes menaces</h2></div>
+      <p>Tout ce qui arrive dans un script PHP — <code>$_GET</code>, <code>$_POST</code>, <code>$_COOKIE</code>, les en-têtes HTTP — est <strong>totalement contrôlé par le visiteur</strong>. Un utilisateur ne « remplit » pas toujours votre formulaire : il peut envoyer ce qu'il veut avec curl. La règle d'or est donc : <strong>ne jamais faire confiance aux entrées</strong>.</p>
+      <p>Trois familles d'attaques représentent l'essentiel du risque pour une application apprise jusqu'ici :</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attaque</th><th>Surface touchée</th><th>Impact</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Injection SQL</strong></td><td>Requêtes construites par concaténation</td><td>Lecture / destruction de la base, contournement des connexions</td></tr>
+            <tr><td><strong>XSS</strong></td><td>HTML affiché qui contient l'entrée utilisateur</td><td>Vol de session via du JavaScript injecté, défiguration</td></tr>
+            <tr><td><strong>CSRF</strong></td><td>Formulaires / actions sans vérification d'origine</td><td>Actions effectuées à l'insu de l'utilisateur connecté</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout analogy">
+        <div class="callout-icon">🛡️</div>
+        <div class="callout-body">
+          <div class="callout-title">Analogie : la porte du studio et la concierge</div>
+          <p>Votre application est un studio. La donnée entrante, c'est le courrier qu'on glisse sous la porte : il peut contenir un colis… ou un scorpion. Une bonne séquence de sécurité ressemble à un protocole de contrôle : <code>filter_var</code> inspecte le colis à l'entrée (validation), la requête préparée empêche que son contenu atteigne « le mur porteur » de la base (paramètres SQL), et <code>htmlspecialchars</code> neutralise les objets coupants avant l'affichage (échappement).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 INJECTIONS SQL ══════════ -->
+    <div id="s14-sql">
+      <div class="section-header"><span class="section-num">02</span><h2>Injections SQL : requêtes préparées</h2></div>
+      <p>Si la valeur saisie est <strong>collée directement</strong> dans la requête, le visiteur peut « casser » le texte SQL et pénétrer dans son code : c'est l'injection SQL, la faille n°1 du web historique.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — ❌ à ne jamais faire</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // ⛔ VULNÉRABLE : concaténation de l'entrée
+  $login = $_POST['login'];
+  $sql = "SELECT * FROM users WHERE login = '$login'";
+  // Si $login vaut  ' OR 1=1 --  la requête devient :
+  // SELECT * FROM users WHERE login = '' OR 1=1 -- "
+  // → retourne TOUS les utilisateurs !
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">CONSÉQUENCE</div>
+          <div class="preview-body"><p>Connexion accordée à n'importe qui.<br>La base, telle qu'elle a été pensée, est contournée.</p></div>
+        </div>
+      </div>
+      <p>La solution : une <strong>requête préparée</strong>. Le SQL est envoyé <em>d'abord</em> (il est compilé tel quel), puis la donnée arrive <em>séparément</em> via un paramètre — elle ne peut plus être interprétée comme du SQL.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — ✅ PDO + prepare/execute</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $pdo = new PDO("mysql:host=localhost;dbname=site;charset=utf8mb4", "root", "");
+  $pdo-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+  $stmt = $pdo-&gt;prepare("SELECT id, nom FROM users WHERE login = :login");
+  $stmt-&gt;execute(["login" =&gt; $_POST['login']]);
+  $user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
+
+  if ($user) {
+    echo "Bienvenue, " . htmlspecialchars($user['nom']);
+  } else {
+    echo "Login inconnu";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Bienvenue, Nadia</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <div class="callout-title">Pas d'exception : JAMAIS de concaténation</div>
+          <p>Un <code>"... WHERE id = $id"</code> est dangereux même si la valeur vient de <code>$_GET['id']</code>, d'un cookie, ou d'une « aide JS ». Toute donnée externe passe par un placeholder (<code>:param</code> ou <code>?</code>) + <code>execute([...])</code> — sans exception, y compris dans les <code>ORDER BY</code> que l'on liste par liste blanche d'un tableau constant.</p>
+        </div>
+      </div>
+      <p>Le placeholder ne transporte que des <em>valeurs</em>, jamais la <em>structure</em> SQL : écrire <code>ORDER BY :col</code> ou <code>FROM :table</code> échoue — erreur immédiate avec <code>ATTR_EMULATE_PREPARES</code> désactivé, tri silencieusement faux sinon, car le paramètre est cité comme une chaîne constante. Quand le visiteur choisit la colonne de tri, validez son choix dans une liste blanche (<code>in_array($col, ["nom", "note"], true)</code>) et n'insérez que la valeur approuvée dans le texte SQL. Règle mnémotechnique : au visiteur les <strong>données</strong> via <code>:param</code>, à vous la <strong>structure</strong> via une liste blanche.</p>
+    </div>
+
+    <!-- ══════════ 03 XSS ══════════ -->
+    <div id="s14-xss">
+      <div class="section-header"><span class="section-num">03</span><h2>XSS : échapper avec htmlspecialchars()</h2></div>
+      <p>Si une saisie contient du HTML/JavaScript et est affichée <em>tel quel</em>, le navigateur l'exécute : on peut voler le cookie d'un visiteur avec <code>document.cookie</code>, rediriger la page, injecter un faux formulaire. C'est le <strong>XSS</strong> (<em>Cross-Site Scripting</em>). Le remède est l'<strong>échappement à l'affichage</strong>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — htmlspecialchars()</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // Invitation malveillante postée :
+  // &lt;script&gt;alert('cookie volé')&lt;/script&gt;
+  $commentaire = $_GET['commentaire'];
+
+  echo htmlspecialchars($commentaire, ENT_QUOTES, 'UTF-8');
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>&lt;script&gt;alert('cookie volé')&lt;/script&gt;<br><span style="font-size:.8rem;">(affiché en texte — le script ne s'exécute pas)</span></p></div>
+        </div>
+      </div>
+      <p>Les caractères <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>"</code> et <code>'</code> deviennent leurs entités HTML : le code est <strong>visible en texte</strong> mais ne sera jamais interprété. L'échappement s'applique <strong>à la sortie</strong>, à chaque affichage, même sur des données venues de la base.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <div class="callout-title">Toujours les 3 arguments</div>
+          <p><code>ENT_QUOTES</code> traite aussi les guillemets simples (sinon un attribut <em>onclick='…'</em> peut passer), et l'argument <code>'UTF-8'</code> fixe l'encodage attendu : certains encodages multi-octets historiques permettaient de dissimuler des caractères spéciaux. À l'inverse, <code>strip_tags()</code> seul ne suffit pas, car un XSS peut exister sans aucune balise (<code>&lt;img onerror=…&gt;</code> n'est qu'un exemple parmi d'autres).</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Le script qui n'exécute pas</span>
+        </div>
+        <ol>
+          <li>Créez <code>flash_xss.php</code> : affichez <code>$_GET["msg"] ?? "bonjour"</code> brut, puis la même variable passée dans <code>htmlspecialchars($msg, ENT_QUOTES, "UTF-8")</code>.</li>
+          <li>Appelez la page avec <code>?msg=&lt;b&gt;bonjour&lt;/b&gt;</code> : prévoyez la différence entre les deux lignes (gras ? balises en texte ?), puis vérifiez.</li>
+          <li>Tapez <code>?msg=&lt;script&gt;alert(1)&lt;/script&gt;</code> : confirmez qu'aucune alerte ne s'ouvre sur la version échappée, et affichez un message « ça contenait du HTML » quand l'entrée change après échappement.</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $msg = $_GET["msg"] ?? "bonjour";
+  echo $msg . "&lt;br&gt;";
+  $safe = htmlspecialchars($msg, ENT_QUOTES, "UTF-8");
+  echo $safe . "&lt;br&gt;";
+  echo ($msg === $safe) ? "Rien à échapper" : "Ça contenait du HTML";
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 04 CSRF & TOKENS ══════════ -->
+    <div id="s14-csrf">
+      <div class="section-header"><span class="section-num">04</span><h2>CSRF : token de formulaire</h2></div>
+      <p>Le <strong>CSRF</strong> (<em>Cross-Site Request Forgery</em>) abuse du fait que le navigateur <strong>envoie automatiquement les cookies</strong> de la session, même quand la requête vient d'un site externe. Une page malveillante peut très bien soumettre un formulaire vers votre site pendant que l'utilisateur est connecté : il suffit d'une <code>&lt;img src="http://votresite.test/avis"&gt;</code> cachée ou d'un formulaire auto-posté. La protection : associer à la session un <strong>token aléatoire</strong> inséré en champ caché, et re-vérifier ce token à chaque POST. Le pirate peut poster, mais <strong>jamais lire</strong> votre token : sans la bonne valeur, la requête est rejetée — <code>hash_equals()</code> compare en temps constant face aux <em>timing attacks</em>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — token CSRF</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  session_start();
+
+  // 1) Générer le token une fois par session
+  if (empty($_SESSION['csrf'])) {
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+  }
+  $csrf = $_SESSION['csrf'];
+?&gt;
+&lt;form method="post" action="traiter.php"&gt;
+  &lt;input type="hidden" name="csrf" value="&lt;?php echo $csrf; ?&gt;"&gt;
+  &lt;input type="text" name="message"&gt;
+  &lt;button&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;
+&lt;?php
+  // 2) Dans traiter.php : refuser tout autre envoi
+  if (!isset($_POST['csrf']) || !hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'])) {
+    http_response_code(403);
+    exit("CSRF : requête refusée");
+  }
+  echo "Requête légitime ✔";
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Requête légitime ✔</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 05 MOTS DE PASSE ══════════ -->
+    <div id="s14-mdp">
+      <div class="section-header"><span class="section-num">05</span><h2>Mots de passe : hash, jamais en clair</h2></div>
+      <p>Un mot de passe ne doit <strong>jamais</strong> être stocké en clair, ni « chiffré » de façon réversible. On calcule un <strong>hash lent et salé</strong> avec <code>password_hash()</code>, qui embarque automatiquement un algorithme fort (<code>PASSWORD_DEFAULT</code> : bcrypt et ses successeurs), un <em>salt</em> aléatoire et un <strong>coût</strong> (facteur de lenteur). La vérification utilise <code>password_verify()</code>.</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — password_hash / verify</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  // À l'INSCRIPTION
+  $mp = $_POST['motdepasse'];
+  $hash = password_hash($mp, PASSWORD_DEFAULT, ['cost' =&gt; 12]);
+  // → enregistrer $hash en BDD (60 caractères env.)
+
+  // À la CONNEXION
+  $hashStocke = '$2y$12$eImiTXuWVxfM37uY4JANjQ...';
+  if (password_verify($_POST['motdepasse'], $hashStocke)) {
+    echo "Connecté : mot de passe correct";
+  } else {
+    echo "Identifiants invalides";
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>Connecté : mot de passe correct</p></div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Ne JAMAIS utiliser md5() / sha1() pour les mots de passe</div>
+          <p><code>md5()</code> et <code>sha1()</code> sont <strong>rapides à calculer</strong> (des milliards de hash/s sur GPU) et conçus pour l'intégrité de fichiers, pas pour les secrets : des Tables arc-en-ciel publiques cassent les plus courants en quelques secondes. C'est la faille « classique » des vieux tutoriels : <code>WHERE mdp = md5($mp)</code>. Ne stockez <strong>jamais</strong> le résultat de <code>md5()</code> ou <code>sha1()</code> pour un mot de passe : utilisez uniquement <code>password_hash()</code>, qui indique lui-même son algorithme dans la chaîne produite (ex. <code>$2y$12$</code> pour bcrypt).</p>
+        </div>
+      </div>
+      <div class="exo-flash">
+        <div class="exo-flash-head">
+          <span class="exo-flash-badge">⚡ EXO FLASH</span>
+          <span class="exo-flash-title">Deux hash, deux visages</span>
+        </div>
+        <ol>
+          <li>Dans <code>flash_hash.php</code>, affichez <code>password_hash("2020", PASSWORD_DEFAULT)</code> deux fois de suite : prévoyez — les deux chaînes sont-elles identiques ? — puis vérifiez.</li>
+          <li>Contrôlez avec <code>password_verify("2020", $h2)</code>, puis affichez <code>strlen($h1)</code> : quelle taille de colonne <code>VARCHAR</code> en déduit-on pour la BDD ?</li>
+          <li>Affichez <code>substr($h1, 0, 4)</code> : quel algorithme le préfixe annonce-t-il, et pourquoi <code>md5("2020")</code>, lui, sera toujours identique à chaque appel ?</li>
+        </ol>
+        <details>
+          <summary>Voir un début de correction</summary>
+          <pre>&lt;?php
+  $h1 = password_hash("2020", PASSWORD_DEFAULT);
+  $h2 = password_hash("2020", PASSWORD_DEFAULT);
+  echo $h1 . "&lt;br&gt;" . $h2;  // différents : salt aléatoire
+  echo "&lt;br&gt;verify : " . (password_verify("2020", $h2) ? "OUI" : "NON");
+  echo "&lt;br&gt;longueur : " . strlen($h1);    // 60 → VARCHAR(255)
+  echo "&lt;br&gt;algo : " . substr($h1, 0, 4);  // $2y$ = bcrypt
+?&gt;</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- ══════════ 06 VALIDATION & CHECKLIST ══════════ -->
+    <div id="s14-validation">
+      <div class="section-header"><span class="section-num">06</span><h2>Valider les entrées &amp; checklist finale</h2></div>
+      <p>La <strong>validation</strong> rejette ce qui est inattendu <em>dès l'entrée</em>. <code>filter_var()</code> fournit des filtres prêts à l'emploi : e-mail, entier, URL… La stratégie gagnante est la <strong>liste blanche</strong> : « j'accepte exactement ceci » plutôt que « je cherche et retire le mal ».</p>
+      <div class="code-preview-split">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="code-lang">PHP — filter_var()</span>
+            <button class="copy-btn">COPIER</button>
+          </div>
+          <div class="code-body"><pre data-lang="php">&lt;?php
+  $email = $_POST['email'] ?? '';
+  $note  = $_GET['note']   ?? '';
+
+  if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "E-mail valide : $email&lt;br&gt;";
+  }
+
+  $note = filter_var($note, FILTER_VALIDATE_INT,
+          ['options' =&gt; ['min_range' =&gt; 0, 'max_range' =&gt; 20]]);
+  if ($note !== false) {
+    echo "Note : " . (int)$note;
+  }
+?&gt;</pre></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-label">RENDU</div>
+          <div class="preview-body"><p>E-mail valide : amina@cetemoh.com<br>Note : 14</p></div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Erreur courante</th><th>Conséquence</th><th>Solution</th></tr></thead>
+          <tbody>
+            <tr><td>SQL construit par concaténation</td><td>Injection SQL</td><td>Requête préparée PDO / MySQLi</td></tr>
+            <tr><td>Affichage de <code>$_GET</code> / BDD sans échappement</td><td>XSS</td><td><code>htmlspecialchars(..., ENT_QUOTES, 'UTF-8')</code></td></tr>
+            <tr><td>Formulaires sensibles sans vérification d'origine</td><td>CSRF</td><td>Token en session + <code>hash_equals()</code></td></tr>
+            <tr><td><code>md5()</code> / <code>sha1()</code> pour les mots de passe</td><td>Craquage quasi instantané</td><td><code>password_hash()</code> + <code>password_verify()</code></td></tr>
+            <tr><td>Fichier de config (<code>config.php</code>) accessible en direct</td><td>Fuite du DSN / identifiants</td><td>Placer <code>config/</code> et <code>src/</code> <em>hors</em> de la racine web</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Une arborescence propre</h3>
+      <p>Structurez le projet avec <code>index.php</code> et <code>public/</code> (seule racine servie par Apache), <code>config/config.php</code> (DSN et identifiants, rien de public), <code>src/</code> (classes et dépôts PDO) et <code>templates/</code> (vues échappées). Seul <code>public/</code> est exposé : le code et la config restent inaccessibles au navigateur.</p>
+      <div class="callout tip">
+        <div class="callout-icon">🧩</div>
+        <div class="callout-body">
+          <div class="callout-title">La checklist avant mise en ligne</div>
+          <p>1) requêtes préparées partout · 2) <code>htmlspecialchars</code> à chaque affichage · 3) token CSRF sur tout POST · 4) <code>password_hash</code> + <code>password_verify</code> · 5) validation en liste blanche des entrées · 6) erreurs PHP désactivées en production (<code>display_errors=0</code>) · 7) config hors racine web, jamais versionnée avec les identifiants réels.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 07 EXERCICES ══════════ -->
+    <div id="s14-exo">
+      <div class="section-header"><span class="section-num">07</span><h2>Exercices pratiques</h2></div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 01</span>
+          <span class="exercise-title">💉 Démonstration d'injection et réparation</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Écrivez <code>exo_login_vuln.php</code> avec la requête concaténée <code>"SELECT id FROM users WHERE login = '$login'"</code> (base locale de la séance 12).</li>
+            <li>Postez <code>' OR 1=1 -- </code> comme login et observez que « la connexion s'effectue ».</li>
+            <li>Réécrivez le fichier en version préparée <code>:login</code> ; rejouez la même saisie → aucun utilisateur trouvé.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> gardez le même formulaire ; seul le traitement change (<code>prepare()</code> + <code>execute([…])</code>).</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 02</span>
+          <span class="exercise-title">💬 Livre d'or sans XSS</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez <code>exo_livredor.php</code> : un formulaire POST «pseudo» + «message», listé sous le formulaire.</li>
+            <li>Insérez un commentaire piège : <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code>.</li>
+            <li>Échappez <em>pseudo</em> et <em>message</em> à l'affichage avec <code>htmlspecialchars(..., ENT_QUOTES, 'UTF-8')</code> et vérifiez que le script reste du texte inerte.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> on échappe à la <em>sortie</em>, avant l'<code>echo</code> — pas besoin de nettoyer à la sauvegarde.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 03</span>
+          <span class="exercise-title">🎫 Formulaire blindé par token</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Partez d'un formulaire de contact POST. Ajoutez <code>session_start()</code> et la génération du token si absent (<code>bin2hex(random_bytes(32))</code>).</li>
+            <li>Ajoutez le champ caché <code>&lt;input type="hidden" name="csrf"&gt;</code>.</li>
+            <li>Dans le script de traitement, refusez avec <code>http_response_code(403)</code> + <code>exit</code> si <code>hash_equals()</code> échoue ; testez en supprimant le champ.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> comparez toujours avec <code>hash_equals($session, $post)</code> — c'est la fonction prévue pour la vérification de secrets.</p>
+        </div>
+      </div>
+      <div class="exercise">
+        <div class="exercise-header">
+          <span class="exercise-num">EX 04</span>
+          <span class="exercise-title">🔑 Inscription / connexion avec password_hash</span>
+        </div>
+        <div class="exercise-body">
+          <ol>
+            <li>Créez une table <code>users(id, login, mdp_hash)</code> et « inscrivez » deux comptes avec <code>password_hash($mp, PASSWORD_DEFAULT, ['cost' =&gt; 12])</code>.</li>
+            <li>Dans la partie connexion, récupérez le hash (requête préparée !) puis validez avec <code>password_verify()</code>.</li>
+            <li>Ajoutez la validation de l'entrée : login non vide, filtré ; mot de passe neuf au moins 8 caractères.</li>
+          </ol>
+          <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2);"><strong>Indice :</strong> envoyez le message identique « Identifiants invalides » que le login existe ou non : ne révélez pas quel champ est incorrect.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 08 BILAN ══════════ -->
+    <div id="s14-bilan">
+      <div class="section-header"><span class="section-num">08</span><h2>Bilan &amp; mini-glossaire</h2></div>
+      <h3>Ce que vous maîtrisez</h3>
+      <ul class="checklist">
+        <li>Comprendre que toute entrée est hostile (<code>$_GET</code>, <code>$_POST</code>, cookies…)</li>
+        <li>Éliminer l'injection SQL avec PDO <code>prepare</code> / <code>execute</code></li>
+        <li>Neutraliser le XSS avec <code>htmlspecialchars(…, ENT_QUOTES, 'UTF-8')</code> à l'affichage</li>
+        <li>Protéger chaque POST par un token CSRF vérifié par <code>hash_equals()</code></li>
+        <li>Stocker les mots de passe avec <code>password_hash()</code> et les vérifier avec <code>password_verify()</code></li>
+        <li>Valider les entrées en liste blanche avec <code>filter_var()</code></li>
+        <li>Organiser un projet (<code>config/</code>, <code>src/</code>) pour ne pas exposer le code</li>
+        <li>Appliquer la checklist complète avant une mise en ligne</li>
+      </ul>
+      <div class="callout warn">
+        <div class="callout-icon">🚨</div>
+        <div class="callout-body">
+          <div class="callout-title">Erreurs fréquentes</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.1rem;">
+            <li>Concaténer une donnée dans le SQL « juste pour un id » → injection SQL.</li>
+            <li>Faire confiance à la base de données : une donnée stockée doit être échappée <em>à l'affichage</em>.</li>
+            <li>Utiliser <code>strip_tags()</code> seul et croire que ça protège → des XSS passent sans balise.</li>
+            <li>Hasher avec <code>md5()</code> ou <code>sha1()</code> → craquage quasi instantané.</li>
+            <li>Générer le token CSRF à chaque rechargement sans le stocker → formulaire invalide à chaque fois.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mini-glossaire</h3>
+      <div class="glossary">
+        <dl>
+          <dt>Injection SQL</dt><dd>Faille où une donnée externe est interprétée comme du SQL ; traitée par requêtes préparées.</dd>
+          <dt>Requête préparée</dt><dd>SQL envoyé d'abord, paramètres envoyés séparément via placeholders.</dd>
+          <dt>XSS</dt><dd><em>Cross-Site Scripting</em> : HTML/JS injecté dans une page affichée ; traité par <code>htmlspecialchars()</code>.</dd>
+          <dt>Échappement</dt><dd>Transformation des caractères spéciaux (<code>&lt;</code>, <code>&gt;</code>, <code>"</code>, <code>'</code>, <code>&amp;</code>) en entités.</dd>
+          <dt>CSRF</dt><dd><em>Cross-Site Request Forgery</em> : requête soumise à l'insu de l'utilisateur connecté.</dd>
+          <dt>Token CSRF</dt><dd>Valeur aléatoire stockée en session, envoyée en champ caché et vérifiée par <code>hash_equals()</code>.</dd>
+          <dt>password_hash</dt><dd>Hash de mot de passe lent et salé (<code>PASSWORD_DEFAULT</code>, paramètre <code>cost</code>).</dd>
+          <dt>Validation</dt><dd>Rejet des entrées inattendues, de préférence en liste blanche (<code>filter_var()</code>).</dd>
+        </dl>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--purple);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">Fin du cours</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;">Bravo, vous avez terminé les 14 séances !</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-top:.2rem;">Retour au sommaire pour revoir une notion ou suivre un autre parcours</div>
+        </div>
+        <a href="../../index.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;padding:.65rem 1.25rem;border-radius:var(--radius);text-decoration:none;flex-shrink:0;">Fin du cours →</a>
+      </div>
+    </div>
+
+   </div>
+  </main>
+</div>
+<div class="quiz" data-session="14">
+  <div class="quiz-title">Quiz</div>
+  <div class="quiz-questions"></div>
+  <button class="quiz-submit">Vérifier</button>
+  <div class="quiz-score"></div>
+</div>
+<script src="../../js/app.js"></script>
+</body>
+</html>
